@@ -19,9 +19,18 @@ async function scrapeText(url: string) {
     const $ = cheerio.load(html);
     
     $('script, style, nav, footer, header, aside, form, iframe, .ad, .sponsor').remove();
-    const text = $('p, h1, h2, h3, h4').map((_, el) => $(el).text()).get().join('\n');
+    let text = $('p, h1, h2, h3, h4').map((_, el) => $(el).text()).get().join('\n');
     const imageUrl = $('meta[property="og:image"]').attr('content') || $('img').first().attr('src') || '';
     
+    // Fallback: Si el sitio es un SPA (React/Next) o nos da un CAPTCHA, el texto será muy corto.
+    // En ese caso, extraemos la carnita del artículo desde los metadatos (que los bots sí pueden ver).
+    if (text.length < 200) {
+      const metaDesc = $('meta[name="description"]').attr('content') || '';
+      const ogDesc = $('meta[property="og:description"]').attr('content') || '';
+      const title = $('title').text() || $('meta[property="og:title"]').attr('content') || '';
+      text = `TITULO: ${title}\nRESUMEN: ${ogDesc}\n${metaDesc}`;
+    }
+
     // Devolvemos el texto, URL final y la imagen
     return { text: text.replace(/\s+/g, ' ').trim(), finalUrl: response.url, imageUrl };
   } catch (error) {
@@ -91,7 +100,7 @@ export async function POST(req: Request) {
     const finalUrls = scrapedResults.map(r => r.finalUrl);
     const images = scrapedResults.map(r => r.imageUrl);
 
-    if (scrapedTexts.some(text => text.length < 200)) {
+    if (scrapedTexts.some(text => text.length < 50)) {
        return NextResponse.json({ error: 'EXTRACT_ERR: No se pudo extraer el cuerpo de las noticias (paywall o bloqueo).' }, { status: 422 });
     }
 
