@@ -1,0 +1,3 @@
+const b64 = 'CBMiuAFBVV95cUxQVHpsdHBLWW1YUkZYSVdZcHppS21ZRGhEdEJEVEI0a08yc0pPWnBxV2E1SkNGcDZFM1lYTFlFVm1qeE0tdkFFWlVFYW1PZ0hndDhtWTZkR1hQLWZoa182dVR6MWI1MUlyTzd5dUl2dE1lUWxkbUQ4UnZqZi1pcHBlc05rWEdyVWxyaHZBWURDdXR2Q1U1cVBwZHFrUkxjaVdCbWh2bjBKUEZHUGNQTE5Wa2x4ZlNpdTFu';
+const decoded = Buffer.from(b64, 'base64').toString('utf8');
+console.log("Decoded:", decoded);

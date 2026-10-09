@@ -59,18 +59,27 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Buscar en Google News vía RSS
-    // gl=MX (México) hl=es-419 (Latinoamérica). Se puede hacer dinámico.
-    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(normalizedTopic)}&hl=es-419&gl=MX&ceid=MX:es-419`;
-    const rssRes = await fetch(rssUrl);
-    if (!rssRes.ok) throw new Error('No se pudo acceder a Google News');
+    // 2. Buscar vía DuckDuckGo HTML Search para evitar los bloqueos de Google News
+    const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent('noticias ' + normalizedTopic)}`;
+    const searchRes = await fetch(searchUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+    if (!searchRes.ok) throw new Error('No se pudo acceder al buscador.');
     
-    const rssXml = await rssRes.text();
-    const $xml = cheerio.load(rssXml, { xmlMode: true });
+    const searchHtml = await searchRes.text();
+    const $search = cheerio.load(searchHtml);
     
-    // Obtener las 2 primeras noticias
-    const items = $xml('item').slice(0, 2).toArray();
-    const urlsToScrape = items.map(item => $xml(item).find('link').text());
+    // Extraer URLs de los resultados, decodificando el parámetro uddg
+    const rawUrls = $search('.result__url').map((i, el) => $search(el).attr('href')).get();
+    
+    const urlsToScrape = rawUrls
+      .map(url => {
+        try {
+           const urlObj = new URL(url, 'https://duckduckgo.com');
+           const uddg = urlObj.searchParams.get('uddg');
+           return uddg ? decodeURIComponent(uddg) : null;
+        } catch(e) { return null; }
+      })
+      .filter(url => url && !url.includes('google.com') && !url.includes('youtube.com'))
+      .slice(0, 2) as string[];
 
     if (urlsToScrape.length < 2) {
       return NextResponse.json({ error: 'No se encontraron suficientes noticias para comparar sobre este tema.' }, { status: 404 });
