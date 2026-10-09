@@ -1,13 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #FAFAFA;
-  --muted: #111111;
-  --muted-foreground: #A1A1AA;
-  --border: #27272A;
-  --accent: #E4E4E7;
-  --card: #0A0A0A;
+  --background: #f4f4f0;
+  --foreground: #111111;
+  --border: #111111;
+  --primary: #ff5000;
+  --accent: #d0f000;
+  --card: #ffffff;
+  --muted: #e5e5e5;
+  --muted-foreground: #555555;
 }
 
 @theme inline {
@@ -17,8 +19,10 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-primary: var(--primary);
   --color-card: var(--card);
   --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Mono', monospace;
 }
 
 body {
@@ -28,24 +32,71 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Minimalist Glass */
-.glass {
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--border);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
+/* Teenage Engineering Brutalist Classes */
+.te-border {
+  border: 2px solid var(--border);
 }
-::-webkit-scrollbar-track {
-  background: transparent;
+
+.te-border-b {
+  border-bottom: 2px solid var(--border);
 }
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
+
+.te-shadow {
+  box-shadow: 4px 4px 0px 0px var(--border);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
+
+.te-shadow-hover {
+  transition: all 0.1s ease-in-out;
+}
+.te-shadow-hover:hover {
+  box-shadow: 6px 6px 0px 0px var(--border);
+  transform: translate(-2px, -2px);
+}
+.te-shadow-hover:active {
+  box-shadow: 0px 0px 0px 0px var(--border);
+  transform: translate(4px, 4px);
+}
+
+.te-button {
+  background: var(--primary);
+  color: white;
+  border: 2px solid var(--border);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: 4px 4px 0px 0px var(--border);
+  transition: all 0.1s ease-in-out;
+}
+.te-button:hover {
+  box-shadow: 6px 6px 0px 0px var(--border);
+  transform: translate(-2px, -2px);
+}
+.te-button:active {
+  box-shadow: 0px 0px 0px 0px var(--border);
+  transform: translate(4px, 4px);
+}
+
+.te-input {
+  background: white;
+  border: 2px solid var(--border);
+  font-family: var(--font-mono);
+  box-shadow: inset 2px 2px 0px 0px rgba(0,0,0,0.05);
+}
+.te-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.lcd-text {
+  font-family: var(--font-mono);
+  background-color: #d1d8c5;
+  color: #2b3a2a;
+  border: 2px solid #9ba390;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
 }

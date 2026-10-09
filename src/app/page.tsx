@@ -3,18 +3,15 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [topic, setTopic] = useState<string>('');
+  const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState('');
 
-  const analyzeTopic = async (e: React.FormEvent) => {
+  const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (topic.trim().length < 3) {
-      setError('Enter a valid topic to search.');
-      return;
-    }
-
+    if (!url.trim() || !url.startsWith('http')) return;
+    
     setLoading(true);
     setError('');
     setResult(null);
@@ -23,7 +20,7 @@ export default function Home() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic }),
+        body: JSON.stringify({ url }),
       });
 
       const data = await res.json();
@@ -41,189 +38,128 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] font-sans text-[var(--foreground)] selection:bg-[var(--foreground)] selection:text-[var(--background)]">
-      
-      {/* Minimalist Top Navigation */}
-      <header className="border-b border-[var(--border)] bg-[var(--background)]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded bg-[var(--foreground)] flex items-center justify-center font-bold text-[var(--background)] text-xs">
-              C.
-            </div>
-            <h1 className="text-sm font-semibold tracking-wide text-[var(--foreground)]">
-              Consenso
-            </h1>
-          </div>
-          <nav className="hidden md:flex gap-6 text-xs tracking-wider uppercase text-[var(--muted-foreground)]">
-            <a href="#" className="text-[var(--foreground)]">Overview</a>
-            <a href="#" className="hover:text-[var(--foreground)] transition-colors">History</a>
-            <a href="#" className="hover:text-[var(--foreground)] transition-colors">Settings</a>
-          </nav>
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-4 sm:p-8 flex flex-col items-center">
+      {/* Header */}
+      <header className="w-full max-w-5xl mb-12 border-b-4 border-[var(--border)] pb-6 flex justify-between items-end">
+        <div>
+          <h1 className="text-4xl sm:text-6xl tracking-tighter mb-2">AEO_ARCHITECT<span className="text-[var(--primary)]">.</span></h1>
+          <p className="font-mono text-sm uppercase tracking-widest text-[var(--muted-foreground)]">Answer Engine Optimization Module v1.0</p>
+        </div>
+        <div className="hidden sm:block">
+          <div className="lcd-text text-xs">STATUS: {loading ? 'PROCESSING' : 'READY'}</div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-16">
+      <main className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Sober Search Bar */}
-        <div className="max-w-xl mx-auto mb-20 text-center">
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8 text-[var(--foreground)]">
-            Analyze the <span className="font-semibold text-[var(--muted-foreground)]">narrative.</span>
-          </h2>
-          
-          <form onSubmit={analyzeTopic} className="relative group">
-            <div className="flex items-center bg-[var(--muted)] border border-[var(--border)] rounded-lg overflow-hidden focus-within:border-[var(--foreground)] transition-colors duration-300">
+        {/* Input Control Panel */}
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="bg-white p-6 te-border te-shadow">
+            <h2 className="text-xl mb-4 border-b-2 border-black pb-2">INPUT_URL</h2>
+            <form onSubmit={handleAnalyze} className="flex flex-col gap-4">
               <input
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                className="flex-1 bg-transparent border-none px-6 py-4 text-base focus:outline-none focus:ring-0 text-[var(--foreground)] placeholder-[var(--muted-foreground)] font-light"
-                placeholder="Enter a geopolitical topic, event, or entity..."
-                disabled={loading}
+                type="url"
+                placeholder="https://competitor.com/article"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                className="te-input p-3 w-full"
+                required
               />
-              <button
-                type="submit"
+              <button 
+                type="submit" 
                 disabled={loading}
-                className="bg-[var(--foreground)] text-[var(--background)] text-sm font-medium px-6 py-4 hover:bg-[var(--accent)] disabled:opacity-50 transition-colors"
+                className={`te-button p-3 w-full ${loading ? 'opacity-50 cursor-wait' : ''}`}
               >
-                {loading ? (
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-[var(--background)] rounded-full animate-ping"></span>
-                    Running
-                  </span>
-                ) : 'Search'}
+                {loading ? 'ANALYZING...' : 'EXTRACT & AUDIT'}
               </button>
-            </div>
-          </form>
+            </form>
+            {error && (
+              <div className="mt-4 p-3 bg-red-100 text-red-900 border-2 border-red-900 font-mono text-sm">
+                [ERR] {error}
+              </div>
+            )}
+          </div>
 
-          {error && (
-            <div className="mt-4 text-red-500 text-sm font-medium animate-in fade-in slide-in-from-top-2">
-              {error}
+          <div className="bg-[var(--muted)] p-6 te-border te-shadow text-sm">
+            <h3 className="mb-2">SYSTEM_LOGS</h3>
+            <div className="font-mono text-[var(--muted-foreground)] leading-relaxed">
+              <p>{'>'} AWAITING TARGET URL</p>
+              {loading && <p className="text-[var(--primary)] animate-pulse">{'>'} SCRAPING HTML DOM...</p>}
+              {loading && <p className="text-[var(--primary)] animate-pulse">{'>'} INJECTING LLAMA-3 INSTRUCT...</p>}
+              {result && <p className="text-green-600">{'>'} AUDIT COMPLETE.</p>}
             </div>
-          )}
+          </div>
         </div>
 
-        {/* Minimalist Dashboard */}
-        {result && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 space-y-12">
-            
-            <div className="flex flex-col md:flex-row justify-between items-end border-b border-[var(--border)] pb-6">
-              <div>
-                <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-widest mb-2">Topic Analysis</p>
-                <h2 className="text-3xl font-semibold text-[var(--foreground)] capitalize tracking-tight">{result.data.topic}</h2>
-              </div>
-              <button className="mt-4 md:mt-0 border border-[var(--border)] px-4 py-2 rounded text-xs text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors flex items-center gap-2 font-medium">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                Save Snapshot
-              </button>
+        {/* Output Display */}
+        <div className="lg:col-span-8 flex flex-col gap-8">
+          {!result && !loading && (
+            <div className="h-full border-4 border-dashed border-[var(--muted-foreground)] flex items-center justify-center p-12 text-center opacity-50">
+              <p className="font-mono uppercase">Target URL required to initiate audit sequence.</p>
             </div>
+          )}
 
-            {/* High-end metrics grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+          {loading && (
+            <div className="h-full flex items-center justify-center p-12">
+              <div className="w-16 h-16 border-4 border-black border-t-[var(--primary)] rounded-full animate-spin"></div>
+            </div>
+          )}
+
+          {result && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col gap-8">
               
-              {/* Neutrality Index */}
-              <div className="bg-[var(--card)] border border-[var(--border)] p-8 flex flex-col justify-between">
-                <h3 className="text-xs uppercase tracking-widest text-[var(--muted-foreground)] mb-8">Neutrality Index</h3>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-6xl font-light tracking-tighter">{result.data.neutralityScore}</span>
-                  <span className="text-[var(--muted-foreground)]">/ 100</span>
+              {/* Content Gaps */}
+              <section className="bg-white p-6 te-border te-shadow-hover">
+                <h2 className="text-2xl mb-4 bg-black text-white inline-block px-2 py-1">CONTENT_GAPS</h2>
+                <div className="flex flex-wrap gap-2">
+                  {result.data.resultsJson.missingKeywords?.map((kw: string, i: number) => (
+                    <span key={i} className="font-mono text-sm bg-[var(--accent)] text-black border-2 border-black px-3 py-1 font-bold">
+                      {kw}
+                    </span>
+                  ))}
                 </div>
-                <div className="w-full bg-[var(--muted)] h-1 mt-6 rounded-full overflow-hidden">
-                  <div 
-                    className="bg-[var(--foreground)] h-full transition-all duration-1000 ease-out"
-                    style={{ width: `${result.data.neutralityScore}%` }}
-                  ></div>
-                </div>
-              </div>
+              </section>
 
-              {/* Political Leaning */}
-              <div className="bg-[var(--card)] border border-[var(--border)] p-8 flex flex-col justify-between">
-                <h3 className="text-xs uppercase tracking-widest text-[var(--muted-foreground)] mb-8">Political Leaning</h3>
-                <div className="text-3xl font-medium tracking-tight">
-                  {result.data.resultsJson.politicalLeaning || 'Center'}
-                </div>
-                <p className="text-sm text-[var(--muted-foreground)] mt-6">
-                  Calculated based on adjective density and framing.
-                </p>
-              </div>
-
-              {/* Key Mentions / Entities */}
-              <div className="bg-[var(--card)] border border-[var(--border)] p-8 flex flex-col">
-                <h3 className="text-xs uppercase tracking-widest text-[var(--muted-foreground)] mb-6">Key Entities</h3>
-                <div className="flex flex-col gap-3 flex-1 overflow-y-auto custom-scrollbar pr-2">
-                  {Object.entries(result.data.resultsJson.keyMentions || {})
-                    .sort(([, a]: any, [, b]: any) => b - a)
-                    .slice(0, 4)
-                    .map(([word, count]: [string, any], i) => (
-                    <div key={i} className="flex justify-between items-center text-sm border-b border-[var(--border)] pb-2">
-                      <span className="font-medium text-[var(--foreground)]">{word}</span>
-                      <span className="text-[var(--muted-foreground)] font-mono text-xs">{count} mentions</span>
+              {/* AEO FAQs */}
+              <section className="bg-[var(--primary)] text-white p-6 te-border te-shadow-hover">
+                <h2 className="text-2xl mb-4 border-b-2 border-white pb-2">AEO_FAQs (For Perplexity/AI)</h2>
+                <div className="flex flex-col gap-4">
+                  {result.data.resultsJson.aeoFaqs?.map((faq: any, i: number) => (
+                    <div key={i} className="bg-white text-black p-4 border-2 border-black">
+                      <h4 className="font-bold mb-2">Q: {faq.q}</h4>
+                      <p className="font-mono text-sm text-gray-800">A: {faq.a}</p>
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
 
-            </div>
-
-            {/* Articles Grid */}
-            <div className="pt-12">
-              <h3 className="text-xs uppercase tracking-widest text-[var(--muted-foreground)] mb-6">Source Comparison</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {result.texts?.map((text: string, idx: number) => {
-                  const url = result.data.urls[idx];
-                  const domain = url ? url.replace(/^https?:\/\//, '').split('/')[0].replace('www.', '') : `Source ${idx + 1}`;
-                  const biases = result.data.resultsJson.bias?.[url] || [];
-                  const imageUrl = result.images?.[idx];
+                {/* SEO Structure */}
+                <section className="bg-white p-6 te-border te-shadow-hover">
+                  <h2 className="text-xl mb-4 border-b-2 border-black pb-2">OPTIMAL_STRUCTURE</h2>
+                  <ul className="flex flex-col gap-2 font-mono text-sm">
+                    {result.data.resultsJson.seoStructure?.map((node: any, i: number) => (
+                      <li key={i} className="flex gap-3">
+                        <span className={`font-bold ${node.tag === 'H1' ? 'text-[var(--primary)]' : node.tag === 'H2' ? 'text-black' : 'text-gray-500'}`}>
+                          {node.tag}
+                        </span>
+                        <span>{node.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
 
-                  return (
-                    <article key={idx} className="group flex flex-col border border-[var(--border)] bg-[var(--card)] overflow-hidden">
-                      {/* Subdued Image */}
-                      {imageUrl && (
-                        <div className="h-48 w-full relative overflow-hidden border-b border-[var(--border)]">
-                          <img 
-                            src={imageUrl} 
-                            alt="" 
-                            className="w-full h-full object-cover filter grayscale opacity-60 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" 
-                          />
-                        </div>
-                      )}
-                      
-                      <div className="p-8 flex flex-col flex-1">
-                        <div className="flex justify-between items-center mb-6">
-                          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--foreground)]">
-                            {domain}
-                          </div>
-                          <a href={url} target="_blank" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                          </a>
-                        </div>
-                        
-                        <div className="flex-1">
-                          <p className="text-[var(--muted-foreground)] leading-relaxed text-sm line-clamp-4 font-light">
-                            {text.substring(0, 600)}...
-                          </p>
-                        </div>
-
-                        {biases.length > 0 && (
-                          <div className="mt-8 pt-6 border-t border-[var(--border)]">
-                            <h4 className="text-[10px] font-bold text-[var(--foreground)] uppercase tracking-widest mb-3 opacity-50">Detected Narrative Bias</h4>
-                            <div className="flex flex-col gap-2">
-                              {biases.map((b: string, i: number) => (
-                                <span key={i} className="text-xs text-[var(--muted-foreground)] pl-3 border-l border-[var(--border)]">
-                                  {b}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </article>
-                  );
-                })}
+                {/* Draft Intro */}
+                <section className="bg-black text-white p-6 te-border te-shadow-hover">
+                  <h2 className="text-xl mb-4 border-b-2 border-white pb-2 text-[var(--accent)]">DRAFT_INTRO</h2>
+                  <p className="font-serif leading-relaxed text-gray-200">
+                    {result.data.resultsJson.draftIntro}
+                  </p>
+                </section>
               </div>
             </div>
-
-          </div>
-        )}
+          )}
+        </div>
       </main>
     </div>
   );

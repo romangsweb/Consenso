@@ -5,12 +5,10 @@ import * as cheerio from 'cheerio';
 const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 
-async function scrapeText(url: string) {
+async function scrapeUrl(url: string) {
   try {
-    // Los links de Google News a menudo son redirecciones (ej. news.google.com/rss/articles/...)
-    // fetch sigue las redirecciones por defecto, devolviendo la página final.
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'Consenso-Bot/1.0' }
+      headers: { 'User-Agent': 'AEO-Bot/1.0' }
     });
     
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -19,113 +17,62 @@ async function scrapeText(url: string) {
     const $ = cheerio.load(html);
     
     $('script, style, nav, footer, header, aside, form, iframe, .ad, .sponsor').remove();
-    let text = $('p, h1, h2, h3, h4').map((_, el) => $(el).text()).get().join('\n');
-    const imageUrl = $('meta[property="og:image"]').attr('content') || $('img').first().attr('src') || '';
+    let text = $('p, h1, h2, h3, li').map((_, el) => $(el).text()).get().join('\n');
     
-    // Fallback: Si el sitio es un SPA (React/Next) o nos da un CAPTCHA, el texto será muy corto.
-    // En ese caso, extraemos la carnita del artículo desde los metadatos (que los bots sí pueden ver).
     if (text.length < 200) {
       const metaDesc = $('meta[name="description"]').attr('content') || '';
-      const ogDesc = $('meta[property="og:description"]').attr('content') || '';
-      const title = $('title').text() || $('meta[property="og:title"]').attr('content') || '';
-      text = `TITULO: ${title}\nRESUMEN: ${ogDesc}\n${metaDesc}`;
+      const title = $('title').text() || '';
+      text = `TITULO: ${title}\nRESUMEN: ${metaDesc}`;
     }
 
-    // Devolvemos el texto, URL final y la imagen
-    return { text: text.replace(/\s+/g, ' ').trim(), finalUrl: response.url, imageUrl };
+    return text.replace(/\s+/g, ' ').trim();
   } catch (error) {
-    console.error(`Error de telemetría en URL [${url}]:`, error);
-    return { text: "", finalUrl: url, imageUrl: "" };
+    console.error(`Error scraping URL [${url}]:`, error);
+    return "";
   }
 }
 
 export async function POST(req: Request) {
   try {
-    const { topic } = await req.json();
+    const { url } = await req.json();
 
-    if (!topic || topic.trim().length < 3) {
-      return NextResponse.json({ error: 'SYS_ERR: Requiere un tema de búsqueda.' }, { status: 400 });
+    if (!url || !url.startsWith('http')) {
+      return NextResponse.json({ error: 'SYS_ERR: Requiere una URL válida (http/https).' }, { status: 400 });
     }
 
-    const normalizedTopic = topic.trim().toLowerCase();
+    const normalizedUrl = url.trim();
 
-    // 1. Revisar caché en Neon por tema
-    const cachedAnalysis = await db.analysis.findUnique({
-      where: { topic: normalizedTopic },
-    });
+    // 1. Scraping del competidor
+    const competitorText = await scrapeUrl(normalizedUrl);
 
-    if (cachedAnalysis) {
-      const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-      if (Date.now() - cachedAnalysis.createdAt.getTime() < ONE_DAY_MS) {
-        // En un caso real, podríamos re-scrapear las URLs guardadas para el front-end
-        const scrapedData = await Promise.all(cachedAnalysis.urls.map(url => scrapeText(url)));
-        return NextResponse.json({
-          status: 'CACHED_HIT',
-          data: cachedAnalysis,
-          texts: scrapedData.map(d => d.text),
-          images: scrapedData.map(d => d.imageUrl)
-        });
-      }
+    if (competitorText.length < 50) {
+       return NextResponse.json({ error: 'EXTRACT_ERR: No se pudo extraer el contenido de la URL proporcionada.' }, { status: 422 });
     }
 
-    // 2. Buscar vía DuckDuckGo HTML Search para evitar los bloqueos de Google News
-    const searchUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent('noticias ' + normalizedTopic)}`;
-    const searchRes = await fetch(searchUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    if (!searchRes.ok) throw new Error('No se pudo acceder al buscador.');
-    
-    const searchHtml = await searchRes.text();
-    const $search = cheerio.load(searchHtml);
-    
-    // Extraer URLs y Snippets directamente de los resultados de DuckDuckGo
-    const rawResults = $search('.result').map((i, el) => {
-      const url = $search(el).find('.result__url').attr('href') || '';
-      const title = $search(el).find('.result__title').text().trim();
-      const snippet = $search(el).find('.result__snippet').text().trim();
-      
-      let finalUrl = url;
-      try {
-        const urlObj = new URL(url, 'https://duckduckgo.com');
-        const uddg = urlObj.searchParams.get('uddg');
-        if (uddg) finalUrl = decodeURIComponent(uddg);
-      } catch(e) {}
-      
-      return { finalUrl, title, snippet };
-    }).get().filter(r => r.finalUrl && r.snippet && !r.finalUrl.includes('google.com') && !r.finalUrl.includes('youtube.com'));
-
-    if (rawResults.length < 2) {
-      return NextResponse.json({ error: 'No se encontraron suficientes noticias para comparar sobre este tema.' }, { status: 404 });
-    }
-
-    // Tomar las 2 mejores noticias usando directamente sus snippets como texto de análisis
-    const scrapedResults = rawResults.slice(0, 2).map(r => ({
-      text: `TITULO: ${r.title}\nRESUMEN: ${r.snippet}`,
-      finalUrl: r.finalUrl,
-      imageUrl: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80' // Imagen genérica placeholder
-    }));
-
-    const scrapedTexts = scrapedResults.map(r => r.text);
-    const finalUrls = scrapedResults.map(r => r.finalUrl);
-    const images = scrapedResults.map(r => r.imageUrl);
-
-    // 4. Invocación a Cloudflare Workers AI
+    // 2. Invocación a Cloudflare Workers AI
     const systemPrompt = `
-      Eres un analizador periodístico y editorial. Recibirás textos de artículos de noticias sobre el mismo tema.
-      Debes devolver un JSON estructurado de forma estricta con este formato:
+      Eres un Arquitecto SEO y AEO (Answer Engine Optimization) de clase mundial.
+      Tu objetivo es auditar el artículo de un competidor y generar un esquema para un artículo SUPERIOR.
+      Devuelve un JSON estrictamente estructurado así:
       {
-        "neutralityScore": <numero_1_100>,
-        "politicalLeaning": "<Izquierda | Centro-Izquierda | Centro | Centro-Derecha | Derecha>",
-        "keyMentions": { "<palabra_clave_1>": <frecuencia_num>, "<palabra_clave_2>": <frecuencia_num> },
-        "facts": ["hecho 1", "hecho 2"],
-        "bias": {
-          "url1": ["sesgo_1"],
-          "url2": ["sesgo_2"]
-        }
+        "missingKeywords": ["palabra 1", "palabra 2", "palabra 3", "palabra 4", "palabra 5"],
+        "seoStructure": [
+          { "tag": "H1", "text": "Título Clickeable y Optimizado" },
+          { "tag": "H2", "text": "Subtítulo principal" },
+          { "tag": "H3", "text": "Punto de apoyo" },
+          { "tag": "H2", "text": "Otro subtítulo principal" }
+        ],
+        "aeoFaqs": [
+          { "q": "Pregunta frecuente exacta que los usuarios le hacen a ChatGPT", "a": "Respuesta directa, concisa y estructurada diseñada para ser citada por Perplexity o Google AI." }
+        ],
+        "draftIntro": "Un párrafo de introducción magnético usando la fórmula PAS (Problema, Agitación, Solución) optimizado para retención."
       }
-      En 'keyMentions' incluye las 5 a 10 entidades o temas más mencionados. Usa las 'url1' y 'url2' literales que se proveen para el mapa de sesgos.
+      Asegúrate de generar 3 a 4 'aeoFaqs'.
     `;
     const userPrompt = `
-      Artículo 1 (URL: ${finalUrls[0]}): ${scrapedTexts[0].substring(0, 2000)}
-      Artículo 2 (URL: ${finalUrls[1]}): ${scrapedTexts[1].substring(0, 2000)}
+      Analiza el siguiente texto extraído del competidor y genera la estrategia para superarlo:
+      URL del Competidor: ${normalizedUrl}
+      Texto del Competidor: ${competitorText.substring(0, 3000)}
     `;
 
     const aiResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct`, {
@@ -161,44 +108,32 @@ export async function POST(req: Request) {
       }
     }
 
-    // Asegurarnos que las keys del LLM coincidan con las URLs reales (a veces el LLM usa "url1")
-    if (llmResult.bias && llmResult.bias['url1']) {
-       llmResult.bias[finalUrls[0]] = llmResult.bias['url1'];
-       delete llmResult.bias['url1'];
-    }
-    if (llmResult.bias && llmResult.bias['url2']) {
-       llmResult.bias[finalUrls[1]] = llmResult.bias['url2'];
-       delete llmResult.bias['url2'];
-    }
-
-    // 5. Guardar en DB
+    // 3. (Opcional) Guardar en BD para historial. Usamos el campo topic para la url.
     const savedAnalysis = await db.analysis.upsert({
-      where: { topic: normalizedTopic },
+      where: { topic: normalizedUrl },
       update: {
-        urls: finalUrls,
-        neutralityScore: llmResult.neutralityScore,
+        urls: [normalizedUrl],
+        neutralityScore: 0,
         resultsJson: llmResult,
         createdAt: new Date(),
       },
       create: {
-        topic: normalizedTopic,
-        urls: finalUrls,
-        neutralityScore: llmResult.neutralityScore,
+        topic: normalizedUrl, // Reutilizando la columna topic para la URL
+        urls: [normalizedUrl],
+        neutralityScore: 0,
         resultsJson: llmResult,
       }
     });
 
     return NextResponse.json({
       status: 'PROCESS_SUCCESS',
-      data: savedAnalysis,
-      texts: scrapedTexts,
-      images: images
+      data: savedAnalysis
     });
 
   } catch (error: any) {
     console.error('SYSTEM_FAULT:', error);
     return NextResponse.json({ 
-      error: 'CRITICAL: Error interno del motor.', 
+      error: 'CRITICAL: Error interno del motor AEO.', 
       details: error?.message || String(error)
     }, { status: 500 });
   }
