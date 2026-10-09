@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Analysis {
+  id              String   @id @default(uuid())
+  topic           String   @unique // Tema buscado
+  urls            String[] // URLs encontradas y analizadas
+  neutralityScore Int
+  resultsJson     Json
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+}
