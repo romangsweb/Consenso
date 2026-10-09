@@ -76,33 +76,36 @@ export async function POST(req: Request) {
     const searchHtml = await searchRes.text();
     const $search = cheerio.load(searchHtml);
     
-    // Extraer URLs de los resultados, decodificando el parámetro uddg
-    const rawUrls = $search('.result__url').map((i, el) => $search(el).attr('href')).get();
-    
-    const urlsToScrape = rawUrls
-      .map(url => {
-        try {
-           const urlObj = new URL(url, 'https://duckduckgo.com');
-           const uddg = urlObj.searchParams.get('uddg');
-           return uddg ? decodeURIComponent(uddg) : null;
-        } catch(e) { return null; }
-      })
-      .filter(url => url && !url.includes('google.com') && !url.includes('youtube.com'))
-      .slice(0, 2) as string[];
+    // Extraer URLs y Snippets directamente de los resultados de DuckDuckGo
+    const rawResults = $search('.result').map((i, el) => {
+      const url = $search(el).find('.result__url').attr('href') || '';
+      const title = $search(el).find('.result__title').text().trim();
+      const snippet = $search(el).find('.result__snippet').text().trim();
+      
+      let finalUrl = url;
+      try {
+        const urlObj = new URL(url, 'https://duckduckgo.com');
+        const uddg = urlObj.searchParams.get('uddg');
+        if (uddg) finalUrl = decodeURIComponent(uddg);
+      } catch(e) {}
+      
+      return { finalUrl, title, snippet };
+    }).get().filter(r => r.finalUrl && r.snippet && !r.finalUrl.includes('google.com') && !r.finalUrl.includes('youtube.com'));
 
-    if (urlsToScrape.length < 2) {
+    if (rawResults.length < 2) {
       return NextResponse.json({ error: 'No se encontraron suficientes noticias para comparar sobre este tema.' }, { status: 404 });
     }
 
-    // 3. Scraping Paralelo
-    const scrapedResults = await Promise.all(urlsToScrape.map(url => scrapeText(url)));
+    // Tomar las 2 mejores noticias usando directamente sus snippets como texto de análisis
+    const scrapedResults = rawResults.slice(0, 2).map(r => ({
+      text: `TITULO: ${r.title}\nRESUMEN: ${r.snippet}`,
+      finalUrl: r.finalUrl,
+      imageUrl: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80' // Imagen genérica placeholder
+    }));
+
     const scrapedTexts = scrapedResults.map(r => r.text);
     const finalUrls = scrapedResults.map(r => r.finalUrl);
     const images = scrapedResults.map(r => r.imageUrl);
-
-    if (scrapedTexts.some(text => text.length < 50)) {
-       return NextResponse.json({ error: 'EXTRACT_ERR: No se pudo extraer el cuerpo de las noticias (paywall o bloqueo).' }, { status: 422 });
-    }
 
     // 4. Invocación a Cloudflare Workers AI
     const systemPrompt = `
