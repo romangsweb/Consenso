@@ -28,7 +28,8 @@ export default function Home() {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Server error. Check your .env setup or logs.');
+        const errorMsg = data.details ? `${data.error} Detalle: ${data.details}` : data.error;
+        throw new Error(errorMsg || 'Server error. Check your .env setup or logs.');
       }
 
       setResult(data);

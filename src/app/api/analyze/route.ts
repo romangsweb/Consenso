@@ -174,8 +174,11 @@ export async function POST(req: Request) {
       images: images
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('SYSTEM_FAULT:', error);
-    return NextResponse.json({ error: 'CRITICAL: Error interno del motor.' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'CRITICAL: Error interno del motor.', 
+      details: error?.message || String(error)
+    }, { status: 500 });
   }
 }
