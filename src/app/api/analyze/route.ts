@@ -75,7 +75,7 @@ export async function POST(req: Request) {
       Texto del Competidor: ${competitorText.substring(0, 3000)}
     `;
 
-    const aiResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct`, {
+    const aiResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${CLOUDFLARE_API_TOKEN}`,
