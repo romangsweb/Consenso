@@ -82,6 +82,7 @@ export async function POST(req: Request) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        max_tokens: 2048,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt }
