@@ -53,24 +53,24 @@ export async function POST(req: Request) {
     const systemPrompt = `
       Eres un Arquitecto SEO y AEO. Audita el texto y genera un artículo mejorado.
       REGLAS ESTRICTAS (Si las rompes el sistema falla):
-      1. Devuelve ÚNICA Y EXCLUSIVAMENTE un objeto JSON válido, sin markdown ni explicaciones.
+      1. Devuelve ÚNICA Y EXCLUSIVAMENTE un objeto JSON válido, sin markdown.
       2. DEBES SER EXTREMADAMENTE BREVE. Tienes un límite estricto de palabras.
+      3. CIERRA EL JSON CORRECTAMENTE. NUNCA lo dejes a medias.
       Formato estricto:
       {
-        "missingKeywords": ["palabra 1", "palabra 2"], // MÁXIMO 3 PALABRAS CLAVE
+        "missingKeywords": ["palabra 1"],
         "seoStructure": [
-          { "tag": "H1", "text": "Título Clickeable" },
-          { "tag": "H2", "text": "Subtítulo principal" }
-        ], // MÁXIMO 3 ELEMENTOS EN LA ESTRUCTURA
+          { "tag": "H1", "text": "Título" }
+        ],
         "aeoFaqs": [
-          { "q": "Pregunta corta", "a": "Respuesta directa (max 10 palabras)." }
-        ], // MÁXIMO 1 FAQ
-        "draftIntro": "Párrafo PAS muy breve (max 20 palabras)."
+          { "q": "Pregunta corta", "a": "Respuesta directa." }
+        ],
+        "draftIntro": "Párrafo breve."
       }
     `;
     const userPrompt = `
       URL Competidor: ${normalizedUrl}
-      Texto: ${competitorText.substring(0, 1500)}
+      Texto: ${competitorText.substring(0, 500)}
     `;
 
     const aiResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct`, {
