@@ -7,13 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Analysis {
-  id              String   @id @default(uuid())
-  topic           String   @unique // Tema buscado
-  urls            String[] // URLs encontradas y analizadas
-  neutralityScore Int
-  resultsJson     Json
-  createdAt       DateTime @default(now())
-
-  @@index([createdAt])
+model Transaction {
+  id             String   @id @default(cuid())
+  description    String
+  amount         Float
+  category       String
+  type           String   // "INCOME" or "EXPENSE"
+  isSubscription Boolean  @default(false)
+  createdAt      DateTime @default(now())
 }
