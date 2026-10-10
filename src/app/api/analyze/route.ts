@@ -95,7 +95,7 @@ export async function POST(req: Request) {
     }
 
     const aiData = await aiResponse.json();
-    let llmResultString = aiData?.result?.response;
+    let llmResultString = aiData?.result?.response || aiData?.result?.choices?.[0]?.message?.content;
     
     if (typeof llmResultString !== 'string') {
       throw new Error(`Unexpected LLM response format: ${JSON.stringify(aiData).substring(0, 200)}`);
