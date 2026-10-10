@@ -65,6 +65,18 @@ export default function DashboardMockup() {
               >
                 <UsersIcon className="w-5 h-5 mr-3" /> Radar Competencia
               </button>
+              <button 
+                onClick={() => setActiveTab('rag')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'rag' ? 'bg-[var(--primary)] text-white' : 'text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)]'}`}
+              >
+                <DocumentTextIcon className="w-5 h-5 mr-3" /> RAG Vector Extractor
+              </button>
+              <button 
+                onClick={() => setActiveTab('contentDecay')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'contentDecay' ? 'bg-[var(--primary)] text-white' : 'text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)]'}`}
+              >
+                <ChartBarIcon className="w-5 h-5 mr-3" /> Auditoría GSC (Decay)
+              </button>
             </div>
           </div>
 
@@ -435,7 +447,135 @@ export default function DashboardMockup() {
               </div>
             )}
 
-            {/* KEYWORD PLANNER TAB */}
+            {/* RAG VECTOR EXTRACTOR TAB */}
+            {activeTab === 'rag' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-semibold mb-1">RAG Vector Extractor</h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">Scrapea, limpia y formatea contenido web para alimentar Modelos LLM (RAG).</p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-[var(--card)] border border-[var(--border)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors flex items-center">
+                       Exportar .JSONL
+                    </button>
+                    <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)]">
+                      Enviar a Pinecone
+                    </button>
+                  </div>
+                </div>
+
+                <div className="glass-card p-4 flex gap-4">
+                  <input 
+                    type="text" 
+                    placeholder="URL o Sitemap (ej. 'https://acmecorp.com/blog')"
+                    className="flex-1 bg-[var(--background)] border border-[var(--border)] rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                  />
+                  <select className="bg-[var(--card)] border border-[var(--border)] rounded-lg px-4 py-2 text-white focus:outline-none">
+                    <option>Chunk Size: 512</option>
+                    <option>Chunk Size: 1024</option>
+                    <option>Chunk Size: 2048</option>
+                  </select>
+                  <button className="bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 transition-colors">
+                    Extraer & Limpiar
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="md:col-span-1 space-y-4">
+                    <div className="glass-card p-4">
+                      <h4 className="font-bold text-sm mb-4">Pipeline de Limpieza</h4>
+                      <ul className="space-y-3 text-sm text-[var(--muted-foreground)]">
+                        <li className="flex justify-between"><span>Remover Nav/Footer</span> <span className="text-green-500">✓</span></li>
+                        <li className="flex justify-between"><span>Extraer Tablas a Markdown</span> <span className="text-green-500">✓</span></li>
+                        <li className="flex justify-between"><span>Remover Boilerplate</span> <span className="text-green-500">✓</span></li>
+                        <li className="flex justify-between"><span>Generar Metadata IA</span> <span className="text-green-500">✓</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="md:col-span-2 glass-card p-6">
+                    <h4 className="font-bold text-sm mb-4">Vista Previa de Chunks (Formato Vectorial)</h4>
+                    <pre className="bg-black p-4 rounded text-xs text-green-400 overflow-x-auto border border-gray-800">
+{`{
+  "id": "vec_8f92a1",
+  "metadata": {
+    "source_url": "https://acmecorp.com/guide",
+    "title": "Guía Definitiva B2B",
+    "author": "Equipo de Contenido",
+    "chunk_index": 1,
+    "intent": "informational"
+  },
+  "text": "# Introducción al B2B\\nEl marketing B2B moderno requiere...",
+  "tokens": 482
+}`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* CONTENT DECAY (GSC) TAB */}
+            {activeTab === 'contentDecay' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-semibold mb-1">Auditoría GSC (Content Decay)</h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">Detecta contenido que está perdiendo tráfico de forma pasiva en Google.</p>
+                  </div>
+                  <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)]">
+                    Generar Reporte de Actualización
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <div className="glass-card p-6 border-t-4 border-t-red-500">
+                    <h3 className="text-[var(--muted-foreground)] text-sm mb-2">Páginas Muriendo</h3>
+                    <p className="text-4xl font-bold">14 <span className="text-sm text-red-500">-20% Tráfico</span></p>
+                  </div>
+                  <div className="glass-card p-6 border-t-4 border-t-yellow-500">
+                    <h3 className="text-[var(--muted-foreground)] text-sm mb-2">Canibalización Detectada</h3>
+                    <p className="text-4xl font-bold">3 <span className="text-sm text-yellow-500">Clusters afectados</span></p>
+                  </div>
+                  <div className="glass-card p-6 border-t-4 border-t-green-500">
+                    <h3 className="text-[var(--muted-foreground)] text-sm mb-2">Oportunidades de Quick Win</h3>
+                    <p className="text-4xl font-bold">28 <span className="text-sm text-green-500">Posiciones 11-20</span></p>
+                  </div>
+                </div>
+
+                <div className="glass-card overflow-hidden">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-[var(--card)] text-[var(--muted-foreground)]">
+                      <tr>
+                        <th className="px-6 py-3 font-medium">URL Afectada</th>
+                        <th className="px-6 py-3 font-medium">Tráfico (Mes Anterior)</th>
+                        <th className="px-6 py-3 font-medium">Tráfico (Actual)</th>
+                        <th className="px-6 py-3 font-medium">Pérdida</th>
+                        <th className="px-6 py-3 font-medium text-right">Acción IA</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border)]">
+                      {[
+                        { url: "/blog/que-es-el-marketing", old: "14,500", new: "9,200", loss: "-36%" },
+                        { url: "/servicios/seo-local", old: "8,100", new: "6,500", loss: "-19%" },
+                        { url: "/blog/tendencias-2023", old: "5,200", new: "1,100", loss: "-78%" },
+                      ].map((row, i) => (
+                        <tr key={i} className="hover:bg-[var(--muted)]/50 transition-colors group">
+                          <td className="px-6 py-4 text-white text-xs truncate max-w-[200px]">{row.url}</td>
+                          <td className="px-6 py-4 font-mono">{row.old}</td>
+                          <td className="px-6 py-4 font-mono text-red-400">{row.new}</td>
+                          <td className="px-6 py-4 font-bold text-red-500">{row.loss}</td>
+                          <td className="px-6 py-4 text-right">
+                            <button className="text-xs bg-[var(--muted)] px-3 py-1 rounded hover:bg-[var(--primary)] hover:text-white transition-colors">
+                              Reescribir con IA
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
             {activeTab === 'planner' && (
               <div className="space-y-8 animate-fade-in">
                 <div className="flex justify-between items-end">
