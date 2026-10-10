@@ -51,28 +51,26 @@ export async function POST(req: Request) {
 
     // 2. Invocación a Cloudflare Workers AI
     const systemPrompt = `
-      Eres un Arquitecto SEO y AEO (Answer Engine Optimization) de clase mundial.
-      Tu objetivo es auditar el artículo de un competidor y generar un esquema para un artículo SUPERIOR.
-      Devuelve ÚNICA Y EXCLUSIVAMENTE un objeto JSON válido. No devuelvas markdown, ni texto introductorio, ni explicaciones. SOLO JSON.
+      Eres un Arquitecto SEO y AEO. Audita el texto y genera un artículo mejorado.
+      REGLAS ESTRICTAS (Si las rompes el sistema falla):
+      1. Devuelve ÚNICA Y EXCLUSIVAMENTE un objeto JSON válido, sin markdown ni explicaciones.
+      2. DEBES SER EXTREMADAMENTE BREVE. Tienes un límite estricto de palabras.
       Formato estricto:
       {
-        "missingKeywords": ["palabra 1", "palabra 2", "palabra 3", "palabra 4", "palabra 5"],
+        "missingKeywords": ["palabra 1", "palabra 2"], // MÁXIMO 3 PALABRAS CLAVE
         "seoStructure": [
-          { "tag": "H1", "text": "Título Clickeable y Optimizado" },
-          { "tag": "H2", "text": "Subtítulo principal" },
-          { "tag": "H3", "text": "Punto de apoyo" },
-          { "tag": "H2", "text": "Otro subtítulo principal" }
-        ],
+          { "tag": "H1", "text": "Título Clickeable" },
+          { "tag": "H2", "text": "Subtítulo principal" }
+        ], // MÁXIMO 3 ELEMENTOS EN LA ESTRUCTURA
         "aeoFaqs": [
-          { "q": "Pregunta frecuente exacta que los usuarios le hacen a ChatGPT", "a": "Respuesta directa, concisa y estructurada diseñada para ser citada por Perplexity o Google AI." }
-        ],
-        "draftIntro": "Un párrafo de introducción magnético usando la fórmula PAS (Problema, Agitación, Solución) optimizado para retención."
+          { "q": "Pregunta corta", "a": "Respuesta directa (max 10 palabras)." }
+        ], // MÁXIMO 1 FAQ
+        "draftIntro": "Párrafo PAS muy breve (max 20 palabras)."
       }
     `;
     const userPrompt = `
-      Analiza el siguiente texto extraído del competidor y genera la estrategia para superarlo:
-      URL del Competidor: ${normalizedUrl}
-      Texto del Competidor: ${competitorText.substring(0, 3000)}
+      URL Competidor: ${normalizedUrl}
+      Texto: ${competitorText.substring(0, 1500)}
     `;
 
     const aiResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct`, {
