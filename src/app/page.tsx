@@ -54,6 +54,12 @@ export default function DashboardMockup() {
                 <BoltIcon className="w-5 h-5 mr-3" /> SERP & AEO X-Ray
               </button>
               <button 
+                onClick={() => setActiveTab('planner')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'planner' ? 'bg-[var(--primary)] text-white' : 'text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)]'}`}
+              >
+                <RectangleStackIcon className="w-5 h-5 mr-3" /> Keyword Planner
+              </button>
+              <button 
                 onClick={() => setActiveTab('competitors')}
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'competitors' ? 'bg-[var(--primary)] text-white' : 'text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)]'}`}
               >
@@ -335,11 +341,175 @@ export default function DashboardMockup() {
               </div>
             )}
             
-            {/* COMPETITORS TAB (Briefly restored) */}
+            {/* RADAR COMPETENCIA (NETFLIX STYLE) */}
             {activeTab === 'competitors' && (
+              <div className="space-y-10 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-3xl font-bold mb-1 tracking-tight">Tus Rivales</h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">Monitoreo visual estilo inteligencia competitiva.</p>
+                  </div>
+                  <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)]">
+                    + Trackear Nuevo Dominio
+                  </button>
+                </div>
+
+                {/* ROW 1: Amenazas Principales (Trending Now) */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <span className="w-1.5 h-6 bg-red-500 rounded mr-2"></span> Amenaza Crítica (Top 3)
+                  </h3>
+                  <div className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide">
+                    {/* Competitor 1 */}
+                    <div className="min-w-[300px] glass-card group cursor-pointer hover:border-[var(--primary)] transition-all relative overflow-hidden">
+                      <div className="h-32 bg-gradient-to-br from-gray-800 to-black p-4 flex flex-col justify-between">
+                        <div className="flex justify-between items-start">
+                          <span className="bg-black/50 backdrop-blur text-white text-xs px-2 py-1 rounded border border-gray-600">SaaS B2B</span>
+                          <span className="text-red-500 font-bold text-sm bg-red-500/10 px-2 py-0.5 rounded">98% Match</span>
+                        </div>
+                        <h4 className="text-2xl font-black text-white">AcmeCorp</h4>
+                      </div>
+                      <div className="p-4">
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-[var(--muted-foreground)]">Brecha de Keywords</span>
+                          <span className="font-bold text-red-400">-4,200</span>
+                        </div>
+                        <div className="flex justify-between text-sm mb-4">
+                          <span className="text-[var(--muted-foreground)]">Domain Authority</span>
+                          <span className="font-bold">78 <span className="text-xs text-gray-500">vs tu 45</span></span>
+                        </div>
+                        <button className="w-full bg-[var(--card)] border border-[var(--border)] py-2 rounded text-sm hover:bg-[var(--muted)] group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
+                          Ver Análisis Profundo
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Competitor 2 */}
+                    <div className="min-w-[300px] glass-card group cursor-pointer hover:border-[var(--primary)] transition-all relative overflow-hidden">
+                      <div className="h-32 bg-gradient-to-br from-blue-900 to-black p-4 flex flex-col justify-between">
+                        <div className="flex justify-between items-start">
+                          <span className="bg-black/50 backdrop-blur text-white text-xs px-2 py-1 rounded border border-gray-600">Agencia</span>
+                          <span className="text-yellow-500 font-bold text-sm bg-yellow-500/10 px-2 py-0.5 rounded">75% Match</span>
+                        </div>
+                        <h4 className="text-2xl font-black text-white">GlobalTech</h4>
+                      </div>
+                      <div className="p-4">
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-[var(--muted-foreground)]">Brecha de Keywords</span>
+                          <span className="font-bold text-yellow-400">-1,150</span>
+                        </div>
+                        <div className="flex justify-between text-sm mb-4">
+                          <span className="text-[var(--muted-foreground)]">Domain Authority</span>
+                          <span className="font-bold">62 <span className="text-xs text-gray-500">vs tu 45</span></span>
+                        </div>
+                        <button className="w-full bg-[var(--card)] border border-[var(--border)] py-2 rounded text-sm hover:bg-[var(--muted)] group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
+                          Ver Análisis Profundo
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ROW 2: Ganando Terreno (New Releases) */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <span className="w-1.5 h-6 bg-green-500 rounded mr-2"></span> A los que les estás ganando
+                  </h3>
+                  <div className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide opacity-80 hover:opacity-100 transition-opacity">
+                    <div className="min-w-[250px] glass-card p-4 flex items-center border-l-4 border-l-green-500">
+                      <div className="w-10 h-10 bg-gray-800 rounded-full mr-4"></div>
+                      <div>
+                        <h4 className="font-bold">StartupLocal</h4>
+                        <p className="text-xs text-green-400">Los superaste ayer</p>
+                      </div>
+                    </div>
+                    <div className="min-w-[250px] glass-card p-4 flex items-center border-l-4 border-l-green-500">
+                      <div className="w-10 h-10 bg-gray-800 rounded-full mr-4"></div>
+                      <div>
+                        <h4 className="font-bold">OldAgency PR</h4>
+                        <p className="text-xs text-green-400">Tráfico en picada (-20%)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* KEYWORD PLANNER TAB */}
+            {activeTab === 'planner' && (
               <div className="space-y-8 animate-fade-in">
-                <h2 className="text-2xl font-semibold">Radar Competencia</h2>
-                <div className="glass-card p-6"><p className="text-[var(--muted-foreground)]">Monitoreo de competencia...</p></div>
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-semibold mb-1">Keyword Planner Pro</h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">Descubrimiento y clusterización de contenido conectado vía API.</p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-[var(--card)] border border-[var(--border)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors flex items-center">
+                       Exportar CSV
+                    </button>
+                    <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)]">
+                      Crear Campaña
+                    </button>
+                  </div>
+                </div>
+
+                <div className="glass-card p-4 flex gap-4">
+                  <input 
+                    type="text" 
+                    placeholder="Semilla (ej. 'agencia de marketing')"
+                    className="flex-1 bg-[var(--background)] border border-[var(--border)] rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                  />
+                  <select className="bg-[var(--card)] border border-[var(--border)] rounded-lg px-4 py-2 text-white focus:outline-none">
+                    <option>México</option>
+                    <option>España</option>
+                    <option>Estados Unidos</option>
+                  </select>
+                  <button className="bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 transition-colors">
+                    Buscar
+                  </button>
+                </div>
+
+                {/* Keywords Table */}
+                <div className="glass-card overflow-hidden">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-[var(--card)] text-[var(--muted-foreground)]">
+                      <tr>
+                        <th className="px-6 py-3 font-medium">Keyword</th>
+                        <th className="px-6 py-3 font-medium">Volumen (Mes)</th>
+                        <th className="px-6 py-3 font-medium">Keyword Difficulty (KD)</th>
+                        <th className="px-6 py-3 font-medium">CPC</th>
+                        <th className="px-6 py-3 font-medium text-right">Intención</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border)]">
+                      {[
+                        { kw: "agencia de marketing digital", vol: "22,000", kd: 78, cpc: "$4.50", intent: "Comercial" },
+                        { kw: "como hacer marketing para pymes", vol: "5,400", kd: 22, cpc: "$1.20", intent: "Informativa" },
+                        { kw: "mejores agencias seo en cdmx", vol: "1,200", kd: 45, cpc: "$8.90", intent: "Transaccional" },
+                        { kw: "servicios de posicionamiento web", vol: "8,100", kd: 60, cpc: "$5.30", intent: "Comercial" },
+                      ].map((row, i) => (
+                        <tr key={i} className="hover:bg-[var(--muted)]/50 transition-colors group">
+                          <td className="px-6 py-4 font-medium text-white">{row.kw}</td>
+                          <td className="px-6 py-4 font-mono">{row.vol}</td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center">
+                              <div className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold ${row.kd > 60 ? 'bg-red-500/20 text-red-500' : row.kd > 30 ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'}`}>
+                                {row.kd}
+                              </div>
+                              <span className="ml-2 text-xs text-gray-500">{row.kd > 60 ? 'Hard' : 'Easy'}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 font-mono text-[var(--muted-foreground)]">{row.cpc}</td>
+                          <td className="px-6 py-4 text-right">
+                            <span className={`px-2 py-1 rounded text-xs border ${row.intent === 'Informativa' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
+                              {row.intent}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 
