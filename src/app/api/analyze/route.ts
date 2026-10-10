@@ -53,7 +53,8 @@ export async function POST(req: Request) {
     const systemPrompt = `
       Eres un Arquitecto SEO y AEO (Answer Engine Optimization) de clase mundial.
       Tu objetivo es auditar el artículo de un competidor y generar un esquema para un artículo SUPERIOR.
-      Devuelve un JSON estrictamente estructurado así:
+      Devuelve ÚNICA Y EXCLUSIVAMENTE un objeto JSON válido. No devuelvas markdown, ni texto introductorio, ni explicaciones. SOLO JSON.
+      Formato estricto:
       {
         "missingKeywords": ["palabra 1", "palabra 2", "palabra 3", "palabra 4", "palabra 5"],
         "seoStructure": [
@@ -67,7 +68,6 @@ export async function POST(req: Request) {
         ],
         "draftIntro": "Un párrafo de introducción magnético usando la fórmula PAS (Problema, Agitación, Solución) optimizado para retención."
       }
-      Asegúrate de generar 3 a 4 'aeoFaqs'.
     `;
     const userPrompt = `
       Analiza el siguiente texto extraído del competidor y genera la estrategia para superarlo:
@@ -94,7 +94,10 @@ export async function POST(req: Request) {
     }
 
     const aiData = await aiResponse.json();
-    const llmResultString = aiData.result.response;
+    let llmResultString = aiData.result.response;
+    
+    // Limpiar markdown (a veces Llama envuelve en ```json ... ```)
+    llmResultString = llmResultString.replace(/```json/gi, '').replace(/```/g, '').trim();
     
     let llmResult;
     try {
@@ -102,9 +105,13 @@ export async function POST(req: Request) {
     } catch(e) {
       const jsonMatch = llmResultString.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-         llmResult = JSON.parse(jsonMatch[0]);
+         try {
+           llmResult = JSON.parse(jsonMatch[0]);
+         } catch(e2) {
+           throw new Error("Invalid JSON inside regex match. Received: " + llmResultString.substring(0, 100));
+         }
       } else {
-         throw new Error("Invalid JSON from LLM");
+         throw new Error("Invalid JSON from LLM. Received: " + llmResultString.substring(0, 100));
       }
     }
 
