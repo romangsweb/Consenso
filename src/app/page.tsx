@@ -693,6 +693,114 @@ export default function DashboardMockup() {
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
 
+  // Estados para Configuración de Cuenta & Enterprise Vault
+  const [settingsTab, setSettingsTab] = useState<'apiKeys' | 'dns' | 'webhooks' | 'general' | 'team'>('apiKeys');
+  const [accountSettings, setAccountSettings] = useState({
+    agencyName: 'BUILDATIONS STUDIO // CORE',
+    plan: 'Enterprise Dedicated Tier',
+    primaryOwner: 'Román García',
+    billingEmail: 'roman@buildations.studio',
+    slaGuaranteed: '99.98%',
+    activeRegion: 'us-east-1 (N. Virginia) + Falkenstein Edge',
+    // Bóveda de API Keys
+    apiKeys: {
+      anthropicKey: 'sk-ant-api03-98fa9sdf87asdf897asdf-LIVE',
+      openaiKey: 'sk-proj-a98sdf78asdf987asdf987-PROD',
+      deepseekKey: 'sk-ds-89a7sdf897asdf87asdf-FAST',
+      googleSearchConsoleToken: 'gsc_oauth_refresh_98a7sdf987a',
+      hubspotAccessToken: 'pat-na1-897asdf897asdf-ENTERPRISE',
+      vercelApiToken: 'vercel_tok_89a7sdf897asdf897a',
+      neonApiKey: 'neon_api_key_89a7sdf897asdf',
+      supabaseServiceKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+      pineconeApiKey: 'pcsk_89a7sdf897asdf897a'
+    },
+    // Enrutamiento DNS & Dominios Personalizados
+    dnsRecords: [
+      {
+        id: 'dns-1',
+        type: 'A',
+        host: '@ (Root Apex)',
+        value: '76.76.21.21',
+        target: 'Vercel Edge Anycast Network',
+        status: 'Validado',
+        ttl: 'Auto'
+      },
+      {
+        id: 'dns-2',
+        type: 'CNAME',
+        host: 'cname.buildations.studio',
+        value: 'cname.vercel-dns.com',
+        target: 'Vercel Global CDN Edge',
+        status: 'Validado',
+        ttl: '60s'
+      },
+      {
+        id: 'dns-3',
+        type: 'A',
+        host: 'pg-dedicated-01',
+        value: '138.201.192.44',
+        target: 'Hetzner Bare-Metal Node (Dedicated NVMe)',
+        status: 'Validado',
+        ttl: '300s'
+      },
+      {
+        id: 'dns-4',
+        type: 'TXT',
+        host: '_hubspot-challenge',
+        value: 'hubspot-site-verification=982104-prod',
+        target: 'HubSpot Domain Verification',
+        status: 'Validado',
+        ttl: '3600s'
+      },
+      {
+        id: 'dns-5',
+        type: 'CNAME',
+        host: 'api.consenso.io',
+        value: 'gateway.consenso.io',
+        target: 'Cloudflare Proxy / WAF Shield',
+        status: 'En Propagación',
+        ttl: 'Auto'
+      }
+    ],
+    // Webhooks & Eventos de Despacho
+    webhooks: [
+      {
+        id: 'wh-1',
+        name: 'HubSpot Deal Creation on High AEO Citation',
+        endpoint: 'https://api.hubspot.com/automation/v3/actions/callbacks/aeo-lead',
+        events: ['article.published', 'lead.score_over_90'],
+        status: 'Activo',
+        lastTrigger: 'Hace 12 min (200 OK)'
+      },
+      {
+        id: 'wh-2',
+        name: 'Vercel On-Demand ISR Sitemap Purge',
+        endpoint: 'https://buildations.studio/api/revalidate?secret=buildations_sec_99',
+        events: ['sitemap.regenerated', 'engine.cycle_completed'],
+        status: 'Activo',
+        lastTrigger: 'Hace 45 min (200 OK)'
+      },
+      {
+        id: 'wh-3',
+        name: 'Slack Dev Alert on Worker Latency Spike',
+        endpoint: 'https://hooks.slack.com/services/T00/B00/X00',
+        events: ['worker.latency_warning', 'fact_check.anomaly'],
+        status: 'Activo',
+        lastTrigger: 'Hace 2 horas (200 OK)'
+      }
+    ]
+  });
+
+  const [revealedKeys, setRevealedKeys] = useState<Record<string, boolean>>({});
+  const [pingStatus, setPingStatus] = useState<Record<string, { latency: number; status: string }>>({});
+  const [dnsTesting, setDnsTesting] = useState(false);
+  const [teamMembers, setTeamMembers] = useState([
+    { id: 'usr-1', name: 'Román García', email: 'roman@buildations.studio', role: 'Super Admin (Owner)', status: 'Activo', twoFactor: true, lastLogin: 'Hace 4 minutos' },
+    { id: 'usr-2', name: 'Sofia Morales', email: 'sofia@buildations.studio', role: 'RevOps Lead & Editor', status: 'Activo', twoFactor: true, lastLogin: 'Hoy, 10:14 AM' },
+    { id: 'usr-3', name: 'Carlos Mendoza', email: 'carlos.m@buildations.studio', role: 'DevOps / Cloud Architect', status: 'Activo', twoFactor: true, lastLogin: 'Ayer' },
+    { id: 'usr-4', name: 'Service Worker Autopilot', email: 'service-bot@buildations.internal', role: 'Bot de Orquestación', status: 'En Ejecución', twoFactor: false, lastLogin: 'En Vivo' },
+  ]);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
     if (savedTheme) {
@@ -983,22 +1091,42 @@ export default function DashboardMockup() {
         </nav>
         
         <div className="p-4 border-t border-[var(--border)] flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[var(--primary)] to-amber-400 mr-3 shadow-sm flex items-center justify-center font-bold text-white text-xs">
+          <div 
+            onClick={() => setActiveTab('settings')}
+            className="flex items-center cursor-pointer group flex-1 mr-2 p-1 rounded-lg hover:bg-[var(--muted)]/50 transition-colors"
+            title="Ir a Configuración de Cuenta & Enterprise Vault"
+          >
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[var(--primary)] to-amber-400 mr-3 shadow-sm flex items-center justify-center font-bold text-white text-xs shrink-0 group-hover:scale-105 transition-transform">
               RG
             </div>
-            <div>
-              <p className="text-sm font-semibold text-[var(--foreground)]">Román García</p>
-              <p className="text-xs text-[var(--muted-foreground)]">Agencia Pro</p>
+            <div className="truncate">
+              <p className="text-sm font-semibold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors truncate">Román García</p>
+              <p className="text-xs text-[var(--muted-foreground)] flex items-center gap-1">
+                <span>Agencia Pro</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              </p>
             </div>
           </div>
-          <button 
-            onClick={toggleTheme}
-            className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] text-[var(--foreground)] transition-colors cursor-pointer"
-            title={theme === 'dark' ? 'Modo Día' : 'Modo Noche'}
-          >
-            {theme === 'dark' ? <SunIcon className="w-4 h-4 text-amber-400" /> : <MoonIcon className="w-4 h-4 text-indigo-500" />}
-          </button>
+          <div className="flex items-center gap-1">
+            <button 
+              onClick={() => setActiveTab('settings')}
+              className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+                activeTab === 'settings' 
+                  ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm' 
+                  : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] text-[var(--foreground)]'
+              }`}
+              title="Configuración de Cuenta & Vault"
+            >
+              <Cog6ToothIcon className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={toggleTheme}
+              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] text-[var(--foreground)] transition-colors cursor-pointer"
+              title={theme === 'dark' ? 'Modo Día' : 'Modo Noche'}
+            >
+              {theme === 'dark' ? <SunIcon className="w-4 h-4 text-amber-400" /> : <MoonIcon className="w-4 h-4 text-indigo-500" />}
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -1127,6 +1255,7 @@ export default function DashboardMockup() {
                 .replace('planner', 'Keyword Planner')
                 .replace('competitors', 'Radar Competencia')
                 .replace('documentation', 'Manual de Uso, Homologación de Módulos & FAQs Técnicos')
+                .replace('settings', 'Configuración de Cuenta & Bóveda Enterprise (API Keys, DNS, Webhooks)')
               }
             </span>
           </div>
@@ -6660,6 +6789,935 @@ export default function DashboardMockup() {
               </div>
             )}
 
+            {/* VISTA 16: CONFIGURACIÓN DE CUENTA & ENTERPRISE VAULT */}
+            {activeTab === 'settings' && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header Banner */}
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border border-zinc-800 p-8 shadow-2xl">
+                  <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-[var(--primary)]/10 blur-3xl pointer-events-none" />
+                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[var(--primary)]/15 text-[var(--primary)] border border-[var(--primary)]/30 flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse shadow-[0_0_8px_rgba(255,90,0,0.8)]" />
+                          {accountSettings.plan}
+                        </span>
+                        <span className="px-2.5 py-1 rounded-md text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 font-bold flex items-center gap-1">
+                          <CheckCircleIcon className="w-3.5 h-3.5" /> SLA {accountSettings.slaGuaranteed}
+                        </span>
+                        <span className="px-2.5 py-1 rounded-md text-[11px] font-mono text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 font-bold flex items-center gap-1">
+                          <ShieldCheckIcon className="w-3.5 h-3.5" /> Bóveda HSM AES-256
+                        </span>
+                      </div>
+                      <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-3">
+                        <Cog6ToothIcon className="w-8 h-8 text-[var(--primary)]" />
+                        Configuración de Cuenta &amp; Bóveda Enterprise
+                      </h1>
+                      <p className="text-xs sm:text-sm text-zinc-400 max-w-3xl leading-relaxed">
+                        Control unificado de llaves maestras de IA, orquestación de registros DNS multinodo, despacho de webhooks transaccionales y gobernanza de equipo para <strong>{accountSettings.agencyName}</strong>.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 shrink-0">
+                      <button
+                        onClick={() => {
+                          showToast(
+                            'Auditoría SOC-2 Exportada',
+                            'Informe criptográfico de cumplimiento SOC-2 Type II generado en JSON (SHA-256 validado).',
+                            'success'
+                          );
+                        }}
+                        className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+                      >
+                        <ArrowDownTrayIcon className="w-4 h-4 text-cyan-400" />
+                        Exportar Auditoría SOC-2
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          showToast(
+                            'Rotación de Claves Iniciada',
+                            'Proceso zero-downtime activado: Se han generado nuevos tokens y se mantendrán los anteriores por 24h para propagación segura.',
+                            'info'
+                          );
+                        }}
+                        className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] flex items-center gap-2 cursor-pointer"
+                      >
+                        <ArrowPathIcon className="w-4 h-4" />
+                        Rotar Bóveda de Claves
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sub-Tab Navigation Bar */}
+                <div className="flex items-center gap-2 border-b border-[var(--border)] pb-2 overflow-x-auto no-scrollbar">
+                  {[
+                    { id: 'apiKeys', label: '01. Bóveda de API Keys & AI Tokens', icon: KeyIcon, count: Object.keys(accountSettings.apiKeys).length },
+                    { id: 'dns', label: '02. Gestión DNS & Dominios Custom', icon: GlobeAltIcon, count: accountSettings.dnsRecords.length },
+                    { id: 'webhooks', label: '03. Webhooks & Eventos de Despacho', icon: BoltIcon, count: accountSettings.webhooks.length },
+                    { id: 'general', label: '04. Infraestructura & Regiones Cloud', icon: ServerStackIcon },
+                    { id: 'team', label: '05. Equipo, Roles & Permisos', icon: UsersIcon, count: teamMembers.length },
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = settingsTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setSettingsTab(tab.id as any)}
+                        className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                          isActive
+                            ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)]'
+                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--card)]'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{tab.label}</span>
+                        {tab.count !== undefined && (
+                          <span
+                            className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                              isActive ? 'bg-white/20 text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'
+                            }`}
+                          >
+                            {tab.count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* TAB 1: BÓVEDA DE API KEYS */}
+                {settingsTab === 'apiKeys' && (
+                  <div className="space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <div>
+                        <h3 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                          <KeyIcon className="w-4 h-4 text-[var(--primary)]" />
+                          Bóveda Criptográfica de Proveedores de Cómputo e Inferencia
+                        </h3>
+                        <p className="text-xs text-[var(--muted-foreground)]">
+                          Tokens maestros utilizados por los motores autónomos para generación de contenidos, indexación vectorial, consultas SERP y sincronización CRM.
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => {
+                            const allRevealed = Object.keys(accountSettings.apiKeys).every(k => revealedKeys[k]);
+                            const newRevealed: Record<string, boolean> = {};
+                            Object.keys(accountSettings.apiKeys).forEach(k => {
+                              newRevealed[k] = !allRevealed;
+                            });
+                            setRevealedKeys(newRevealed);
+                            showToast(
+                              allRevealed ? 'Claves Enmascaradas' : 'Claves Reveladas',
+                              allRevealed ? 'Todas las llaves están ocultas con asteriscos' : 'Mostrando valores de tokens en texto claro',
+                              'info'
+                            );
+                          }}
+                          className="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--background)] hover:bg-[var(--muted)] text-xs text-[var(--foreground)] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <EyeIcon className="w-3.5 h-3.5" />
+                          <span>Alternar Enmascaramiento</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            showToast('Bóveda Guardada', 'Todas las claves han sido sincronizadas en el KMS seguro de producción.', 'success');
+                          }}
+                          className="px-3.5 py-1.5 rounded-lg bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <CheckIcon className="w-3.5 h-3.5" />
+                          <span>Guardar Claves</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[
+                        {
+                          id: 'anthropicKey',
+                          name: 'Anthropic Claude 3.7',
+                          sub: 'Razonamiento Híbrido, Sonnet & Opus',
+                          icon: ClaudeLogo,
+                          value: accountSettings.apiKeys.anthropicKey,
+                          badge: 'Razonamiento Primario',
+                          badgeColor: 'border-amber-500/30 text-amber-400 bg-amber-500/10'
+                        },
+                        {
+                          id: 'openaiKey',
+                          name: 'OpenAI GPT-4o & Embeddings',
+                          sub: 'Text-Embedding-3-Large & Auditoría',
+                          icon: OpenAILogo,
+                          value: accountSettings.apiKeys.openaiKey,
+                          badge: 'Vectores & Validación',
+                          badgeColor: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10'
+                        },
+                        {
+                          id: 'deepseekKey',
+                          name: 'DeepSeek V3 / R1 Fast MoE',
+                          sub: 'Micro-Inferencia de Alta Velocidad',
+                          icon: CpuChipIcon,
+                          value: accountSettings.apiKeys.deepseekKey,
+                          badge: 'MoE Fast Lane',
+                          badgeColor: 'border-blue-500/30 text-blue-400 bg-blue-500/10'
+                        },
+                        {
+                          id: 'googleSearchConsoleToken',
+                          name: 'Google Search Console OAuth',
+                          sub: 'GSC API & Live Query Tracking',
+                          icon: GoogleLogo,
+                          value: accountSettings.apiKeys.googleSearchConsoleToken,
+                          badge: 'Indexación & Clics',
+                          badgeColor: 'border-red-500/30 text-red-400 bg-red-500/10'
+                        },
+                        {
+                          id: 'hubspotAccessToken',
+                          name: 'HubSpot RevOps Private App',
+                          sub: 'Deals, Contact Attribution & Lifecycle',
+                          icon: HubSpotLogo,
+                          value: accountSettings.apiKeys.hubspotAccessToken,
+                          badge: 'CRM Sincronizado',
+                          badgeColor: 'border-orange-500/30 text-orange-400 bg-orange-500/10'
+                        },
+                        {
+                          id: 'vercelApiToken',
+                          name: 'Vercel Edge & Domains Token',
+                          sub: 'Anycast DNS & On-Demand ISR Purge',
+                          icon: VercelLogo,
+                          value: accountSettings.apiKeys.vercelApiToken,
+                          badge: 'Edge Hosting Live',
+                          badgeColor: 'border-zinc-500/30 text-zinc-300 bg-zinc-500/10'
+                        },
+                        {
+                          id: 'neonApiKey',
+                          name: 'Neon Serverless Postgres API',
+                          sub: 'Autoscaling CU & Instant Branching',
+                          icon: NeonLogo,
+                          value: accountSettings.apiKeys.neonApiKey,
+                          badge: 'Base de Datos Núcleo',
+                          badgeColor: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10'
+                        },
+                        {
+                          id: 'supabaseServiceKey',
+                          name: 'Supabase / pgvector JWT',
+                          sub: 'Tablas de Logs, Auth & Vector Store',
+                          icon: SupabaseLogo,
+                          value: accountSettings.apiKeys.supabaseServiceKey,
+                          badge: 'Service Role Vault',
+                          badgeColor: 'border-teal-500/30 text-teal-400 bg-teal-500/10'
+                        },
+                        {
+                          id: 'pineconeApiKey',
+                          name: 'Pinecone Vector DB Key',
+                          sub: '1,536d Cosine Namespace & Top-K RAG',
+                          icon: PineconeLogo,
+                          value: accountSettings.apiKeys.pineconeApiKey,
+                          badge: 'RAG Semántico',
+                          badgeColor: 'border-purple-500/30 text-purple-400 bg-purple-500/10'
+                        },
+                      ].map((card) => {
+                        const Icon = card.icon;
+                        const isRevealed = revealedKeys[card.id];
+                        const ping = pingStatus[card.id];
+
+                        return (
+                          <div
+                            key={card.id}
+                            className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)]/40 transition-all space-y-4 shadow-sm flex flex-col justify-between"
+                          >
+                            <div className="space-y-3">
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-9 h-9 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-1.5 shadow-inner">
+                                    <Icon className="w-5 h-5 text-[var(--foreground)]" />
+                                  </div>
+                                  <div>
+                                    <h4 className="font-bold text-xs text-[var(--foreground)] leading-tight">{card.name}</h4>
+                                    <p className="text-[10px] text-[var(--muted-foreground)] font-mono">{card.sub}</p>
+                                  </div>
+                                </div>
+                                <span className={`text-[9px] font-mono px-2 py-0.5 rounded border font-bold shrink-0 ${card.badgeColor}`}>
+                                  {card.badge}
+                                </span>
+                              </div>
+
+                              <div>
+                                <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold block mb-1">
+                                  Token de Autenticación
+                                </label>
+                                <div className="relative flex items-center">
+                                  <input
+                                    type={isRevealed ? 'text' : 'password'}
+                                    value={card.value}
+                                    onChange={(e) => {
+                                      const newVal = e.target.value;
+                                      setAccountSettings(prev => ({
+                                        ...prev,
+                                        apiKeys: {
+                                          ...prev.apiKeys,
+                                          [card.id]: newVal
+                                        }
+                                      }));
+                                    }}
+                                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg pl-3 pr-20 py-2 text-xs font-mono text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none transition-colors"
+                                  />
+                                  <div className="absolute right-1.5 flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => setRevealedKeys(prev => ({ ...prev, [card.id]: !prev[card.id] }))}
+                                      className="p-1 rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors cursor-pointer"
+                                      title={isRevealed ? 'Ocultar' : 'Mostrar'}
+                                    >
+                                      <EyeIcon className="w-3.5 h-3.5" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        navigator.clipboard.writeText(card.value);
+                                        showToast('Clave Copiada', `Token de ${card.name} copiado al portapapeles.`, 'success');
+                                      }}
+                                      className="p-1 rounded text-[var(--muted-foreground)] hover:text-[var(--primary)] transition-colors cursor-pointer"
+                                      title="Copiar Clave"
+                                    >
+                                      <LinkIcon className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="pt-2 border-t border-[var(--border)]/60 flex items-center justify-between gap-2">
+                              {ping ? (
+                                <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+                                  {ping.latency}ms • {ping.status}
+                                </span>
+                              ) : (
+                                <span className="text-[10px] font-mono text-[var(--muted-foreground)] flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                  Conectado • 200 OK
+                                </span>
+                              )}
+
+                              <button
+                                onClick={() => {
+                                  const latency = Math.floor(Math.random() * 25) + 14;
+                                  setPingStatus(prev => ({
+                                    ...prev,
+                                    [card.id]: { latency, status: '200 OK' }
+                                  }));
+                                  showToast('Ping Exitoso', `${card.name} respondió en ${latency}ms con código HTTP 200 OK.`, 'success');
+                                }}
+                                className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                              >
+                                Test Ping
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 2: GESTIÓN DNS & DOMINIOS CUSTOM */}
+                {settingsTab === 'dns' && (
+                  <div className="space-y-6">
+                    <div className="p-6 rounded-2xl bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border border-zinc-800 space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="space-y-1">
+                          <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                            <GlobeAltIcon className="w-4 h-4 text-cyan-400" />
+                            Servidores de Nombres Anycast Oficiales (DNS Master Cluster)
+                          </h3>
+                          <p className="text-xs text-zinc-400">
+                            Apunta los dominios de tus clientes a estos nameservers para habilitar enrutamiento automático de satélites, balanceo multi-edge e inyección instantánea de registros SSL.
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            onClick={() => {
+                              setDnsTesting(true);
+                              setTimeout(() => {
+                                setDnsTesting(false);
+                                showToast(
+                                  'Propagación Verificada al 100%',
+                                  'Los 84 PoPs globales (Frankfurt, Ashburn, Tokyo, São Paulo, Dallas) resolvieron con 0% de pérdida de paquetes y latencia < 18ms.',
+                                  'success'
+                                );
+                              }, 1200);
+                            }}
+                            disabled={dnsTesting}
+                            className="px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+                          >
+                            <ArrowPathIcon className={`w-3.5 h-3.5 ${dnsTesting ? 'animate-spin' : ''}`} />
+                            <span>{dnsTesting ? 'Validando 84 PoPs...' : 'Validar Propagación Global'}</span>
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              showPrompt(
+                                'Añadir Nuevo Registro DNS',
+                                'Introduce el formato TIPO HOST VALOR (ej: CNAME blog cname.vercel-dns.com):',
+                                'CNAME blog.buildations.studio cname.vercel-dns.com',
+                                'CNAME blog cname.vercel-dns.com',
+                                (rawInput) => {
+                                  const parts = rawInput.trim().split(/\s+/);
+                                  const type = parts[0]?.toUpperCase() || 'A';
+                                  const host = parts[1] || 'nuevo-subdominio';
+                                  const value = parts[2] || '76.76.21.21';
+
+                                  const newRec = {
+                                    id: `dns-${Date.now()}`,
+                                    type,
+                                    host,
+                                    value,
+                                    target: 'Enrutador Edge Personalizado',
+                                    status: 'Validado',
+                                    ttl: '60s'
+                                  };
+
+                                  setAccountSettings(prev => ({
+                                    ...prev,
+                                    dnsRecords: [...prev.dnsRecords, newRec]
+                                  }));
+                                  showToast('Registro DNS Creado', `Se configuró el registro ${type} para ${host} → ${value}`, 'success');
+                                }
+                              );
+                            }}
+                            className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                          >
+                            <PlusIcon className="w-3.5 h-3.5" />
+                            <span>+ Nuevo Registro DNS</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+                        {[
+                          { label: 'Primary NS (Tier-1)', val: 'ns1.buildations-dns.com' },
+                          { label: 'Secondary NS (Tier-1)', val: 'ns2.buildations-dns.com' },
+                          { label: 'Anycast Root IP', val: '76.76.21.21 (Vercel Global)' },
+                          { label: 'Dedicated Cluster IP', val: '138.201.192.44 (Hetzner Bare-Metal)' }
+                        ].map((ns, idx) => (
+                          <div key={idx} className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-xs space-y-1">
+                            <span className="text-[10px] font-mono text-zinc-400 block uppercase font-bold">{ns.label}</span>
+                            <span className="font-mono text-white font-bold block truncate">{ns.val}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tabla de Registros DNS */}
+                    <div className="rounded-2xl bg-[var(--card)] border border-[var(--border)] overflow-hidden shadow-sm">
+                      <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between bg-[var(--background)]">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
+                          Zona DNS Activa: buildations.studio ({accountSettings.dnsRecords.length} Registros)
+                        </span>
+                        <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                          DNSSEC ACTIVO &amp; FIRMADO
+                        </span>
+                      </div>
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                          <thead className="bg-[var(--muted)] text-[var(--muted-foreground)] font-mono text-[10px] uppercase">
+                            <tr>
+                              <th className="px-6 py-3">Tipo</th>
+                              <th className="px-6 py-3">Host / Subdominio</th>
+                              <th className="px-6 py-3">Valor / Destino</th>
+                              <th className="px-6 py-3">Propósito &amp; Destino</th>
+                              <th className="px-6 py-3">TTL</th>
+                              <th className="px-6 py-3">Estado</th>
+                              <th className="px-6 py-3 text-right">Acción</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[var(--border)] font-mono">
+                            {accountSettings.dnsRecords.map((dns) => (
+                              <tr key={dns.id} className="hover:bg-[var(--muted)]/50 transition-colors">
+                                <td className="px-6 py-3.5">
+                                  <span
+                                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                      dns.type === 'A'
+                                        ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                        : dns.type === 'CNAME'
+                                        ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30'
+                                        : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                    }`}
+                                  >
+                                    {dns.type}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-3.5 font-bold text-[var(--foreground)]">{dns.host}</td>
+                                <td className="px-6 py-3.5 text-zinc-400 truncate max-w-xs">{dns.value}</td>
+                                <td className="px-6 py-3.5 text-[var(--foreground)] font-sans">{dns.target}</td>
+                                <td className="px-6 py-3.5 text-[var(--muted-foreground)]">{dns.ttl}</td>
+                                <td className="px-6 py-3.5">
+                                  <span
+                                    className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold ${
+                                      dns.status === 'Validado'
+                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse'
+                                    }`}
+                                  >
+                                    <span
+                                      className={`w-1.5 h-1.5 rounded-full ${
+                                        dns.status === 'Validado' ? 'bg-emerald-400' : 'bg-amber-400'
+                                      }`}
+                                    />
+                                    {dns.status}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-3.5 text-right font-sans">
+                                  <button
+                                    onClick={() => {
+                                      setAccountSettings(prev => ({
+                                        ...prev,
+                                        dnsRecords: prev.dnsRecords.filter(r => r.id !== dns.id)
+                                      }));
+                                      showToast('Registro Eliminado', `Se removió el registro ${dns.type} (${dns.host})`, 'info');
+                                    }}
+                                    className="text-[var(--muted-foreground)] hover:text-red-400 transition-colors p-1"
+                                    title="Eliminar Registro"
+                                  >
+                                    <TrashIcon className="w-4 h-4" />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* SSL / TLS Status Card */}
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex flex-col md:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                          <ShieldCheckIcon className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-xs text-[var(--foreground)]">Certificado SSL/TLS Automático (Let's Encrypt Wildcard)</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">
+                            Válido para <code>*.buildations.studio</code> y <code>buildations.studio</code>. Renovación automática en 78 días con TLS 1.3 forzado y HSTS precargado.
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                        A+ QUALYS SSL RATING
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 3: WEBHOOKS & EVENTOS DE DESPACHO */}
+                {settingsTab === 'webhooks' && (
+                  <div className="space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <div>
+                        <h3 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                          <BoltIcon className="w-4 h-4 text-amber-500" />
+                          Webhooks de Despacho &amp; Event-Driven Architecture
+                        </h3>
+                        <p className="text-xs text-[var(--muted-foreground)]">
+                          Emite notificaciones en tiempo real a endpoints externos ante publicación de artículos, picos de citabilidad AEO o regeneración de sitemaps.
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          showPrompt(
+                            'Registrar Nuevo Endpoint de Webhook',
+                            'Introduce la URL completa del endpoint HTTPS que recibirá los eventos:',
+                            'https://mi-servidor.com/api/webhooks/editorial',
+                            'https://mi-servidor.com/api/webhooks/editorial',
+                            (newUrl) => {
+                              const newWh = {
+                                id: `wh-${Date.now()}`,
+                                name: 'Custom Integration Dispatcher',
+                                endpoint: newUrl,
+                                events: ['article.published', 'sitemap.regenerated'],
+                                status: 'Activo',
+                                lastTrigger: 'Sin disparar aún'
+                              };
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                webhooks: [...prev.webhooks, newWh]
+                              }));
+                              showToast('Webhook Registrado', `Nuevo endpoint configurado para eventos de despacho: ${newUrl}`, 'success');
+                            }
+                          );
+                        }}
+                        className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer shrink-0"
+                      >
+                        <PlusIcon className="w-3.5 h-3.5" />
+                        <span>+ Registrar Webhook</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      {accountSettings.webhooks.map((wh) => (
+                        <div
+                          key={wh.id}
+                          className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)]/30 transition-all space-y-4 shadow-sm"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center text-amber-500">
+                                <BoltIcon className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <h4 className="font-bold text-xs text-[var(--foreground)]">{wh.name}</h4>
+                                <p className="text-[11px] font-mono text-[var(--muted-foreground)] truncate max-w-md">{wh.endpoint}</p>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                                {wh.lastTrigger}
+                              </span>
+
+                              <button
+                                onClick={() => {
+                                  const latency = Math.floor(Math.random() * 20) + 22;
+                                  showToast('Test Webhook Despachado', `Se envió payload JSON a ${wh.endpoint}. Código 200 OK (${latency}ms).`, 'success');
+                                }}
+                                className="px-3 py-1.5 rounded-lg bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-xs font-bold text-[var(--foreground)] transition-colors cursor-pointer flex items-center gap-1"
+                              >
+                                <PlayIcon className="w-3 h-3 text-[var(--primary)]" />
+                                <span>Enviar Test Ping</span>
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  setAccountSettings(prev => ({
+                                    ...prev,
+                                    webhooks: prev.webhooks.filter(w => w.id !== wh.id)
+                                  }));
+                                  showToast('Webhook Removido', `Endpoint ${wh.name} desactivado.`, 'info');
+                                }}
+                                className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-red-400 transition-colors cursor-pointer"
+                                title="Eliminar Webhook"
+                              >
+                                <TrashIcon className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="pt-2 border-t border-[var(--border)]/60 flex flex-wrap items-center justify-between gap-2">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <span className="text-[10px] font-mono text-[var(--muted-foreground)] uppercase mr-1">Eventos:</span>
+                              {wh.events.map((ev, i) => (
+                                <span key={i} className="px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)] text-[10px] font-mono border border-[var(--border)]">
+                                  {ev}
+                                </span>
+                              ))}
+                            </div>
+
+                            <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                              Firma HMAC-SHA256: <strong className="text-zinc-300">whsec_98fa7sdf897asdf</strong>
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Live Dispatch Log Preview */}
+                    <div className="rounded-2xl bg-zinc-950 border border-zinc-800 p-5 space-y-3 font-mono text-xs">
+                      <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span className="text-zinc-400 font-bold uppercase text-[10px] flex items-center gap-2">
+                          <CommandLineIcon className="w-4 h-4 text-emerald-400" /> Registro de Entregas Recientes (Live Dispatch Log)
+                        </span>
+                        <span className="text-[10px] text-emerald-400 font-bold">100% SUCCESS RATE (200 OK)</span>
+                      </div>
+                      <div className="space-y-2 text-[11px] text-zinc-300">
+                        <div className="flex items-center justify-between">
+                          <span className="text-zinc-500">[12:45:10 UTC] POST https://api.hubspot.com/automation/v3/...</span>
+                          <span className="text-emerald-400 font-bold">200 OK (24ms)</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-zinc-500">[12:12:04 UTC] POST https://buildations.studio/api/revalidate...</span>
+                          <span className="text-emerald-400 font-bold">200 OK (38ms)</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-zinc-500">[10:04:19 UTC] POST https://hooks.slack.com/services/...</span>
+                          <span className="text-emerald-400 font-bold">200 OK (52ms)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 4: INFRAESTRUCTURA & REGIONES CLOUD */}
+                {settingsTab === 'general' && (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="w-10 h-10 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-2">
+                            <VercelLogo className="w-6 h-6 text-white" />
+                          </div>
+                          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
+                            EDGE ANYCAST
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <h4 className="font-bold text-sm text-[var(--foreground)]">Vercel Enterprise Edge</h4>
+                          <p className="text-xs text-[var(--muted-foreground)]">Capa de distribución global, renderizado Serverless y purga On-Demand ISR.</p>
+                        </div>
+                        <div className="pt-2 border-t border-[var(--border)] text-xs space-y-1.5 font-mono">
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Región Primaria:</span>
+                            <span className="text-[var(--foreground)] font-bold">iad1 (Washington, DC)</span>
+                          </div>
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">PoPs Activos:</span>
+                            <span className="text-[var(--foreground)] font-bold">84 Ciudades Globales</span>
+                          </div>
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Time-to-First-Byte:</span>
+                            <span className="text-emerald-400 font-bold">&lt; 14ms</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="w-10 h-10 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-2">
+                            <NeonLogo className="w-6 h-6 text-emerald-400" />
+                          </div>
+                          <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">
+                            SERVERLESS POSTGRES
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <h4 className="font-bold text-sm text-[var(--foreground)]">Neon Dedicated Database</h4>
+                          <p className="text-xs text-[var(--muted-foreground)]">Motor de almacenamiento transaccional, pgvector y réplicas de lectura de escalado a cero.</p>
+                        </div>
+                        <div className="pt-2 border-t border-[var(--border)] text-xs space-y-1.5 font-mono">
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Compute Units:</span>
+                            <span className="text-[var(--foreground)] font-bold">0.25 - 8 CU Auto</span>
+                          </div>
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Branch Activa:</span>
+                            <span className="text-cyan-400 font-bold">main-production</span>
+                          </div>
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Conexiones Pool:</span>
+                            <span className="text-emerald-400 font-bold">Hasta 10,000 vía PgBouncer</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="w-10 h-10 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-2">
+                            <HetznerLogo className="w-6 h-6 text-red-500" />
+                          </div>
+                          <span className="text-[10px] font-mono text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 font-bold">
+                            BARE-METAL CLUSTER
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <h4 className="font-bold text-sm text-[var(--foreground)]">Hetzner AX101 Dedicated</h4>
+                          <p className="text-xs text-[var(--muted-foreground)]">Servidores dedicados con NVMe para ejecución de micro-workers pesados de crawling y análisis AEO.</p>
+                        </div>
+                        <div className="pt-2 border-t border-[var(--border)] text-xs space-y-1.5 font-mono">
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Datacenter:</span>
+                            <span className="text-[var(--foreground)] font-bold">FSN1-DC14 (Falkenstein)</span>
+                          </div>
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Hardware:</span>
+                            <span className="text-[var(--foreground)] font-bold">AMD EPYC 7702 • 128GB RAM</span>
+                          </div>
+                          <div className="flex justify-between text-[11px]">
+                            <span className="text-[var(--muted-foreground)]">Almacenamiento:</span>
+                            <span className="text-emerald-400 font-bold">2x 1.92TB NVMe PCIe 4.0</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Resumen de Cuota y SLAs */}
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                      <h4 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                        <ChartBarIcon className="w-4 h-4 text-[var(--primary)]" />
+                        Cuota de Cómputo de la Organización (Ciclo Mensual)
+                      </h4>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between text-xs">
+                            <span className="text-[var(--muted-foreground)]">Tokens de IA Consumidos:</span>
+                            <span className="font-bold font-mono text-[var(--foreground)]">14.8M / 50M (29.6%)</span>
+                          </div>
+                          <div className="w-full bg-[var(--muted)] rounded-full h-2 overflow-hidden">
+                            <div className="bg-[var(--primary)] h-full rounded-full" style={{ width: '29.6%' }} />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between text-xs">
+                            <span className="text-[var(--muted-foreground)]">Consultas Vectoriales RAG:</span>
+                            <span className="font-bold font-mono text-[var(--foreground)]">420K / 2M (21.0%)</span>
+                          </div>
+                          <div className="w-full bg-[var(--muted)] rounded-full h-2 overflow-hidden">
+                            <div className="bg-cyan-500 h-full rounded-full" style={{ width: '21%' }} />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between text-xs">
+                            <span className="text-[var(--muted-foreground)]">Ancho de Banda Edge:</span>
+                            <span className="font-bold font-mono text-[var(--foreground)]">1.2 TB / 10 TB (12.0%)</span>
+                          </div>
+                          <div className="w-full bg-[var(--muted)] rounded-full h-2 overflow-hidden">
+                            <div className="bg-emerald-500 h-full rounded-full" style={{ width: '12%' }} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 5: GOBERNANZA, EQUIPO & ROLES */}
+                {settingsTab === 'team' && (
+                  <div className="space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <div>
+                        <h3 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                          <UsersIcon className="w-4 h-4 text-[var(--primary)]" />
+                          Gobernanza de Equipo &amp; Control de Accesos RBAC
+                        </h3>
+                        <p className="text-xs text-[var(--muted-foreground)]">
+                          Administra los integrantes autorizados para orquestar motores, alterar registros de DNS y consultar o rotar las llaves de la bóveda.
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          showPrompt(
+                            'Invitar Miembro a la Organización',
+                            'Introduce el correo electrónico corporativo del nuevo usuario:',
+                            'colaborador@buildations.studio',
+                            'colaborador@buildations.studio',
+                            (email) => {
+                              const newMember = {
+                                id: `usr-${Date.now()}`,
+                                name: email.split('@')[0],
+                                email,
+                                role: 'Editor / RevOps Specialist',
+                                status: 'Invitación Enviada',
+                                twoFactor: false,
+                                lastLogin: 'Pendiente'
+                              };
+                              setTeamMembers(prev => [...prev, newMember]);
+                              showToast('Invitación Despachada', `Se envió enlace de acceso seguro a ${email}.`, 'success');
+                            }
+                          );
+                        }}
+                        className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer shrink-0"
+                      >
+                        <PlusIcon className="w-3.5 h-3.5" />
+                        <span>+ Invitar Nuevo Miembro</span>
+                      </button>
+                    </div>
+
+                    <div className="rounded-2xl bg-[var(--card)] border border-[var(--border)] overflow-hidden shadow-sm">
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                          <thead className="bg-[var(--muted)] text-[var(--muted-foreground)] font-mono text-[10px] uppercase">
+                            <tr>
+                              <th className="px-6 py-3">Usuario</th>
+                              <th className="px-6 py-3">Rol &amp; Permisos</th>
+                              <th className="px-6 py-3">Autenticación 2FA</th>
+                              <th className="px-6 py-3">Último Acceso</th>
+                              <th className="px-6 py-3">Estado</th>
+                              <th className="px-6 py-3 text-right">Acción</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[var(--border)]">
+                            {teamMembers.map((member) => (
+                              <tr key={member.id} className="hover:bg-[var(--muted)]/50 transition-colors">
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-[var(--primary)]/15 border border-[var(--primary)]/30 text-[var(--primary)] flex items-center justify-center font-bold text-xs uppercase">
+                                      {member.name.slice(0, 2)}
+                                    </div>
+                                    <div>
+                                      <span className="font-bold text-[var(--foreground)] block leading-tight">{member.name}</span>
+                                      <span className="text-[11px] text-[var(--muted-foreground)] font-mono block">{member.email}</span>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 font-semibold text-[var(--foreground)]">
+                                  <span className="px-2.5 py-1 rounded-md bg-[var(--muted)] text-[11px] border border-[var(--border)]">
+                                    {member.role}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4">
+                                  {member.twoFactor ? (
+                                    <span className="text-emerald-400 font-mono text-[11px] font-bold flex items-center gap-1">
+                                      <ShieldCheckIcon className="w-3.5 h-3.5" /> FIDO2 / YubiKey OK
+                                    </span>
+                                  ) : (
+                                    <span className="text-zinc-500 font-mono text-[11px]">N/A</span>
+                                  )}
+                                </td>
+                                <td className="px-6 py-4 text-[var(--muted-foreground)] font-mono text-[11px]">{member.lastLogin}</td>
+                                <td className="px-6 py-4">
+                                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                    {member.status}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 text-right">
+                                  {member.id !== 'usr-1' && (
+                                    <button
+                                      onClick={() => {
+                                        setTeamMembers(prev => prev.filter(m => m.id !== member.id));
+                                        showToast('Miembro Removido', `El acceso para ${member.name} fue revocado.`, 'info');
+                                      }}
+                                      className="text-[var(--muted-foreground)] hover:text-red-400 transition-colors p-1"
+                                      title="Revocar Acceso"
+                                    >
+                                      <TrashIcon className="w-4 h-4" />
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* Audit Security Log */}
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-3">
+                      <h4 className="font-bold text-xs text-[var(--foreground)] uppercase tracking-wider">
+                        Registro de Auditoría Reciente (Security Log)
+                      </h4>
+                      <div className="space-y-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] flex justify-between items-center text-[11px]">
+                          <span className="text-[var(--foreground)]">
+                            <strong>Román García</strong> actualizó registro DNS <code>CNAME cname.buildations.studio</code>
+                          </span>
+                          <span className="text-[var(--muted-foreground)] font-mono">13:14:02 (IP 187.190.22.10)</span>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] flex justify-between items-center text-[11px]">
+                          <span className="text-[var(--foreground)]">
+                            <strong>Carlos Mendoza</strong> verificó conectividad con cluster Hetzner Bare-Metal
+                          </span>
+                          <span className="text-[var(--muted-foreground)] font-mono">11:05:22 (IP 142.250.180.14)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
         </div>
       </main>
@@ -6947,6 +8005,7 @@ export default function DashboardMockup() {
                 { name: "Explorar Topic Clusters & Silos", tab: "clusterMap", icon: "🕸️", desc: "Diseña la arquitectura semántica del sitio" },
                 { name: "Inspeccionar SERP & AEO X-Ray", tab: "serpxray", icon: "⚡", desc: "Analiza el Top 10 de Google con Llama 3.1" },
                 { name: "Manual de Uso, Homologación & FAQs", tab: "documentation", icon: "📖", desc: "Guía técnica oficial, matriz de arquitectura y resolución de dudas" },
+                { name: "Configuración de Cuenta & Enterprise Vault", tab: "settings", icon: "⚙️", desc: "Bóveda de API Keys, orquestación DNS, webhooks y credenciales" },
                 { name: "Alternar Modo Día / Modo Noche", action: "theme", icon: "🌓", desc: "Cambia el tema de color del estudio" },
               ]
                 .filter(item => !searchQuery || item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase()))
