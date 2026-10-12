@@ -1,15 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0a;
+:root, [data-theme="dark"] {
+  --background: #09090b;
   --foreground: #fafafa;
   --border: #27272a;
   --primary: #ff5a00;
   --primary-hover: #e04e00;
-  --card: #18181b;
-  --muted: #27272a;
+  --card: #141417;
+  --muted: #202024;
   --muted-foreground: #a1a1aa;
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --border: #e4e4e7;
+  --primary: #ff5a00;
+  --primary-hover: #e04e00;
+  --card: #f8fafc;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
 }
 
 body {
@@ -17,6 +28,7 @@ body {
   color: var(--foreground);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Scrollbar styling */
@@ -46,8 +58,20 @@ body {
 }
 
 .glass-card {
-  background: rgba(24, 24, 27, 0.6);
-  backdrop-filter: blur(12px);
+  background: rgba(20, 20, 23, 0.7);
+  backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: 12px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="light"] .glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 4px 10px -3px rgba(15, 23, 42, 0.03);
+}
+
+[data-theme="light"] .bg-black {
+  background-color: #0f172a !important;
 }
