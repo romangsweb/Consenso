@@ -471,6 +471,61 @@ export default function DashboardMockup() {
 
   // Estados para Constructor Gráfico de Motores (Engine Studio Wizard & Topology Architecture)
   const [engineWizardStep, setEngineWizardStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [activeEngines, setActiveEngines] = useState([
+    {
+      id: 'eng-01',
+      name: 'Motor RevOps & AEO Latam (SaaS Principal)',
+      targetDomain: 'https://buildations.studio',
+      purpose: 'Posicionamiento y Citabilidad en LLMs (Perplexity, ChatGPT, Claude)',
+      type: 'AEO / Citabilidad B2B',
+      llmCore: 'Claude 3.5 Sonnet',
+      vectorStore: 'Supabase pgvector',
+      status: 'active' as 'active' | 'paused' | 'standby',
+      health: 99.4,
+      publishedWeekly: 6,
+      tokensSpent: '142.8k',
+      latency: '1.42s',
+      powerRate: 98,
+      lastRun: 'Hace 4 min',
+      frequency: '3_per_week'
+    },
+    {
+      id: 'eng-02',
+      name: 'Motor Generador de Landing Pages & Silos',
+      targetDomain: 'https://soyroman.com',
+      purpose: 'Construcción y actualización dinámica de páginas de aterrizaje programáticas',
+      type: 'Generador de Web Pages',
+      llmCore: 'GPT-4o Enterprise',
+      vectorStore: 'Pinecone Vector DB',
+      status: 'active' as 'active' | 'paused' | 'standby',
+      health: 97.8,
+      publishedWeekly: 14,
+      tokensSpent: '380.2k',
+      latency: '1.85s',
+      powerRate: 92,
+      lastRun: 'Hace 18 min',
+      frequency: 'daily'
+    },
+    {
+      id: 'eng-03',
+      name: 'Motor Noticias & Decaimiento GSC (Breaking News)',
+      targetDomain: 'https://consenso.io',
+      purpose: 'Detección de canibalizaciones y reescritura de noticias en tiempo real',
+      type: 'Newsfeed & GSC Decay',
+      llmCore: 'DeepSeek-V3',
+      vectorStore: 'Qdrant Distributed',
+      status: 'standby' as 'active' | 'paused' | 'standby',
+      health: 94.2,
+      publishedWeekly: 28,
+      tokensSpent: '89.4k',
+      latency: '0.98s',
+      powerRate: 88,
+      lastRun: 'Hace 1 hora',
+      frequency: 'hourly_breaking'
+    }
+  ]);
+  const [selectedEngineId, setSelectedEngineId] = useState('eng-01');
+
   const [engineConfig, setEngineConfig] = useState({
     name: 'Motor Autónomo RevOps & AEO Latam',
     targetDomain: 'https://buildations.studio',
@@ -641,13 +696,21 @@ export default function DashboardMockup() {
 
           {/* Section 2 */}
           <div>
-            <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Motores & Lanzadores</p>
+            <div className="px-4 flex items-center justify-between mb-2">
+              <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider">Motores & Lanzadores</p>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                {activeEngines.filter(e => e.status === 'active').length} ON
+              </span>
+            </div>
             <div className="space-y-1">
               <button 
                 onClick={() => setActiveTab('engineBuilder')}
-                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'engineBuilder' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'engineBuilder' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
               >
-                <CpuChipIcon className="w-5 h-5 mr-3 text-amber-400" /> Constructor Gráfico de Motores
+                <div className="flex items-center">
+                  <CpuChipIcon className="w-5 h-5 mr-3 text-amber-400" /> Constructor de Motores
+                </div>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] animate-pulse"></span>
               </button>
               <button 
                 onClick={() => setActiveTab('engineLauncher')}
@@ -1330,8 +1393,50 @@ export default function DashboardMockup() {
                         setTimeout(() => {
                           setIsCompilingEngine(false);
                           setEngineCompileSuccess(true);
-                          setTimeout(() => setEngineCompileSuccess(false), 4000);
-                        }, 1200);
+                          
+                          // Registrar o actualizar en la flota de motores activos
+                          setActiveEngines(prev => {
+                            const exists = prev.find(e => e.name.toLowerCase() === engineConfig.name.toLowerCase());
+                            if (exists) {
+                              return prev.map(e => e.id === exists.id ? {
+                                ...e,
+                                targetDomain: engineConfig.targetDomain,
+                                llmCore: engineConfig.llmCore,
+                                vectorStore: engineConfig.vectorStore,
+                                status: 'active',
+                                powerRate: Math.min(100, Math.floor(engineConfig.factCheckingStrictness * 0.5 + engineConfig.aeoDensityScore * 0.5)),
+                                frequency: engineConfig.frequency,
+                                lastRun: 'Justo ahora'
+                              } : e);
+                            } else {
+                              const newEng = {
+                                id: `eng-0${prev.length + 1}`,
+                                name: engineConfig.name,
+                                targetDomain: engineConfig.targetDomain,
+                                purpose: `Optimización continua para ${engineConfig.industry}`,
+                                type: engineConfig.publishMode === 'autonomous' ? 'Autopiloto 100%' : 'Híbrido CMS',
+                                llmCore: engineConfig.llmCore,
+                                vectorStore: engineConfig.vectorStore,
+                                status: 'active' as const,
+                                health: 99.1,
+                                publishedWeekly: engineConfig.frequency === 'daily' ? 7 : engineConfig.frequency === 'hourly_breaking' ? 42 : 3,
+                                tokensSpent: '12.4k',
+                                latency: '1.65s',
+                                powerRate: Math.floor(engineConfig.factCheckingStrictness * 0.5 + engineConfig.aeoDensityScore * 0.5),
+                                lastRun: 'Justo ahora',
+                                frequency: engineConfig.frequency
+                              };
+                              return [newEng, ...prev];
+                            }
+                          });
+
+                          showToast(
+                            'Motor Compilado & Desplegado', 
+                            `"${engineConfig.name}" está activo en el clúster con 64-bit Core y telemetría en tiempo real.`, 
+                            'success'
+                          );
+                          setTimeout(() => setEngineCompileSuccess(false), 5000);
+                        }, 1400);
                       }}
                       disabled={isCompilingEngine}
                       className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-2 disabled:opacity-50"
@@ -1342,18 +1447,180 @@ export default function DashboardMockup() {
                   </div>
                 </div>
 
-                {/* Banner de Éxito al Compilar */}
+                {/* Banner de Éxito al Compilar con Telemetría 64-bit */}
                 {engineCompileSuccess && (
-                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-between animate-fade-in">
+                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-between animate-fade-in shadow-[0_0_20px_rgba(16,185,129,0.15)]">
                     <div className="flex items-center gap-2.5">
-                      <CheckCircleIcon className="w-5 h-5 text-emerald-400 shrink-0" />
-                      <span>¡Arquitectura de Motor compilada y registrada en el clúster de workers! La topología gráfica inferior está sincronizada y lista para ejecución.</span>
+                      <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                        <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div>
+                        <span className="block font-bold">¡Arquitectura de Motor Compilada y Sincronizada con éxito!</span>
+                        <span className="text-[11px] text-emerald-300/80 font-normal">
+                          Registrado en el clúster de motores en ejecución. Operando en {engineConfig.targetDomain} vía {engineConfig.llmCore} + {engineConfig.vectorStore}.
+                        </span>
+                      </div>
                     </div>
-                    <span className="font-mono text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded">WORKER-ID: ENG-9921</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[10px] bg-emerald-500/20 border border-emerald-500/30 px-2.5 py-1 rounded-md text-emerald-300 font-bold">
+                        WORKER-ID: ENG-64B-{Math.floor(1000 + Math.random() * 9000)}
+                      </span>
+                    </div>
                   </div>
                 )}
 
-                {/* Stepper de Navegación del Formulario */}
+                {/* FLOTA DE MOTORES ACTIVOS // MULTI-ENGINE FLEET & CLUSTER TELEMETRY (64-BIT HUD) */}
+                <div className="glass-card p-5 rounded-2xl border border-[var(--border)] relative overflow-hidden bg-gradient-to-b from-black/60 to-[var(--card)]/40 shadow-xl">
+                  {/* Fondo animado estilo osciloscopio industrial */}
+                  <div className="absolute top-0 right-0 w-96 h-full pointer-events-none opacity-20 overflow-hidden">
+                    <div className="flex items-end justify-end h-full gap-1 pr-6 pb-4">
+                      {[40, 65, 30, 85, 50, 95, 70, 45, 80, 60, 90, 75, 40, 85, 95, 60].map((h, i) => (
+                        <div 
+                          key={i} 
+                          style={{ height: `${h}%` }} 
+                          className={`w-1 rounded-full bg-[var(--primary)] ${
+                            i % 4 === 0 ? 'animate-oscilloscope-1' : i % 4 === 1 ? 'animate-oscilloscope-2' : i % 4 === 2 ? 'animate-oscilloscope-3' : 'animate-oscilloscope-4'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-4 relative z-10 border-b border-[var(--border)]/70 pb-3.5">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.8)] animate-pulse"></span>
+                        <span className="text-[10px] font-mono tracking-widest uppercase text-[var(--primary)] font-bold">
+                          CLÚSTER DE MOTORES EN EJECUCIÓN // MULTI-SITE RUNTIME
+                        </span>
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">
+                          {activeEngines.filter(e => e.status === 'active').length} ACTIVOS ONLINE
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-[var(--foreground)] mt-0.5">
+                        Flota de Motores Autónomos Multidominio & Rendimiento
+                      </h3>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono text-[var(--muted-foreground)]">
+                        Modo Arquitectura: <strong className="text-[var(--foreground)]">64-bit Vector Core</strong>
+                      </span>
+                      <button 
+                        onClick={() => {
+                          const newName = `Motor #${activeEngines.length + 1} - ${prompt('Nombre del nuevo motor:', 'Motor Landing Pages E-Commerce') || 'Motor Personalizado'}`;
+                          const newEngine = {
+                            id: `eng-0${activeEngines.length + 1}`,
+                            name: newName,
+                            targetDomain: 'https://nuevo-sitio.com',
+                            purpose: 'Generación y optimización de contenido autónomo',
+                            type: 'Personalizado',
+                            llmCore: 'Claude 3.5 Sonnet' as const,
+                            vectorStore: 'Supabase pgvector' as const,
+                            status: 'active' as const,
+                            health: 99.0,
+                            publishedWeekly: 4,
+                            tokensSpent: '0k',
+                            latency: '1.50s',
+                            powerRate: 95,
+                            lastRun: 'Nuevo',
+                            frequency: '3_per_week'
+                          };
+                          setActiveEngines(prev => [newEngine, ...prev]);
+                          setSelectedEngineId(newEngine.id);
+                          setEngineConfig(prev => ({ ...prev, name: newName, targetDomain: 'https://nuevo-sitio.com' }));
+                          showToast('Nuevo Motor Creado', `Se ha inicializado "${newName}" en el clúster.`, 'success');
+                        }}
+                        className="bg-[var(--primary)] text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+                      >
+                        <span>+</span> Crear Otro Motor
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Tarjetas de Motores Activos */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 relative z-10">
+                    {activeEngines.map((eng) => {
+                      const isSelected = selectedEngineId === eng.id;
+                      return (
+                        <div 
+                          key={eng.id}
+                          onClick={() => {
+                            setSelectedEngineId(eng.id);
+                            setEngineConfig(prev => ({
+                              ...prev,
+                              name: eng.name,
+                              targetDomain: eng.targetDomain,
+                              llmCore: eng.llmCore as any,
+                              vectorStore: eng.vectorStore as any,
+                              frequency: eng.frequency as any
+                            }));
+                            showToast('Motor Seleccionado', `Ahora calibrando "${eng.name}" (${eng.targetDomain}).`, 'info');
+                          }}
+                          className={`p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden group ${
+                            isSelected 
+                              ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.22)]' 
+                              : 'bg-black/30 border-[var(--border)] hover:border-[var(--border)]/90 hover:bg-[var(--card)]/50'
+                          }`}
+                        >
+                          {/* Laser sweep on active */}
+                          {isSelected && (
+                            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent"></div>
+                          )}
+
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2 h-2 rounded-full ${
+                                eng.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)] animate-pulse' : 'bg-amber-400'
+                              }`} />
+                              <span className="text-[10px] font-mono uppercase font-bold text-[var(--muted-foreground)]">
+                                {eng.id} // {eng.type}
+                              </span>
+                            </div>
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)] font-bold">
+                              {eng.status === 'active' ? 'EN LÍNEA' : 'STANDBY'}
+                            </span>
+                          </div>
+
+                          <h4 className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors leading-tight mb-1">
+                            {eng.name}
+                          </h4>
+                          
+                          <p className="text-[10px] font-mono text-[var(--primary)] truncate mb-2">
+                            {eng.targetDomain}
+                          </p>
+                          
+                          <p className="text-[11px] text-[var(--muted-foreground)] line-clamp-2 leading-relaxed mb-3">
+                            {eng.purpose}
+                          </p>
+
+                          {/* Medidores 64-bit y Rendimiento */}
+                          <div className="grid grid-cols-3 gap-2 pt-2.5 border-t border-[var(--border)]/60 text-center">
+                            <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
+                              <span className="text-[9px] font-mono text-slate-400 block">Salud Core</span>
+                              <span className="text-xs font-mono font-bold text-emerald-400">{eng.health}%</span>
+                            </div>
+                            <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
+                              <span className="text-[9px] font-mono text-slate-400 block">Posts / Sem</span>
+                              <span className="text-xs font-mono font-bold text-white">{eng.publishedWeekly}</span>
+                            </div>
+                            <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
+                              <span className="text-[9px] font-mono text-slate-400 block">Latencia</span>
+                              <span className="text-xs font-mono font-bold text-cyan-400">{eng.latency}</span>
+                            </div>
+                          </div>
+
+                          <div className="mt-2.5 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                            <span className="flex items-center gap-1">
+                              Potencia: <strong className="text-amber-400">{eng.powerRate}%</strong>
+                            </span>
+                            <span>Último: {eng.lastRun}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
                 <div className="glass-card p-3 rounded-2xl border border-[var(--border)]">
                   <div className="grid grid-cols-5 gap-2">
                     {[
@@ -2048,49 +2315,96 @@ export default function DashboardMockup() {
                     </div>
                   </div>
 
-                  {/* LIENZO DE TOPOLOGÍA INDUSTRIAL CON FLUJOS ANIMADOS SVG */}
-                  <div className="relative rounded-2xl p-6 bg-black/80 border border-white/10 overflow-x-auto min-h-[440px]">
-                    {/* Rejilla de Fondo */}
-                    <div className="absolute inset-0 bg-[radial-gradient(#ff5a00_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
+                  {/* LIENZO DE TOPOLOGÍA INDUSTRIAL CON FLUJOS ANIMADOS SVG Y TELEMETRÍA 64-BIT */}
+                  <div className="relative rounded-2xl p-6 bg-black/90 border border-white/10 overflow-x-auto min-h-[460px] shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]">
+                    {/* Rejilla de Fondo Industrial y Partículas */}
+                    <div className="absolute inset-0 bg-data-stream opacity-15 pointer-events-none"></div>
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent opacity-80 animate-laser-sweep pointer-events-none"></div>
 
-                    {/* SVG Connector Cables */}
+                    {/* Industrial HUD Telemetry Bar (64-bit Core Status) */}
+                    <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 px-4 py-2 mb-4 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                          <span className="font-mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
+                            64-BIT ENGINE CORE: ONLINE
+                          </span>
+                        </div>
+                        <span className="text-slate-600 font-mono text-xs">|</span>
+                        <div className="flex items-center gap-2 font-mono text-[10px] text-slate-300">
+                          <span>INSTRUCCIÓN:</span>
+                          <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[var(--primary)] font-bold">
+                            AVX-512 / TENSOR-FLOW
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4 font-mono text-[10px]">
+                        <div className="flex items-center gap-1.5 text-zinc-400">
+                          <span>THROUGHPUT:</span>
+                          <span className="text-white font-bold">3,840 tok/s</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-zinc-400">
+                          <span>TURBINA AI:</span>
+                          <span className="flex items-center gap-1 text-amber-400 font-bold">
+                            <svg className="w-3.5 h-3.5 animate-turbine-fast" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v4H7v2h4v4h2v-4h4v-2h-4z" />
+                            </svg>
+                            OPERACIONAL (100%)
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-zinc-400">
+                          <span>JITTER:</span>
+                          <span className="text-cyan-400 font-bold">&lt; 12ms</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* SVG Connector Cables Con Paquetes de Datos Animados */}
                     <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minWidth: '1050px' }}>
                       {/* Línea Capa 1 -> Capa 2 */}
                       <path 
-                        d="M 210 200 C 240 200, 250 200, 280 200" 
+                        d="M 210 230 C 240 230, 250 230, 280 230" 
                         stroke="#ff5a00" 
-                        strokeWidth="2" 
+                        strokeWidth="2.5" 
                         fill="none" 
                         strokeDasharray="6,4"
                         className="animate-flow-cable"
                       />
+                      <circle cx="245" cy="230" r="3" fill="#ff5a00" className="animate-ping" />
+
                       {/* Línea Capa 2 -> Capa 3 */}
                       <path 
-                        d="M 480 200 C 510 200, 520 200, 550 200" 
+                        d="M 480 230 C 510 230, 520 230, 550 230" 
                         stroke="#f59e0b" 
-                        strokeWidth="2" 
+                        strokeWidth="2.5" 
                         fill="none" 
                         strokeDasharray="6,4"
                         className="animate-flow-cable"
                       />
+                      <circle cx="515" cy="230" r="3" fill="#f59e0b" className="animate-ping" />
+
                       {/* Línea Capa 3 -> Capa 4 */}
                       <path 
-                        d="M 750 200 C 780 200, 790 200, 820 200" 
+                        d="M 750 230 C 780 230, 790 230, 820 230" 
                         stroke="#10b981" 
-                        strokeWidth="2" 
+                        strokeWidth="2.5" 
                         fill="none" 
                         strokeDasharray="6,4"
                         className="animate-flow-cable"
                       />
+                      <circle cx="785" cy="230" r="3" fill="#10b981" className="animate-ping" />
+
                       {/* Línea Capa 4 -> Capa 5 */}
                       <path 
-                        d="M 1020 200 C 1050 200, 1060 200, 1090 200" 
+                        d="M 1020 230 C 1050 230, 1060 230, 1090 230" 
                         stroke="#38bdf8" 
-                        strokeWidth="2" 
+                        strokeWidth="2.5" 
                         fill="none" 
                         strokeDasharray="6,4"
                         className="animate-flow-cable"
                       />
+                      <circle cx="1055" cy="230" r="3" fill="#38bdf8" className="animate-ping" />
                     </svg>
 
                     {/* 5 Columnas de Nodos de la Arquitectura */}

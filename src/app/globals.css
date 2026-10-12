@@ -237,3 +237,66 @@ body {
   animation: toastProgress 4.5s linear forwards;
 }
 
+/* 64-BIT / INDUSTRIAL POWER ENGINE ANIMATIONS */
+@keyframes oscilloscopeWave {
+  0% { transform: scaleY(0.4) translateY(0); }
+  25% { transform: scaleY(1.3) translateY(-2px); }
+  50% { transform: scaleY(0.6) translateY(2px); }
+  75% { transform: scaleY(1.1) translateY(-1px); }
+  100% { transform: scaleY(0.4) translateY(0); }
+}
+
+.animate-oscilloscope-1 { animation: oscilloscopeWave 0.8s ease-in-out infinite; }
+.animate-oscilloscope-2 { animation: oscilloscopeWave 1.1s ease-in-out infinite 0.15s; }
+.animate-oscilloscope-3 { animation: oscilloscopeWave 0.65s ease-in-out infinite 0.3s; }
+.animate-oscilloscope-4 { animation: oscilloscopeWave 0.9s ease-in-out infinite 0.45s; }
+
+@keyframes turbineSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-turbine-slow {
+  animation: turbineSpin 16s linear infinite;
+}
+
+.animate-turbine-fast {
+  animation: turbineSpin 3s linear infinite;
+}
+
+@keyframes bitFluxScan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(280%); opacity: 0; }
+}
+
+.animate-bit-flux {
+  animation: bitFluxScan 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes powerCorePulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 90, 0, 0.25), inset 0 0 10px rgba(255, 90, 0, 0.2);
+    border-color: rgba(255, 90, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(255, 90, 0, 0.6), inset 0 0 20px rgba(255, 90, 0, 0.45);
+    border-color: rgba(255, 90, 0, 0.85);
+  }
+}
+
+.animate-power-core {
+  animation: powerCorePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dataStreamParticles {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}
+
+.bg-data-stream {
+  background-image: radial-gradient(rgba(255, 90, 0, 0.3) 1px, transparent 1px);
+  background-size: 16px 16px;
+  animation: dataStreamParticles 20s linear infinite;
+}
+
