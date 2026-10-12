@@ -3348,6 +3348,33 @@ LIMIT 5;`);
                         </div>
                       </div>
 
+                      {/* Vinculación de Tabla SQL & Acceso Directo al Database Studio */}
+                      <div className="p-4 rounded-xl bg-zinc-950 border border-[var(--border-te)] flex flex-wrap items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-lg bg-[#e85a2a]/10 border border-[#e85a2a]/30 flex items-center justify-center text-[#e85a2a]">
+                            <CircleStackIcon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <span className="text-[10px] font-mono text-[#e85a2a] uppercase font-bold block">
+                              TABLA PGVECTOR VINCULADA: aeo_citation_vectors
+                            </span>
+                            <span className="text-xs text-zinc-300 font-mono">
+                              Índice HNSW activo (1536 dimensiones) • 14,280 vectores sincronizados en Supabase
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={() => {
+                            setActiveTab('databaseStudio');
+                            showToast('Database Studio', 'Abriendo el editor de esquemas y runner SQL...', 'info');
+                          }}
+                          className="te-button text-xs py-2 px-3.5 font-mono cursor-pointer flex items-center gap-1.5"
+                        >
+                          <span>Abrir Editor de Base de Datos ↗</span>
+                        </button>
+                      </div>
+
                       <div className="flex justify-between pt-4 border-t border-[var(--border)]">
                         <button 
                           onClick={() => setEngineWizardStep(3)}
