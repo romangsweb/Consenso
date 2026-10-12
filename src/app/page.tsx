@@ -1589,7 +1589,107 @@ export default function DashboardMockup() {
                   </div>
                 </div>
 
-                {/* Grid de Métricas Minimalistas con Glass Sutil */}
+                {/* BUILDATIONS // THE LEGO PRINCIPLE & 64-BIT SOVEREIGN ENGINES BANNER */}
+                <div className="lego-block p-6 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border-2 border-[var(--primary)]/40 relative overflow-hidden space-y-4">
+                  <div className="absolute top-0 right-0 w-80 h-full bg-[var(--primary)]/5 pointer-events-none blur-2xl" />
+                  <div className="lego-studs-top" />
+
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 relative z-10">
+                    <div className="space-y-1.5 max-w-2xl">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[var(--primary)]/20 text-[var(--primary)] border border-[var(--primary)]/40 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
+                          BUILDATIONS // THE LEGO PRINCIPLE
+                        </span>
+                        <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
+                          64-BIT MODULAR ARCHITECTURE
+                        </span>
+                        <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+                          ZERO DATA RETENTION
+                        </span>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
+                        Construcción Modular por Bloques Interconectados
+                      </h3>
+                      <p className="text-xs text-zinc-400 leading-relaxed">
+                        Inspirado en la filosofía de <strong>buildations.com</strong>: Cada motor (Search &amp; Presence, Adaptive Security, Revenue Intelligence) opera como un bloque de Lego independiente, desacoplado y componible sobre infraestructura local y soberana (Ollama, Qdrant, n8n, Postgres).
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => {
+                          setActiveTab('engineBuilder');
+                          showToast('Constructor por Bloques', 'Abriendo el estudio de topología modular estilo Lego', 'info');
+                        }}
+                        className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] flex items-center gap-2 cursor-pointer"
+                      >
+                        <CpuChipIcon className="w-4 h-4" />
+                        <span>Ensamblar Bloques Lego</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setOnboardingStep(1);
+                          setIsOnboardingOpen(true);
+                        }}
+                        className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-300 transition-colors flex items-center gap-2 cursor-pointer"
+                      >
+                        <SparklesIcon className="w-4 h-4 text-amber-400" />
+                        <span>Tour Guiado Zero-to-One</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 3 Bloques Modulares Lego de Buildations */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 relative z-10">
+                    <div className="lego-block p-4 bg-zinc-900/90 border border-orange-500/30 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase text-orange-400 font-bold">BLOQUE 01</span>
+                        <span className="text-[9px] font-mono text-emerald-400 font-bold">ONLINE</span>
+                      </div>
+                      <h4 className="font-bold text-xs text-white">Search &amp; Presence (AEO-Native)</h4>
+                      <p className="text-[11px] text-zinc-400 leading-tight">
+                        Pipeline de alta velocidad orientado a capturar citaciones orgánicas en Answer Engines (ChatGPT, Perplexity).
+                      </p>
+                      <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
+                        <span>Stack: Qdrant + Claude</span>
+                        <span className="text-orange-400 font-bold">98% Citabilidad</span>
+                      </div>
+                    </div>
+
+                    <div className="lego-block p-4 bg-zinc-900/90 border border-cyan-500/30 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase text-cyan-400 font-bold">BLOQUE 02</span>
+                        <span className="text-[9px] font-mono text-emerald-400 font-bold">ONLINE</span>
+                      </div>
+                      <h4 className="font-bold text-xs text-white">Revenue Intelligence &amp; RevOps</h4>
+                      <p className="text-[11px] text-zinc-400 leading-tight">
+                        Señales de precios, atribución de demanda B2B y sincronización directa de Deals calificados en HubSpot CRM.
+                      </p>
+                      <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
+                        <span>Stack: Postgres + n8n</span>
+                        <span className="text-cyan-400 font-bold">12 Deals Cerrados</span>
+                      </div>
+                    </div>
+
+                    <div className="lego-block p-4 bg-zinc-900/90 border border-emerald-500/30 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold">BLOQUE 03</span>
+                        <span className="text-[9px] font-mono text-emerald-400 font-bold">ACTIVO</span>
+                      </div>
+                      <h4 className="font-bold text-xs text-white">Adaptive Security &amp; Local VPC</h4>
+                      <p className="text-[11px] text-zinc-400 leading-tight">
+                        Defensa autónoma zero-analyst, despliegue aislado sin retención de datos en clúster Hetzner NVMe y Vercel Edge.
+                      </p>
+                      <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
+                        <span>Stack: Bare-Metal NVMe</span>
+                        <span className="text-emerald-400 font-bold">SOC 2 / HIPAA Ready</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Grid de Métricas Minimalistas con Estilo Lego Modular */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="glass-card p-5 space-y-2">
                     <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
