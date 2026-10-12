@@ -26,7 +26,15 @@ import {
   XMarkIcon,
   PencilSquareIcon,
   PlusIcon,
-  MapPinIcon
+  MapPinIcon,
+  PlayIcon,
+  PauseIcon,
+  ArrowTopRightOnSquareIcon,
+  AdjustmentsHorizontalIcon,
+  CheckIcon,
+  ShieldCheckIcon,
+  PresentationChartLineIcon,
+  BriefcaseIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -40,6 +48,19 @@ export default function DashboardMockup() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Nuevas capacidades UX/UI de alto impacto
+  const [engineViewMode, setEngineViewMode] = useState<'form' | 'flowCanvas'>('flowCanvas');
+  const [selectedFlowStep, setSelectedFlowStep] = useState<string | null>('synthesizer');
+  const [selectedAgent, setSelectedAgent] = useState<'sophia' | 'jax' | 'vera' | null>(null);
+  const [isExecutiveMode, setIsExecutiveMode] = useState(false);
+  const [activeGeoRegion, setActiveGeoRegion] = useState<'cdmx' | 'mty' | 'gdl' | 'bogota' | 'madrid' | 'miami'>('cdmx');
+  const [editorMode, setEditorMode] = useState<'visual' | 'markdown'>('visual');
+  const [aiSimTab, setAiSimTab] = useState<'perplexity' | 'chatgpt' | 'google'>('perplexity');
+  const [isQuickScanModalOpen, setIsQuickScanModalOpen] = useState(false);
+  const [quickScanInput, setQuickScanInput] = useState('');
+  const [isScanningUrl, setIsScanningUrl] = useState(false);
+  const [quickScanReport, setQuickScanReport] = useState<{ url: string; score: number; aeo: string; issues: string[] } | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
@@ -57,12 +78,33 @@ export default function DashboardMockup() {
         setIsCanvasModalOpen(false);
         setIsNotificationsOpen(false);
         setIsWorkspaceDropdownOpen(false);
+        setSelectedAgent(null);
+        setIsQuickScanModalOpen(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  const handleQuickScan = () => {
+    if (!quickScanInput) return;
+    setIsScanningUrl(true);
+    setQuickScanReport(null);
+    setTimeout(() => {
+      setIsScanningUrl(false);
+      setQuickScanReport({
+        url: quickScanInput,
+        score: 88,
+        aeo: 'Alta Citabilidad en Perplexity & ChatGPT',
+        issues: [
+          'Estructura de respuesta directa presente (Párrafo 1)',
+          'Falta marcado FAQPage Schema JSON-LD',
+          '2 competidores (hubspot.es, forbes.com) superan en citas para este cluster'
+        ]
+      });
+    }, 1200);
+  };
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -271,14 +313,53 @@ export default function DashboardMockup() {
             </span>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2.5">
+            {/* Autonomous Agents Live Presence Strip */}
+            <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-sm">
+              <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)] mr-1">Agentes:</span>
+              <button 
+                onClick={() => setSelectedAgent('sophia')}
+                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-all ${selectedAgent === 'sophia' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                title="Agente Sophia (SERP Scout) - En vivo"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>Sophia (SERP)</span>
+              </button>
+              <button 
+                onClick={() => setSelectedAgent('jax')}
+                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-all ${selectedAgent === 'jax' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                title="Agente Jax (RevOps HubSpot) - En vivo"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
+                <span>Jax (RevOps)</span>
+              </button>
+              <button 
+                onClick={() => setSelectedAgent('vera')}
+                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-all ${selectedAgent === 'vera' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                title="Agente Vera (AEO Content) - En vivo"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Vera (AEO)</span>
+              </button>
+            </div>
+
+            {/* Executive vs Technical View Switch */}
+            <button
+              onClick={() => setIsExecutiveMode(!isExecutiveMode)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-sm transition-all cursor-pointer ${isExecutiveMode ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--primary)] font-bold' : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--foreground)] text-[var(--muted-foreground)]'}`}
+              title="Cambiar entre Vista Técnica y Portal Ejecutivo para Clientes"
+            >
+              <PresentationChartLineIcon className="w-3.5 h-3.5" />
+              <span className="hidden lg:inline">{isExecutiveMode ? 'Vista Ejecutiva C-Level' : 'Vista Técnica'}</span>
+            </button>
+
             <button 
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="hidden md:flex items-center justify-between bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-full pl-3 pr-2 py-1.5 text-xs transition-all w-52 sm:w-64 cursor-pointer shadow-sm group"
+              className="hidden md:flex items-center justify-between bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-full pl-3 pr-2 py-1.5 text-xs transition-all w-48 sm:w-56 cursor-pointer shadow-sm group"
             >
               <div className="flex items-center gap-2">
                 <MagnifyingGlassIcon className="w-3.5 h-3.5 text-[var(--muted-foreground)] group-hover:text-[var(--primary)]" />
-                <span>Buscar acción o silo...</span>
+                <span className="truncate">Buscar acción o silo...</span>
               </div>
               <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--muted-foreground)]">⌘K</kbd>
             </button>
@@ -303,12 +384,12 @@ export default function DashboardMockup() {
               {theme === 'dark' ? (
                 <>
                   <SunIcon className="w-4 h-4 text-amber-400" />
-                  <span className="text-[var(--foreground)] hidden sm:inline">Modo Día</span>
+                  <span className="text-[var(--foreground)] hidden sm:inline">Día</span>
                 </>
               ) : (
                 <>
                   <MoonIcon className="w-4 h-4 text-indigo-500" />
-                  <span className="text-[var(--foreground)] hidden sm:inline">Modo Noche</span>
+                  <span className="text-[var(--foreground)] hidden sm:inline">Noche</span>
                 </>
               )}
             </button>
@@ -383,8 +464,101 @@ export default function DashboardMockup() {
 
         {/* Scrollable Area */}
         <div className="flex-1 overflow-auto p-8">
-          <div className="max-w-6xl mx-auto animate-fade-in">
+          <div className="max-w-6xl mx-auto animate-fade-in space-y-6">
             
+            {/* MODO EJECUTIVO CLIENT PORTAL (WHITE-LABEL C-LEVEL) */}
+            {isExecutiveMode && (
+              <div className="glass-card p-6 border-2 border-[var(--primary)] bg-gradient-to-br from-[var(--card)] via-[var(--background)] to-[var(--card)] space-y-6 shadow-2xl animate-fade-in">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white shadow-[0_0_15px_rgba(255,90,0,0.4)]">
+                      <BriefcaseIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-0.5 rounded border border-[var(--primary)]/20">
+                          WHITE-LABEL CLIENT PORTAL
+                        </span>
+                        <span className="text-xs text-[var(--muted-foreground)]">Reporte de Desempeño Ejecutivo</span>
+                      </div>
+                      <h2 className="text-xl font-black text-[var(--foreground)]">
+                        Impacto Comercial &amp; Revenue de Contenido: <span className="text-[var(--primary)]">{currentWorkspace}</span>
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => alert('Generando informe ejecutivo PDF formal para el cliente con sellos y métricas...')}
+                      className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_12px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-1.5"
+                    >
+                      <DocumentTextIcon className="w-4 h-4" /> Exportar Informe PDF (C-Level)
+                    </button>
+                    <button 
+                      onClick={() => setIsExecutiveMode(false)}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer"
+                    >
+                      Salir de Vista Ejecutiva
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4 Executive KPI Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-[var(--muted-foreground)]">Pipeline Generado (HubSpot)</span>
+                    <p className="text-2xl font-black text-emerald-500">$148,200 USD</p>
+                    <span className="text-[11px] text-[var(--muted-foreground)]">12 deals comerciales calificados</span>
+                  </div>
+                  <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-[var(--muted-foreground)]">Tráfico Orgánico &amp; AEO</span>
+                    <p className="text-2xl font-black text-[var(--foreground)]">42,850 / mes</p>
+                    <span className="text-[11px] text-emerald-500 font-bold">↑ +142% vs trimestre anterior</span>
+                  </div>
+                  <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-[var(--muted-foreground)]">Dominio de Citación IA</span>
+                    <p className="text-2xl font-black text-purple-400">64.2% Share</p>
+                    <span className="text-[11px] text-[var(--muted-foreground)]">Top 1 en ChatGPT y Perplexity</span>
+                  </div>
+                  <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-[var(--muted-foreground)]">Ahorro en Pauta (Google Ads)</span>
+                    <p className="text-2xl font-black text-cyan-400">$31,400 USD</p>
+                    <span className="text-[11px] text-[var(--muted-foreground)]">Equivalente a 14,000 clics PPC</span>
+                  </div>
+                </div>
+
+                {/* Top Converting Articles Summary */}
+                <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
+                    Top 3 Artículos con Mayor Impacto Comercial &amp; Cierre de Ventas
+                  </h4>
+                  <div className="divide-y divide-[var(--border)] text-xs">
+                    <div className="py-2.5 flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-[var(--foreground)]">Cómo alinear Marketing y Ventas en HubSpot CRM</p>
+                        <p className="text-[11px] text-[var(--muted-foreground)]">Silo: RevOps &amp; CRM • 6 deals originados</p>
+                      </div>
+                      <span className="font-bold text-emerald-500 font-mono">$64,000 USD Pipeline</span>
+                    </div>
+                    <div className="py-2.5 flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-[var(--foreground)]">Estrategias de Optimización AEO para B2B en México</p>
+                        <p className="text-[11px] text-[var(--muted-foreground)]">Silo: AEO &amp; AI Search • 4 deals originados</p>
+                      </div>
+                      <span className="font-bold text-emerald-500 font-mono">$52,200 USD Pipeline</span>
+                    </div>
+                    <div className="py-2.5 flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-[var(--foreground)]">Automatización de SLAs Comerciales para Equipos de Ventas</p>
+                        <p className="text-[11px] text-[var(--muted-foreground)]">Silo: Ventas &amp; Productividad • 2 deals originados</p>
+                      </div>
+                      <span className="font-bold text-emerald-500 font-mono">$32,000 USD Pipeline</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
               <div className="space-y-8 animate-fade-in">
@@ -455,17 +629,39 @@ export default function DashboardMockup() {
             {/* TAB: LANZADOR Y CONFIGURADOR DE MOTORES SEO / AEO */}
             {activeTab === 'engineLauncher' && (
               <div className="space-y-8 animate-fade-in">
-                <div className="flex justify-between items-end">
+                <div className="flex flex-wrap justify-between items-end gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold mb-1 flex items-center">
-                      <RocketLaunchIcon className="w-7 h-7 text-amber-500 mr-2" />
-                      Lanzador & Configurador de Motor Generativo (SEO / AEO)
-                    </h2>
+                    <div className="flex items-center gap-3 mb-1">
+                      <h2 className="text-2xl font-bold flex items-center">
+                        <RocketLaunchIcon className="w-7 h-7 text-amber-500 mr-2" />
+                        Lanzador & Configurador de Motor Generativo (SEO / AEO)
+                      </h2>
+                      <span className="text-xs bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
+                        V2.4 Autopiloto
+                      </span>
+                    </div>
                     <p className="text-[var(--muted-foreground)] text-sm">
                       Configura el agente autónomo que se conectará a tu sitio web para planificar, redactar y publicar contenido optimizado para Google y Motores de IA.
                     </p>
                   </div>
-                  <div className="flex space-x-3">
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    {/* View Switcher: Flow Canvas vs Form */}
+                    <div className="flex items-center gap-1 bg-[var(--card)] p-1 rounded-xl border border-[var(--border)] shadow-sm">
+                      <button 
+                        onClick={() => setEngineViewMode('flowCanvas')}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${engineViewMode === 'flowCanvas' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                      >
+                        <ShareIcon className="w-3.5 h-3.5" /> Pipeline Visual (Nodos)
+                      </button>
+                      <button 
+                        onClick={() => setEngineViewMode('form')}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${engineViewMode === 'form' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                      >
+                        <AdjustmentsHorizontalIcon className="w-3.5 h-3.5" /> Parámetros & Formulario
+                      </button>
+                    </div>
+
                     <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
                       Pausar Motor
                     </button>
@@ -493,8 +689,294 @@ export default function DashboardMockup() {
                   </div>
                 </div>
 
-                {/* Grid de Configuración Gráfica del Motor */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* MODO 1: MOTOR FLOW CANVAS (PIPELINE VISUAL DE NODOS) */}
+                {engineViewMode === 'flowCanvas' && (
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 space-y-6 border border-[var(--border)]">
+                      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+                        <div>
+                          <h3 className="text-lg font-bold flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-[var(--primary)] animate-pulse"></span>
+                            Lienzo Visual del Pipeline Autónomo (Flow Canvas)
+                          </h3>
+                          <p className="text-xs text-[var(--muted-foreground)]">
+                            Haz clic en cualquier nodo para inspeccionar sus parámetros en tiempo real, calibrar modelos de IA y ver la telemetría.
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button 
+                            onClick={() => alert('Simulando ejecución manual de prueba del pipeline completo...')}
+                            className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <PlayIcon className="w-3.5 h-3.5" /> Forzar Ciclo de Prueba
+                          </button>
+                          <span className="text-xs bg-[var(--muted)] text-[var(--muted-foreground)] px-3 py-1.5 rounded-lg font-mono border border-[var(--border)]">
+                            Latencia: 420ms
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Canvas Interactivo con Nodos y Cables SVG */}
+                      <div className="relative rounded-2xl p-8 bg-slate-950 border border-slate-800 overflow-x-auto min-h-[380px]">
+                        {/* Dot Grid Background */}
+                        <div className="absolute inset-0 bg-[radial-gradient(#ff5a00_1px,transparent_1px)] [background-size:20px_20px] opacity-15"></div>
+
+                        {/* SVG Connection Lines */}
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minWidth: '900px' }}>
+                          {/* Cable 1 -> 2 */}
+                          <path 
+                            d="M 230 180 C 270 180, 290 180, 330 180" 
+                            stroke="#ff5a00" 
+                            strokeWidth="2.5" 
+                            fill="none" 
+                            className="animate-flow-cable"
+                          />
+                          {/* Cable 2 -> 3 */}
+                          <path 
+                            d="M 540 180 C 580 180, 600 180, 640 180" 
+                            stroke="#a855f7" 
+                            strokeWidth="2.5" 
+                            fill="none" 
+                            className="animate-flow-cable"
+                          />
+                          {/* Cable 3 -> 4 */}
+                          <path 
+                            d="M 850 180 C 890 180, 910 180, 950 180" 
+                            stroke="#10b981" 
+                            strokeWidth="2.5" 
+                            fill="none" 
+                            className="animate-flow-cable"
+                          />
+                        </svg>
+
+                        {/* Nodos Interactivos Horizontalmente Distribuidos */}
+                        <div className="relative z-10 flex items-center justify-between gap-8 min-w-[950px] py-6">
+                          
+                          {/* NODO 1: INGESTA & SERP SCOUT */}
+                          <div 
+                            onClick={() => setSelectedFlowStep('scout')}
+                            className={`w-56 p-4 rounded-xl cursor-pointer transition-all border ${selectedFlowStep === 'scout' ? 'bg-slate-900 border-[var(--primary)] shadow-[0_0_25px_rgba(255,90,0,0.35)] scale-105' : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'}`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-bold uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                                01. Ingesta
+                              </span>
+                              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            </div>
+                            <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                              <MagnifyingGlassIcon className="w-4 h-4 text-amber-400" /> SERP & Decay Scout
+                            </h4>
+                            <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                              Monitorea 250 keywords y 14 competidores en Google.
+                            </p>
+                            <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-300 font-mono">
+                              <span>GSC + Serper API</span>
+                              <span className="text-emerald-400 font-bold">250 KW</span>
+                            </div>
+                          </div>
+
+                          {/* NODO 2: SYNTHESIZER AEO */}
+                          <div 
+                            onClick={() => setSelectedFlowStep('synthesizer')}
+                            className={`w-56 p-4 rounded-xl cursor-pointer transition-all border ${selectedFlowStep === 'synthesizer' ? 'bg-slate-900 border-[var(--primary)] shadow-[0_0_25px_rgba(255,90,0,0.35)] scale-105' : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'}`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-bold uppercase text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-0.5 rounded border border-[var(--primary)]/30">
+                                02. Redacción IA
+                              </span>
+                              <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse"></span>
+                            </div>
+                            <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                              <CpuChipIcon className="w-4 h-4 text-[var(--primary)]" /> AEO Synthesizer
+                            </h4>
+                            <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                              Llama 3.1 8B + Pinecone RAG con Schema JSON-LD.
+                            </p>
+                            <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-300 font-mono">
+                              <span>Cloudflare AI</span>
+                              <span className="text-[var(--primary)] font-bold">Score 96%</span>
+                            </div>
+                          </div>
+
+                          {/* NODO 3: ENRIQUECEDOR REVOPS HUBSPOT */}
+                          <div 
+                            onClick={() => setSelectedFlowStep('revops')}
+                            className={`w-56 p-4 rounded-xl cursor-pointer transition-all border ${selectedFlowStep === 'revops' ? 'bg-slate-900 border-purple-500 shadow-[0_0_25px_rgba(168,85,247,0.35)] scale-105' : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'}`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-bold uppercase text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                                03. Atribución
+                              </span>
+                              <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+                            </div>
+                            <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                              <ArrowPathRoundedSquareIcon className="w-4 h-4 text-purple-400" /> RevOps & HubSpot
+                            </h4>
+                            <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                              Inyección de CTAs de alta conversión y UTMs para deals.
+                            </p>
+                            <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-300 font-mono">
+                              <span>HubSpot CRM</span>
+                              <span className="text-purple-400 font-bold">$38.5k Pipe</span>
+                            </div>
+                          </div>
+
+                          {/* NODO 4: PUBLICADOR WEBHOOK CMS */}
+                          <div 
+                            onClick={() => setSelectedFlowStep('publisher')}
+                            className={`w-56 p-4 rounded-xl cursor-pointer transition-all border ${selectedFlowStep === 'publisher' ? 'bg-slate-900 border-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.35)] scale-105' : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'}`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                                04. Despliegue
+                              </span>
+                              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            </div>
+                            <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                              <RocketLaunchIcon className="w-4 h-4 text-emerald-400" /> Webhook Publisher
+                            </h4>
+                            <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                              Publicación como borrador o live en WordPress / Next.js.
+                            </p>
+                            <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-300 font-mono">
+                              <span>REST Webhook</span>
+                              <span className="text-emerald-400 font-bold">200 OK</span>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      {/* Drawer / Panel de Inspección del Nodo Seleccionado */}
+                      <div className="p-5 rounded-xl bg-[var(--card)] border border-[var(--border)] transition-all">
+                        {selectedFlowStep === 'scout' && (
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                              <h4 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                                <MagnifyingGlassIcon className="w-4 h-4 text-amber-500" />
+                                Configuración de Ingesta: SERP & Decay Scout
+                              </h4>
+                              <span className="text-xs bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded font-bold">Frecuencia: Cada 24 Horas</span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Umbral de Decadencia GSC</label>
+                                <select className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-[var(--foreground)]">
+                                  <option>Caída &gt; 15% en Clics (Últimos 30 días)</option>
+                                  <option>Caída &gt; 25% en Impresiones</option>
+                                  <option>Pérdida de Posición 1-3 a Posición 4-10</option>
+                                </select>
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Competidores a Rastrear</label>
+                                <input type="text" defaultValue="forbes.com, hubspot.es, rockcontent.com" className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-[var(--foreground)]" />
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Acción al Detectar Oportunidad</label>
+                                <span className="text-emerald-500 font-bold">Disparar borrador automático en Nodo 02</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedFlowStep === 'synthesizer' && (
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                              <h4 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                                <CpuChipIcon className="w-4 h-4 text-[var(--primary)]" />
+                                Calibración de Modelo IA: AEO Synthesizer
+                              </h4>
+                              <span className="text-xs bg-[var(--primary)]/10 text-[var(--primary)] px-2 py-0.5 rounded font-bold">Motor: Llama 3.1 8B Instruct</span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Temperatura de Creatividad</label>
+                                <div className="flex items-center gap-2">
+                                  <input type="range" min="0.1" max="1.0" step="0.1" defaultValue="0.4" className="w-full accent-[var(--primary)]" />
+                                  <span className="font-mono font-bold text-[var(--foreground)]">0.4</span>
+                                </div>
+                                <span className="text-[10px] text-[var(--muted-foreground)] mt-1 block">Precisión alta y hechos contrastados</span>
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Estructura AEO Forzada</label>
+                                <div className="space-y-1 text-[11px] text-[var(--foreground)]">
+                                  <label className="flex items-center gap-1.5"><input type="checkbox" defaultChecked className="accent-[var(--primary)]" /> Párrafo 1 Respuesta Directa</label>
+                                  <label className="flex items-center gap-1.5"><input type="checkbox" defaultChecked className="accent-[var(--primary)]" /> Tabla Comparativa Obligatoria</label>
+                                </div>
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Base de Conocimiento (RAG)</label>
+                                <p className="text-[11px] text-[var(--muted-foreground)]">Pinecone Index: <strong className="text-[var(--foreground)]">buildations-knowledge</strong> (3,800 vectores)</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedFlowStep === 'revops' && (
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                              <h4 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                                <ArrowPathRoundedSquareIcon className="w-4 h-4 text-purple-400" />
+                                Parámetros de Atribución RevOps & HubSpot CRM
+                              </h4>
+                              <span className="text-xs bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded font-bold">Cuenta: Hub ID #982104</span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Pipeline Destino de Deals</label>
+                                <select className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-[var(--foreground)]">
+                                  <option>Sales Pipeline (B2B SaaS Deals)</option>
+                                  <option>Consulting & Services</option>
+                                </select>
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Inyección de CTAs Contextuales</label>
+                                <input type="text" defaultValue="Calculadora ROI HubSpot & Demo en Vivo" className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-[var(--foreground)]" />
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Parámetros UTM Forzados</label>
+                                <p className="font-mono text-[10px] text-[var(--foreground)]">utm_source=buildations_aeo&amp;utm_medium=organic_ai</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedFlowStep === 'publisher' && (
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                              <h4 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                                <RocketLaunchIcon className="w-4 h-4 text-emerald-400" />
+                                Despliegue en Vivo: Webhook Publisher
+                              </h4>
+                              <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">Estado: Conectado</span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Destino CMS</label>
+                                <p className="font-bold text-[var(--foreground)]">WordPress REST API (v2) / Headless</p>
+                                <span className="text-[10px] text-[var(--muted-foreground)]">https://soyroman.com/wp-json/wp/v2/posts</span>
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Estado al Publicar</label>
+                                <select className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-[var(--foreground)]">
+                                  <option>Borrador (Requiere un click para aprobar)</option>
+                                  <option>Publicado Inmediato (100% Autopiloto)</option>
+                                </select>
+                              </div>
+                              <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                                <label className="font-bold text-[var(--muted-foreground)] block mb-1">Respaldo Automático</label>
+                                <span className="text-emerald-500 font-bold">Copia sincronizada en GitHub Repo &amp; Supabase</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* MODO 2: FORMULARIO ESTÁNDAR Y AJUSTES */}
+                <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 ${engineViewMode === 'flowCanvas' ? 'hidden' : ''}`}>
                   
                   {/* Columna 1 & 2: Ajustes de Comportamiento del Motor */}
                   <div className="lg:col-span-2 space-y-6">
@@ -804,40 +1286,125 @@ export default function DashboardMockup() {
 
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     
-                    {/* Visual de Regiones Activas */}
+                    {/* Visual de Regiones Activas & Mapa Vectorial */}
                     <div className="lg:col-span-2 space-y-4">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
-                        Zonas Prioritarias Configuradas en el Motor
-                      </h4>
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+                          Mapa Vectorial Interactivo &amp; Concentración de Demanda Local
+                        </h4>
+                        <span className="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded font-mono font-bold">
+                          Radar Activo: {activeGeoRegion.toUpperCase()}
+                        </span>
+                      </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Mapa SVG Interactivo con Ondas de Radar y Nodos Clicables */}
+                      <div className="relative rounded-2xl p-6 bg-slate-950 border border-slate-800 overflow-hidden min-h-[300px]">
+                        {/* Dot Grid */}
+                        <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
+                        
+                        <svg className="w-full h-64" viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          {/* Radar Grid Circles */}
+                          <circle cx="400" cy="140" r="120" stroke="#10b981" strokeWidth="1" strokeDasharray="3 3" opacity="0.2" />
+                          <circle cx="400" cy="140" r="70" stroke="#10b981" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
+                          <line x1="400" y1="20" x2="400" y2="260" stroke="#10b981" strokeWidth="1" opacity="0.15" />
+                          <line x1="280" y1="140" x2="520" y2="140" stroke="#10b981" strokeWidth="1" opacity="0.15" />
+
+                          {/* Connections */}
+                          <line x1="220" y1="180" x2="260" y2="90" stroke="#ff5a00" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5" />
+                          <line x1="220" y1="180" x2="160" y2="170" stroke="#10b981" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5" />
+                          <line x1="220" y1="180" x2="430" y2="230" stroke="#a855f7" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.4" />
+                          <line x1="220" y1="180" x2="520" y2="110" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.4" />
+                          <line x1="520" y1="110" x2="710" y2="80" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
+
+                          {/* NODE: CDMX */}
+                          <g className="cursor-pointer" onClick={() => setActiveGeoRegion('cdmx')}>
+                            <circle cx="220" cy="180" r="16" fill="#ff5a00" fillOpacity={activeGeoRegion === 'cdmx' ? "0.35" : "0.15"} className="animate-ping" />
+                            <circle cx="220" cy="180" r="8" fill="#ff5a00" stroke="#ffffff" strokeWidth="2" />
+                            <text x="220" y="208" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="bold">CDMX (Santa Fe)</text>
+                            <text x="220" y="222" textAnchor="middle" fill="#ff5a00" fontSize="9" fontWeight="bold">64% Share AEO</text>
+                          </g>
+
+                          {/* NODE: MONTERREY */}
+                          <g className="cursor-pointer" onClick={() => setActiveGeoRegion('mty')}>
+                            <circle cx="260" cy="90" r="14" fill="#06b6d4" fillOpacity={activeGeoRegion === 'mty' ? "0.35" : "0.15"} />
+                            <circle cx="260" cy="90" r="7" fill="#06b6d4" stroke="#ffffff" strokeWidth="2" />
+                            <text x="260" y="74" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="bold">Monterrey (San Pedro)</text>
+                            <text x="260" y="60" textAnchor="middle" fill="#06b6d4" fontSize="9" fontWeight="bold">52% Share</text>
+                          </g>
+
+                          {/* NODE: GUADALAJARA */}
+                          <g className="cursor-pointer" onClick={() => setActiveGeoRegion('gdl')}>
+                            <circle cx="160" cy="170" r="12" fill="#10b981" fillOpacity={activeGeoRegion === 'gdl' ? "0.35" : "0.15"} />
+                            <circle cx="160" cy="170" r="6" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
+                            <text x="160" y="150" textAnchor="middle" fill="#ffffff" fontSize="10" fontWeight="bold">Guadalajara</text>
+                          </g>
+
+                          {/* NODE: BOGOTÁ */}
+                          <g className="cursor-pointer" onClick={() => setActiveGeoRegion('bogota')}>
+                            <circle cx="430" cy="230" r="12" fill="#a855f7" fillOpacity={activeGeoRegion === 'bogota' ? "0.35" : "0.15"} />
+                            <circle cx="430" cy="230" r="6" fill="#a855f7" stroke="#ffffff" strokeWidth="2" />
+                            <text x="430" y="254" textAnchor="middle" fill="#ffffff" fontSize="10" fontWeight="bold">Bogotá (Colombia)</text>
+                          </g>
+
+                          {/* NODE: MIAMI */}
+                          <g className="cursor-pointer" onClick={() => setActiveGeoRegion('miami')}>
+                            <circle cx="520" cy="110" r="12" fill="#eab308" fillOpacity={activeGeoRegion === 'miami' ? "0.35" : "0.15"} />
+                            <circle cx="520" cy="110" r="6" fill="#eab308" stroke="#ffffff" strokeWidth="2" />
+                            <text x="520" y="94" textAnchor="middle" fill="#ffffff" fontSize="10" fontWeight="bold">Miami (B2B Latam)</text>
+                          </g>
+
+                          {/* NODE: MADRID */}
+                          <g className="cursor-pointer" onClick={() => setActiveGeoRegion('madrid')}>
+                            <circle cx="710" cy="80" r="12" fill="#3b82f6" fillOpacity={activeGeoRegion === 'madrid' ? "0.35" : "0.15"} />
+                            <circle cx="710" cy="80" r="6" fill="#3b82f6" stroke="#ffffff" strokeWidth="2" />
+                            <text x="710" y="104" textAnchor="middle" fill="#ffffff" fontSize="10" fontWeight="bold">Madrid (España)</text>
+                          </g>
+                        </svg>
+
+                        <div className="text-[10px] text-slate-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                          <span>💡 Haz clic en cualquier nodo para inspeccionar y calibrar la inyección regional del motor</span>
+                          <span className="font-mono text-emerald-400">Pings Geográficos: 6 Regiones Conectadas</span>
+                        </div>
+                      </div>
+
+                      {/* Tarjetas de Selección Rápida de Región */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {[
-                          { zone: "Ciudad de México (CDMX & Polanco/Santa Fe)", articles: "14 Artículos", intent: "Agencias B2B & Enterprise", share: "64% Dominio", color: "border-emerald-500 text-emerald-400" },
-                          { zone: "Monterrey, Nuevo León (San Pedro)", articles: "9 Artículos", intent: "Manufactura & Logística Tech", share: "52% Dominio", color: "border-cyan-500 text-cyan-400" },
-                          { zone: "Guadalajara, Jalisco (Tech Hub)", articles: "8 Artículos", intent: "Startups & Desarrollo Software", share: "48% Dominio", color: "border-purple-500 text-purple-400" },
-                          { zone: "Expansión LATAM: Bogotá & Santiago", articles: "5 Artículos", intent: "Consultoría RevOps Regional", share: "35% Dominio", color: "border-amber-500 text-amber-400" },
-                        ].map((geo, i) => (
-                          <div key={i} className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] transition-all space-y-2">
-                            <div className="flex justify-between items-start">
-                              <span className="text-xs font-bold text-[var(--foreground)]">{geo.zone}</span>
-                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--muted)] border ${geo.color}`}>
+                          { id: 'cdmx', name: "CDMX", intent: "Agencias & Enterprise", share: "64% Share", color: "border-[var(--primary)] text-[var(--primary)]" },
+                          { id: 'mty', name: "Monterrey", intent: "Manufactura & Tech", share: "52% Share", color: "border-cyan-500 text-cyan-400" },
+                          { id: 'gdl', name: "Guadalajara", intent: "Startups & Software", share: "48% Share", color: "border-emerald-500 text-emerald-400" },
+                          { id: 'bogota', name: "Bogotá", intent: "RevOps Regional", share: "35% Share", color: "border-purple-500 text-purple-400" },
+                          { id: 'miami', name: "Miami B2B", intent: "Cross-border Latam", share: "41% Share", color: "border-amber-500 text-amber-400" },
+                          { id: 'madrid', name: "Madrid", intent: "Mercado Ibérico", share: "30% Share", color: "border-blue-500 text-blue-400" },
+                        ].map((geo) => (
+                          <div 
+                            key={geo.id} 
+                            onClick={() => setActiveGeoRegion(geo.id as any)}
+                            className={`p-3 rounded-xl bg-[var(--card)] border cursor-pointer transition-all ${activeGeoRegion === geo.id ? 'border-[var(--primary)] bg-[var(--primary)]/5 shadow-md scale-102' : 'border-[var(--border)] hover:border-slate-500'}`}
+                          >
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-xs font-bold text-[var(--foreground)]">{geo.name}</span>
+                              <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded bg-[var(--muted)] border ${geo.color}`}>
                                 {geo.share}
                               </span>
                             </div>
-                            <p className="text-[11px] text-[var(--muted-foreground)]">Foco: <strong>{geo.intent}</strong></p>
-                            <div className="flex justify-between items-center text-[10px] pt-1 border-t border-[var(--border)]">
-                              <span className="text-[var(--muted-foreground)]">{geo.articles} publicados</span>
-                              <span className="text-[var(--primary)] font-bold cursor-pointer hover:underline">Ver Artículos GEO →</span>
-                            </div>
+                            <p className="text-[10px] text-[var(--muted-foreground)] truncate">{geo.intent}</p>
                           </div>
                         ))}
                       </div>
 
-                      {/* Simulador de Consulta GEO en Vivo */}
+                      {/* Simulador de Consulta GEO en Vivo Dinámico */}
                       <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2 text-xs">
-                        <span className="text-[10px] font-bold uppercase text-emerald-500 block">Ejemplo de Inyección GEO Generada:</span>
+                        <span className="text-[10px] font-bold uppercase text-emerald-500 block">
+                          Ejemplo de Inyección GEO Generada ({activeGeoRegion.toUpperCase()}):
+                        </span>
                         <p className="text-[var(--muted-foreground)] italic leading-relaxed">
-                          "Para empresas basadas en <strong>CDMX o Monterrey</strong> que necesitan cumplir con facturación local y flujos de ventas en moneda mixta (MXN/USD), configurar HubSpot con reglas de multidivisa es crítico..."
+                          {activeGeoRegion === 'cdmx' && '"Para empresas con operaciones en CDMX (Polanco, Reforma o Santa Fe) que requieren facturación electrónica CFDI 4.0 y sincronización directa con HubSpot Deals en MXN, configurar este flujo reduce hasta 20 horas de conciliación mensual..."'}
+                          {activeGeoRegion === 'mty' && '"En el clúster industrial de Monterrey y San Pedro Garza García, las compañías que integran procesos de manufactura y distribución B2B aprovechan los workflows de HubSpot para gestionar contratos en USD y pesos..."'}
+                          {activeGeoRegion === 'gdl' && '"Para el ecosistema de startups y empresas de software en Guadalajara (el Silicon Valley de México), automatizar el ciclo de prospección inbound hacia demo en HubSpot es vital para escalar el equipo de ventas..."'}
+                          {activeGeoRegion === 'bogota' && '"Las compañías en Bogotá y Medellín que expanden sus servicios de tecnología a nivel regional requieren un stack de RevOps unificado que conecte sus canales de inbound con ejecutivos comerciales en tiempo récord..."'}
+                          {activeGeoRegion === 'miami' && '"Para compañías que operan desde Miami atendiendo cuentas empresariales en América Latina, la integración bilingüe de HubSpot con scoring transfronterizo maximiza la tasa de cierre en dólares..."'}
+                          {activeGeoRegion === 'madrid' && '"En el mercado corporativo de Madrid y Barcelona, las organizaciones que implementan metodologías de Revenue Operations alinean sus equipos de desarrollo de negocio con SLAs comerciales estrictos..."'}
                         </p>
                       </div>
                     </div>
@@ -1892,31 +2459,53 @@ export default function DashboardMockup() {
         </div>
       </main>
 
-      {/* MODAL 1: LIVE ARTICLE CANVAS & AEO EDITOR */}
+      {/* MODAL 1: LIVE SIDE-BY-SIDE AEO ARTICLE STUDIO */}
       {isCanvasModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md animate-fade-in">
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-5xl h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fade-in">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
             
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-[var(--border)] flex justify-between items-center bg-[var(--background)]">
+            <div className="px-6 py-3.5 border-b border-[var(--border)] flex flex-wrap justify-between items-center gap-3 bg-[var(--background)]">
               <div className="flex items-center gap-3">
-                <span className="p-2 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)]">
+                <span className="p-2 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] shadow-sm">
                   <PencilSquareIcon className="w-5 h-5" />
                 </span>
                 <div>
-                  <h3 className="font-bold text-base leading-tight">Editor Canvas & Simulador de Aprobación CMS</h3>
-                  <p className="text-xs text-[var(--muted-foreground)]">Revisa la estructura generada por el motor AEO antes de enviar al blog.</p>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-base leading-tight">Side-by-Side AEO Studio &amp; Simulador CMS</h3>
+                    <span className="text-[10px] bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-2 py-0.5 rounded font-bold">
+                      AEO Score: 96/100
+                    </span>
+                  </div>
+                  <p className="text-xs text-[var(--muted-foreground)]">Edita el borrador y observa en tiempo real cómo respondería Perplexity y ChatGPT citando tu dominio.</p>
                 </div>
               </div>
+
               <div className="flex items-center gap-2">
+                {/* Editor Mode Selector */}
+                <div className="flex items-center bg-[var(--card)] p-1 rounded-lg border border-[var(--border)] text-xs">
+                  <button 
+                    onClick={() => setEditorMode('visual')}
+                    className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${editorMode === 'visual' ? 'bg-[var(--primary)] text-white' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                  >
+                    Visual
+                  </button>
+                  <button 
+                    onClick={() => setEditorMode('markdown')}
+                    className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${editorMode === 'markdown' ? 'bg-[var(--primary)] text-white' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                  >
+                    Markdown
+                  </button>
+                </div>
+
                 <button 
                   onClick={() => {
-                    alert('¡Artículo aprobado y despachado con éxito vía Webhook!');
+                    alert('¡Artículo aprobado y publicado con éxito vía Webhook en WordPress/Next.js!');
                     setIsCanvasModalOpen(false);
                   }}
                   className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_12px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-1.5"
                 >
-                  <CheckCircleIcon className="w-4 h-4" /> Aprobar & Enviar a CMS
+                  <CheckCircleIcon className="w-4 h-4" /> Aprobar &amp; Enviar a CMS
                 </button>
                 <button 
                   onClick={() => setIsCanvasModalOpen(false)}
@@ -1927,105 +2516,174 @@ export default function DashboardMockup() {
               </div>
             </div>
 
-            {/* Modal Body: 2 Columns */}
+            {/* Modal Body: Split-Screen Layout */}
             <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
               
-              {/* Left Column: Article Document Preview */}
-              <div className="flex-1 overflow-y-auto p-8 space-y-6 border-r border-[var(--border)] bg-[var(--card)]">
-                <div>
+              {/* Left Column: Editor View */}
+              <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6 border-r border-[var(--border)] bg-[var(--card)]">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-[10px] font-mono uppercase bg-[var(--primary)]/10 text-[var(--primary)] px-2.5 py-1 rounded font-bold">
-                    Silo: RevOps & HubSpot • 2,200 Palabras
+                    Silo: RevOps &amp; HubSpot • 2,200 Palabras
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-black mt-3 leading-snug text-[var(--foreground)]">
-                    {selectedArticleTitle}
-                  </h1>
-                  <p className="text-xs text-[var(--muted-foreground)] mt-2 font-mono">
-                    Slug sugerido: <span className="text-[var(--primary)]">/blog/alinear-marketing-ventas-hubspot-revops</span>
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs space-y-2">
-                  <strong className="text-[var(--foreground)] block">Extracto / Direct Answer para Perplexity & Google:</strong>
-                  <p className="text-[var(--muted-foreground)] leading-relaxed italic">
-                    "Alinear Marketing y Ventas en HubSpot requiere definir un SLA (Acuerdo de Nivel de Servicio) basado en Lead Scoring, sincronizar propiedades de ciclo de vida automáticas y activar notificaciones instantáneas para el equipo comercial ante prospectos calificados."
-                  </p>
-                </div>
-
-                <div className="prose prose-sm max-w-none text-[var(--foreground)] space-y-4 text-xs sm:text-sm leading-relaxed">
-                  <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">1. El Verdadero Costo de la Fricción entre Marketing y Ventas</h2>
-                  <p className="text-[var(--muted-foreground)]">
-                    En las empresas B2B tradicionales, hasta el 70% de los leads generados por campañas publicitarias nunca son contactados por los ejecutivos comerciales. Esto ocurre porque no existe un criterio unificado de lo que constituye un <em>Marketing Qualified Lead (MQL)</em> vs un <em>Sales Qualified Lead (SQL)</em>.
-                  </p>
-
-                  <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">2. Tabla Comparativa de Criterios de Calificación</h2>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs border border-[var(--border)] rounded-lg">
-                      <thead className="bg-[var(--muted)] text-[var(--muted-foreground)]">
-                        <tr>
-                          <th className="p-2.5">Etapa</th>
-                          <th className="p-2.5">Criterio en HubSpot</th>
-                          <th className="p-2.5">Acción Automatizada</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-[var(--border)]">
-                        <tr>
-                          <td className="p-2.5 font-bold">MQL</td>
-                          <td className="p-2.5">Score &gt; 50 pts + Descarga Guía</td>
-                          <td className="p-2.5">Nutrición por email</td>
-                        </tr>
-                        <tr>
-                          <td className="p-2.5 font-bold text-[var(--primary)]">SQL</td>
-                          <td className="p-2.5">Solicitud de Demo + Tamaño Empresa &gt; 20</td>
-                          <td className="p-2.5 font-bold text-emerald-500">Asignar SDR en 5 min</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)] font-mono">
+                    <span>⏱️ Lectura: 6 min</span>
+                    <span>🏷️ 14 Entidades</span>
                   </div>
-
-                  <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">3. Implementación Paso a Paso del Workflow</h2>
-                  <p className="text-[var(--muted-foreground)]">
-                    Al utilizar las propiedades calculadas de HubSpot CRM combinadas con triggers de interacción de contenido, el ciclo comercial promedio disminuye de 45 a 18 días.
-                  </p>
                 </div>
+
+                {editorMode === 'visual' ? (
+                  <>
+                    <h1 className="text-2xl sm:text-3xl font-black leading-snug text-[var(--foreground)]">
+                      {selectedArticleTitle}
+                    </h1>
+                    <p className="text-xs text-[var(--muted-foreground)] font-mono">
+                      Slug sugerido: <span className="text-[var(--primary)]">/blog/alinear-marketing-ventas-hubspot-revops</span>
+                    </p>
+
+                    <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs space-y-2">
+                      <strong className="text-[var(--foreground)] flex items-center gap-2">
+                        <SparklesIcon className="w-4 h-4 text-amber-500" /> Extracto / Direct Answer para Perplexity &amp; ChatGPT:
+                      </strong>
+                      <p className="text-[var(--muted-foreground)] leading-relaxed italic">
+                        "Alinear Marketing y Ventas en HubSpot requiere definir un SLA (Acuerdo de Nivel de Servicio) basado en Lead Scoring, sincronizar propiedades de ciclo de vida automáticas y activar notificaciones instantáneas para el equipo comercial ante prospectos calificados."
+                      </p>
+                    </div>
+
+                    <div className="prose prose-sm max-w-none text-[var(--foreground)] space-y-4 text-xs sm:text-sm leading-relaxed">
+                      <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">1. El Verdadero Costo de la Fricción entre Marketing y Ventas</h2>
+                      <p className="text-[var(--muted-foreground)]">
+                        En las empresas B2B tradicionales, hasta el 70% de los leads generados por campañas publicitarias nunca son contactados por los ejecutivos comerciales. Esto ocurre porque no existe un criterio unificado de lo que constituye un <em>Marketing Qualified Lead (MQL)</em> vs un <em>Sales Qualified Lead (SQL)</em>.
+                      </p>
+
+                      <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">2. Tabla Comparativa de Criterios de Calificación</h2>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs border border-[var(--border)] rounded-lg">
+                          <thead className="bg-[var(--muted)] text-[var(--muted-foreground)]">
+                            <tr>
+                              <th className="p-2.5">Etapa</th>
+                              <th className="p-2.5">Criterio en HubSpot</th>
+                              <th className="p-2.5">Acción Automatizada</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[var(--border)]">
+                            <tr>
+                              <td className="p-2.5 font-bold">MQL</td>
+                              <td className="p-2.5">Score &gt; 50 pts + Descarga Guía</td>
+                              <td className="p-2.5">Nutrición por email</td>
+                            </tr>
+                            <tr>
+                              <td className="p-2.5 font-bold text-[var(--primary)]">SQL</td>
+                              <td className="p-2.5">Solicitud de Demo + Tamaño Empresa &gt; 20</td>
+                              <td className="p-2.5 font-bold text-emerald-500">Asignar SDR en 5 min</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">3. Implementación Paso a Paso del Workflow</h2>
+                      <p className="text-[var(--muted-foreground)]">
+                        Al utilizar las propiedades calculadas de HubSpot CRM combinadas con triggers de interacción de contenido, el ciclo comercial promedio disminuye de 45 a 18 días.
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <div className="space-y-4">
+                    <textarea 
+                      rows={18}
+                      defaultValue={`# ${selectedArticleTitle}\n\n> **Respuesta Rápida AEO:** Alinear Marketing y Ventas en HubSpot requiere definir un SLA basado en Lead Scoring...\n\n## 1. El Verdadero Costo de la Fricción\nEn las empresas B2B tradicionales...\n\n## 2. Matriz de Conversión HubSpot\n| Etapa | Criterio HubSpot | Acción |\n|---|---|---|\n| MQL | Score > 50 pts | Nutrición Email |\n| SQL | Demo Request | Asignar SDR en 5m |\n\n\`\`\`json\n{\n  "@context": "https://schema.org",\n  "@type": "Article",\n  "headline": "${selectedArticleTitle}"\n}\n\`\`\``}
+                      className="w-full font-mono text-xs bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 text-[var(--foreground)] focus:outline-none leading-relaxed"
+                    />
+                    <p className="text-[10px] text-[var(--muted-foreground)] font-mono">Modo Markdown en vivo. Los cambios se sincronizan en el simulador AEO de la derecha.</p>
+                  </div>
+                )}
               </div>
 
-              {/* Right Column: AEO / GEO Scorecard & Metadata */}
-              <div className="w-full lg:w-80 bg-[var(--background)] p-6 space-y-6 overflow-y-auto">
+              {/* Right Column: Live AEO Citation Inspector */}
+              <div className="w-full lg:w-96 bg-[var(--background)] p-6 space-y-6 overflow-y-auto border-t lg:border-t-0 border-[var(--border)]">
+                
+                {/* AI Simulation Tabs */}
                 <div>
-                  <h4 className="font-bold text-sm mb-1">Diagnóstico AEO Score</h4>
-                  <div className="flex items-center gap-3 mt-2">
-                    <div className="text-3xl font-black text-emerald-500">96<span className="text-xs text-[var(--muted-foreground)]">/100</span></div>
-                    <span className="text-[10px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-1 rounded">
-                      Listo para Indexar
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--muted-foreground)]">Simulador de Citación AEO</h4>
+                    <span className="text-[10px] font-mono text-emerald-500 font-bold">● Simulación en Vivo</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1 bg-[var(--card)] p-1 rounded-lg border border-[var(--border)] text-xs">
+                    <button 
+                      onClick={() => setAiSimTab('perplexity')}
+                      className={`py-1 rounded font-bold text-center cursor-pointer transition-all ${aiSimTab === 'perplexity' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'text-[var(--muted-foreground)]'}`}
+                    >
+                      Perplexity
+                    </button>
+                    <button 
+                      onClick={() => setAiSimTab('chatgpt')}
+                      className={`py-1 rounded font-bold text-center cursor-pointer transition-all ${aiSimTab === 'chatgpt' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'text-[var(--muted-foreground)]'}`}
+                    >
+                      ChatGPT
+                    </button>
+                    <button 
+                      onClick={() => setAiSimTab('google')}
+                      className={`py-1 rounded font-bold text-center cursor-pointer transition-all ${aiSimTab === 'google' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'text-[var(--muted-foreground)]'}`}
+                    >
+                      Google AI
+                    </button>
+                  </div>
+                </div>
+
+                {/* Simulated AI Answer Bubble */}
+                <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold flex items-center gap-1.5 text-[var(--foreground)]">
+                      {aiSimTab === 'perplexity' && '🔮 Perplexity AI Answer'}
+                      {aiSimTab === 'chatgpt' && '⚡ ChatGPT Search Result'}
+                      {aiSimTab === 'google' && '🌐 Google AI Overview'}
+                    </span>
+                    <span className="text-[9px] bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded font-bold">
+                      Citando Tu Dominio [1]
                     </span>
                   </div>
+
+                  <p className="text-[var(--muted-foreground)] leading-relaxed italic text-[11px]">
+                    {aiSimTab === 'perplexity' && '"Según la guía técnica de RevOps en soyroman.com [1], la clave para sincronizar marketing y ventas radica en un SLA automatizado con Lead Scoring que activa alertas a SDRs en menos de 5 minutos..."'}
+                    {aiSimTab === 'chatgpt' && '"Para empresas B2B, fuentes especializadas como soyroman.com destacan que calificar leads por tamaño y solicitud directa reduce el ciclo de ventas comercial de 45 a 18 días."'}
+                    {aiSimTab === 'google' && '"Resumen de IA: La alineación en HubSpot CRM requiere definir etapas claras de MQL a SQL y crear flujos de trabajo de nutrición condicional (Fuente: soyroman.com)."'}
+                  </p>
+
+                  <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-[10px]">
+                    <span className="text-[var(--primary)] font-bold">Fuente Primaria: soyroman.com [1]</span>
+                    <span className="text-emerald-500 font-bold">Probabilidad: 98%</span>
+                  </div>
                 </div>
 
-                {/* AEO Checklist */}
-                <div className="space-y-3 text-xs">
-                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Checklist de Calidad</p>
+                {/* Scorecard */}
+                <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--foreground)]">Probabilidad de Citación</span>
+                    <span className="text-2xl font-black text-emerald-500">96%</span>
+                  </div>
                   
-                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
-                    <span>Respuesta Directa en Párrafo 1</span>
-                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
-                    <span>Tabla Comparativa Estructurada</span>
-                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
-                    <span>Schema JSON-LD inyectado</span>
-                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
-                  </div>
-                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
-                    <span>Enlaces Internos al Pilar (1)</span>
-                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-[var(--muted-foreground)]">Respuesta Directa Párrafo 1</span>
+                      <span className="text-emerald-500 font-bold">✓ Óptimo</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-[var(--muted-foreground)]">Densidad de Entidades</span>
+                      <span className="text-emerald-500 font-bold">✓ 94%</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-[var(--muted-foreground)]">Marcado Schema JSON-LD</span>
+                      <span className="text-emerald-500 font-bold">✓ Article + FAQ</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-[var(--muted-foreground)]">Enlace Interno a Pilar</span>
+                      <span className="text-emerald-500 font-bold">✓ 1 Enlace Activo</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* SEO Meta Fields */}
+                {/* Meta Fields */}
                 <div className="space-y-3 text-xs border-t border-[var(--border)] pt-4">
-                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Meta Etiquetas Generadas</p>
+                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Meta Etiquetas SEO</p>
                   <div>
                     <label className="text-[10px] font-bold text-[var(--muted-foreground)] block mb-1">Meta Title</label>
                     <input 
@@ -2037,8 +2695,8 @@ export default function DashboardMockup() {
                   <div>
                     <label className="text-[10px] font-bold text-[var(--muted-foreground)] block mb-1">Meta Description</label>
                     <textarea 
-                      rows={3}
-                      defaultValue="Aprende a integrar marketing y ventas en HubSpot CRM. Descubre workflows automatizados y SLAs para reducir el ciclo comercial hasta un 40%."
+                      rows={2}
+                      defaultValue="Aprende a integrar marketing y ventas en HubSpot CRM con workflows automatizados y SLAs para reducir el ciclo comercial hasta un 40%."
                       className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-xs text-[var(--foreground)] leading-relaxed"
                     />
                   </div>
@@ -2114,6 +2772,183 @@ export default function DashboardMockup() {
           </div>
         </div>
       )}
+
+      {/* MODAL 4: DRAWER DE AGENTE AUTÓNOMO EN VIVO (SOPHIA, JAX, VERA) */}
+      {selectedAgent && (
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md bg-[var(--card)] border-l border-[var(--border)] h-full flex flex-col shadow-2xl p-6 space-y-6 overflow-y-auto">
+            <div className="flex justify-between items-start border-b border-[var(--border)] pb-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-md ${selectedAgent === 'sophia' ? 'bg-cyan-500' : selectedAgent === 'jax' ? 'bg-orange-500' : 'bg-emerald-500'}`}>
+                  {selectedAgent === 'sophia' ? 'SP' : selectedAgent === 'jax' ? 'JX' : 'VR'}
+                </div>
+                <div>
+                  <h3 className="font-bold text-base capitalize flex items-center gap-2">
+                    Agente {selectedAgent === 'sophia' ? 'Sophia (SERP Scout)' : selectedAgent === 'jax' ? 'Jax (RevOps HubSpot)' : 'Vera (AEO Content)'}
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                  </h3>
+                  <p className="text-xs text-[var(--muted-foreground)]">
+                    {selectedAgent === 'sophia' && 'Rastreo autónomo de competidores & Search Console'}
+                    {selectedAgent === 'jax' && 'Sincronización de pipelines y atribución de deals en HubSpot'}
+                    {selectedAgent === 'vera' && 'Redacción y optimización semántica para Perplexity/ChatGPT'}
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedAgent(null)}
+                className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Agent Live Reasoning & Thought Stream */}
+            <div className="space-y-4 text-xs">
+              <div className="flex justify-between items-center">
+                <span className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Flujo de Razonamiento en Vivo</span>
+                <span className="font-mono text-emerald-400 text-[10px]">Pings activos cada 4s</span>
+              </div>
+
+              <div className="space-y-2 font-mono text-[11px] bg-[var(--background)] p-4 rounded-xl border border-[var(--border)]">
+                {selectedAgent === 'sophia' && (
+                  <>
+                    <p className="text-slate-400">&gt; Invocando tool: <span className="text-cyan-400">gsc_decay_audit()</span></p>
+                    <p className="text-slate-400">&gt; Analizando 250 consultas en México y Latam...</p>
+                    <p className="text-emerald-400">&gt; [OK] Detectada oportunidad en keyword: "revops hubspot cdmx"</p>
+                    <p className="text-slate-400">&gt; Notificando a Agente Vera para generar borrador.</p>
+                  </>
+                )}
+                {selectedAgent === 'jax' && (
+                  <>
+                    <p className="text-slate-400">&gt; Invocando tool: <span className="text-orange-400">hubspot_deal_sync()</span></p>
+                    <p className="text-slate-400">&gt; Mapeando cookies de primer contacto con Deals de HubSpot...</p>
+                    <p className="text-emerald-400">&gt; [OK] Atribuido deal #8942 ($18,000 USD) al artículo #ART-892</p>
+                    <p className="text-slate-400">&gt; Actualizando métrica de ROI en tiempo real.</p>
+                  </>
+                )}
+                {selectedAgent === 'vera' && (
+                  <>
+                    <p className="text-slate-400">&gt; Invocando tool: <span className="text-emerald-400">cloudflare_llama_synthesize()</span></p>
+                    <p className="text-slate-400">&gt; Recuperando 4 fragmentos de Pinecone RAG...</p>
+                    <p className="text-emerald-400">&gt; [OK] Redactando borrador con densidad AEO del 96%</p>
+                    <p className="text-slate-400">&gt; Lista para enviar a webhook de WordPress en soyroman.com</p>
+                  </>
+                )}
+              </div>
+
+              {/* Controles de Agente */}
+              <div className="pt-4 border-t border-[var(--border)] space-y-2">
+                <button 
+                  onClick={() => alert(`Se envió instrucción prioritaria al Agente ${selectedAgent}`)}
+                  className="w-full bg-[var(--primary)] text-white py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm"
+                >
+                  Asignar Tarea Prioritaria a este Agente
+                </button>
+                <button 
+                  onClick={() => alert(`Agente ${selectedAgent} pausado temporalmente.`)}
+                  className="w-full bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] py-2 rounded-lg text-xs font-semibold cursor-pointer"
+                >
+                  Pausar Agente Temporalmente
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 5: QUICK URL AUDIT SCANNER */}
+      {isQuickScanModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-lg shadow-2xl p-6 space-y-5">
+            <div className="flex justify-between items-center border-b border-[var(--border)] pb-3">
+              <h3 className="font-bold text-base flex items-center gap-2">
+                <BoltIcon className="w-5 h-5 text-amber-500" /> Auditoría Instantánea de URL (Quick Scan)
+              </h3>
+              <button onClick={() => setIsQuickScanModalOpen(false)} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+                <XMarkIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-xs font-semibold text-[var(--muted-foreground)] block">Ingresa cualquier URL para evaluar su compatibilidad AEO en 5 segundos:</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  value={quickScanInput}
+                  onChange={(e) => setQuickScanInput(e.target.value)}
+                  placeholder="https://soyroman.com/blog/articulo"
+                  className="flex-1 bg-[var(--background)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]"
+                />
+                <button 
+                  onClick={handleQuickScan}
+                  disabled={isScanningUrl || !quickScanInput}
+                  className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] disabled:opacity-50 transition-all cursor-pointer shadow-sm"
+                >
+                  {isScanningUrl ? 'Escaneando...' : 'Escanear'}
+                </button>
+              </div>
+            </div>
+
+            {quickScanReport && (
+              <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-3 text-xs animate-fade-in">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-[var(--foreground)]">Resultado para: {quickScanReport.url}</span>
+                  <span className="text-emerald-500 font-bold text-base">{quickScanReport.score}/100</span>
+                </div>
+                <p className="text-xs text-emerald-400 font-semibold">{quickScanReport.aeo}</p>
+                <div className="space-y-1 text-[11px] text-[var(--muted-foreground)]">
+                  {quickScanReport.issues.map((iss: string, idx: number) => (
+                    <p key={idx}>• {iss}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* FLOATING ACTION BAR (COMMAND DOCK INFERIOR ESTILO MACOS / RAYCAST) */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 bg-[var(--card)]/90 backdrop-blur-xl border border-[var(--border)] px-4 py-2 rounded-full shadow-2xl transition-all hover:scale-102">
+        <button 
+          onClick={() => {
+            setQuickScanInput('https://' + currentWorkspace + '/blog');
+            setIsQuickScanModalOpen(true);
+          }}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+          title="Escanear cualquier URL al instante"
+        >
+          <BoltIcon className="w-4 h-4 text-amber-500" />
+          <span>Quick Scan</span>
+        </button>
+
+        <span className="w-px h-4 bg-[var(--border)]"></span>
+
+        <button 
+          onClick={() => {
+            setSelectedArticleTitle("Estrategias de Optimización AEO para B2B");
+            setIsCanvasModalOpen(true);
+          }}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+          title="Probar simulación de prompt en Perplexity y ChatGPT"
+        >
+          <SparklesIcon className="w-4 h-4 text-cyan-400" />
+          <span>Simular AEO</span>
+        </button>
+
+        <span className="w-px h-4 bg-[var(--border)]"></span>
+
+        <button 
+          onClick={() => {
+            alert('¡Ciclo forzado disparado! El motor autónomo está analizando nuevas oportunidades...');
+            setIsTerminalOpen(true);
+          }}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-[0_0_12px_rgba(255,90,0,0.4)]"
+          title="Forzar un ciclo de generación inmediata"
+        >
+          <RocketLaunchIcon className="w-3.5 h-3.5" />
+          <span>Disparar Motor</span>
+        </button>
+      </div>
 
     </div>
   );
