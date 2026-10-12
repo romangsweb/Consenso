@@ -252,11 +252,39 @@ export default function DashboardMockup() {
       
       {/* Sidebar */}
       <aside className="w-64 border-r border-[var(--border)] bg-[var(--background)] flex flex-col hidden md:flex transition-colors duration-200">
-        <div className="h-16 flex items-center px-6 border-b border-[var(--border)]">
-          <div className="w-8 h-8 rounded bg-[var(--primary)] mr-3 flex items-center justify-center shadow-[0_0_12px_rgba(255,90,0,0.35)]">
-            <GlobeAltIcon className="w-5 h-5 text-white" />
+        {/* Brand Header with Industrial Logo */}
+        <div className="h-16 flex items-center justify-between px-5 border-b border-[var(--border)] relative overflow-hidden bg-gradient-to-r from-transparent via-[var(--primary)]/5 to-transparent">
+          {/* Subtle industrial laser sweep line */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent opacity-60"></div>
+          
+          <div className="flex items-center gap-3">
+            {/* Custom Industrial Geometric Monogram Logo */}
+            <div className="relative w-9 h-9 rounded-lg bg-[var(--card)] border border-[var(--border)] p-1.5 flex items-center justify-center shadow-[0_0_15px_rgba(255,90,0,0.25)] group hover:border-[var(--primary)] transition-all">
+              <svg viewBox="0 0 36 36" fill="none" className="w-6 h-6">
+                {/* Industrial Hex/Block Grid Nodes */}
+                <rect x="3" y="3" width="13" height="13" rx="2.5" fill="#ff5a00" className="transition-transform group-hover:scale-95 origin-top-left" />
+                <rect x="20" y="3" width="13" height="13" rx="2.5" fill="currentColor" fillOpacity="0.15" stroke="#ff5a00" strokeWidth="1.5" />
+                <rect x="3" y="20" width="13" height="13" rx="2.5" fill="currentColor" fillOpacity="0.08" stroke="#ff5a00" strokeWidth="1.5" strokeDasharray="2 2" />
+                <rect x="20" y="20" width="13" height="13" rx="2.5" fill="#ff5a00" className="transition-transform group-hover:scale-95 origin-bottom-right" />
+                <circle cx="9.5" cy="9.5" r="2" fill="#ffffff" />
+                <circle cx="26.5" cy="26.5" r="2" fill="#ffffff" />
+                {/* Connecting Micro-Traces */}
+                <path d="M16 9.5H20M9.5 16V20M26.5 16V20M16 26.5H20" stroke="#ff5a00" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border border-[var(--card)] animate-pulse"></span>
+            </div>
+
+            <div>
+              <h1 className="font-extrabold text-sm tracking-wider leading-none">
+                BUILDATIONS
+              </h1>
+              <span className="text-[10px] font-mono tracking-widest text-[var(--primary)] font-black uppercase flex items-center gap-1 mt-0.5">
+                STUDIO <span className="text-[8px] px-1 py-0.2 rounded bg-[var(--primary)]/15 border border-[var(--primary)]/30 font-bold">CORE</span>
+              </span>
+            </div>
           </div>
-          <h1 className="font-bold text-base tracking-wide">BUILDATIONS <span className="text-[var(--primary)] font-black">STUDIO</span></h1>
+
+          <div className="w-2 h-2 rounded-full bg-[var(--primary)]/30 animate-pulse-glow" title="Industrial Telemetry: Operational"></div>
         </div>
         
         <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
@@ -353,22 +381,30 @@ export default function DashboardMockup() {
             </div>
           </div>
 
-          {/* Section 3 */}
-          <div>
-            <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Sistema</p>
-            <div className="space-y-1">
-              <button 
-                onClick={() => setActiveTab('apihub')}
-                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'apihub' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+          {/* Industrial Status Widget */}
+          <div className="mx-2 p-3 rounded-xl bg-gradient-to-b from-[var(--card)] to-[var(--background)] border border-[var(--border)] relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--primary)]/5 rounded-full blur-xl pointer-events-none"></div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--muted-foreground)] flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                KERNEL ONLINE
+              </span>
+              <span className="text-[9px] font-mono text-[var(--primary)] font-bold">99.98%</span>
+            </div>
+            <div className="w-full bg-[var(--muted)] h-1.5 rounded-full overflow-hidden">
+              <div className="bg-gradient-to-r from-[var(--primary)] to-amber-400 h-full w-[94%] rounded-full animate-pulse"></div>
+            </div>
+            <div className="mt-2.5 pt-2 border-t border-[var(--border)] flex items-center justify-between text-[10px] text-[var(--muted-foreground)]">
+              <span>Cluster Mesh</span>
+              <a 
+                href="/ruta-no-existente-test-404" 
+                target="_blank" 
+                rel="noreferrer"
+                className="text-[10px] font-mono text-[var(--primary)] hover:underline flex items-center gap-0.5"
+                title="Probar pantalla 404 de diseño industrial"
               >
-                <CpuChipIcon className="w-5 h-5 mr-3" /> API Hub
-              </button>
-              <button 
-                onClick={() => setActiveTab('profile')}
-                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'profile' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
-              >
-                <Cog6ToothIcon className="w-5 h-5 mr-3" /> Ajustes
-              </button>
+                Test 404 ↗
+              </a>
             </div>
           </div>
         </nav>
@@ -711,12 +747,77 @@ export default function DashboardMockup() {
             {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
               <div className="space-y-8 animate-fade-in">
+                {/* Industrial Status Header & Engine Telemetry Banner */}
+                <div className="relative rounded-2xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] via-[var(--background)] to-[var(--card)] p-5 overflow-hidden shadow-xl">
+                  {/* Subtle Industrial Grid Pattern */}
+                  <div className="absolute inset-0 bg-industrial-grid pointer-events-none opacity-40"></div>
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent"></div>
+                  
+                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div className="flex items-start gap-4">
+                      {/* Active Spinning Reactor / Core Graphic */}
+                      <div className="relative w-12 h-12 rounded-xl bg-black/40 border border-[var(--border)] flex items-center justify-center p-2.5 shadow-inner">
+                        <div className="absolute inset-0 rounded-xl border border-[var(--primary)]/30 animate-pulse"></div>
+                        <svg viewBox="0 0 24 24" fill="none" className="w-full h-full text-[var(--primary)]">
+                          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="animate-spin" style={{ animationDuration: '8s' }} />
+                          <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.5" />
+                          <path d="M12 3V6M12 18V21M3 12H6M18 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      </div>
+
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-0.5 rounded border border-[var(--primary)]/20">
+                            BUILDATIONS ENGINE v2.4 // TELEMETRÍA INDUSTRIAL
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> ONLINE
+                          </span>
+                        </div>
+                        <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[var(--foreground)]">
+                          Centro de Comando de Posicionamiento &amp; RevOps
+                        </h2>
+                        <p className="text-[var(--muted-foreground)] text-xs sm:text-sm mt-0.5">
+                          Monitoreo de clusters semánticos, agentes sintéticos y atribución de deals en HubSpot.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-[var(--background)]/80 border border-[var(--border)] text-xs font-mono">
+                        <div>
+                          <p className="text-[9px] uppercase tracking-wider text-[var(--muted-foreground)]">Latencia Mesh</p>
+                          <p className="font-bold text-emerald-400">18ms (OK)</p>
+                        </div>
+                        <div className="h-6 w-[1px] bg-[var(--border)]"></div>
+                        <div>
+                          <p className="text-[9px] uppercase tracking-wider text-[var(--muted-foreground)]">HubSpot Sync</p>
+                          <p className="font-bold text-zinc-300">Hub #982104</p>
+                        </div>
+                        <div className="h-6 w-[1px] bg-[var(--border)]"></div>
+                        <div>
+                          <p className="text-[9px] uppercase tracking-wider text-[var(--muted-foreground)]">Crawlers Activos</p>
+                          <p className="font-bold text-[var(--primary)]">3 Agentes</p>
+                        </div>
+                      </div>
+
+                      <button 
+                        onClick={() => setIsTerminalOpen(true)}
+                        className="px-3.5 py-2 rounded-xl bg-[var(--card)] hover:bg-[var(--muted)] border border-[var(--border)] text-xs font-semibold text-[var(--foreground)] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+                      >
+                        <CommandLineIcon className="w-4 h-4 text-emerald-400" />
+                        <span>Ver Traza</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex justify-between items-end">
                   <div>
-                    <h2 className="text-2xl font-bold mb-1">Visión General</h2>
-                    <p className="text-[var(--muted-foreground)] text-sm">Resumen de rendimiento y salud de posicionamiento.</p>
+                    <h3 className="text-lg font-bold">Métricas Clave de Rendimiento</h3>
+                    <p className="text-[var(--muted-foreground)] text-xs">Visibilidad orgánica, distribución en el Top 3 y tracción en motores generativos (AEO).</p>
                   </div>
-                  <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
+                  <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
                     Exportar Reporte
                   </button>
                 </div>
