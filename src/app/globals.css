@@ -613,6 +613,167 @@ body {
   animation: signalFlowMotion 1s linear infinite;
 }
 
+/* ==========================================================================
+   DOCUMENTACIÓN MODO HISTORIETA // COMIC STRIP GRAPHIC NOVEL B&W STYLES
+   ========================================================================== */
+
+/* Fondo de papel de cómic con textura halftone / semitono Ben-Day */
+.comic-page-canvas {
+  background-color: #ffffff;
+  color: #050505;
+  background-image: radial-gradient(#111111 0.75px, transparent 0.75px);
+  background-size: 8px 8px;
+}
+
+[data-theme="dark"] .comic-page-canvas {
+  background-color: #0c0d10;
+  color: #f0f0f0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.8px, transparent 0.8px);
+  background-size: 8px 8px;
+}
+
+/* Viñeta de Historieta con Borde Grueso Tinta China y Sombra Dura Desplazada */
+.comic-panel {
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+  background-color: #ffffff;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .comic-panel {
+  border: 3px solid #e5e5e5;
+  box-shadow: 6px 6px 0px #e85a2a;
+  background-color: #12141a;
+}
+
+.comic-panel:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #000000;
+}
+
+[data-theme="dark"] .comic-panel:hover {
+  box-shadow: 8px 8px 0px #e85a2a;
+}
+
+/* Globo de diálogo clásico con piquito apuntador */
+.comic-balloon {
+  position: relative;
+  background: #ffffff;
+  border: 2.5px solid #000000;
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 3px 3px 0px #000000;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .comic-balloon {
+  background: #181b22;
+  border: 2.5px solid #ffffff;
+  box-shadow: 3px 3px 0px rgba(255, 255, 255, 0.2);
+  color: #f5f5f5;
+}
+
+.comic-balloon:hover {
+  transform: scale(1.02);
+  background: #fffcf0;
+  border-color: #e85a2a;
+}
+
+[data-theme="dark"] .comic-balloon:hover {
+  background: #20242e;
+  border-color: #e85a2a;
+}
+
+/* Piquito inferior del globo */
+.comic-balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 11px 9px 0 2px;
+  border-color: #000000 transparent transparent transparent;
+}
+
+[data-theme="dark"] .comic-balloon::after {
+  border-color: #ffffff transparent transparent transparent;
+}
+
+.comic-balloon::before {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 26px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 9px 7px 0 1px;
+  border-color: #ffffff transparent transparent transparent;
+  z-index: 1;
+}
+
+[data-theme="dark"] .comic-balloon::before {
+  border-color: #181b22 transparent transparent transparent;
+}
+
+/* Globo de Pensamiento (Nube) */
+.comic-thought {
+  position: relative;
+  background: #ffffff;
+  border: 2.5px dashed #000000;
+  border-radius: 20px;
+  padding: 10px 14px;
+  box-shadow: 3px 3px 0px #000000;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .comic-thought {
+  background: #141720;
+  border: 2.5px dashed #e5e5e5;
+  box-shadow: 3px 3px 0px rgba(232, 90, 42, 0.4);
+}
+
+/* Cuadro de Narrador ("MIENTRAS TANTO EN EL CUARTEL DE DESARROLLO...") */
+.comic-caption-box {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  display: inline-block;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .comic-caption-box {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #ffffff;
+}
+
+/* Onomatopeya / Efecto de Sonido estilo Cómic (*¡CLICK!*, *¡ZAP!*, *¡PING!*) */
+.comic-onomatopoeia {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  transform: rotate(-4deg);
+  text-shadow: 2px 2px 0px #000000;
+  display: inline-block;
+}
+
+[data-theme="dark"] .comic-onomatopoeia {
+  text-shadow: 2px 2px 0px #e85a2a;
+}
+
+
 
 
 

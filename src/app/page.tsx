@@ -741,6 +741,18 @@ export default function DashboardMockup() {
   const [docCategory, setDocCategory] = useState<'quickstart' | 'architecture' | 'engines' | 'connectors' | 'faqs' | 'troubleshooting'>('quickstart');
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [docDisplayMode, setDocDisplayMode] = useState<'comic' | 'classic'>('comic');
+  const [activeBalloonDetail, setActiveBalloonDetail] = useState<{
+    chapter: string;
+    speaker: string;
+    role: string;
+    title: string;
+    quote: string;
+    technicalDeepDive: string;
+    codeSnippet?: string;
+    actionableStep: string;
+  } | null>(null);
+  const [activeComicChapter, setActiveComicChapter] = useState<'all' | 'chapter1' | 'chapter2' | 'chapter3' | 'chapter4' | 'chapter5'>('all');
 
   // Estados para Configuración de Cuenta & Enterprise Vault
   const [settingsTab, setSettingsTab] = useState<'apiKeys' | 'dns' | 'webhooks' | 'general' | 'team'>('apiKeys');
@@ -7120,6 +7132,34 @@ export default function DashboardMockup() {
                   </div>
 
                   <div className="flex items-center gap-2.5">
+                    {/* Switch Modo Cómic Historieta vs Modo Técnico Clásico */}
+                    <div className="flex items-center p-1 rounded-xl bg-black border-2 border-black dark:border-white shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#e85a2a]">
+                      <button
+                        onClick={() => setDocDisplayMode('comic')}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                          docDisplayMode === 'comic'
+                            ? 'bg-[#ffffff] text-black font-extrabold shadow-sm'
+                            : 'text-zinc-400 hover:text-white'
+                        }`}
+                        title="Modo Historieta Gráfica B&N: Historia de la marca y desarrollo"
+                      >
+                        <span className="text-sm">💬</span>
+                        <span className="uppercase tracking-wider">HISTORIETA B&amp;N</span>
+                      </button>
+                      <button
+                        onClick={() => setDocDisplayMode('classic')}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                          docDisplayMode === 'classic'
+                            ? 'bg-[var(--primary)] text-white shadow-sm'
+                            : 'text-zinc-400 hover:text-white'
+                        }`}
+                        title="Modo Manual Técnico Tradicional"
+                      >
+                        <span className="text-sm">📄</span>
+                        <span className="uppercase tracking-wider">MANUAL PRO</span>
+                      </button>
+                    </div>
+
                     <button 
                       onClick={() => {
                         const content = `# MANUAL TÉCNICO Y ESPECIFICACIÓN BUILDATIONS STUDIO V2.4\nGenerado: ${new Date().toISOString()}\n\nArquitectura: 64-bit Hybrid Vector Runtime\nConectores: Payload CMS 3.x, WordPress REST, Supabase pgvector, Pinecone, HubSpot RevOps\n`;
@@ -7135,17 +7175,833 @@ export default function DashboardMockup() {
                       className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
                     >
                       <ArrowDownTrayIcon className="w-4 h-4 text-cyan-400" />
-                      Descargar Manual (.MD)
+                      Descargar (.MD)
                     </button>
                     <button 
                       onClick={() => setActiveTab('engineBuilder')}
                       className="bg-[var(--primary)] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer flex items-center gap-2 shadow-sm"
                     >
                       <RocketLaunchIcon className="w-4 h-4" />
-                      Ir al Constructor
+                      Constructor
                     </button>
                   </div>
                 </div>
+
+                {/* MODO HISTORIETA GRÁFICA B&N // LA HISTORIA DE LA MARCA & DESARROLLO */}
+                {docDisplayMode === 'comic' && (
+                  <div className="space-y-8 animate-fade-in">
+                    {/* Banner de Cabecera Estilo Cómic Clásico */}
+                    <div className="comic-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden bg-white text-black">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-3">
+                            <span className="comic-caption-box text-xs">
+                              BUILDATIONS COMICS // N.º 01
+                            </span>
+                            <span className="comic-onomatopoeia text-sm text-red-600 dark:text-[#e85a2a]">
+                              *¡CLIC-CLIC!*
+                            </span>
+                            <span className="text-[10px] font-mono tracking-widest uppercase font-bold text-zinc-500">
+                              EDICIÓN ESPECIAL EN BLANCO Y NEGRO
+                            </span>
+                          </div>
+                          <h3 className="text-2xl sm:text-4xl font-black tracking-tight uppercase font-mono leading-none">
+                            CÓMO NACE STUDIO 2.0: DE LA API SECRETA AL IMPACTO REVOPS
+                          </h3>
+                          <p className="text-xs sm:text-sm font-medium text-zinc-700 max-w-2xl leading-relaxed">
+                            Una crónica interactiva en viñetas: el equipo de Dev picando código nocturno, Marketing bautizando el lanzamiento como <em>Studio 2.0</em> y RevOps cosechando clientes con IA citada en Perplexity. <strong>Haz clic en cualquier globo de diálogo para abrir la especificación técnica en detalle y su código de integración.</strong>
+                          </p>
+                        </div>
+
+                        {/* Indicador de ayuda táctil */}
+                        <div className="border-2 border-black p-3 bg-zinc-100 flex items-center gap-3 shrink-0 shadow-[4px_4px_0px_#000000]">
+                          <div className="w-10 h-10 border-2 border-black bg-white rounded-full flex items-center justify-center text-lg font-black animate-bounce">
+                            💬
+                          </div>
+                          <div className="text-[10px] font-mono font-bold leading-tight">
+                            <span className="block text-black">INTERACCIÓN:</span>
+                            <span className="text-zinc-600">Presiona los globos para</span>
+                            <span className="text-[#e85a2a] block">inspeccionar código</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Selector de Capítulos de la Historieta */}
+                      <div className="mt-6 pt-4 border-t-2 border-black flex flex-wrap items-center gap-2">
+                        <span className="text-[10px] font-mono font-black uppercase text-zinc-600 mr-2">Capítulos:</span>
+                        {[
+                          { id: 'all', label: 'Toda la Historieta (5 Capítulos)' },
+                          { id: 'chapter1', label: 'Cap. 1 // La API Secreta (Dev)' },
+                          { id: 'chapter2', label: 'Cap. 2 // Marketing lo Llama 2.0' },
+                          { id: 'chapter3', label: 'Cap. 3 // El Conector CMS Handshake' },
+                          { id: 'chapter4', label: 'Cap. 4 // El Cerebro Vectorial RAG' },
+                          { id: 'chapter5', label: 'Cap. 5 // RevOps & Los Clientes Felices' },
+                        ].map((ch) => (
+                          <button
+                            key={ch.id}
+                            onClick={() => setActiveComicChapter(ch.id as any)}
+                            className={`px-3 py-1.5 text-[11px] font-mono font-bold transition-all border-2 border-black cursor-pointer ${
+                              activeComicChapter === ch.id
+                                ? 'bg-black text-white shadow-[2px_2px_0px_#e85a2a]'
+                                : 'bg-white text-black hover:bg-zinc-100'
+                            }`}
+                          >
+                            {ch.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* GRILLA DE VIÑETAS DE LA HISTORIETA */}
+                    <div className="space-y-8">
+
+                      {/* CAPÍTULO 1: EL DEPARTAMENTO DE DESARROLLO FORJANDO LA API & TOKEN */}
+                      {(activeComicChapter === 'all' || activeComicChapter === 'chapter1') && (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <span className="comic-caption-box text-xs">
+                              CAPÍTULO 1: 03:42 AM EN EL LABORATORIO DE DESARROLLO
+                            </span>
+                            <div className="h-0.5 bg-black dark:bg-white flex-1"></div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
+                            {/* Panel 1.1: El Dev Líder picando el Token */}
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #01 // Terminal</span>
+                                  <span className="comic-onomatopoeia text-xs text-black dark:text-white">*TAP-TAP-TAP*</span>
+                                </div>
+
+                                {/* Ilustración Cómic SVG B&W: Desarrollador frente a múltiples monitores */}
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Monitores */}
+                                    <rect x="20" y="15" width="60" height="45" rx="2" fill="white" />
+                                    <line x1="50" y1="60" x2="50" y2="72" strokeWidth="3" />
+                                    <line x1="35" y1="72" x2="65" y2="72" strokeWidth="3" />
+                                    <path d="M25 25h50M25 33h35M25 41h45" strokeWidth="1.5" strokeDasharray="3 2" />
+                                    
+                                    <rect x="90" y="20" width="70" height="40" rx="2" fill="white" />
+                                    <path d="M95 28h60M95 36h40M95 44h50" strokeWidth="1.5" strokeDasharray="3 2" />
+
+                                    {/* Taza de café echando humo */}
+                                    <rect x="170" y="55" width="16" height="18" rx="2" fill="white" />
+                                    <path d="M186 60c4 0 6 3 6 6s-2 6-6 6" strokeWidth="2" />
+                                    <path d="M174 48c2-4-2-6 0-10M180 50c2-4-2-6 0-10" strokeWidth="1" />
+
+                                    {/* Teclado */}
+                                    <rect x="50" y="78" width="90" height="12" rx="2" fill="white" />
+                                  </svg>
+                                  <div className="absolute top-2 right-2 font-mono text-[9px] bg-black text-white px-1.5 py-0.5 font-bold">
+                                    V2.4-KERNEL
+                                  </div>
+                                </div>
+
+                                {/* Globo de Diálogo Interactivo */}
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 1: Desarrollo de la API',
+                                    speaker: 'Álex // Lead Systems Architect',
+                                    role: 'Departamento de Ingeniería & Core',
+                                    title: 'Autenticación mediante Bearer Tokens & Handshake 64-bit',
+                                    quote: '«Si no encapsulamos los tokens de sesión con hash SHA-256 en el Header Authorization, los motores van a colapsar cuando generen 50 piezas por minuto... ¡Listo el Bearer token!»',
+                                    technicalDeepDive: 'El subsistema de autenticación de Buildations Studio utiliza tokens de servicio criptográficamente firmados (bld_live_sec_...). Cada petición a /api/transactions o al motor autónomo valida la cuota de inferencia, la firma HMAC y la sincronización con el servidor de sockets.',
+                                    codeSnippet: `// Handshake oficial de Buildations API
+const res = await fetch('https://api.buildations.studio/v2/engines/generate', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer bld_live_sec_8f99e412a80c',
+    'Content-Type': 'application/json',
+    'X-Client-Signature': 'buildations-sha256-verified'
+  },
+  body: JSON.stringify({
+    engineId: 'eng-01',
+    frequency: 'realtime',
+    targetCms: 'payload_3x'
+  })
+});`,
+                                    actionableStep: 'Puedes configurar o rotar este Bearer Token en la sección "Configuración de Cuenta & Enterprise Vault" > pestaña "API Keys".'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «¡Listo el Bearer Token criptográfico! Si no aislamos la autenticación de la API, el cluster no aguantará 50 artículos simultáneos...»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— ÁLEX, LEAD DEV</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Panel 1.2: El Servidor y la Latencia de Inferencia */}
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #02 // Rack Server</span>
+                                  <span className="comic-onomatopoeia text-xs text-blue-600 dark:text-cyan-400">*BZZZZT!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Servidor Blade Rack */}
+                                    <rect x="40" y="10" width="120" height="80" rx="3" fill="white" />
+                                    <line x1="40" y1="30" x2="160" y2="30" strokeWidth="2" />
+                                    <line x1="40" y1="50" x2="160" y2="50" strokeWidth="2" />
+                                    <line x1="40" y1="70" x2="160" y2="70" strokeWidth="2" />
+                                    {/* Luces LEDs */}
+                                    <circle cx="55" cy="20" r="3" fill="#e85a2a" />
+                                    <circle cx="65" cy="20" r="3" fill="#3ddc84" />
+                                    <circle cx="55" cy="40" r="3" fill="#3ddc84" />
+                                    <circle cx="65" cy="40" r="3" fill="#f5a623" />
+                                    <circle cx="55" cy="60" r="3" fill="#3ddc84" />
+                                    <circle cx="65" cy="60" r="3" fill="#3ddc84" />
+                                    <circle cx="55" cy="80" r="3" fill="#3ddc84" />
+                                    {/* Cables de red */}
+                                    <path d="M140 20c15 10 15 30 0 40M145 40c15 10 15 30 0 40" strokeWidth="1.5" strokeDasharray="3 2" />
+                                  </svg>
+                                  <div className="absolute bottom-2 left-2 font-mono text-[8px] bg-black text-white px-1.5 py-0.5 font-bold">
+                                    LATENCIA // 1.42s
+                                  </div>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 1: Infraestructura de Cómputo',
+                                    speaker: 'Sara // DevOps & Cloud Reliability',
+                                    role: 'Departamento de Infraestructura',
+                                    title: 'Rendimiento Sub-2s y Clúster de Inferencia en Tiempo Real',
+                                    quote: '«¡El ping cayó a 1.42 segundos! El parser vectorial y los workers de Node 22 están procesando los prompts con cero cola de espera.»',
+                                    technicalDeepDive: 'Optimizamos la memoria mediante streaming SSE (Server-Sent Events) directo a la interfaz y volcados asíncronos a la base de datos PostgreSQL de Supabase, previniendo cuellos de botella en la renderización.',
+                                    codeSnippet: `// Streaming SSE de Inferencia
+export async function GET(req: Request) {
+  const stream = new TransformStream();
+  const writer = stream.writable.getWriter();
+  // Bufferiza en 64 bits sin bloquear el Event Loop
+  generateEngineStream({ writer, latencyTargetMs: 1400 });
+  return new Response(stream.readable, {
+    headers: { 'Content-Type': 'text/event-stream' }
+  });
+}`,
+                                    actionableStep: 'Puedes monitorear el ecualizador y los LEDs de latencia en la pantalla principal de la Consola.'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «¡Álex, el ping bajó a 1.42 segundos! El motor de inferencia ya no se cuelga con los artículos extensos.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— SARA, CLOUD RELIABILITY</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Panel 1.3: Pensamiento del Dev (Nube de Pensamiento) */}
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #03 // Pensamiento</span>
+                                  <span className="comic-onomatopoeia text-xs text-amber-600 dark:text-yellow-400">*¿Y AHORA QUÉ?*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Rostro pensativo con signos de interrogación */}
+                                    <circle cx="80" cy="50" r="28" fill="white" strokeWidth="2.5" />
+                                    {/* Gafas */}
+                                    <rect x="65" y="42" width="12" height="10" rx="2" strokeWidth="2" fill="white" />
+                                    <rect x="83" y="42" width="12" height="10" rx="2" strokeWidth="2" fill="white" />
+                                    <line x1="77" y1="47" x2="83" y2="47" strokeWidth="2" />
+                                    <path d="M72 65c4 3 12 3 16 0" strokeWidth="2" />
+                                    {/* Burbujas de pensamiento */}
+                                    <circle cx="125" cy="40" r="4" fill="white" strokeWidth="2" />
+                                    <circle cx="138" cy="32" r="7" fill="white" strokeWidth="2" />
+                                    <rect x="145" y="15" width="45" height="30" rx="6" fill="white" strokeWidth="2" />
+                                    <text x="150" y="32" fontSize="9" fontFamily="monospace" fontWeight="bold" fill="currentColor">MKT ?</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 1: Transición a Producto',
+                                    speaker: 'Álex // Pensamiento Interno',
+                                    role: 'Departamento de Ingeniería',
+                                    title: 'Cómo explicar la API de 64-bits al resto de la empresa',
+                                    quote: '«(Pensando)... La API quedó perfecta técnicamente, pero si se la paso a Marketing como "Endpoints REST de Inferencia Vectorial con Handshake HMAC", nadie lo va a entender...»',
+                                    technicalDeepDive: 'La brecha entre ingeniería pura y adopción de usuarios se resuelve creando abstracciones semánticas. Por eso encapsulamos los parámetros de la API bajo "Motores Autónomos", "Interruptores de Frecuencia" y "Perillas de Calibración AEO".',
+                                    actionableStep: 'Explora la sección "Constructor de Motores" para ver la interfaz visual que traduce esta API técnica en controles táctiles.'
+                                  })}
+                                  className="comic-thought"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «(Pensando)... La API es una joya. Pero si le mando la documentación en Swagger a Mateo de Marketing, le dará un infarto...»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>💭 PENSAMIENTO DE INGENIERO</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      )}
+
+                      {/* CAPÍTULO 2: MARKETING ANUNCIA "BUILDATIONS STUDIO 2.0" */}
+                      {(activeComicChapter === 'all' || activeComicChapter === 'chapter2') && (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <span className="comic-caption-box text-xs">
+                              CAPÍTULO 2: 09:15 AM EN LA SALA DE MARKETING &amp; CREATIVOS
+                            </span>
+                            <div className="h-0.5 bg-black dark:bg-white flex-1"></div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            {/* Panel 2.1: El Pitch de Marketing */}
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #04 // Sala Creativa</span>
+                                  <span className="comic-onomatopoeia text-xs text-red-600 dark:text-[#e85a2a]">*¡BOOM!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-36 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 240 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Pizarra blanca con diagramas */}
+                                    <rect x="20" y="10" width="120" height="75" rx="2" fill="white" />
+                                    <text x="30" y="28" fontSize="10" fontFamily="Space Grotesk" fontWeight="bold" fill="currentColor">BUILDATIONS</text>
+                                    <text x="30" y="44" fontSize="16" fontFamily="Space Grotesk" fontWeight="900" fill="#e85a2a">STUDIO 2.0</text>
+                                    <path d="M30 54h90M30 62h60" strokeWidth="2" strokeDasharray="2 2" />
+                                    
+                                    {/* Silueta de presentador señalando la pizarra */}
+                                    <circle cx="180" cy="30" r="14" fill="white" strokeWidth="2.5" />
+                                    <path d="M180 44v35M160 55l20-10 30-15M165 79l15-20 15 20" strokeWidth="2.5" />
+                                  </svg>
+                                  <div className="absolute top-2 right-2 font-mono text-[9px] bg-red-600 text-white px-2 py-0.5 font-black uppercase">
+                                    ¡GRAN LANZAMIENTO!
+                                  </div>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 2: Estrategia de Marca & Posicionamiento',
+                                    speaker: 'Mateo // Head of Growth & Marketing',
+                                    role: 'Departamento de Marketing',
+                                    title: 'De "API de Inferencia" a "Buildations Studio 2.0 // Autonomous Engine"',
+                                    quote: '«¡Olvídense de llamarlo "script generador"! Esto es BUILDATIONS STUDIO 2.0: la plataforma táctil que publica en silos con autoridad temática y citabilidad en ChatGPT y Perplexity.»',
+                                    technicalDeepDive: 'Marketing transformó los parámetros crudos de temperatura, top_p y embeddings en una propuesta de valor basada en resultados: Top 3 en Google Search Console, Citabilidad AEO del 94.6% y sincronización directa con deals en HubSpot CRM.',
+                                    actionableStep: 'Descubre en el "Lanzador SEO / AEO" cómo los artículos son catalogados automáticamente por intención de búsqueda comercial e informativa.'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «¡Álex, esto no es un script aburrido! Lo llamaremos STUDIO 2.0: una suite autónoma con estética de sintetizador Teenage Engineering que seduce a cualquier CEO.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— MATEO, GROWTH DIRECTOR</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Panel 2.2: La Redactora de Contenidos */}
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #05 // Mesa Editorial</span>
+                                  <span className="comic-onomatopoeia text-xs text-emerald-600 dark:text-emerald-400">*¡POR FIN!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-36 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 240 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Laptop con artículo publicado */}
+                                    <rect x="70" y="20" width="100" height="60" rx="3" fill="white" />
+                                    <line x1="50" y1="80" x2="190" y2="80" strokeWidth="4" />
+                                    <path d="M80 30h30M80 38h70M80 46h50M80 54h60" strokeWidth="2" strokeDasharray="2 1" />
+                                    <circle cx="150" cy="30" r="6" fill="#3ddc84" />
+                                    <text x="80" y="68" fontSize="8" fontFamily="monospace" fontWeight="bold" fill="#3ddc84">AEO: 94.6% OK</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 2: Redacción & Citabilidad',
+                                    speaker: 'Camila // Content Editor',
+                                    role: 'Departamento Editorial & Estrategia SEO',
+                                    title: 'Calificación de Redacción, Fuentes Verificadas y Fact-Checking',
+                                    quote: '«¡Al fin! El motor no inventa datos raros: cita fuentes indexables y estructura los encabezados H2/H3 como los prefiere Perplexity para recomendarnos en respuestas de IA.»',
+                                    technicalDeepDive: 'Cada artículo pasa por una capa de validación cruzada: densidad semántica, tablas comparativas en Markdown, enriquecimiento Schema.org (Article / FAQPage) y revisión de fuentes fácticas para asegurar una tasa de rechazo menor al 2%.',
+                                    actionableStep: 'Puedes revisar las métricas de aprobación editorial en la pestaña "Telemetría de Rendimiento".'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «¿Dices que este motor redacta artículos de 2,500 palabras con fuentes verificadas y los manda directo a Payload CMS? ¡Esto nos ahorra 20 horas por semana!»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— CAMILA, CONTENT STRATEGIST</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      )}
+
+                      {/* CAPÍTULO 3: EL CONECTOR CMS & EL HANDSHAKE TÉCNICO */}
+                      {(activeComicChapter === 'all' || activeComicChapter === 'chapter3') && (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <span className="comic-caption-box text-xs">
+                              CAPÍTULO 3: EL PUENTE SILO // CMS HEADLESS HANDSHAKE
+                            </span>
+                            <div className="h-0.5 bg-black dark:bg-white flex-1"></div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #06 // El Enchufe</span>
+                                  <span className="comic-onomatopoeia text-xs text-black dark:text-white">*¡CLICK-PLUG!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Cable y enchufe macho entrando en hembra */}
+                                    <rect x="20" y="35" width="40" height="30" rx="3" fill="white" />
+                                    <text x="26" y="52" fontSize="8" fontFamily="monospace" fontWeight="bold" fill="currentColor">STUDIO</text>
+                                    <line x1="60" y1="43" x2="90" y2="43" strokeWidth="3" />
+                                    <line x1="60" y1="57" x2="90" y2="57" strokeWidth="3" />
+                                    
+                                    <rect x="90" y="30" width="50" height="40" rx="3" fill="white" strokeWidth="2.5" />
+                                    <text x="96" y="52" fontSize="8" fontFamily="monospace" fontWeight="bold" fill="#e85a2a">PAYLOAD</text>
+                                    
+                                    {/* Rayo de conexión OK */}
+                                    <path d="M150 35l15 15-10 5 15 15" stroke="#3ddc84" strokeWidth="3" fill="none" />
+                                    <circle cx="180" cy="50" r="8" fill="#3ddc84" />
+                                    <text x="176" y="53" fontSize="10" fontWeight="bold" fill="white">✓</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 3: Conectores CMS',
+                                    speaker: 'Álex // Integraciones Headless',
+                                    role: 'Departamento de Ingeniería',
+                                    title: 'Sincronización Silo con Payload 3.x y WordPress REST',
+                                    quote: '«Le inyecté un ping recurrente con reintentos automáticos. Si el cliente usa WordPress o Payload CMS, el motor autentica y publica sin que nadie toque la base de datos a mano.»',
+                                    technicalDeepDive: 'El conector emite una petición POST a /api/posts con el payload estructurado: slug saneado, metadatos OpenGraph, autores asignados, etiquetas y estado de borrador o publicación inmediata.',
+                                    codeSnippet: `// Dispatch a Payload CMS con autenticación segura
+await fetch(\`\${endpoint}/api/posts\`, {
+  method: 'POST',
+  headers: {
+    'Authorization': \`users API-Key \${apiKey}\`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    title: article.title,
+    content: article.lexicalContent,
+    slug: article.canonicalSlug,
+    _status: 'published'
+  })
+});`,
+                                    actionableStep: 'Configura tus endpoints en la pestaña "Conectores CMS" y usa el botón "Probar Conexión (Ping)".'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «¡Enchufado! Con este webhook bidireccional, cualquier artículo sale publicado con su slug canónico y campos personalizados de Payload o WordPress.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— ÁLEX A CAMILA</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #07 // Control de Daños</span>
+                                  <span className="comic-onomatopoeia text-xs text-zinc-500">*¡FAIL-SAFE!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Interruptor mecánico tipo switch Teen Engineering */}
+                                    <rect x="70" y="20" width="60" height="60" rx="6" fill="white" strokeWidth="3" />
+                                    <rect x="85" y="30" width="30" height="40" rx="3" fill="#e85a2a" />
+                                    <circle cx="100" cy="42" r="5" fill="white" />
+                                    <text x="88" y="88" fontSize="7" fontFamily="monospace" fontWeight="bold" fill="currentColor">DRAFT LOCK</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 3: Gobernanza Editorial',
+                                    speaker: 'Camila // Política de Aprobaciones',
+                                    role: 'Departamento Editorial',
+                                    title: 'Modo Draft de Seguridad vs Publicación Desatendida',
+                                    quote: '«Para clientes exigentes como despachos de abogados o fintechs, dejamos el switch en "Draft". El motor redacta todo pero un humano hace el clic final.»',
+                                    technicalDeepDive: 'El sistema permite fijar el flag _status: "draft". De esta forma, el artículo queda depositado en el CMS del cliente en espera de revisión humana antes de ser expuesto a la indexación de Google.',
+                                    actionableStep: 'Puedes conmutar entre "Draft" y "Autonomous" en la tarjeta de cada motor o en el modal de calibración.'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «Y si el cliente tiene miedo de la IA, le activamos el "Draft Lock": el contenido se guarda como borrador hasta que su equipo lo apruebe.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— CAMILA, CONTENT LEAD</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      )}
+
+                      {/* CAPÍTULO 4: EL CEREBRO VECTORIAL & RAG */}
+                      {(activeComicChapter === 'all' || activeComicChapter === 'chapter4') && (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <span className="comic-caption-box text-xs">
+                              CAPÍTULO 4: EL CEREBRO // BASE VECTORIAL &amp; FACT-CHECKING
+                            </span>
+                            <div className="h-0.5 bg-black dark:bg-white flex-1"></div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #08 // Cosine Distance</span>
+                                  <span className="comic-onomatopoeia text-xs text-purple-600 dark:text-purple-400">*¡ZINGG!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Gráfico 3D de vectores con puntos conectados */}
+                                    <circle cx="40" cy="70" r="4" fill="#e85a2a" />
+                                    <circle cx="80" cy="30" r="4" fill="#3ddc84" />
+                                    <circle cx="120" cy="50" r="4" fill="#f5a623" />
+                                    <circle cx="160" cy="25" r="5" fill="#38bdf8" />
+                                    <line x1="40" y1="70" x2="80" y2="30" strokeWidth="1.5" strokeDasharray="3 2" />
+                                    <line x1="80" y1="30" x2="120" y2="50" strokeWidth="1.5" strokeDasharray="3 2" />
+                                    <line x1="120" y1="50" x2="160" y2="25" strokeWidth="1.5" strokeDasharray="3 2" />
+                                    <text x="130" y="80" fontSize="8" fontFamily="monospace" fontWeight="bold" fill="currentColor">1536 DIM</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 4: Embeddings y RAG',
+                                    speaker: 'Sara // Data & AI Ops',
+                                    role: 'Departamento de Inteligencia Artificial',
+                                    title: 'Búsqueda por Similitud de Coseno en Supabase pgvector',
+                                    quote: '«Inyectamos los manuales del cliente en vectores de 1536 dimensiones. Cuando el motor redacta, no alucina: extrae los datos exactos con una similitud superior a 0.86.»',
+                                    technicalDeepDive: 'Utilizamos embeddings de OpenAI text-embedding-3-small indexados en tablas PostgreSQL con índice HNSW (Hierarchical Navigable Small World), permitiendo queries de menos de 12ms sobre más de 100,000 fragmentos.',
+                                    codeSnippet: `-- Consulta SQL optimizada en pgvector
+SELECT id, content, 1 - (embedding <=> query_embedding) AS similarity
+FROM knowledge_chunks
+WHERE 1 - (embedding <=> query_embedding) > 0.86
+ORDER BY similarity DESC
+LIMIT 5;`,
+                                    actionableStep: 'Configura el umbral de similitud en la pestaña "Constructor Modular" > Configuración RAG.'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «El secreto del éxito: una memoria RAG con Supabase pgvector que le inyecta la voz de la marca al LLM antes de escribir cada párrafo.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— SARA, AI SCIENTIST</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #09 // Fact-Check</span>
+                                  <span className="comic-onomatopoeia text-xs text-emerald-600 dark:text-emerald-400">*¡99.4% REAL!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <rect x="50" y="20" width="100" height="60" rx="4" fill="white" strokeWidth="2" />
+                                    <path d="M70 45l15 15 35-30" stroke="#3ddc84" strokeWidth="4" fill="none" />
+                                    <text x="65" y="72" fontSize="9" fontFamily="monospace" fontWeight="bold" fill="currentColor">ZERO ALUCINACIÓN</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 4: Fact-Checking Guardrails',
+                                    speaker: 'Álex // Sistema de Guardarraíles',
+                                    role: 'Departamento de Ingeniería',
+                                    title: 'Verificación Fáctica en Tiempo Real con DuckDuckGo Search',
+                                    quote: '«Si el modelo intenta inventar una cifra económica o una ley, el guardarraíl de DDG cruza la afirmación con tres fuentes vivas de la web y la corrige antes de publicar.»',
+                                    technicalDeepDive: 'Implementamos un ciclo de verificación dual: generación de borrador -> extracción de entidades fácticas -> búsqueda en tiempo real -> corrección de discrepancias en caso de incongruencia.',
+                                    actionableStep: 'Puedes ver el estado de los guardarraíles en la sección de "Telemetría de Rendimiento".'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «Ni una sola alucinación. Si un dato no tiene fuente comprobable, el guardarraíl lo elimina o lo marca para revisión humana.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— ÁLEX, LEAD DEV</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      )}
+
+                      {/* CAPÍTULO 5: REVOPS & LOS CLIENTES FELICES */}
+                      {(activeComicChapter === 'all' || activeComicChapter === 'chapter5') && (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <span className="comic-caption-box text-xs">
+                              CAPÍTULO 5: LA COSECHA // REVOPS CRM, DEALS &amp; CLIENTES FELICES
+                            </span>
+                            <div className="h-0.5 bg-black dark:bg-white flex-1"></div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #10 // Notificación CRM</span>
+                                  <span className="comic-onomatopoeia text-xs text-amber-600 dark:text-yellow-400">*¡CHA-CHING!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Campana de HubSpot con Deal monetario */}
+                                    <path d="M100 20c-15 0-25 15-25 35h50c0-20-10-35-25-35z" fill="white" strokeWidth="2.5" />
+                                    <circle cx="100" cy="65" r="5" fill="#f5a623" />
+                                    <rect x="130" y="25" width="55" height="25" rx="3" fill="#e85a2a" />
+                                    <text x="136" y="41" fontSize="9" fontFamily="monospace" fontWeight="bold" fill="white">+$42.5K</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 5: Motor RevOps',
+                                    speaker: 'Valentina // VP de Ventas & RevOps',
+                                    role: 'Departamento de Negocio & Crecimiento',
+                                    title: 'Sincronización Bidireccional de Leads en HubSpot CRM',
+                                    quote: '«¡Nuevo deal entrante! Un prospecto B2B llegó por una búsqueda de Perplexity que citaba directamente nuestro artículo de silo. El lead se creó automáticamente en el pipeline de HubSpot.»',
+                                    technicalDeepDive: 'Buildations vincula el tráfico AEO/SEO con formularios embebidos y webhooks de HubSpot, atribuyendo el origen del negocio a palabras clave y artículos específicos.',
+                                    actionableStep: 'Inspecciona la pestaña "Motor RevOps & Deals" para revisar las conversiones y volumen de transacciones.'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «¡Equipo, miren HubSpot! Entró un deal calificado de $42,500 atribuido al silo de AEO que publicamos hace dos días.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— VALENTINA, VP REVOPS</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #11 // El Cliente</span>
+                                  <span className="comic-onomatopoeia text-xs text-blue-600 dark:text-cyan-400">*¡WOW!*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Sonrisa del cliente y gráfico disparado hacia arriba */}
+                                    <path d="M40 75l30-20 40 10 50-45" stroke="#3ddc84" strokeWidth="4" fill="none" />
+                                    <circle cx="160" cy="20" r="5" fill="#3ddc84" />
+                                    <text x="140" y="38" fontSize="8" fontFamily="monospace" fontWeight="bold" fill="currentColor">+340%</text>
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveBalloonDetail({
+                                    chapter: 'Capítulo 5: Éxito del Cliente',
+                                    speaker: 'Carlos // CEO del Cliente Enterprise',
+                                    role: 'Cliente Corporativo',
+                                    title: 'Impacto en Autoridad de Dominio y Citabilidad Orgánica',
+                                    quote: '«Antes gastábamos $15,000 al mes en agencias lentas. Ahora nuestro sitio publica contenido de nivel experto tres veces por semana y lideramos las respuestas de ChatGPT.»',
+                                    technicalDeepDive: 'Al combinar consistencia editorial, estructura en silos jerárquicos y optimización AEO para modelos de lenguaje, el dominio adquiere autoridad temática reconocida por los rastreadores modernos.',
+                                    actionableStep: 'Descubre cómo replicar este resultado creando tu primer motor en el "Constructor Modular".'
+                                  })}
+                                  className="comic-balloon"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug">
+                                    «Nuestra marca aparece de primera en Perplexity y ChatGPT cuando buscan nuestros servicios. ¡Buildations Studio 2.0 es indispensable!»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>— CARLOS, CLIENTE ENTERPRISE</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">VER DETALLE 🔍</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="comic-panel p-5 rounded-xl flex flex-col justify-between">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">Panel #12 // Próxima Misión</span>
+                                  <span className="comic-onomatopoeia text-xs text-red-600 dark:text-[#e85a2a]">*¿ESTÁS LISTO?*</span>
+                                </div>
+
+                                <div className="border-2 border-black p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center justify-center h-32 relative overflow-hidden">
+                                  <svg className="w-full h-full text-black dark:text-white" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2">
+                                    {/* Cohete despegando */}
+                                    <path d="M100 15c-10 15-15 35-15 50h30c0-15-5-35-15-50z" fill="white" strokeWidth="2.5" />
+                                    <path d="M85 55l-15 15h15" fill="#e85a2a" />
+                                    <path d="M115 55l15 15h-15" fill="#e85a2a" />
+                                    <circle cx="100" cy="38" r="4" fill="#3ddc84" />
+                                    <path d="M95 70c0 10 5 15 5 15s5-5 5-15" stroke="#f5a623" strokeWidth="3" />
+                                  </svg>
+                                </div>
+
+                                <div 
+                                  onClick={() => setActiveTab('engineBuilder')}
+                                  className="comic-balloon border-2 border-[#e85a2a]"
+                                >
+                                  <p className="font-mono text-xs font-bold leading-snug text-[#e85a2a]">
+                                    «Ahora te toca a ti: calibra tu motor en 3 minutos y empieza a construir el futuro de tu marca.»
+                                  </p>
+                                  <span className="text-[9px] font-mono text-zinc-500 font-bold mt-1.5 block flex items-center justify-between">
+                                    <span>🚀 CONSTRUCTOR MODULAR</span>
+                                    <span className="text-[#e85a2a] underline font-extrabold">LANZAR MOTOR ➔</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      )}
+
+                    </div>
+                  </div>
+                )}
+
+                {/* MODAL / DRAWER INTERACTIVO AL PRESIONAR CUALQUIER GLOBO DE DIÁLOGO */}
+                {activeBalloonDetail && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+                    <div className="comic-panel max-w-2xl w-full p-6 sm:p-8 rounded-2xl bg-white text-black relative max-h-[90vh] overflow-y-auto">
+                      
+                      {/* Botón de cierre estilo cómic */}
+                      <button 
+                        onClick={() => setActiveBalloonDetail(null)}
+                        className="absolute top-4 right-4 border-2 border-black bg-black text-white hover:bg-red-600 px-3 py-1 font-mono text-xs font-black uppercase transition-colors cursor-pointer shadow-[2px_2px_0px_#e85a2a]"
+                      >
+                        ✕ CERRAR [ESC]
+                      </button>
+
+                      <div className="space-y-4 pt-2">
+                        <div className="flex items-center gap-2">
+                          <span className="comic-caption-box text-xs">
+                            {activeBalloonDetail.chapter}
+                          </span>
+                          <span className="comic-onomatopoeia text-xs text-red-600 dark:text-[#e85a2a]">
+                            *DOCS DEEP-DIVE*
+                          </span>
+                        </div>
+
+                        <div>
+                          <h3 className="text-xl sm:text-2xl font-black font-mono uppercase tracking-tight">
+                            {activeBalloonDetail.title}
+                          </h3>
+                          <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-600 mt-1">
+                            <span>HABLANTE:</span>
+                            <span className="text-black bg-zinc-200 px-2 py-0.5 rounded">{activeBalloonDetail.speaker}</span>
+                            <span>//</span>
+                            <span className="text-[#e85a2a]">{activeBalloonDetail.role}</span>
+                          </div>
+                        </div>
+
+                        {/* Cita del globo */}
+                        <div className="border-l-4 border-black pl-4 py-1 italic font-mono text-xs bg-zinc-50 text-zinc-800">
+                          {activeBalloonDetail.quote}
+                        </div>
+
+                        {/* Explicación técnica */}
+                        <div className="space-y-2">
+                          <h4 className="text-xs font-mono font-black uppercase tracking-wider text-black">
+                            // ESPECIFICACIÓN TÉCNICA FORMAL:
+                          </h4>
+                          <p className="text-xs sm:text-sm text-zinc-700 leading-relaxed font-sans">
+                            {activeBalloonDetail.technicalDeepDive}
+                          </p>
+                        </div>
+
+                        {/* Snippet de código si aplica */}
+                        {activeBalloonDetail.codeSnippet && (
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-[10px] font-mono font-bold text-zinc-500 uppercase">
+                              <span>Snippet de Integración:</span>
+                              <span className="text-emerald-600 font-bold">READY TO COPY</span>
+                            </div>
+                            <pre className="bg-black text-emerald-400 p-4 rounded-lg font-mono text-xs overflow-x-auto border-2 border-black">
+                              <code>{activeBalloonDetail.codeSnippet}</code>
+                            </pre>
+                          </div>
+                        )}
+
+                        {/* Paso accionable */}
+                        <div className="p-3.5 bg-zinc-100 border-2 border-black flex items-center justify-between gap-4">
+                          <div className="text-xs font-mono">
+                            <span className="font-black text-black uppercase block">¿CÓMO LO APLICAS AHORA MISMO?</span>
+                            <span className="text-zinc-600 text-[11px]">{activeBalloonDetail.actionableStep}</span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setActiveBalloonDetail(null);
+                              setActiveTab('engineBuilder');
+                            }}
+                            className="bg-black text-white hover:bg-[#e85a2a] px-3 py-1.5 font-mono text-xs font-bold uppercase transition-colors shrink-0 border border-black cursor-pointer"
+                          >
+                            Ir al Módulo ➔
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* MODO CLÁSICO: MANUAL TÉCNICO FORMAL (ACCESIBLE POR TOGGLE) */}
+                {docDisplayMode === 'classic' && (
+                  <div className="space-y-6 animate-fade-in">
 
                 {/* Barra de Navegación de Categorías y Buscador de Docs */}
                 <div className="glass-card p-3 rounded-2xl border border-[var(--border)] flex flex-wrap items-center justify-between gap-3">
@@ -7548,6 +8404,8 @@ export default function DashboardMockup() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                )}
                   </div>
                 )}
               </div>
