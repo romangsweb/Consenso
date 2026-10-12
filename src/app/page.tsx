@@ -25,7 +25,8 @@ import {
   ChevronDownIcon,
   XMarkIcon,
   PencilSquareIcon,
-  PlusIcon
+  PlusIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -600,8 +601,206 @@ export default function DashboardMockup() {
                       </div>
                     </div>
                   </div>
-
                 </div>
+
+                {/* SECCIÓN VISUAL PROFUNDA 1: GRAFO DE CONOCIMIENTO (KNOWLEDGE GRAPH) Y RED DE ENTIDADES */}
+                <div className="glass-card p-6 space-y-6">
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+                    <div>
+                      <h3 className="text-lg font-bold flex items-center">
+                        <ShareIcon className="w-5 h-5 text-[var(--primary)] mr-2" />
+                        Grafo de Conocimiento & Nodos de Entidades Generadas
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        Visualización viva de cómo el motor AEO conecta los conceptos, marcas y términos que la IA inyecta para dominar el Knowledge Graph de Google y Perplexity.
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full font-bold">
+                        36 Nodos Interconectados
+                      </span>
+                      <span className="text-xs bg-[var(--muted)] px-3 py-1 rounded-full font-mono text-[var(--muted-foreground)]">
+                        Densidad Semántica: 94%
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Lienzo Visual Interactivo del Grafo */}
+                  <div className="relative rounded-2xl p-6 bg-slate-950/80 border border-slate-800 overflow-hidden min-h-[340px] flex items-center justify-center">
+                    
+                    {/* Background Grid Accent */}
+                    <div className="absolute inset-0 bg-[radial-gradient(#ff5a00_1px,transparent_1px)] [background-size:24px_24px] opacity-15"></div>
+
+                    {/* Nodo Central Maestro */}
+                    <div className="relative z-10 flex flex-col items-center">
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[var(--primary)] to-amber-500 p-1 shadow-[0_0_35px_rgba(255,90,0,0.5)] flex items-center justify-center text-center animate-pulse">
+                        <div className="w-full h-full rounded-full bg-black/90 flex flex-col items-center justify-center p-2 text-white">
+                          <span className="text-[10px] uppercase font-bold text-amber-400">CORE ENTITY</span>
+                          <span className="text-xs font-black">soyroman.com</span>
+                        </div>
+                      </div>
+                      <span className="mt-2 text-xs font-bold text-amber-400 bg-black/80 px-2 py-0.5 rounded border border-amber-500/30">
+                        Autoridad AEO #1
+                      </span>
+                    </div>
+
+                    {/* Nodos Satélites Nivel 1 (Alrededor) */}
+                    <div className="absolute top-8 left-12 p-3 rounded-xl bg-slate-900/90 border border-cyan-500/40 shadow-lg text-xs text-white max-w-[190px] animate-fade-in hover:border-cyan-400 transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] text-cyan-400 font-bold uppercase">Entidad AEO</span>
+                        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+                      </div>
+                      <p className="font-bold">Answer Engine Opt.</p>
+                      <p className="text-[10px] text-slate-400 mt-1">Conectado a Perplexity & ChatGPT</p>
+                    </div>
+
+                    <div className="absolute top-8 right-12 p-3 rounded-xl bg-slate-900/90 border border-emerald-500/40 shadow-lg text-xs text-white max-w-[190px] animate-fade-in hover:border-emerald-400 transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] text-emerald-400 font-bold uppercase">Silo RevOps</span>
+                        <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                      </div>
+                      <p className="font-bold">HubSpot CRM Integration</p>
+                      <p className="text-[10px] text-slate-400 mt-1">12 Artículos enlazados</p>
+                    </div>
+
+                    <div className="absolute bottom-8 left-16 p-3 rounded-xl bg-slate-900/90 border border-purple-500/40 shadow-lg text-xs text-white max-w-[190px] animate-fade-in hover:border-purple-400 transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] text-purple-400 font-bold uppercase">Schema Entity</span>
+                        <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+                      </div>
+                      <p className="font-bold">FAQPage &amp; HowTo Data</p>
+                      <p className="text-[10px] text-slate-400 mt-1">100% Rich Snippets</p>
+                    </div>
+
+                    <div className="absolute bottom-8 right-16 p-3 rounded-xl bg-slate-900/90 border border-amber-500/40 shadow-lg text-xs text-white max-w-[190px] animate-fade-in hover:border-amber-400 transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] text-amber-400 font-bold uppercase">Lead Magnet</span>
+                        <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                      </div>
+                      <p className="font-bold">Plantillas de Workflows</p>
+                      <p className="text-[10px] text-slate-400 mt-1">Generador de SQLs</p>
+                    </div>
+                  </div>
+
+                  {/* Resumen de Métricas del Grafo */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+                    <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] text-[var(--muted-foreground)] uppercase block">Entidades Primarias</span>
+                      <span className="text-xl font-bold">14 Conceptos</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] text-[var(--muted-foreground)] uppercase block">Relaciones Cruzadas</span>
+                      <span className="text-xl font-bold text-cyan-400">82 Enlaces</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] text-[var(--muted-foreground)] uppercase block">Score de Relevancia</span>
+                      <span className="text-xl font-bold text-emerald-500">98.2 / 100</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] text-[var(--muted-foreground)] uppercase block">Cobertura de Búsqueda</span>
+                      <span className="text-xl font-bold text-[var(--primary)]">Top 3 Nacional</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SECCIÓN VISUAL PROFUNDA 2: RADAR GEO-TARGETING & MAPA DE COBERTURA REGIONAL */}
+                <div className="glass-card p-6 space-y-6">
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+                    <div>
+                      <h3 className="text-lg font-bold flex items-center">
+                        <MapPinIcon className="w-5 h-5 text-emerald-500 mr-2" />
+                        Radar GEO-Targeting &amp; Mapa de Cobertura Regional
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        Configura en qué países, estados o ciudades el motor enfocará la redacción para rankear localmente y capturar búsquedas transaccionales por zona.
+                      </p>
+                    </div>
+                    <button className="bg-[var(--card)] border border-[var(--border)] text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[var(--muted)] transition-colors">
+                      + Añadir Nueva Región GEO
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    {/* Visual de Regiones Activas */}
+                    <div className="lg:col-span-2 space-y-4">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+                        Zonas Prioritarias Configuradas en el Motor
+                      </h4>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {[
+                          { zone: "Ciudad de México (CDMX & Polanco/Santa Fe)", articles: "14 Artículos", intent: "Agencias B2B & Enterprise", share: "64% Dominio", color: "border-emerald-500 text-emerald-400" },
+                          { zone: "Monterrey, Nuevo León (San Pedro)", articles: "9 Artículos", intent: "Manufactura & Logística Tech", share: "52% Dominio", color: "border-cyan-500 text-cyan-400" },
+                          { zone: "Guadalajara, Jalisco (Tech Hub)", articles: "8 Artículos", intent: "Startups & Desarrollo Software", share: "48% Dominio", color: "border-purple-500 text-purple-400" },
+                          { zone: "Expansión LATAM: Bogotá & Santiago", articles: "5 Artículos", intent: "Consultoría RevOps Regional", share: "35% Dominio", color: "border-amber-500 text-amber-400" },
+                        ].map((geo, i) => (
+                          <div key={i} className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] transition-all space-y-2">
+                            <div className="flex justify-between items-start">
+                              <span className="text-xs font-bold text-[var(--foreground)]">{geo.zone}</span>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--muted)] border ${geo.color}`}>
+                                {geo.share}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-[var(--muted-foreground)]">Foco: <strong>{geo.intent}</strong></p>
+                            <div className="flex justify-between items-center text-[10px] pt-1 border-t border-[var(--border)]">
+                              <span className="text-[var(--muted-foreground)]">{geo.articles} publicados</span>
+                              <span className="text-[var(--primary)] font-bold cursor-pointer hover:underline">Ver Artículos GEO →</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Simulador de Consulta GEO en Vivo */}
+                      <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2 text-xs">
+                        <span className="text-[10px] font-bold uppercase text-emerald-500 block">Ejemplo de Inyección GEO Generada:</span>
+                        <p className="text-[var(--muted-foreground)] italic leading-relaxed">
+                          "Para empresas basadas en <strong>CDMX o Monterrey</strong> que necesitan cumplir con facturación local y flujos de ventas en moneda mixta (MXN/USD), configurar HubSpot con reglas de multidivisa es crítico..."
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Parámetros de Configuración GEO */}
+                    <div className="space-y-4">
+                      <div className="p-5 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                        <h4 className="font-bold text-sm">Ajustes del Algoritmo GEO</h4>
+                        
+                        <div>
+                          <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Idioma y Modismos</label>
+                          <select className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)]">
+                            <option>Español México (Términos Comerciales MX)</option>
+                            <option>Español Neutro Internacional</option>
+                            <option>Español España (Términos Ibéricos)</option>
+                            <option>Inglés US (Spanglish B2B)</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Nivel de Densidad Local</label>
+                          <input type="range" min="1" max="5" defaultValue="4" className="w-full accent-[var(--primary)]" />
+                          <div className="flex justify-between text-[10px] text-[var(--muted-foreground)] mt-1">
+                            <span>Sutil</span>
+                            <span className="font-bold text-[var(--primary)]">Nivel 4 (Alta Relevancia Local)</span>
+                            <span>Agresivo</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-[var(--border)] space-y-2 text-xs">
+                          <label className="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                            <span>Inyectar Schema LocalBusiness cuando aplique</span>
+                          </label>
+                          <label className="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                            <span>Mapear competidores geográficos por estado</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
               </div>
             )}
 
