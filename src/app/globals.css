@@ -557,15 +557,15 @@ body {
   opacity: 0.7;
 }
 
-/* 64-Bit Pixelated Dot Grid Background (SoyRomán style) */
+/* 64-Bit Subtle Precision Dot Grid Background */
 .bg-te-dots {
-  background-image: radial-gradient(rgba(232, 90, 42, 0.18) 1.2px, transparent 1.2px);
-  background-size: 14px 14px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
 
 [data-theme="light"] .bg-te-dots {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.14) 1.2px, transparent 1.2px);
-  background-size: 14px 14px;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
 
 /* TE Rotary Knob / Dial Indicator */
@@ -775,51 +775,45 @@ body {
    TEENAGE ENGINEERING HARDWARE RACK & VISUALIZATION INNOVATIONS
    ========================================================================== */
 
-/* Hardware Rack Unit Chasis */
+/* Hardware Rack Unit Chasis - Sleek High-End Executive SaaS with TE Precision Touches */
 .te-rack-unit {
-  background: #121418;
-  border: 1px solid #2a2e38;
-  border-radius: 6px;
+  background: #0d0f15;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.025) 0px, transparent 60%),
+    linear-gradient(180deg, rgba(22, 26, 35, 0.6) 0%, rgba(13, 15, 21, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   position: relative;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.te-rack-unit:hover {
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 [data-theme="light"] .te-rack-unit {
-  background: #fbfbf9;
-  border: 2px solid #000000;
-  border-radius: 4px;
-  box-shadow: 4px 4px 0px #000000;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px -4px rgba(0, 0, 0, 0.06);
 }
 
-/* Tornillos de montaje industrial en 4 esquinas */
+/* Micro-remaches sutiles de precisión (subtle precision chassis dots) */
 .te-rack-screw {
-  width: 10px;
-  height: 10px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: radial-gradient(circle, #3d4352 30%, #1a1c22 80%);
-  border: 1px solid #525a6c;
+  background: #1e222a;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
   position: relative;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.6);
-}
-
-.te-rack-screw::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 20%;
-  right: 20%;
-  height: 1.5px;
-  background: #101216;
-  transform: translateY(-50%) rotate(45deg);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+  opacity: 0.45;
 }
 
 [data-theme="light"] .te-rack-screw {
-  background: radial-gradient(circle, #d0d0c8 30%, #888880 80%);
-  border: 1px solid #000000;
-}
-
-[data-theme="light"] .te-rack-screw::after {
-  background: #000000;
+  background: #d4d4d8;
+  border: 0.5px solid #a1a1aa;
 }
 
 /* Oscilloscope & Frequency Spectrum Visualizer */
@@ -877,39 +871,40 @@ body {
   pointer-events: none;
 }
 
-/* Rotary Knobs con muesca táctil */
+/* Rotary Knobs con precisión analógica y acabado mate aeroespacial */
 .te-knob-dial {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #2a2e37 0%, #15181e 85%);
-  border: 2px solid #3c4250;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.15);
+  background: radial-gradient(circle at 35% 35%, #222631 0%, #111319 85%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.12);
   position: relative;
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .te-knob-dial:hover {
-  border-color: #e85a2a;
+  border-color: rgba(232, 90, 42, 0.6);
+  box-shadow: 0 4px 14px rgba(232, 90, 42, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 .te-knob-notch {
   position: absolute;
-  top: 5px;
+  top: 4px;
   left: 50%;
-  width: 3px;
-  height: 9px;
+  width: 2px;
+  height: 8px;
   background: #e85a2a;
-  border-radius: 2px;
+  border-radius: 1px;
   transform: translateX(-50%);
-  box-shadow: 0 0 5px rgba(232,90,42,0.8);
+  box-shadow: 0 0 4px rgba(232, 90, 42, 0.8);
 }
 
 [data-theme="light"] .te-knob-dial {
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e0e0dc 85%);
-  border: 2px solid #000000;
-  box-shadow: 2px 2px 0px #000000;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e4e4e7 85%);
+  border: 1px solid #d4d4d8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 /* Jack Socket para Patch Bay */

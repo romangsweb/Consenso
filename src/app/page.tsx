@@ -2004,28 +2004,22 @@ LIMIT 5;`);
             {activeTab === 'executiveAudit' && (
               <div className="space-y-6 animate-fade-in">
                 <div className="te-rack-unit p-6">
-                  {/* Industrial Screws */}
-                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
-
-                  {/* Header de Hardware */}
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                  {/* Header Ejecutivo */}
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-white/[0.08]">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-[#07090a] border border-[#e85a2a]/60 flex items-center justify-center text-[#e85a2a] shadow-[0_0_12px_rgba(232,90,42,0.25)]">
-                        <PresentationChartLineIcon className="w-5 h-5 text-[#e85a2a]" />
+                      <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 shadow-sm">
+                        <PresentationChartLineIcon className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[10px] font-bold text-[#e85a2a] tracking-widest uppercase">
+                          <span className="font-mono text-[10px] font-semibold text-orange-400 tracking-wider uppercase">
                             SLOT 01 // EXECUTIVE AEO AUDIT &amp; SCORECARD
                           </span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]" />
-                          <span className="font-mono text-[9px] text-[#3ddc84] font-bold">C-LEVEL READY</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                          <span className="font-mono text-[9px] text-emerald-400 font-bold">C-LEVEL READY</span>
                         </div>
-                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
-                          AUDITORÍA EJECUTIVA DE HOMOLOGACIÓN AEO / SEO
+                        <h2 className="text-xl font-bold text-white tracking-tight">
+                          Auditoría Ejecutiva de Homologación AEO / SEO
                         </h2>
                       </div>
                     </div>
@@ -2230,16 +2224,11 @@ LIMIT 5;`);
                 <div className="space-y-6">
                   {/* Drawer de Inspección Rápida de Parámetros de Motor (si hay uno inspeccionado) */}
                   {inspectedEngineId && (
-                    <div className="te-rack-unit relative p-6 bg-[#0c0e12] border-2 border-[var(--accent-te)] shadow-[0_0_30px_rgba(232,90,42,0.15)] animate-fade-in space-y-4">
-                      <span className="te-rack-screw top-2.5 left-2.5" />
-                      <span className="te-rack-screw top-2.5 right-2.5" />
-                      <span className="te-rack-screw bottom-2.5 left-2.5" />
-                      <span className="te-rack-screw bottom-2.5 right-2.5" />
-
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border-te)]">
+                    <div className="relative p-6 bg-gradient-to-b from-[#141722] to-[#0c0e14] border border-orange-500/30 rounded-2xl shadow-2xl animate-fade-in space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.08]">
                         <div className="flex items-center gap-2.5">
-                          <span className="te-badge te-badge-orange font-mono text-[9px]">INSPECCIÓN DE HARDWARE</span>
-                          <span className="font-mono text-xs font-bold text-white uppercase">
+                          <span className="te-badge te-badge-orange font-mono text-[9px]">INSPECCIÓN DE TELEMETRÍA</span>
+                          <span className="font-mono text-xs font-semibold text-white tracking-wide uppercase">
                             PARÁMETROS TÉCNICOS // {inspectedEngineId.toUpperCase()}
                           </span>
                         </div>
@@ -2250,7 +2239,7 @@ LIMIT 5;`);
                               setActiveTab(inspectedEngineId);
                               toast.success(`Accediendo al universo de ${inspectedEngineId.toUpperCase()}...`);
                             }}
-                            className="px-3 py-1.5 rounded-lg bg-[var(--accent-te)] hover:bg-[#d04b1e] text-black font-mono text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                            className="px-3.5 py-1.5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
                           >
                             <span>Entrar al Universo Completo</span>
                             <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
@@ -2258,7 +2247,7 @@ LIMIT 5;`);
 
                           <button
                             onClick={() => setInspectedEngineId(null)}
-                            className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-zinc-400 hover:text-white transition-all cursor-pointer"
+                            className="p-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-400 hover:text-white transition-all cursor-pointer"
                           >
                             <XMarkIcon className="w-4 h-4" />
                           </button>
@@ -2266,33 +2255,33 @@ LIMIT 5;`);
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                        <div className="p-3 rounded-lg bg-[#121418] border border-zinc-800 space-y-1">
+                        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
                           <span className="te-label text-zinc-400">ESTADO OPERACIONAL</span>
-                          <div className="text-sm font-mono font-bold text-[#3ddc84] flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-[#3ddc84] animate-pulse" />
+                          <div className="text-sm font-mono font-bold text-emerald-400 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
                             ONLINE (64-BIT TELEMETRY)
                           </div>
-                          <p className="text-[10px] font-mono text-zinc-500">Sin caídas en los últimos 1,420 ciclos.</p>
+                          <p className="text-[11px] text-zinc-400">Sin caídas en los últimos 1,420 ciclos.</p>
                         </div>
 
-                        <div className="p-3 rounded-lg bg-[#121418] border border-zinc-800 space-y-1">
+                        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
                           <span className="te-label text-zinc-400">PERFIL APLICADO</span>
-                          <div className="text-sm font-mono font-bold text-[var(--accent-te)] uppercase">
+                          <div className="text-sm font-mono font-bold text-orange-400 uppercase">
                             {activeIndustryPreset} ENTERPRISE
                           </div>
-                          <p className="text-[10px] font-mono text-zinc-500">Calibración adaptada a tu sector.</p>
+                          <p className="text-[11px] text-zinc-400">Calibración adaptada a tu sector.</p>
                         </div>
 
-                        <div className="p-3 rounded-lg bg-[#121418] border border-zinc-800 space-y-1">
+                        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
                           <span className="te-label text-zinc-400">LATENCIA MEDIA</span>
-                          <div className="text-sm font-mono font-bold text-[#38bdf8]">18.4 ms</div>
-                          <p className="text-[10px] font-mono text-zinc-500">Conexión directa vía Next.js App Router.</p>
+                          <div className="text-sm font-mono font-bold text-sky-400">18.4 ms</div>
+                          <p className="text-[11px] text-zinc-400">Conexión directa vía Next.js App Router.</p>
                         </div>
                       </div>
                     </div>
                   )}
 
-                  {/* Grid de Tarjetas de Módulos Estilo Teenage Engineering */}
+                  {/* Grid de Tarjetas de Módulos - Alta Fidelidad y Elegancia Profesional */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {[
                       {
@@ -2401,41 +2390,39 @@ LIMIT 5;`);
                       return (
                         <div
                           key={mod.id}
-                          className={`te-rack-unit relative p-5 transition-all duration-200 flex flex-col justify-between group ${
+                          className={`relative p-5 rounded-2xl transition-all duration-200 flex flex-col justify-between group border ${
                             isInspected 
-                              ? 'border-[var(--accent-te)] bg-[#14171d] shadow-[0_0_20px_rgba(232,90,42,0.2)]'
-                              : 'hover:border-zinc-600 hover:bg-[#13161c]'
+                              ? 'border-orange-500/50 bg-[#12151d] shadow-[0_0_25px_rgba(232,90,42,0.15)] ring-1 ring-orange-500/20'
+                              : 'border-white/[0.08] bg-[#0d0f15]/85 hover:bg-[#12141c] hover:border-white/[0.18] shadow-sm hover:shadow-xl hover:-translate-y-0.5'
                           }`}
                         >
-                          <span className="te-rack-screw top-2.5 left-2.5" />
-                          <span className="te-rack-screw top-2.5 right-2.5" />
-                          <span className="te-rack-screw bottom-2.5 left-2.5" />
-                          <span className="te-rack-screw bottom-2.5 right-2.5" />
-
                           {/* Header del Módulo */}
-                          <div className="space-y-3">
+                          <div className="space-y-3.5">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <span className="font-mono text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+                                <span className="font-mono text-[10px] font-semibold text-zinc-400 bg-white/[0.04] border border-white/[0.06] px-2 py-0.5 rounded-md">
                                   {mod.slot}
                                 </span>
-                                <span className={`te-badge ${mod.badgeColor} font-mono text-[8px]`}>
+                                <span className={`te-badge ${mod.badgeColor} font-mono text-[9px]`}>
                                   {mod.badge}
                                 </span>
                               </div>
 
-                              <div className="w-2 h-2 rounded-full bg-[#3ddc84] shadow-[0_0_6px_rgba(61,220,132,0.8)]" />
+                              <div className="flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+                                <span className="text-[10px] font-mono text-zinc-400">ACTIVO</span>
+                              </div>
                             </div>
 
                             <div className="flex items-start gap-3">
-                              <div className="p-2 rounded-lg bg-[#181b20] border border-[var(--border-te)] text-zinc-300 group-hover:text-[var(--accent-te)] transition-colors">
+                              <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-zinc-300 group-hover:text-white group-hover:border-white/[0.2] transition-colors shrink-0">
                                 <IconComponent className="w-5 h-5" />
                               </div>
                               <div>
-                                <h3 className="text-sm font-mono font-bold text-white group-hover:text-[var(--accent-te)] transition-colors">
+                                <h3 className="text-sm font-semibold text-white tracking-tight group-hover:text-white transition-colors">
                                   {mod.title}
                                 </h3>
-                                <p className="text-[11px] text-zinc-400 font-mono mt-0.5 line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
                                   {mod.desc}
                                 </p>
                               </div>
@@ -2443,12 +2430,12 @@ LIMIT 5;`);
                           </div>
 
                           {/* Métrica Clave y Controles de Apertura */}
-                          <div className="mt-5 pt-3 border-t border-[var(--border-te)] space-y-3">
+                          <div className="mt-5 pt-3.5 border-t border-white/[0.06] space-y-3">
                             <div>
-                              <span className="text-2xl font-mono font-bold tracking-tight text-white block">
+                              <span className="text-2xl font-bold font-mono tracking-tight text-white block">
                                 {mod.metric}
                               </span>
-                              <span className="text-[10px] font-mono text-zinc-500 block">
+                              <span className="text-[11px] font-medium text-zinc-400 block mt-0.5">
                                 {mod.metricLabel}
                               </span>
                             </div>
@@ -2459,10 +2446,10 @@ LIMIT 5;`);
                                   setActiveTab(mod.id);
                                   toast.success(`Ingresando al universo de ${mod.title}...`);
                                 }}
-                                className="flex-1 py-1.5 px-3 rounded-lg bg-[var(--accent-te)] hover:bg-[#d04b1e] text-black font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                                className="flex-1 py-2 px-3.5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md cursor-pointer"
                               >
                                 <span>Abrir Motor</span>
-                                <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                                <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-zinc-800" />
                               </button>
 
                               <button
@@ -2470,7 +2457,7 @@ LIMIT 5;`);
                                   e.stopPropagation();
                                   setInspectedEngineId(isInspected ? null : mod.id);
                                 }}
-                                className="py-1.5 px-2.5 rounded-lg bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-400 hover:text-white font-mono text-xs transition-all cursor-pointer"
+                                className="py-2 px-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-zinc-400 hover:text-white text-xs transition-all cursor-pointer"
                                 title="Inspección rápida in-situ"
                               >
                                 <EyeIcon className="w-3.5 h-3.5" />
@@ -5331,28 +5318,22 @@ LIMIT 5;`);
               <div className="space-y-6 animate-fade-in">
                 {/* TE Hardware Unit Chasis */}
                 <div className="te-rack-unit p-6">
-                  {/* Industrial Screws in 4 Corners */}
-                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
-
                   {/* Unit Hardware Header Bar */}
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-white/[0.08]">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-[#07090a] border border-[#ff7a59]/60 flex items-center justify-center text-[#ff7a59] shadow-[0_0_12px_rgba(255,122,89,0.25)]">
+                      <div className="w-10 h-10 rounded-xl bg-[#ff7a59]/10 border border-[#ff7a59]/20 flex items-center justify-center text-[#ff7a59] shadow-sm">
                         <ArrowPathRoundedSquareIcon className="w-5 h-5 text-[#ff7a59]" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[10px] font-bold text-[#ff7a59] tracking-widest uppercase">
+                          <span className="font-mono text-[10px] font-semibold text-[#ff7a59] tracking-wider uppercase">
                             SLOT 04 // REVOPS PIPELINE SYNTHESIZER
                           </span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 te-led-active shadow-[0_0_6px_#3ddc84]" />
-                          <span className="font-mono text-[9px] text-emerald-400 font-bold">SYNC 240BPM</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                          <span className="font-mono text-[9px] text-emerald-400 font-bold">CRM LIVE</span>
                         </div>
-                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
-                          HUBSPOT DEALS &amp; ATTRIBUTION RIG
+                        <h2 className="text-xl font-bold text-white tracking-tight">
+                          HubSpot Deals &amp; Revenue Attribution
                         </h2>
                       </div>
                     </div>
@@ -5734,28 +5715,22 @@ LIMIT 5;`);
               <div className="space-y-6 animate-fade-in">
                 {/* TE Hardware Unit Chasis */}
                 <div className="te-rack-unit p-6">
-                  {/* Industrial Screws */}
-                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
-
                   {/* Header de Hardware */}
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-white/[0.08]">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-[#07090a] border border-cyan-500/60 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.25)]">
+                      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shadow-sm">
                         <ServerStackIcon className="w-5 h-5 text-cyan-400" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[10px] font-bold text-cyan-400 tracking-widest uppercase">
+                          <span className="font-mono text-[10px] font-semibold text-cyan-400 tracking-wider uppercase">
                             SLOT 05 // MULTI-CMS AUDIO-PATCH DISPATCH RIG
                           </span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 te-led-active shadow-[0_0_6px_#38bdf8]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#38bdf8]" />
                           <span className="font-mono text-[9px] text-cyan-400 font-bold">REST &amp; GRAPHQL</span>
                         </div>
-                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
-                          CMS CONNECTOR &amp; DISPATCH BAY
+                        <h2 className="text-xl font-bold text-white tracking-tight">
+                          CMS Connector &amp; Dispatch Bay
                         </h2>
                       </div>
                     </div>
@@ -6845,13 +6820,7 @@ LIMIT 5;`);
 
                 {/* TE 64-BIT FREQUENCY SPECTROGRAM & CITATION OSCILLOSCOPE */}
                 <div className="te-rack-unit p-6">
-                  {/* Industrial Screws */}
-                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
-
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-4 border-b border-[#2a2e38]">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-4 border-b border-white/[0.08]">
                     <div className="flex items-center gap-3">
                       <span className="font-mono text-[10px] font-bold text-[#e85a2a] uppercase tracking-widest">
                         AEO FREQUENCY ANALYZER // 64-BIT OSCILLOSCOPE
@@ -8241,28 +8210,22 @@ LIMIT 5;`);
               <div className="space-y-6 animate-fade-in">
                 {/* TE Hardware Unit Chasis */}
                 <div className="te-rack-unit p-6">
-                  {/* Industrial Screws */}
-                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
-                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
-
                   {/* Header de Hardware */}
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-white/[0.08]">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-[#07090a] border border-red-500/60 flex items-center justify-center text-red-500 shadow-[0_0_12px_rgba(239,68,68,0.25)]">
-                        <ChartBarIcon className="w-5 h-5 text-red-500" />
+                      <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shadow-sm">
+                        <ChartBarIcon className="w-5 h-5 text-red-400" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[10px] font-bold text-red-400 tracking-widest uppercase">
+                          <span className="font-mono text-[10px] font-semibold text-red-400 tracking-wider uppercase">
                             SLOT 08 // GSC CONTENT DECAY RADAR SCOPE
                           </span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping shadow-[0_0_6px_#ef4444]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_#ef4444]" />
                           <span className="font-mono text-[9px] text-red-400 font-bold">RADAR SWEEP ACTIVE</span>
                         </div>
-                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
-                          SEARCH CONSOLE DECAY &amp; CANNIBALIZATION SWEEP
+                        <h2 className="text-xl font-bold text-white tracking-tight">
+                          Search Console Decay &amp; Cannibalization Radar
                         </h2>
                       </div>
                     </div>
@@ -10258,29 +10221,24 @@ WITH (m = 16, ef_construction = 64);`}</code>
 
             {/* VISTA 17: FINOPS & TOKEN TELEMETRY ENGINE */}
             {activeTab === 'finopsStudio' && (
-              <div className="te-rack-unit relative space-y-6 animate-fade-in">
-                <span className="te-rack-screw top-2.5 left-2.5" />
-                <span className="te-rack-screw top-2.5 right-2.5" />
-                <span className="te-rack-screw bottom-2.5 left-2.5" />
-                <span className="te-rack-screw bottom-2.5 right-2.5" />
-
+              <div className="te-rack-unit relative p-6 space-y-6 animate-fade-in">
                 {/* Top Module Header */}
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-[var(--border-te)]">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-white/[0.08]">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="te-badge te-badge-orange font-mono text-[9px]">SLOT-09 // FINOPS ENGINE</span>
-                      <span className="te-badge font-mono text-[9px] bg-zinc-800 text-zinc-300">REAL-TIME TOKENOMICS</span>
+                      <span className="te-badge font-mono text-[9px] bg-white/[0.04] text-zinc-300">REAL-TIME TOKENOMICS</span>
                       {finopsKillSwitchActive ? (
-                        <span className="te-badge font-mono text-[9px] bg-red-950 text-red-400 border-red-800 animate-pulse">KILL-SWITCH ENGAGED</span>
+                        <span className="te-badge font-mono text-[9px] bg-red-950/80 text-red-400 border-red-800 animate-pulse">KILL-SWITCH ENGAGED</span>
                       ) : (
                         <span className="te-badge te-badge-green font-mono text-[9px]">TELEMETRY LIVE</span>
                       )}
                     </div>
-                    <h2 className="text-xl font-mono font-bold tracking-tight text-white flex items-center gap-2">
-                      <CurrencyDollarIcon className="w-5 h-5 text-[var(--accent-te)]" />
+                    <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                      <CurrencyDollarIcon className="w-5 h-5 text-orange-400" />
                       Token Telemetry &amp; FinOps Studio
                     </h2>
-                    <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       Monitoreo de cuota, consumo de contexto LLM multi-modelo y costo por artículo en USD con corte de emergencia.
                     </p>
                   </div>
@@ -10510,25 +10468,20 @@ WITH (m = 16, ef_construction = 64);`}</code>
 
             {/* VISTA 18: UNIVERSE & INDUSTRY PRESETS VAULT */}
             {activeTab === 'presetsStudio' && (
-              <div className="te-rack-unit relative space-y-6 animate-fade-in">
-                <span className="te-rack-screw top-2.5 left-2.5" />
-                <span className="te-rack-screw top-2.5 right-2.5" />
-                <span className="te-rack-screw bottom-2.5 left-2.5" />
-                <span className="te-rack-screw bottom-2.5 right-2.5" />
-
+              <div className="te-rack-unit relative p-6 space-y-6 animate-fade-in">
                 {/* Top Module Header */}
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-[var(--border-te)]">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-white/[0.08]">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="te-badge te-badge-orange font-mono text-[9px]">SLOT-10 // PRESETS VAULT</span>
-                      <span className="te-badge font-mono text-[9px] bg-zinc-800 text-zinc-300">PARAMETRIC PROFILES</span>
+                      <span className="te-badge font-mono text-[9px] bg-white/[0.04] text-zinc-300">PARAMETRIC PROFILES</span>
                       <span className="te-badge te-badge-green font-mono text-[9px]">ACTIVE: {activeIndustryPreset.toUpperCase()}</span>
                     </div>
-                    <h2 className="text-xl font-mono font-bold tracking-tight text-white flex items-center gap-2">
-                      <AdjustmentsVerticalIcon className="w-5 h-5 text-[var(--accent-te)]" />
+                    <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                      <AdjustmentsVerticalIcon className="w-5 h-5 text-orange-400" />
                       Universe &amp; Industry Presets Vault
                     </h2>
-                    <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       Configurador multi-nicho: calibra los motores de redacción, similitud vectorial y scoring con un toque táctil.
                     </p>
                   </div>
