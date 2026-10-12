@@ -38,7 +38,10 @@ import {
   ServerStackIcon,
   ArrowDownTrayIcon,
   LinkIcon,
-  KeyIcon
+  KeyIcon,
+  FunnelIcon,
+  TableCellsIcon,
+  ArrowPathIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -74,6 +77,96 @@ export default function DashboardMockup() {
   const [payloadTestResult, setPayloadTestResult] = useState<{ status: string; latency: string; collections: string[]; message: string } | null>(null);
   const [isTestingWp, setIsTestingWp] = useState(false);
   const [wpTestResult, setWpTestResult] = useState<{ status: string; latency: string; user: string; seoPlugin: string; message: string } | null>(null);
+
+  // Estados para Data Enrichment & HubSpot Hygiene Studio
+  const [enrichmentView, setEnrichmentView] = useState<'results' | 'cleanseRules' | 'upload'>('results');
+  const [isEnrichingActive, setIsEnrichingActive] = useState(false);
+  const [filterLeadStatus, setFilterLeadStatus] = useState<'all' | 'clean' | 'enriched' | 'duplicate'>('all');
+  const [enableWebScraping, setEnableWebScraping] = useState(true);
+  const [enableHubspotHygiene, setEnableHubspotHygiene] = useState(true);
+  const [enableDeduplication, setEnableDeduplication] = useState(true);
+  const [leadsData, setLeadsData] = useState([
+    {
+      id: 1,
+      rawName: 'JUAN CARLOS PEREZ',
+      cleanName: 'Juan Carlos Pérez',
+      email: 'j.perez@conektamx.com',
+      companyRaw: 'conekta sa de cv',
+      companyClean: 'Conekta',
+      domain: 'conekta.com',
+      industry: 'Fintech & Pasarelas de Pago',
+      employees: '201-500 empleados',
+      hq: 'Ciudad de México, MX',
+      techStack: ['HubSpot CRM', 'Stripe', 'Next.js', 'PostgreSQL'],
+      status: 'clean',
+      qualityScore: 98,
+      hubspotSync: 'Listo para Exportar'
+    },
+    {
+      id: 2,
+      rawName: 'mariana l.',
+      cleanName: 'Mariana López',
+      email: 'mariana.lopez@kavak.com',
+      companyRaw: 'KAVAK.COM/',
+      companyClean: 'Kavak',
+      domain: 'kavak.com',
+      industry: 'E-commerce Automotriz & Retail Tech',
+      employees: '1,000+ empleados',
+      hq: 'Guadalajara / CDMX',
+      techStack: ['HubSpot Enterprise', 'Segment', 'AWS', 'Salesforce'],
+      status: 'clean',
+      qualityScore: 99,
+      hubspotSync: 'Listo para Exportar'
+    },
+    {
+      id: 3,
+      rawName: 'CARLOS SILVA!!!',
+      cleanName: 'Carlos Silva',
+      email: 'carlos@acme-logistica.mx',
+      companyRaw: 'http://www.acme-logistica.mx',
+      companyClean: 'Acme Logística',
+      domain: 'acme-logistica.mx',
+      industry: 'Logística & Cadena de Suministro',
+      employees: '51-200 empleados',
+      hq: 'Monterrey, NL',
+      techStack: ['WordPress', 'Google Analytics 4', 'WooCommerce'],
+      status: 'enriched',
+      qualityScore: 92,
+      hubspotSync: 'Enriquecido con Web Scraping'
+    },
+    {
+      id: 4,
+      rawName: 'ventas@logistica-norte.com',
+      cleanName: 'Contacto Corporativo',
+      email: 'ventas@logistica-norte.com',
+      companyRaw: 'LOGISTICA NORTE',
+      companyClean: 'Logística Norte',
+      domain: 'logistica-norte.com',
+      industry: 'Transporte de Carga Pesada',
+      employees: '11-50 empleados',
+      hq: 'Querétaro, MX',
+      techStack: ['Shopify', 'Klaviyo'],
+      status: 'duplicate',
+      qualityScore: 81,
+      hubspotSync: 'Fusionado por Dominio Idéntico'
+    },
+    {
+      id: 5,
+      rawName: 'DRA. SOFIA MENDEZ',
+      cleanName: 'Sofía Méndez',
+      email: 'sofia.m@healthtech-latam.io',
+      companyRaw: 'HealthTech Latam SAPI',
+      companyClean: 'HealthTech Latam',
+      domain: 'healthtech-latam.io',
+      industry: 'Salud Digital & Telemedicina',
+      employees: '11-50 empleados',
+      hq: 'Bogotá / CDMX',
+      techStack: ['HubSpot Growth Suite', 'Supabase', 'Vercel'],
+      status: 'clean',
+      qualityScore: 97,
+      hubspotSync: 'Listo para Exportar'
+    }
+  ]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
@@ -201,6 +294,12 @@ export default function DashboardMockup() {
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'cmsConnectors' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
               >
                 <ServerStackIcon className="w-5 h-5 mr-3 text-cyan-400" /> Conectores CMS (Payload/WP)
+              </button>
+              <button 
+                onClick={() => setActiveTab('dataEnrichment')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'dataEnrichment' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <FunnelIcon className="w-5 h-5 mr-3 text-emerald-400" /> Enriquecedor &amp; Limpieza B2B
               </button>
             </div>
           </div>
@@ -350,6 +449,7 @@ export default function DashboardMockup() {
                 .replace('engineLauncher', 'Lanzador y Configurador de Motor SEO/AEO')
                 .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
                 .replace('cmsConnectors', 'Conectores CMS Oficiales (Payload & WordPress)')
+                .replace('dataEnrichment', 'Enriquecedor de Datos & Limpieza B2B (HubSpot Best Practices)')
                 .replace('aiShareOfVoice', 'AEO / GEO Share of Voice')
                 .replace('clusterMap', 'Clusters & Silos de Contenido')
                 .replace('serpxray', 'SERP & AEO X-Ray')
@@ -2266,6 +2366,395 @@ export default function DashboardMockup() {
                     </table>
                   </div>
                 </div>
+
+              </div>
+            )}
+
+            {/* TAB: DATA ENRICHMENT & HUBSPOT HYGIENE STUDIO */}
+            {activeTab === 'dataEnrichment' && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header */}
+                <div className="flex flex-wrap justify-between items-end gap-4">
+                  <div>
+                    <div className="flex items-center gap-3 mb-1">
+                      <h2 className="text-2xl font-bold flex items-center">
+                        <FunnelIcon className="w-7 h-7 text-emerald-400 mr-2" />
+                        Data Enrichment &amp; Limpieza B2B (HubSpot Quality Cleanse)
+                      </h2>
+                      <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
+                        RevOps Engine v3.1
+                      </span>
+                    </div>
+                    <p className="text-[var(--muted-foreground)] text-sm">
+                      Nutre tu base de prospectos con web scraping en vivo (industria, colaboradores, tech stack) y limpia automáticamente según las mejores prácticas de HubSpot CRM.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={() => {
+                        setIsEnrichingActive(true);
+                        setTimeout(() => {
+                          setIsEnrichingActive(false);
+                          alert('¡Enriquecimiento y Limpieza completados! 5 registros procesados con 98.2% de Calidad Enterprise.');
+                        }, 1400);
+                      }}
+                      disabled={isEnrichingActive}
+                      className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                    >
+                      <ArrowPathIcon className={`w-4 h-4 ${isEnrichingActive ? 'animate-spin' : ''}`} />
+                      {isEnrichingActive ? 'Rastreando & Limpiando...' : 'Ejecutar Enriquecimiento & Limpieza'}
+                    </button>
+                    <button 
+                      onClick={() => alert('Exportando base depurada en formato CSV listo para importar en HubSpot CRM...')}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2.5 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      <ArrowDownTrayIcon className="w-4 h-4" /> Exportar CSV para HubSpot
+                    </button>
+                  </div>
+                </div>
+
+                {/* Score & KPI Strip */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="glass-card p-5 border-l-4 border-l-emerald-500 space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Score de Calidad de Base</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">+56% Mejora</span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-black text-emerald-400">97.4%</span>
+                      <span className="text-xs text-[var(--muted-foreground)]">Enterprise Clean</span>
+                    </div>
+                    <p className="text-[11px] text-[var(--muted-foreground)]">0 errores de mayúsculas o caracteres extraños</p>
+                  </div>
+
+                  <div className="glass-card p-5 border-l-4 border-l-cyan-500 space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Campos Nutridos vía Web Scraping</span>
+                      <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">100% Cobertura</span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-black text-cyan-400">20 / 20</span>
+                      <span className="text-xs text-[var(--muted-foreground)]">Atributos</span>
+                    </div>
+                    <p className="text-[11px] text-[var(--muted-foreground)]">Industria, tamaño de equipo y tech stack agregados</p>
+                  </div>
+
+                  <div className="glass-card p-5 border-l-4 border-l-amber-500 space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Duplicados Fusionados</span>
+                      <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">Deduplicado</span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-black text-amber-400">1 Lead</span>
+                      <span className="text-xs text-[var(--muted-foreground)]">Consolidado</span>
+                    </div>
+                    <p className="text-[11px] text-[var(--muted-foreground)]">Identificado por dominio web idéntico</p>
+                  </div>
+
+                  <div className="glass-card p-5 border-l-4 border-l-purple-500 space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Compatibilidad HubSpot CRM</span>
+                      <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">Hub ID #982104</span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-black text-purple-400">100%</span>
+                      <span className="text-xs text-[var(--muted-foreground)]">Compatible</span>
+                    </div>
+                    <p className="text-[11px] text-[var(--muted-foreground)]">Propiedades estándar alineadas para sync API</p>
+                  </div>
+                </div>
+
+                {/* Sub-Tabs: Vista de Resultados vs Reglas de Limpieza */}
+                <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => setEnrichmentView('results')}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${enrichmentView === 'results' ? 'bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      <TableCellsIcon className="w-4 h-4 inline mr-1.5 text-emerald-400" />
+                      Tabla Interactiva (Antes vs Después Limpio)
+                    </button>
+                    <button 
+                      onClick={() => setEnrichmentView('cleanseRules')}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${enrichmentView === 'cleanseRules' ? 'bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      <AdjustmentsHorizontalIcon className="w-4 h-4 inline mr-1.5 text-cyan-400" />
+                      Reglas de Higiene HubSpot &amp; Web Scraping
+                    </button>
+                  </div>
+
+                  {/* Filter Status Badges */}
+                  {enrichmentView === 'results' && (
+                    <div className="flex items-center gap-1.5 text-xs">
+                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)] mr-1">Filtrar:</span>
+                      <button 
+                        onClick={() => setFilterLeadStatus('all')}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'all' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                      >
+                        Todos (5)
+                      </button>
+                      <button 
+                        onClick={() => setFilterLeadStatus('clean')}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'clean' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                      >
+                        100% Limpios (3)
+                      </button>
+                      <button 
+                        onClick={() => setFilterLeadStatus('enriched')}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'enriched' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                      >
+                        Enriquecidos (1)
+                      </button>
+                      <button 
+                        onClick={() => setFilterLeadStatus('duplicate')}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'duplicate' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                      >
+                        Fusionados (1)
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* VISTA 1: TABLA ANTES VS DESPUÉS */}
+                {enrichmentView === 'results' && (
+                  <div className="glass-card overflow-hidden border border-[var(--border)] shadow-xl space-y-4">
+                    <div className="p-4 bg-[var(--background)]/60 border-b border-[var(--border)] flex flex-wrap items-center justify-between gap-3 text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span className="font-bold text-[var(--foreground)]">Base de Leads B2B: México &amp; Expansión Latam</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)] font-mono">• 5 contactos cargados</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px]">
+                        <span className="text-emerald-400 font-bold">✓ Capitalización HubSpot aplicada</span>
+                        <span className="text-[var(--border)]">|</span>
+                        <span className="text-cyan-400 font-bold">✓ Scraping de dominio ejecutado</span>
+                      </div>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-[var(--muted)] text-[var(--muted-foreground)] uppercase text-[10px] tracking-wider font-bold">
+                          <tr>
+                            <th className="p-3.5">Contacto (Limpio vs Raw)</th>
+                            <th className="p-3.5">Empresa &amp; Dominio</th>
+                            <th className="p-3.5">Industria Enriquecida</th>
+                            <th className="p-3.5">Colaboradores</th>
+                            <th className="p-3.5">Tech Stack Detectado</th>
+                            <th className="p-3.5">Quality Score</th>
+                            <th className="p-3.5 text-right">Acción HubSpot</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[var(--border)] text-xs">
+                          {leadsData
+                            .filter(lead => filterLeadStatus === 'all' || lead.status === filterLeadStatus)
+                            .map((lead) => (
+                              <tr key={lead.id} className="hover:bg-[var(--muted)]/50 transition-colors">
+                                {/* Contacto */}
+                                <td className="p-3.5">
+                                  <div>
+                                    <span className="font-bold text-[var(--foreground)] text-sm flex items-center gap-1.5">
+                                      {lead.cleanName}
+                                      {lead.status === 'clean' && <CheckCircleIcon className="w-4 h-4 text-emerald-400" />}
+                                    </span>
+                                    <span className="font-mono text-[11px] text-[var(--primary)] block">{lead.email}</span>
+                                    <span className="text-[10px] text-[var(--muted-foreground)] line-through block mt-0.5">
+                                      Raw: {lead.rawName}
+                                    </span>
+                                  </div>
+                                </td>
+
+                                {/* Empresa */}
+                                <td className="p-3.5">
+                                  <div>
+                                    <span className="font-bold text-[var(--foreground)]">{lead.companyClean}</span>
+                                    <span className="font-mono text-[11px] text-cyan-400 block">{lead.domain}</span>
+                                    <span className="text-[10px] text-[var(--muted-foreground)]">Sede: {lead.hq}</span>
+                                  </div>
+                                </td>
+
+                                {/* Industria */}
+                                <td className="p-3.5">
+                                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-block">
+                                    {lead.industry}
+                                  </span>
+                                </td>
+
+                                {/* Colaboradores */}
+                                <td className="p-3.5">
+                                  <span className="font-semibold text-[var(--foreground)]">{lead.employees}</span>
+                                </td>
+
+                                {/* Tech Stack */}
+                                <td className="p-3.5">
+                                  <div className="flex flex-wrap gap-1 max-w-[200px]">
+                                    {lead.techStack.map((tech, i) => (
+                                      <span key={i} className="px-1.5 py-0.5 rounded bg-[var(--background)] border border-[var(--border)] text-[9px] font-mono text-slate-300">
+                                        {tech}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </td>
+
+                                {/* Quality Score */}
+                                <td className="p-3.5">
+                                  <div className="flex items-center gap-1.5">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-xs">
+                                      {lead.qualityScore}
+                                    </div>
+                                    <span className="text-[10px] text-[var(--muted-foreground)]">/100</span>
+                                  </div>
+                                </td>
+
+                                {/* Acción */}
+                                <td className="p-3.5 text-right">
+                                  <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)]">
+                                    {lead.hubspotSync}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="p-4 bg-[var(--background)] border-t border-[var(--border)] flex flex-wrap justify-between items-center gap-3 text-xs">
+                      <span className="text-[var(--muted-foreground)]">
+                        Mostrando <strong>{leadsData.length} registros</strong> listos con el formato estándar de HubSpot CRM.
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => alert('Sincronizando 5 leads a HubSpot CRM... Contactos y Empresas vinculadas exitosamente.')}
+                          className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+                        >
+                          <ArrowPathIcon className="w-3.5 h-3.5" /> Sincronizar Directo a HubSpot (Hub ID #982104)
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* VISTA 2: REGLAS DE HIGIENE Y SCRAPING */}
+                {enrichmentView === 'cleanseRules' && (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
+                    
+                    {/* Reglas de Higiene HubSpot */}
+                    <div className="glass-card p-6 space-y-5">
+                      <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
+                        <ShieldCheckIcon className="w-5 h-5 text-emerald-400" />
+                        <h4 className="font-bold text-base text-[var(--foreground)]">Reglas de Higiene de Base (HubSpot Best Practices)</h4>
+                      </div>
+
+                      <div className="space-y-4 text-xs">
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            checked={enableHubspotHygiene} 
+                            onChange={(e) => setEnableHubspotHygiene(e.target.checked)} 
+                            className="accent-[var(--primary)] mt-0.5" 
+                          />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Normalización de Nombres (Title Case Inteligente)</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Convierte <code>JUAN CARLOS</code> o <code>juan carlos</code> a <code>Juan Carlos</code>. Elimina títulos redundantes (Lic., Dr., Ing.) del campo de nombre.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            checked={enableDeduplication} 
+                            onChange={(e) => setEnableDeduplication(e.target.checked)} 
+                            className="accent-[var(--primary)] mt-0.5" 
+                          />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Deduplicación &amp; Limpieza de Dominios Web</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Remueve <code>http://</code>, <code>https://</code>, <code>www.</code> y parámetros UTM. Si existen dos contactos con el mismo dominio empresarial, los consolida.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input type="checkbox" defaultChecked className="accent-[var(--primary)] mt-0.5" />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Filtrado de Emails Genéricos vs Corporativos</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Detecta si el email es <code>info@</code>, <code>contacto@</code> o <code>ventas@</code> y lo clasifica como Lead Institucional en HubSpot.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input type="checkbox" defaultChecked className="accent-[var(--primary)] mt-0.5" />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Validación de Sintaxis RFC 5322 &amp; MX Records</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Verifica que el dominio del correo tenga servidores MX activos para evitar rebotes (&gt;99% deliverability).
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Reglas de Web Scraping & Enriquecimiento IA */}
+                    <div className="glass-card p-6 space-y-5">
+                      <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
+                        <CpuChipIcon className="w-5 h-5 text-cyan-400" />
+                        <h4 className="font-bold text-base text-[var(--foreground)]">Motor de Web Scraping &amp; Enriquecimiento</h4>
+                      </div>
+
+                      <div className="space-y-4 text-xs">
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            checked={enableWebScraping} 
+                            onChange={(e) => setEnableWebScraping(e.target.checked)} 
+                            className="accent-[var(--primary)] mt-0.5" 
+                          />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Scraping de Industria Estandarizada HubSpot</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Visita el sitio web de la empresa y clasifica el giro en una de las 42 categorías oficiales de HubSpot (ej. <em>Fintech, Software, Logística, Salud</em>).
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input type="checkbox" defaultChecked className="accent-[var(--primary)] mt-0.5" />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Estimación de Headcount / Rango de Empleados</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Inyecta el bracket de colaboradores oficial: <code>1-10</code>, <code>11-50</code>, <code>51-200</code>, <code>201-500</code> o <code>500+</code>.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input type="checkbox" defaultChecked className="accent-[var(--primary)] mt-0.5" />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Detección de Stack Tecnológico (DNS &amp; Scripts)</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Escanea etiquetas para identificar si usan HubSpot, Shopify, Stripe, WordPress, Segment o Google Analytics.
+                            </span>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] cursor-pointer">
+                          <input type="checkbox" defaultChecked className="accent-[var(--primary)] mt-0.5" />
+                          <div>
+                            <span className="font-bold block text-[var(--foreground)]">Geolocalización de Casa Matriz / HQ</span>
+                            <span className="text-[var(--muted-foreground)]">
+                              Extrae la ciudad y país principal para asociarlo a las propiedades <code>City</code> y <code>Country</code> de HubSpot.
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                )}
 
               </div>
             )}
