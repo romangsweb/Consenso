@@ -334,13 +334,16 @@ export default function DashboardMockup() {
 
           {/* Section 2 */}
           <div>
-            <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Herramientas SEO & IA</p>
+            <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2 flex items-center justify-between">
+              <span>Ingeniería Semántica &amp; Búsqueda</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            </p>
             <div className="space-y-1">
               <button 
                 onClick={() => setActiveTab('aiShareOfVoice')}
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'aiShareOfVoice' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
               >
-                <SparklesIcon className="w-5 h-5 mr-3" /> AEO Share of Voice
+                <SparklesIcon className="w-5 h-5 mr-3" /> Radar de Citación &amp; Semáforo AEO
               </button>
               <button 
                 onClick={() => setActiveTab('clusterMap')}
@@ -499,32 +502,35 @@ export default function DashboardMockup() {
           </div>
           
           <div className="flex items-center space-x-2.5">
-            {/* Autonomous Agents Live Presence Strip */}
-            <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-sm">
-              <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)] mr-1">Agentes:</span>
+            {/* Semáforos de Procesos Propios */}
+            <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-sm">
+              <span className="text-[10px] font-mono font-bold uppercase text-[var(--muted-foreground)] mr-0.5">Semáforo:</span>
               <button 
                 onClick={() => setSelectedAgent('sophia')}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-all ${selectedAgent === 'sophia' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
-                title="Agente Sophia (SERP Scout) - En vivo"
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'sophia' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                title="Rastreo SERP & GSC: Operativo"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>Sophia (SERP)</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+                <span>Crawler SERP</span>
+                <span className="text-[8px] px-1 rounded bg-emerald-500/20 text-emerald-300 font-bold">100%</span>
               </button>
               <button 
                 onClick={() => setSelectedAgent('jax')}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-all ${selectedAgent === 'jax' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
-                title="Agente Jax (RevOps HubSpot) - En vivo"
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'jax' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                title="Sync RevOps HubSpot: Sincronizado"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
-                <span>Jax (RevOps)</span>
+                <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
+                <span>Sync HubSpot</span>
+                <span className="text-[8px] px-1 rounded bg-cyan-500/20 text-cyan-300 font-bold">ACTIVO</span>
               </button>
               <button 
                 onClick={() => setSelectedAgent('vera')}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-all ${selectedAgent === 'vera' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
-                title="Agente Vera (AEO Content) - En vivo"
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'vera' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                title="Motor Editorial AEO: En Proceso de Síntesis"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Vera (AEO)</span>
+                <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b] animate-pulse"></span>
+                <span>Motor AEO</span>
+                <span className="text-[8px] px-1 rounded bg-amber-500/20 text-amber-300 font-bold">EN COLA</span>
               </button>
             </div>
 
@@ -549,14 +555,14 @@ export default function DashboardMockup() {
               <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--muted-foreground)]">⌘K</kbd>
             </button>
 
-            {/* Live Terminal Agent Button */}
+            {/* Consola Kernel Monitor Button */}
             <button
               onClick={() => setIsTerminalOpen(!isTerminalOpen)}
               className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-sm cursor-pointer transition-all ${isTerminalOpen ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-[var(--border)] bg-[var(--card)] hover:border-emerald-500 text-[var(--foreground)]'}`}
-              title="Abrir Terminal de Agentes Autónomos"
+              title="Abrir Consola Kernel de Procesos"
             >
               <CommandLineIcon className="w-4 h-4 text-emerald-500" />
-              <span className="hidden lg:inline">Terminal IA</span>
+              <span className="hidden lg:inline font-mono">Consola Kernel</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
             </button>
 
@@ -601,10 +607,12 @@ export default function DashboardMockup() {
                   <div className="space-y-2.5 max-h-72 overflow-y-auto">
                     <div className="p-3 rounded-xl bg-[var(--background)] border border-emerald-500/30 space-y-1">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-emerald-500 text-[11px]">Borrador IA Listo</span>
+                        <span className="font-bold text-emerald-500 text-[11px] flex items-center gap-1.5 font-mono">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Borrador Editorial Sintetizado
+                        </span>
                         <span className="text-[10px] text-[var(--muted-foreground)]">Hace 12 min</span>
                       </div>
-                      <p className="text-[var(--foreground)]">El motor generó el artículo: <strong>"Cómo alinear MQLs en HubSpot"</strong>.</p>
+                      <p className="text-[var(--foreground)]">El motor compiló el contenido: <strong>"Cómo alinear MQLs en HubSpot"</strong>.</p>
                       <button 
                         onClick={() => {
                           setIsNotificationsOpen(false);
@@ -618,15 +626,19 @@ export default function DashboardMockup() {
 
                     <div className="p-3 rounded-xl bg-[var(--background)] border border-amber-500/30 space-y-1">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-amber-500 text-[11px]">Oportunidad de Citación IA</span>
+                        <span className="font-bold text-amber-500 text-[11px] flex items-center gap-1.5 font-mono">
+                          <span className="w-2 h-2 rounded-full bg-amber-400"></span> Disparador de Citación AEO
+                        </span>
                         <span className="text-[10px] text-[var(--muted-foreground)]">Hace 1 hora</span>
                       </div>
-                      <p className="text-[var(--foreground)]">Perplexity está buscando referencias sobre <em>"auditoría revops cdmx"</em>. Te recomendamos publicar un satélite.</p>
+                      <p className="text-[var(--foreground)]">Motores generativos están indexando consultas sobre <em>"auditoría revops cdmx"</em>. Te recomendamos publicar un satélite.</p>
                     </div>
 
                     <div className="p-3 rounded-xl bg-[var(--background)] border border-blue-500/30 space-y-1">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-blue-400 text-[11px]">Sincronización HubSpot OK</span>
+                        <span className="font-bold text-cyan-400 text-[11px] flex items-center gap-1.5 font-mono">
+                          <span className="w-2 h-2 rounded-full bg-cyan-400"></span> Sincronización HubSpot OK
+                        </span>
                         <span className="text-[10px] text-[var(--muted-foreground)]">Hace 3 horas</span>
                       </div>
                       <p className="text-[var(--foreground)]">Nuevo MQL registrado desde el cluster de Marketing de Contenidos.</p>
@@ -843,12 +855,17 @@ export default function DashboardMockup() {
                     </div>
                   </div>
 
-                  <div className="glass-card p-6 border-t-2 border-t-purple-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">AEO Score (IA Citations)</p>
+                  <div className="glass-card p-6 border-t-2 border-t-[var(--primary)]">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2 flex items-center justify-between">
+                      <span>Semáforo de Citabilidad &amp; AEO</span>
+                      <span className="flex items-center gap-1 font-mono text-[10px] text-emerald-400">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span> Óptimo
+                      </span>
+                    </p>
                     <div className="flex items-baseline justify-between">
                       <span className="text-3xl font-bold">91/100</span>
-                      <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">
-                        Óptimo
+                      <span className="text-xs font-mono font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded">
+                        Grado A+ (Top 1)
                       </span>
                     </div>
                   </div>
@@ -2588,30 +2605,33 @@ export default function DashboardMockup() {
                   {/* Filter Status Badges */}
                   {enrichmentView === 'results' && (
                     <div className="flex items-center gap-1.5 text-xs">
-                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)] mr-1">Filtrar:</span>
+                      <span className="text-[10px] font-mono font-bold uppercase text-[var(--muted-foreground)] mr-1">Semáforo:</span>
                       <button 
                         onClick={() => setFilterLeadStatus('all')}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'all' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'all' ? 'bg-[var(--primary)] text-white shadow-sm' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
                       >
-                        Todos (5)
+                        Total (5)
                       </button>
                       <button 
                         onClick={() => setFilterLeadStatus('clean')}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'clean' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'clean' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
                       >
-                        100% Limpios (3)
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
+                        Verde: Óptimos (3)
                       </button>
                       <button 
                         onClick={() => setFilterLeadStatus('enriched')}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'enriched' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'enriched' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
                       >
-                        Enriquecidos (1)
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                        Ámbar: Enriquecidos (1)
                       </button>
                       <button 
                         onClick={() => setFilterLeadStatus('duplicate')}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer ${filterLeadStatus === 'duplicate' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'duplicate' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/40' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
                       >
-                        Fusionados (1)
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]"></span>
+                        Púrpura: Fusionados (1)
                       </button>
                     </div>
                   )}
@@ -2642,8 +2662,8 @@ export default function DashboardMockup() {
                             <th className="p-3.5">Industria Enriquecida</th>
                             <th className="p-3.5">Colaboradores</th>
                             <th className="p-3.5">Tech Stack Detectado</th>
-                            <th className="p-3.5">Quality Score</th>
-                            <th className="p-3.5 text-right">Acción HubSpot</th>
+                            <th className="p-3.5">Semáforo de Higiene</th>
+                            <th className="p-3.5 text-right">Estatus HubSpot CRM</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[var(--border)] text-xs">
@@ -2656,7 +2676,13 @@ export default function DashboardMockup() {
                                   <div>
                                     <span className="font-bold text-[var(--foreground)] text-sm flex items-center gap-1.5">
                                       {lead.cleanName}
-                                      {lead.status === 'clean' && <CheckCircleIcon className="w-4 h-4 text-emerald-400" />}
+                                      {lead.qualityScore >= 95 ? (
+                                        <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" title="Semáforo: Verificado y Óptimo"></span>
+                                      ) : lead.qualityScore >= 85 ? (
+                                        <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" title="Semáforo: Requiere Revisión Menor"></span>
+                                      ) : (
+                                        <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_6px_#f43f5e]" title="Semáforo: Fusión o Corrección Requerida"></span>
+                                      )}
                                     </span>
                                     <span className="font-mono text-[11px] text-[var(--primary)] block">{lead.email}</span>
                                     <span className="text-[10px] text-[var(--muted-foreground)] line-through block mt-0.5">
@@ -2676,7 +2702,7 @@ export default function DashboardMockup() {
 
                                 {/* Industria */}
                                 <td className="p-3.5">
-                                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-block">
+                                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-block font-mono">
                                     {lead.industry}
                                   </span>
                                 </td>
@@ -2697,19 +2723,31 @@ export default function DashboardMockup() {
                                   </div>
                                 </td>
 
-                                {/* Quality Score */}
+                                {/* Semáforo de Higiene */}
                                 <td className="p-3.5">
-                                  <div className="flex items-center gap-1.5">
-                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-xs">
-                                      {lead.qualityScore}
-                                    </div>
-                                    <span className="text-[10px] text-[var(--muted-foreground)]">/100</span>
+                                  <div className="flex items-center gap-2">
+                                    {lead.qualityScore >= 95 ? (
+                                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-mono text-[11px] font-bold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
+                                        <span>ÓPTIMO ({lead.qualityScore}%)</span>
+                                      </div>
+                                    ) : lead.qualityScore >= 85 ? (
+                                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/25 text-amber-400 font-mono text-[11px] font-bold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                                        <span>ENRIQUECIDO ({lead.qualityScore}%)</span>
+                                      </div>
+                                    ) : (
+                                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/25 text-purple-400 font-mono text-[11px] font-bold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]"></span>
+                                        <span>FUSIONADO ({lead.qualityScore}%)</span>
+                                      </div>
+                                    )}
                                   </div>
                                 </td>
 
                                 {/* Acción */}
                                 <td className="p-3.5 text-right">
-                                  <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)]">
+                                  <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)]">
                                     {lead.hubspotSync}
                                   </span>
                                 </td>
@@ -2799,11 +2837,11 @@ export default function DashboardMockup() {
                       </div>
                     </div>
 
-                    {/* Reglas de Web Scraping & Enriquecimiento IA */}
+                    {/* Parámetros de Web Scraping & Enriquecimiento de Datos */}
                     <div className="glass-card p-6 space-y-5">
                       <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
                         <CpuChipIcon className="w-5 h-5 text-cyan-400" />
-                        <h4 className="font-bold text-base text-[var(--foreground)]">Motor de Web Scraping &amp; Enriquecimiento</h4>
+                        <h4 className="font-bold text-base text-[var(--foreground)]">Parámetros de Rastreo Web &amp; Extracción B2B</h4>
                       </div>
 
                       <div className="space-y-4 text-xs">
@@ -2867,9 +2905,9 @@ export default function DashboardMockup() {
                   <div>
                     <h2 className="text-2xl font-bold mb-1 flex items-center">
                       <SparklesIcon className="w-6 h-6 text-[var(--primary)] mr-2" />
-                      AEO & GEO Share of Voice (Visibilidad en IAs)
+                      Radar de Citación &amp; Cuota de Búsqueda Sintética (AEO / GEO)
                     </h2>
-                    <p className="text-[var(--muted-foreground)] text-sm">Monitorea en tiempo real qué porcentaje de veces tu marca es citada por ChatGPT, Perplexity y Claude.</p>
+                    <p className="text-[var(--muted-foreground)] text-sm">Monitorea la frecuencia y relevancia con la que los motores generativos (ChatGPT, Perplexity, Gemini) citan tu marca frente a competidores.</p>
                   </div>
                   <div className="flex space-x-3">
                     <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
@@ -4004,30 +4042,31 @@ export default function DashboardMockup() {
         </div>
       )}
 
-      {/* MODAL 4: DRAWER DE AGENTE AUTÓNOMO EN VIVO (SOPHIA, JAX, VERA) */}
+      {/* MODAL 4: DRAWER DE SUBSISTEMAS Y SEMÁFOROS KERNEL */}
       {selectedAgent && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="w-full max-w-md bg-[var(--card)] border-l border-[var(--border)] h-full flex flex-col shadow-2xl p-6 space-y-6 overflow-y-auto">
             <div className="flex justify-between items-start border-b border-[var(--border)] pb-4">
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-md ${selectedAgent === 'sophia' ? 'bg-cyan-500' : selectedAgent === 'jax' ? 'bg-orange-500' : 'bg-emerald-500'}`}>
-                  {selectedAgent === 'sophia' ? 'SP' : selectedAgent === 'jax' ? 'JX' : 'VR'}
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold font-mono text-white shadow-md ${selectedAgent === 'sophia' ? 'bg-emerald-600' : selectedAgent === 'jax' ? 'bg-cyan-600' : 'bg-amber-600'}`}>
+                  {selectedAgent === 'sophia' ? 'SC' : selectedAgent === 'jax' ? 'HS' : 'AEO'}
                 </div>
                 <div>
                   <h3 className="font-bold text-base capitalize flex items-center gap-2">
-                    Agente {selectedAgent === 'sophia' ? 'Sophia (SERP Scout)' : selectedAgent === 'jax' ? 'Jax (RevOps HubSpot)' : 'Vera (AEO Content)'}
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    {selectedAgent === 'sophia' ? 'Subsistema Crawler SERP' : selectedAgent === 'jax' ? 'Subsistema RevOps HubSpot' : 'Subsistema Editorial AEO'}
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"></span>
                   </h3>
-                  <p className="text-xs text-[var(--muted-foreground)]">
-                    {selectedAgent === 'sophia' && 'Rastreo autónomo de competidores & Search Console'}
-                    {selectedAgent === 'jax' && 'Sincronización de pipelines y atribución de deals en HubSpot'}
-                    {selectedAgent === 'vera' && 'Redacción y optimización semántica para Perplexity/ChatGPT'}
-                  </p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                      SEMÁFORO: OPERATIVO
+                    </span>
+                    <span className="text-[10px] text-[var(--muted-foreground)]">Kernel PID #4892</span>
+                  </div>
                 </div>
               </div>
               <button 
                 onClick={() => setSelectedAgent(null)}
-                className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]"
+                className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] cursor-pointer"
               >
                 <XMarkIcon className="w-5 h-5" />
               </button>
