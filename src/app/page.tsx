@@ -222,7 +222,7 @@ function TechBadge({ name }: { name: string }) {
 
 export default function DashboardMockup() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const [currentWorkspace, setCurrentWorkspace] = useState('soyroman.com');
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const [isInfrastructureModalOpen, setIsInfrastructureModalOpen] = useState(false);
@@ -1136,7 +1136,7 @@ LIMIT 5;`);
           
           <div className="flex items-center gap-3">
             {/* Teenage Engineering OP-1 / SoyRomán Style Mechanical Monogram Logo */}
-            <div className="relative flex items-center h-9 w-[136px] px-2 bg-[#07090a] border-2 border-black rounded-md shadow-[inset_0_0_0_2px_#1b1e20] overflow-hidden group cursor-pointer" title="Buildations Engine Studio // 64-bit Core">
+            <div className="relative flex items-center h-9 w-[136px] px-2 bg-[var(--card)] border border-[var(--border)] rounded-lg shadow-xs overflow-hidden group cursor-pointer" title="Buildations Engine Studio // 64-bit Core">
               {/* Dot Matrix 64-bit Logo Array */}
               <svg viewBox="0 0 160 28" className="h-4.5 w-auto">
                 {/* B */}
@@ -1534,22 +1534,22 @@ LIMIT 5;`);
           </div>
         </nav>
         
-        {/* Teenage Engineering User Profile & Rotary Power Footer */}
-        <div className="p-3 border-t border-[var(--border-te)] bg-[#0a0c0e] flex items-center justify-between">
+        {/* User Profile & Quick Settings Footer */}
+        <div className="p-3 border-t border-[var(--border)] bg-[var(--card)] flex items-center justify-between">
           <div 
             onClick={() => setActiveTab('settings')}
-            className="flex items-center cursor-pointer group flex-1 mr-2 p-1.5 rounded hover:bg-[#14161b] transition-colors border border-transparent hover:border-[var(--border-te)]"
+            className="flex items-center cursor-pointer group flex-1 mr-2 p-1.5 rounded-lg hover:bg-[var(--accent)] transition-colors border border-transparent hover:border-[var(--border)]"
             title="Ir a Configuración de Cuenta & Enterprise Vault"
           >
-            <div className="w-8 h-8 rounded bg-[#1c1e24] border border-[#e85a2a] mr-2.5 shadow-sm flex items-center justify-center font-mono font-bold text-[#e85a2a] text-xs shrink-0 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-lg bg-[var(--card-subtle)] border border-[var(--border)] mr-2.5 shadow-xs flex items-center justify-center font-mono font-bold text-[var(--primary)] text-xs shrink-0 group-hover:scale-105 transition-transform">
               RG
             </div>
             <div className="truncate">
-              <p className="font-mono text-xs font-bold text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors truncate leading-tight">
+              <p className="font-mono text-xs font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors truncate leading-tight">
                 Román García
               </p>
-              <p className="font-mono text-[9px] text-[#8a8f9d] flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active"></span>
+              <p className="font-mono text-[9px] text-[var(--muted-foreground)] flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 te-led-active"></span>
                 <span className="uppercase">SOYROMAN // ADMIN</span>
               </p>
             </div>
@@ -1557,10 +1557,10 @@ LIMIT 5;`);
           <div className="flex items-center gap-1">
             <button 
               onClick={() => setActiveTab('settings')}
-              className={`p-1.5 rounded text-xs transition-colors cursor-pointer border ${
+              className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border ${
                 activeTab === 'settings' 
-                  ? 'bg-[#e85a2a] text-white border-[#e85a2a]' 
-                  : 'border-[var(--border-te)] bg-[#14161b] hover:border-[#e85a2a] text-zinc-300'
+                  ? 'bg-[var(--primary)] text-white border-[var(--primary)]' 
+                  : 'border-[var(--border)] bg-[var(--background)] hover:border-[var(--primary)] text-[var(--foreground)]'
               }`}
               title="Configuración de Cuenta & Vault"
             >
@@ -1568,8 +1568,8 @@ LIMIT 5;`);
             </button>
             <button 
               onClick={toggleTheme}
-              className="p-1.5 rounded border border-[var(--border-te)] bg-[#14161b] hover:border-[#e85a2a] text-zinc-300 transition-colors cursor-pointer"
-              title={theme === 'dark' ? 'Modo Tactile Day' : 'Modo Dark Synth'}
+              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--background)] hover:border-[var(--primary)] text-[var(--foreground)] transition-colors cursor-pointer"
+              title={theme === 'dark' ? 'Modo Día (Cloudflare Clean)' : 'Modo Noche (Obsidian Synth)'}
             >
               {theme === 'dark' ? <SunIcon className="w-4 h-4 text-[#f5a623]" /> : <MoonIcon className="w-4 h-4 text-[#38bdf8]" />}
             </button>
@@ -1727,9 +1727,9 @@ LIMIT 5;`);
               </div>
             </button>
 
-            {/* TE Tactile Industry Preset Selector */}
-            <div className="hidden lg:flex items-center gap-1 p-1 rounded bg-[#07090a] border border-[#2a2e38] shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)] font-mono text-[10px]">
-              <span className="text-[#8a8f9d] px-1 font-bold tracking-wider">PRESET:</span>
+            {/* TE Tactile Industry Preset Selector - Cloudflare/Vercel Styled */}
+            <div className="hidden lg:flex items-center gap-1 p-1 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xs font-mono text-[10px]">
+              <span className="text-[var(--muted-foreground)] px-1 font-bold tracking-wider">PRESET:</span>
               {(['saas', 'fintech', 'ecommerce', 'health'] as const).map((pst) => (
                 <button
                   key={pst}
@@ -1739,8 +1739,8 @@ LIMIT 5;`);
                   }}
                   className={`px-2 py-0.5 rounded uppercase font-bold transition-all cursor-pointer ${
                     activeIndustryPreset === pst
-                      ? 'bg-[#e85a2a] text-white shadow-[0_0_8px_rgba(232,90,42,0.8)] te-button-primary'
-                      : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                      ? 'bg-[var(--primary)] text-white shadow-xs'
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--accent)]'
                   }`}
                   title={`Cargar calibración de pesos para industria: ${pst}`}
                 >
@@ -1750,8 +1750,8 @@ LIMIT 5;`);
             </div>
 
             {/* Teenage Engineering Mechanical Status Segment Indicator */}
-            <div className="hidden xl:flex items-center gap-1.5 p-1 rounded bg-[#0a0c0e] border border-black shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)]">
-              <span className="font-mono text-[9px] font-bold uppercase text-[#8a8f9d] px-1 tracking-wider">
+            <div className="hidden xl:flex items-center gap-1.5 p-1 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xs">
+              <span className="font-mono text-[9px] font-bold uppercase text-[var(--muted-foreground)] px-1 tracking-wider">
                 LED:
               </span>
               
@@ -1759,12 +1759,12 @@ LIMIT 5;`);
                 onClick={() => setSelectedAgent('sophia')}
                 className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
                   selectedAgent === 'sophia' 
-                    ? 'bg-[#152a1d] text-[#3ddc84] border border-[#3ddc84]/50' 
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                 }`}
                 title="Crawler SERP: Calibrado y Operativo (99.8%)"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_5px_#3ddc84]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 te-led-active shadow-[0_0_5px_#10b981]" />
                 <span>SERP</span>
               </button>
 
@@ -1772,12 +1772,12 @@ LIMIT 5;`);
                 onClick={() => setSelectedAgent('jax')}
                 className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
                   selectedAgent === 'jax' 
-                    ? 'bg-[#2a2212] text-[#f5a623] border border-[#f5a623]/50' 
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                 }`}
                 title="Sync RevOps HubSpot: Vinculado y Activo"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#f5a623] shadow-[0_0_5px_#f5a623]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_5px_#f59e0b]" />
                 <span>REVOPS</span>
               </button>
 
@@ -1785,12 +1785,12 @@ LIMIT 5;`);
                 onClick={() => setSelectedAgent('vera')}
                 className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
                   selectedAgent === 'vera' 
-                    ? 'bg-[#2d160f] text-[#e85a2a] border border-[#e85a2a]/50' 
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/30' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                 }`}
                 title="Motor Editorial AEO: En Proceso de Síntesis"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#e85a2a] te-led-fast shadow-[0_0_5px_#e85a2a]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 te-led-fast shadow-[0_0_5px_#ea580c]" />
                 <span>AEO</span>
               </button>
             </div>
@@ -2067,14 +2067,14 @@ LIMIT 5;`);
                   {/* Main Scorecard HUD - Analítica Ejecutiva de Alta Legibilidad */}
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 my-6">
                     {/* Big Gauge Box */}
-                    <div className="p-6 rounded-2xl bg-gradient-to-b from-[#131620]/95 to-[#0c0d12]/95 border border-white/[0.08] shadow-xl flex flex-col items-center justify-center text-center space-y-3">
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm hover:border-[var(--border-te)] flex flex-col items-center justify-center text-center space-y-3">
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider">
                         Score Global de Homologación
                       </span>
-                      <div className="w-24 h-24 rounded-full border-4 border-orange-500/80 flex items-center justify-center shadow-[0_0_24px_rgba(232,90,42,0.35)] bg-orange-500/5">
-                        <span className="text-4xl font-extrabold text-white font-sans tabular-nums">94</span>
+                      <div className="w-24 h-24 rounded-full border-4 border-orange-500/80 flex items-center justify-center shadow-[0_0_24px_rgba(232,90,42,0.25)] bg-orange-500/5">
+                        <span className="text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">94</span>
                       </div>
-                      <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
                         Grado A+ (Top 2% LatAm)
                       </span>
                     </div>
@@ -2082,68 +2082,68 @@ LIMIT 5;`);
                     {/* 3 Detail Factor Cards */}
                     <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {/* Factor 1: Citabilidad AEO */}
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all flex flex-col justify-between">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all flex flex-col justify-between">
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider">
                               Citabilidad AEO (IAs)
                             </span>
                             <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
                           </div>
                           <div className="flex items-baseline justify-between pt-1">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">96%</span>
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">96%</span>
                             <div className="te-segment-meter">
                               <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" />
                             </div>
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 mt-3 font-normal leading-relaxed">Menciones en Perplexity, ChatGPT y Claude comprobadas en producción</p>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-3 font-normal leading-relaxed">Menciones en Perplexity, ChatGPT y Claude comprobadas en producción</p>
                       </div>
 
                       {/* Factor 2: Topología de Silos */}
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all flex flex-col justify-between">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all flex flex-col justify-between">
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider">
                               Topología de Silos
                             </span>
                             <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
                           </div>
                           <div className="flex items-baseline justify-between pt-1">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">92%</span>
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">92%</span>
                             <div className="te-segment-meter">
                               <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
                             </div>
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 mt-3 font-normal leading-relaxed">Clusters temáticos estancos sin enlaces cruzados rotos ni fugas de PR</p>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-3 font-normal leading-relaxed">Clusters temáticos estancos sin enlaces cruzados rotos ni fugas de PR</p>
                       </div>
 
                       {/* Factor 3: Atribución a Negocios */}
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all flex flex-col justify-between">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all flex flex-col justify-between">
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider">
                               Atribución a Negocios
                             </span>
                             <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
                           </div>
                           <div className="flex items-baseline justify-between pt-1">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">90%</span>
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">90%</span>
                             <div className="te-segment-meter">
                               <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
                             </div>
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 mt-3 font-normal leading-relaxed">Mapeo de deals y prospectos a hs_analytics verificado con HubSpot</p>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-3 font-normal leading-relaxed">Mapeo de deals y prospectos a hs_analytics verificado con HubSpot</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Hoja de Ruta de Ingeniería de Contenido */}
-                  <div className="p-5 rounded bg-[#07090a] border border-[#2a2e38] space-y-4 font-mono text-xs">
-                    <span className="font-bold text-white uppercase tracking-wider block text-xs flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active" />
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4 font-mono text-xs shadow-sm">
+                    <span className="font-bold text-[var(--foreground)] uppercase tracking-wider block text-xs flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 te-led-active" />
                       Plan de Acción Inmediato (Roadmap de Homologación Trimestral)
                     </span>
 
@@ -2154,14 +2154,14 @@ LIMIT 5;`);
                         { step: "03", task: "Generar Silo de 'Comparativa Software B2B' con 6 satélites", impact: "18 Leads Estimados", status: "Planificado" },
                         { step: "04", task: "Regenerar Vectores pgvector con HNSW a 1536 dimensiones", impact: "Latencia < 11.4ms", status: "Activo en DB Studio" }
                       ].map((item, i) => (
-                        <div key={i} className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                        <div key={i} className="p-3 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap justify-between items-center gap-2">
                           <div className="flex items-center gap-3">
-                            <span className="text-[#e85a2a] font-bold">{item.step}.</span>
-                            <span className="text-white font-medium">{item.task}</span>
+                            <span className="text-[var(--primary)] font-bold">{item.step}.</span>
+                            <span className="text-[var(--foreground)] font-medium">{item.task}</span>
                           </div>
                           <div className="flex items-center gap-4 text-[10px]">
-                            <span className="text-[#3ddc84] font-bold">{item.impact}</span>
-                            <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">{item.status}</span>
+                            <span className="text-emerald-600 dark:text-[#3ddc84] font-bold">{item.impact}</span>
+                            <span className="px-2 py-0.5 rounded bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)]">{item.status}</span>
                           </div>
                         </div>
                       ))}
@@ -2196,7 +2196,7 @@ LIMIT 5;`);
 
                   <div className="flex flex-wrap items-center gap-2.5">
                     {/* Switch Táctil de Modo: Módulos vs Telemetría Consolidada */}
-                    <div className="flex items-center p-1 bg-[#121418] border border-[var(--border-te)] rounded-lg font-mono text-xs">
+                    <div className="flex items-center p-1 bg-[var(--card)] border border-[var(--border)] rounded-lg font-mono text-xs shadow-xs">
                       <button
                         onClick={() => {
                           setOverviewMode('modules');
@@ -2204,8 +2204,8 @@ LIMIT 5;`);
                         }}
                         className={`px-3 py-1.5 rounded-md transition-all font-bold flex items-center gap-1.5 ${
                           overviewMode === 'modules'
-                            ? 'bg-[#1e222b] text-[var(--accent-te)] border border-[var(--accent-te)]/30 shadow-sm'
-                            : 'text-zinc-400 hover:text-zinc-200'
+                            ? 'bg-[var(--accent)] text-[var(--foreground)] border border-[var(--border-te)] shadow-xs'
+                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                         }`}
                       >
                         <RectangleStackIcon className="w-3.5 h-3.5" />
@@ -2216,8 +2216,8 @@ LIMIT 5;`);
                         onClick={() => setOverviewMode('telemetry')}
                         className={`px-3 py-1.5 rounded-md transition-all font-bold flex items-center gap-1.5 ${
                           overviewMode === 'telemetry'
-                            ? 'bg-[#1e222b] text-[#3ddc84] border border-[#3ddc84]/30 shadow-sm'
-                            : 'text-zinc-400 hover:text-zinc-200'
+                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shadow-xs'
+                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                         }`}
                       >
                         <BoltIcon className="w-3.5 h-3.5" />
@@ -2230,7 +2230,7 @@ LIMIT 5;`);
                         toast.info('Sincronizando estado y latencia de todos los motores...');
                         setTimeout(() => toast.success('9 motores de hardware sincronizados con éxito.'), 500);
                       }}
-                      className="bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-300 px-3 py-2 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all cursor-pointer"
+                      className="bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] text-[var(--foreground)] px-3 py-2 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
                     >
                       <ArrowPathIcon className="w-3.5 h-3.5" />
                       Sync
@@ -2242,11 +2242,11 @@ LIMIT 5;`);
                 <div className="space-y-6">
                   {/* Drawer de Inspección Rápida de Parámetros de Motor (si hay uno inspeccionado) */}
                   {inspectedEngineId && (
-                    <div className="relative p-6 bg-gradient-to-b from-[#141722] to-[#0c0e14] border border-orange-500/30 rounded-2xl shadow-2xl animate-fade-in space-y-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.08]">
+                    <div className="relative p-6 bg-[var(--card)] border border-orange-500/30 rounded-2xl shadow-sm animate-fade-in space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
                         <div className="flex items-center gap-2.5">
                           <span className="te-badge te-badge-orange font-mono text-[9px]">INSPECCIÓN DE TELEMETRÍA</span>
-                          <span className="font-mono text-xs font-semibold text-white tracking-wide uppercase">
+                          <span className="font-mono text-xs font-semibold text-[var(--foreground)] tracking-wide uppercase">
                             PARÁMETROS TÉCNICOS // {inspectedEngineId.toUpperCase()}
                           </span>
                         </div>
@@ -2257,7 +2257,7 @@ LIMIT 5;`);
                               setActiveTab(inspectedEngineId);
                               toast.success(`Accediendo al universo de ${inspectedEngineId.toUpperCase()}...`);
                             }}
-                            className="px-3.5 py-1.5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                            className="px-3.5 py-1.5 rounded-xl bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] font-semibold text-xs transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
                           >
                             <span>Entrar al Universo Completo</span>
                             <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
@@ -2265,7 +2265,7 @@ LIMIT 5;`);
 
                           <button
                             onClick={() => setInspectedEngineId(null)}
-                            className="p-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-zinc-400 hover:text-white transition-all cursor-pointer"
+                            className="p-1.5 rounded-xl bg-[var(--card-subtle)] hover:bg-[var(--accent)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all cursor-pointer"
                           >
                             <XMarkIcon className="w-4 h-4" />
                           </button>
@@ -2273,27 +2273,27 @@ LIMIT 5;`);
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
-                          <span className="te-label text-zinc-400">ESTADO OPERACIONAL</span>
-                          <div className="text-sm font-mono font-bold text-emerald-400 flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                        <div className="p-3.5 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-1">
+                          <span className="te-label text-[var(--muted-foreground)]">ESTADO OPERACIONAL</span>
+                          <div className="text-sm font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
                             ONLINE (64-BIT TELEMETRY)
                           </div>
-                          <p className="text-[11px] text-zinc-400">Sin caídas en los últimos 1,420 ciclos.</p>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">Sin caídas en los últimos 1,420 ciclos.</p>
                         </div>
 
-                        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
-                          <span className="te-label text-zinc-400">PERFIL APLICADO</span>
-                          <div className="text-sm font-mono font-bold text-orange-400 uppercase">
+                        <div className="p-3.5 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-1">
+                          <span className="te-label text-[var(--muted-foreground)]">PERFIL APLICADO</span>
+                          <div className="text-sm font-mono font-bold text-orange-500 uppercase">
                             {activeIndustryPreset} ENTERPRISE
                           </div>
-                          <p className="text-[11px] text-zinc-400">Calibración adaptada a tu sector.</p>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">Calibración adaptada a tu sector.</p>
                         </div>
 
-                        <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
-                          <span className="te-label text-zinc-400">LATENCIA MEDIA</span>
-                          <div className="text-sm font-mono font-bold text-sky-400">18.4 ms</div>
-                          <p className="text-[11px] text-zinc-400">Conexión directa vía Next.js App Router.</p>
+                        <div className="p-3.5 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-1">
+                          <span className="te-label text-[var(--muted-foreground)]">LATENCIA MEDIA</span>
+                          <div className="text-sm font-mono font-bold text-sky-500">18.4 ms</div>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">Conexión directa vía Next.js App Router.</p>
                         </div>
                       </div>
                     </div>
@@ -2410,15 +2410,15 @@ LIMIT 5;`);
                           key={mod.id}
                           className={`relative p-5 rounded-2xl transition-all duration-200 flex flex-col justify-between group border ${
                             isInspected 
-                              ? 'border-orange-500/50 bg-[#12151d] shadow-[0_0_25px_rgba(232,90,42,0.15)] ring-1 ring-orange-500/20'
-                              : 'border-white/[0.08] bg-[#0d0f15]/85 hover:bg-[#12141c] hover:border-white/[0.18] shadow-sm hover:shadow-xl hover:-translate-y-0.5'
+                              ? 'border-[var(--primary)] bg-[var(--card)] shadow-lg ring-1 ring-[var(--primary)]/30' 
+                              : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/50 shadow-sm hover:shadow-md hover:-translate-y-0.5'
                           }`}
                         >
                           {/* Header del Módulo */}
                           <div className="space-y-3.5">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <span className="font-mono text-[10px] font-semibold text-zinc-400 bg-white/[0.04] border border-white/[0.06] px-2 py-0.5 rounded-md">
+                                <span className="font-mono text-[10px] font-semibold text-[var(--muted-foreground)] bg-[var(--muted)] border border-[var(--border)] px-2 py-0.5 rounded-md">
                                   {mod.slot}
                                 </span>
                                 <span className={`te-badge ${mod.badgeColor} font-mono text-[9px]`}>
@@ -2427,20 +2427,20 @@ LIMIT 5;`);
                               </div>
 
                               <div className="flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-                                <span className="text-[10px] font-mono text-zinc-400">ACTIVO</span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+                                <span className="text-[10px] font-mono text-[var(--muted-foreground)] font-semibold">ACTIVO</span>
                               </div>
                             </div>
 
                             <div className="flex items-start gap-3">
-                              <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-zinc-300 group-hover:text-white group-hover:border-white/[0.2] transition-colors shrink-0">
+                              <div className="p-2.5 rounded-xl bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors shrink-0">
                                 <IconComponent className="w-5 h-5" />
                               </div>
                               <div>
-                                <h3 className="text-sm font-semibold text-white tracking-tight group-hover:text-white transition-colors">
+                                <h3 className="text-sm font-semibold text-[var(--foreground)] tracking-tight transition-colors">
                                   {mod.title}
                                 </h3>
-                                <p className="text-xs text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-[var(--muted-foreground)] mt-1 line-clamp-2 leading-relaxed">
                                   {mod.desc}
                                 </p>
                               </div>
@@ -2448,12 +2448,12 @@ LIMIT 5;`);
                           </div>
 
                           {/* Métrica Clave y Controles de Apertura */}
-                          <div className="mt-5 pt-3.5 border-t border-white/[0.06] space-y-3">
+                          <div className="mt-5 pt-3.5 border-t border-[var(--border)] space-y-3">
                             <div>
-                              <span className="text-2xl sm:text-3xl font-extrabold font-sans tracking-tight text-white block tabular-nums">
+                              <span className="text-2xl sm:text-3xl font-extrabold font-sans tracking-tight text-[var(--foreground)] block tabular-nums">
                                 {mod.metric}
                               </span>
-                              <span className="text-xs font-medium text-zinc-400 block mt-0.5">
+                              <span className="text-xs font-medium text-[var(--muted-foreground)] block mt-0.5">
                                 {mod.metricLabel}
                               </span>
                             </div>
@@ -2464,10 +2464,10 @@ LIMIT 5;`);
                                   setActiveTab(mod.id);
                                   toast.success(`Ingresando al universo de ${mod.title}...`);
                                 }}
-                                className="flex-1 py-2 px-3.5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md cursor-pointer"
+                                className="flex-1 py-2 px-3.5 rounded-xl bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm hover:shadow-md cursor-pointer"
                               >
                                 <span>Abrir Motor</span>
-                                <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-zinc-800" />
+                                <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
                               </button>
 
                               <button
@@ -2475,7 +2475,7 @@ LIMIT 5;`);
                                   e.stopPropagation();
                                   setInspectedEngineId(isInspected ? null : mod.id);
                                 }}
-                                className="py-2 px-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-zinc-400 hover:text-white text-xs transition-all cursor-pointer"
+                                className="py-2 px-2.5 rounded-xl bg-[var(--muted)] hover:bg-[var(--card-subtle)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-xs transition-all cursor-pointer"
                                 title="Inspección rápida in-situ"
                               >
                                 <EyeIcon className="w-3.5 h-3.5" />
@@ -2506,17 +2506,17 @@ LIMIT 5;`);
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <span className="font-mono text-[9px] uppercase px-2 py-0.5 bg-[#0a0c0e] text-[#3ddc84] border border-[#3ddc84]/30 rounded">
+                      <span className="font-mono text-[9px] uppercase px-2 py-0.5 bg-[var(--card)] text-emerald-600 dark:text-[#3ddc84] border border-emerald-500/20 rounded">
                         64-BIT CORE: ACTIVE
                       </span>
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#111317] border border-[var(--border-te)] flex items-center justify-center shadow-inner">
-                        <div className="w-1.5 h-0.5 bg-zinc-600 -rotate-45"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center shadow-inner">
+                        <div className="w-1.5 h-0.5 bg-zinc-400 -rotate-45"></div>
                       </div>
                     </div>
                   </div>
 
                   {/* SoyRomán Style Animated Flow Schematic Diagram (SVG Signal Path) */}
-                  <div className="p-4 rounded bg-[#0a0c0e] border border-black shadow-[inset_0_2px_8px_rgba(0,0,0,0.9)] overflow-x-auto">
+                  <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] shadow-xs overflow-x-auto">
                     <div className="min-w-[680px]">
                       <svg viewBox="0 0 680 140" className="w-full h-auto">
                         <defs>
@@ -2633,112 +2633,112 @@ LIMIT 5;`);
                   </div>
                 </div>
 
-                {/* Grid de 4 Indicadores de Telemetría - Diseño Moderno & Analítica de Alta Legibilidad */}
+                {/* Grid de 4 Indicadores de Telemetría - Estilo Cloudflare / Vercel */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* KPI 1: Tráfico Orgánico */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm hover:shadow-md hover:border-[var(--primary)]/50 transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
                         Tráfico Orgánico
                       </span>
-                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                      <span className="font-mono text-[10px] text-[var(--muted-foreground)] bg-[var(--muted)] px-2 py-0.5 rounded border border-[var(--border)] font-semibold">
                         M-01
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] font-sans tabular-nums">
                           42,840
                         </p>
-                        <span className="text-xs text-zinc-400">vis/mes</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">vis/mes</span>
                       </div>
                       <div className="flex items-center gap-2 mt-2.5">
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           ↑ +18.4%
                         </span>
-                        <span className="text-[11px] text-zinc-400">vs mes anterior</span>
+                        <span className="text-[11px] text-[var(--muted-foreground)]">vs mes anterior</span>
                       </div>
                     </div>
                   </div>
 
                   {/* KPI 2: Keywords Top 3 */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm hover:shadow-md hover:border-[var(--primary)]/50 transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_6px_rgba(14,165,233,0.8)]" />
                         Keywords en Top 3
                       </span>
-                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                      <span className="font-mono text-[10px] text-[var(--muted-foreground)] bg-[var(--muted)] px-2 py-0.5 rounded border border-[var(--border)] font-semibold">
                         M-02
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] font-sans tabular-nums">
                           342
                         </p>
-                        <span className="text-xs text-zinc-400">queries</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">queries</span>
                       </div>
                       <div className="flex items-center gap-2 mt-2.5">
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                           +24 nuevas
                         </span>
-                        <span className="text-[11px] text-zinc-400">1,120 en Top 10 total</span>
+                        <span className="text-[11px] text-[var(--muted-foreground)]">1,120 en Top 10 total</span>
                       </div>
                     </div>
                   </div>
 
                   {/* KPI 3: Citación AEO */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm hover:shadow-md hover:border-[var(--primary)]/50 transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_rgba(246,130,31,0.8)]" />
                         Citación AEO en LLMs
                       </span>
-                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                      <span className="font-mono text-[10px] text-[var(--muted-foreground)] bg-[var(--muted)] px-2 py-0.5 rounded border border-[var(--border)] font-semibold">
                         M-03
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] font-sans tabular-nums">
                           64.2%
                         </p>
-                        <span className="text-xs text-zinc-400">share</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">share</span>
                       </div>
                       <div className="flex items-center gap-2 mt-2.5">
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
                           #1 Líder
                         </span>
-                        <span className="text-[11px] text-zinc-400">en ChatGPT &amp; Perplexity</span>
+                        <span className="text-[11px] text-[var(--muted-foreground)]">en ChatGPT &amp; Perplexity</span>
                       </div>
                     </div>
                   </div>
 
                   {/* KPI 4: Pipeline Deals */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-sm hover:shadow-md hover:border-[var(--primary)]/50 transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_6px_rgba(245,166,35,0.8)]" />
                         Pipeline Atribuido
                       </span>
-                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                      <span className="font-mono text-[10px] text-[var(--muted-foreground)] bg-[var(--muted)] px-2 py-0.5 rounded border border-[var(--border)] font-semibold">
                         M-04
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] font-sans tabular-nums">
                           $148,000
                         </p>
-                        <span className="text-xs text-zinc-400">USD</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">USD</span>
                       </div>
                       <div className="flex items-center gap-2 mt-2.5">
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                           12 Deals
                         </span>
-                        <span className="text-[11px] text-zinc-400">originados en HubSpot</span>
+                        <span className="text-[11px] text-[var(--muted-foreground)]">originados en HubSpot</span>
                       </div>
                     </div>
                   </div>
@@ -2758,15 +2758,15 @@ LIMIT 5;`);
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 bg-[#0a0c0e] p-1 rounded border border-black text-xs font-mono">
-                      <button className="px-2.5 py-1 rounded bg-[#1c1e24] text-[#e85a2a] font-bold">30D</button>
-                      <button className="px-2.5 py-1 rounded text-zinc-400 hover:text-white">90D</button>
-                      <button className="px-2.5 py-1 rounded text-zinc-400 hover:text-white">1Y</button>
+                    <div className="flex items-center gap-1 bg-[var(--card)] p-1 rounded-lg border border-[var(--border)] text-xs font-mono shadow-xs">
+                      <button className="px-2.5 py-1 rounded-md bg-[var(--accent)] text-[var(--primary)] font-bold">30D</button>
+                      <button className="px-2.5 py-1 rounded-md text-[var(--muted-foreground)] hover:text-[var(--foreground)]">90D</button>
+                      <button className="px-2.5 py-1 rounded-md text-[var(--muted-foreground)] hover:text-[var(--foreground)]">1Y</button>
                     </div>
                   </div>
 
                   {/* 64-Bit Teenage Engineering Frequency Equalizer Display */}
-                  <div className="h-64 flex items-end space-x-2 pt-6 px-2 bg-[#0a0c0e] rounded p-4 border border-black shadow-inner">
+                  <div className="h-64 flex items-end space-x-2 pt-6 px-2 bg-[var(--card-subtle)] rounded-xl p-4 border border-[var(--border)] shadow-inner">
                     {[45, 52, 49, 60, 72, 68, 85, 94, 88, 102, 115, 128].map((h, i) => (
                       <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer h-full justify-end">
                         <div className="w-full flex flex-col gap-1 items-center justify-end h-full">
@@ -2783,7 +2783,7 @@ LIMIT 5;`);
                                       : stepIdx > 6 
                                       ? 'bg-[#f5a623]' 
                                       : 'bg-[#3ddc84]' 
-                                    : 'bg-zinc-900/60'
+                                    : 'bg-slate-200 dark:bg-zinc-800/60'
                                 }`}
                               />
                             );
@@ -3059,20 +3059,20 @@ LIMIT 5;`);
                         return (
                           <div 
                             key={eng.id}
-                            className={`te-frame p-4.5 transition-all relative overflow-hidden flex flex-col justify-between group ${
+                            className={`te-frame p-4.5 rounded-2xl transition-all relative overflow-hidden flex flex-col justify-between group ${
                               isSelected 
-                                ? 'border-[#e85a2a] shadow-[0_0_18px_rgba(232,90,42,0.3)] bg-[#121418]' 
-                                : 'bg-[#101216] hover:border-zinc-600'
+                                ? 'border-[var(--primary)] shadow-sm bg-[var(--card)]' 
+                                : 'bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs'
                             }`}
                           >
                             {/* TE Corner Mechanical Notch */}
-                            <div className="absolute top-0 right-0 w-3 h-3 bg-[#e85a2a]/20 border-b border-l border-[#e85a2a]/40"></div>
+                            <div className="absolute top-0 right-0 w-3 h-3 bg-orange-500/20 border-b border-l border-orange-500/40"></div>
 
                             <div>
                               <div className="flex items-start justify-between gap-2 mb-2.5">
                                 <div className="flex items-center gap-2">
                                   <div className={`w-2 h-2 rounded-full ${
-                                    eng.status === 'active' ? 'bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]' : 'bg-[#f5a623]'
+                                    eng.status === 'active' ? 'bg-emerald-500 te-led-active shadow-[0_0_6px_#10b981]' : 'bg-amber-500'
                                   }`} />
                                   <span className="te-label">
                                     {eng.id} // {eng.type}
@@ -3080,18 +3080,18 @@ LIMIT 5;`);
                                 </div>
                                 <span className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded font-bold ${
                                   eng.status === 'active' 
-                                    ? 'bg-[#3ddc84]/15 text-[#3ddc84] border border-[#3ddc84]/40' 
-                                    : 'bg-[#f5a623]/15 text-[#f5a623] border border-[#f5a623]/40'
+                                    ? 'bg-emerald-500/15 text-emerald-600 dark:text-[#3ddc84] border border-emerald-500/40' 
+                                    : 'bg-amber-500/15 text-amber-600 dark:text-[#f5a623] border border-amber-500/40'
                                 }`}>
                                   {eng.status === 'active' ? 'ACTIVE' : 'STANDBY'}
                                 </span>
                               </div>
 
-                              <h4 className="font-mono font-bold text-xs text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors leading-tight mb-1">
+                              <h4 className="font-mono font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors leading-tight mb-1">
                                 {eng.name}
                               </h4>
                               
-                              <p className="font-mono text-[10px] text-[#e85a2a] truncate mb-2">
+                              <p className="font-mono text-[10px] text-[var(--primary)] truncate mb-2">
                                 {eng.targetDomain}
                               </p>
                               
@@ -3099,25 +3099,25 @@ LIMIT 5;`);
                                 {eng.purpose}
                               </p>
 
-                              {/* Medidores 64-bit y Rendimiento Hardware TE */}
-                              <div className="grid grid-cols-3 gap-1.5 p-2 bg-[#080a0c] border border-black rounded te-screen text-center">
+                              {/* Medidores 64-bit y Rendimiento Hardware */}
+                              <div className="grid grid-cols-3 gap-1.5 p-2 bg-[var(--card-subtle)] border border-[var(--border)] rounded-xl text-center">
                                 <div className="p-1">
                                   <span className="te-label block text-[8px]">CORE</span>
-                                  <span className="text-xs font-mono font-bold text-[#3ddc84]">{eng.health}%</span>
+                                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#3ddc84]">{eng.health}%</span>
                                 </div>
-                                <div className="p-1 border-x border-zinc-800">
+                                <div className="p-1 border-x border-[var(--border)]">
                                   <span className="te-label block text-[8px]">POST/W</span>
-                                  <span className="text-xs font-mono font-bold text-white">{eng.publishedWeekly}</span>
+                                  <span className="text-xs font-mono font-bold text-[var(--foreground)]">{eng.publishedWeekly}</span>
                                 </div>
                                 <div className="p-1">
                                   <span className="te-label block text-[8px]">LATENCY</span>
-                                  <span className="text-xs font-mono font-bold text-[#38bdf8]">{eng.latency}</span>
+                                  <span className="text-xs font-mono font-bold text-sky-500 dark:text-[#38bdf8]">{eng.latency}</span>
                                 </div>
                               </div>
 
-                              <div className="mt-2.5 flex items-center justify-between text-[9px] font-mono text-zinc-400 pb-2.5 border-b border-[var(--border-te)]">
+                              <div className="mt-2.5 flex items-center justify-between text-[9px] font-mono text-[var(--muted-foreground)] pb-2.5 border-b border-[var(--border)]">
                                 <span className="flex items-center gap-1">
-                                  POTENCIA: <strong className="text-[#f5a623]">{eng.powerRate}%</strong>
+                                  POTENCIA: <strong className="text-amber-500 dark:text-[#f5a623]">{eng.powerRate}%</strong>
                                 </span>
                                 <span>CORE: {eng.llmCore.split(' ')[0]}</span>
                               </div>
@@ -3989,16 +3989,16 @@ LIMIT 5;`);
                       </div>
 
                       {/* Vinculación de Tabla SQL & Acceso Directo al Database Studio */}
-                      <div className="p-4 rounded-xl bg-zinc-950 border border-[var(--border-te)] flex flex-wrap items-center justify-between gap-4">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-4 shadow-xs">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-lg bg-[#e85a2a]/10 border border-[#e85a2a]/30 flex items-center justify-center text-[#e85a2a]">
+                          <div className="w-9 h-9 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 flex items-center justify-center text-[var(--primary)]">
                             <CircleStackIcon className="w-5 h-5" />
                           </div>
                           <div>
-                            <span className="text-[10px] font-mono text-[#e85a2a] uppercase font-bold block">
+                            <span className="text-[10px] font-mono text-[var(--primary)] uppercase font-bold block">
                               TABLA PGVECTOR VINCULADA: aeo_citation_vectors
                             </span>
-                            <span className="text-xs text-zinc-300 font-mono">
+                            <span className="text-xs text-[var(--muted-foreground)] font-mono">
                               Índice HNSW activo (1536 dimensiones) • 14,280 vectores sincronizados en Supabase
                             </span>
                           </div>
@@ -5406,33 +5406,33 @@ LIMIT 5;`);
 
                     {/* Tool Universe Sub-View Switcher & Actions */}
                     <div className="flex items-center gap-2">
-                      <div className="flex p-0.5 rounded bg-[#07090a] border border-[#2a2e38] font-mono text-[10px]">
+                      <div className="flex p-0.5 rounded-lg bg-[var(--card)] border border-[var(--border)] font-mono text-[10px] shadow-xs">
                         <button
                           onClick={() => setRevopsActiveView('telemetry')}
-                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-md font-bold uppercase transition-all cursor-pointer ${
                             revopsActiveView === 'telemetry'
-                              ? 'bg-[#e85a2a] text-white shadow-sm'
-                              : 'text-zinc-400 hover:text-white'
+                              ? 'bg-[var(--primary)] text-white shadow-xs'
+                              : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                           }`}
                         >
                           Telemetría
                         </button>
                         <button
                           onClick={() => setRevopsActiveView('calibration')}
-                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-md font-bold uppercase transition-all cursor-pointer ${
                             revopsActiveView === 'calibration'
-                              ? 'bg-[#e85a2a] text-white shadow-sm'
-                              : 'text-zinc-400 hover:text-white'
+                              ? 'bg-[var(--primary)] text-white shadow-xs'
+                              : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                           }`}
                         >
                           Calibrador de Knobs
                         </button>
                         <button
                           onClick={() => setRevopsActiveView('deals')}
-                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-md font-bold uppercase transition-all cursor-pointer ${
                             revopsActiveView === 'deals'
-                              ? 'bg-[#e85a2a] text-white shadow-sm'
-                              : 'text-zinc-400 hover:text-white'
+                              ? 'bg-[var(--primary)] text-white shadow-xs'
+                              : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                           }`}
                         >
                           Ledger Deals (64B)
@@ -5443,7 +5443,7 @@ LIMIT 5;`);
                         onClick={() => {
                           showToast('Sincronización HubSpot Forzada', 'Propiedades de contacto y pipeline de deals recalculados en 8.4ms.', 'success');
                         }}
-                        className="te-button px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer"
+                        className="te-button px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--foreground)] shadow-xs"
                       >
                         <ArrowPathIcon className="w-3.5 h-3.5 text-[#ff7a59]" />
                         <span>Sync Propiedades</span>
@@ -5457,19 +5457,19 @@ LIMIT 5;`);
                       {/* Pipeline Pressure Chamber HUD - Analítica Moderna & Telemetría Ejecutiva */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {/* Meter 1: MQLs */}
-                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all duration-200 flex flex-col justify-between group">
                           <div className="flex justify-between items-center mb-3">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
                               MQLs por Contenido
                             </span>
-                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                               +24% mes
                             </span>
                           </div>
                           <div>
                             <div className="flex items-baseline justify-between">
-                              <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">148</span>
+                              <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">148</span>
                               <div className="te-segment-meter">
                                 <span className="te-segment-cell active-green" />
                                 <span className="te-segment-cell active-green" />
@@ -5480,24 +5480,24 @@ LIMIT 5;`);
                                 <span className="te-segment-cell" />
                               </div>
                             </div>
-                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Mapeados a hs_analytics_first_touch</p>
+                            <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Mapeados a hs_analytics_first_touch</p>
                           </div>
                         </div>
 
                         {/* Meter 2: Pipeline Atribuido */}
-                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all duration-200 flex flex-col justify-between group">
                           <div className="flex justify-between items-center mb-3">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_6px_#0284c7]" />
                               Pipeline Activo
                             </span>
-                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                               18 Deals
                             </span>
                           </div>
                           <div>
                             <div className="flex items-baseline justify-between">
-                              <span className="text-3xl sm:text-4xl font-extrabold text-[#38bdf8] font-sans tabular-nums">$42,500</span>
+                              <span className="text-3xl sm:text-4xl font-extrabold text-sky-600 dark:text-[#38bdf8] font-sans tabular-nums">$42,500</span>
                               <div className="te-segment-meter">
                                 <span className="te-segment-cell active-green" />
                                 <span className="te-segment-cell active-green" />
@@ -5507,24 +5507,24 @@ LIMIT 5;`);
                                 <span className="te-segment-cell" />
                               </div>
                             </div>
-                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Influenciado por Silos de Contenido AEO</p>
+                            <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Influenciado por Silos de Contenido AEO</p>
                           </div>
                         </div>
 
                         {/* Meter 3: Ventas Cerradas Ganadas */}
-                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all duration-200 flex flex-col justify-between group">
                           <div className="flex justify-between items-center mb-3">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
                               Closed Won Revenue
                             </span>
-                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                               ROAS 8.4X
                             </span>
                           </div>
                           <div>
                             <div className="flex items-baseline justify-between">
-                              <span className="text-3xl sm:text-4xl font-extrabold text-[#3ddc84] font-sans tabular-nums">$16,200</span>
+                              <span className="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-[#3ddc84] font-sans tabular-nums">$16,200</span>
                               <div className="te-segment-meter">
                                 <span className="te-segment-cell active-green" />
                                 <span className="te-segment-cell active-green" />
@@ -5534,24 +5534,24 @@ LIMIT 5;`);
                                 <span className="te-segment-cell active-yellow" />
                               </div>
                             </div>
-                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Facturación real verificada en HubSpot</p>
+                            <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Facturación real verificada en HubSpot</p>
                           </div>
                         </div>
 
                         {/* Meter 4: Tasa Lead-to-SQL */}
-                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-sm hover:shadow transition-all duration-200 flex flex-col justify-between group">
                           <div className="flex justify-between items-center mb-3">
-                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                            <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]" />
                               Tasa Lead-to-SQL
                             </span>
-                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                               Top Tier
                             </span>
                           </div>
                           <div>
                             <div className="flex items-baseline justify-between">
-                              <span className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] font-sans tabular-nums">22.4%</span>
+                              <span className="text-3xl sm:text-4xl font-extrabold text-amber-600 dark:text-[#f5a623] font-sans tabular-nums">22.4%</span>
                               <div className="te-segment-meter">
                                 <span className="te-segment-cell active-green" />
                                 <span className="te-segment-cell active-green" />
@@ -5561,7 +5561,7 @@ LIMIT 5;`);
                                 <span className="te-segment-cell" />
                               </div>
                             </div>
-                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Filtrado con Lead Scoring de IA (+15 pts)</p>
+                            <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Filtrado con Lead Scoring de IA (+15 pts)</p>
                           </div>
                         </div>
                       </div>
@@ -5569,44 +5569,44 @@ LIMIT 5;`);
                       {/* Hardware Integration Status Display */}
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         {/* Columna 1 & 2: Terminal de Mapeo de Atribución */}
-                        <div className="lg:col-span-2 p-5 rounded bg-[#07090a] border border-[#2a2e38] space-y-4">
+                        <div className="lg:col-span-2 p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4 shadow-sm">
                           <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
                               <span className="w-2 h-2 rounded-full bg-[#ff7a59] te-led-active shadow-[0_0_6px_#ff7a59]" />
-                              <h3 className="font-mono text-xs font-bold uppercase text-white tracking-wider">
+                              <h3 className="font-mono text-xs font-bold uppercase text-[var(--foreground)] tracking-wider">
                                 Contact Property Ingestion Pipeline
                               </h3>
                             </div>
-                            <span className="font-mono text-[9px] text-zinc-400">HS OAUTH 2.0 // TLS 1.3</span>
+                            <span className="font-mono text-[9px] text-[var(--muted-foreground)]">HS OAUTH 2.0 // TLS 1.3</span>
                           </div>
 
                           <div className="space-y-2 font-mono text-xs">
-                            <div className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                            <div className="p-3 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap justify-between items-center gap-2">
                               <div>
-                                <span className="font-bold text-white block">Término de Entrada AEO/SEO</span>
-                                <span className="text-[10px] text-zinc-400">Palabra clave detectada por crawler</span>
+                                <span className="font-bold text-[var(--foreground)] block">Término de Entrada AEO/SEO</span>
+                                <span className="text-[10px] text-[var(--muted-foreground)]">Palabra clave detectada por crawler</span>
                               </div>
                               <span className="text-[11px] text-[#ff7a59] bg-[#ff7a59]/10 px-2 py-0.5 rounded border border-[#ff7a59]/30">
                                 → hs_analytics_first_touch_converting_campaign
                               </span>
                             </div>
 
-                            <div className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                            <div className="p-3 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap justify-between items-center gap-2">
                               <div>
-                                <span className="font-bold text-white block">Silo Semántico de Conversión</span>
-                                <span className="text-[10px] text-zinc-400">Topic cluster que cerró al prospecto</span>
+                                <span className="font-bold text-[var(--foreground)] block">Silo Semántico de Conversión</span>
+                                <span className="text-[10px] text-[var(--muted-foreground)]">Topic cluster que cerró al prospecto</span>
                               </div>
                               <span className="text-[11px] text-[#ff7a59] bg-[#ff7a59]/10 px-2 py-0.5 rounded border border-[#ff7a59]/30">
                                 → custom_topic_cluster_tag
                               </span>
                             </div>
 
-                            <div className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                            <div className="p-3 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap justify-between items-center gap-2">
                               <div>
-                                <span className="font-bold text-white block">Lead Scoring Predictivo</span>
-                                <span className="text-[10px] text-zinc-400">Calificación de intención de compra calculada</span>
+                                <span className="font-bold text-[var(--foreground)] block">Lead Scoring Predictivo</span>
+                                <span className="text-[10px] text-[var(--muted-foreground)]">Calificación de intención de compra calculada</span>
                               </div>
-                              <span className="text-[11px] text-[#3ddc84] bg-[#3ddc84]/10 px-2 py-0.5 rounded border border-[#3ddc84]/30">
+                              <span className="text-[11px] text-emerald-600 dark:text-[#3ddc84] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
                                 → hubspot_score (+{Math.round(revopsMinLeadScore / 5)} pts)
                               </span>
                             </div>
@@ -5615,34 +5615,34 @@ LIMIT 5;`);
 
                         {/* Columna 3: Hardware LCD Display de Cuenta */}
                         <div className="te-screen p-5 space-y-4">
-                          <div className="flex justify-between items-center border-b border-[#2a2e38] pb-2">
+                          <div className="flex justify-between items-center border-b border-[var(--border)] pb-2">
                             <span className="text-[10px] font-mono text-[#e85a2a] uppercase font-bold tracking-wider">
                               [PORTAL ID: 24981290]
                             </span>
-                            <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]" />
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 te-led-active shadow-[0_0_6px_#10b981]" />
                           </div>
 
                           <div className="space-y-2 text-xs font-mono">
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Tier:</span>
-                              <span className="text-white font-bold">Marketing &amp; Sales Hub Pro</span>
+                              <span className="text-[var(--muted-foreground)]">Tier:</span>
+                              <span className="text-[var(--foreground)] font-bold">Marketing &amp; Sales Hub Pro</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Sincronización:</span>
-                              <span className="text-[#3ddc84]">Tiempo real (0ms lag)</span>
+                              <span className="text-[var(--muted-foreground)]">Sincronización:</span>
+                              <span className="text-emerald-600 dark:text-[#3ddc84]">Tiempo real (0ms lag)</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Workflows Activos:</span>
-                              <span className="text-[#f5a623] font-bold">4 Secuencias Automáticas</span>
+                              <span className="text-[var(--muted-foreground)]">Workflows Activos:</span>
+                              <span className="text-amber-600 dark:text-[#f5a623] font-bold">4 Secuencias Automáticas</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Ponderación:</span>
-                              <span className="text-white font-bold">{revopsAttributionWeight}% Primer Toque</span>
+                              <span className="text-[var(--muted-foreground)]">Ponderación:</span>
+                              <span className="text-[var(--foreground)] font-bold">{revopsAttributionWeight}% Primer Toque</span>
                             </div>
                           </div>
 
-                          <div className="pt-2 border-t border-[#2a2e38]">
-                            <p className="text-[10px] font-mono text-zinc-400 mb-3">
+                          <div className="pt-2 border-t border-[var(--border)]">
+                            <p className="text-[10px] font-mono text-[var(--muted-foreground)] mb-3">
                               Trigger: Si un lead lee 2+ artículos del cluster RevOps, dispara Deal en etapa <em>"Diagnóstico Solicitado"</em>.
                             </p>
                             <button 
@@ -5660,19 +5660,19 @@ LIMIT 5;`);
                   {/* SUB-VISTA 2: CALIBRADOR TÁCTIL DE PARÁMETROS (KNOBS DE HARDWARE) */}
                   {revopsActiveView === 'calibration' && (
                     <div className="pt-6 space-y-6 animate-fade-in">
-                      <div className="p-4 rounded bg-[#0a0c0e] border border-[#2a2e38]">
-                        <h3 className="font-mono text-xs font-bold text-white uppercase tracking-wider mb-1">
+                      <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
+                        <h3 className="font-mono text-xs font-bold text-[var(--foreground)] uppercase tracking-wider mb-1">
                           Consola de Calibración de Parámetros de Atribución RevOps
                         </h3>
-                        <p className="text-xs text-zinc-400">
+                        <p className="text-xs text-[var(--muted-foreground)]">
                           Gira las perillas táctiles para afinar la sensibilidad del algoritmo de atribución y el umbral de disparo de Deals en el CRM.
                         </p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Knob 1: Attribution Weighting */}
-                        <div className="p-5 rounded bg-[#101216] border border-[#222630] flex flex-col items-center text-center space-y-3">
-                          <span className="font-mono text-[10px] text-zinc-400 uppercase font-bold tracking-wider">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs flex flex-col items-center text-center space-y-3">
+                          <span className="font-mono text-[10px] text-[var(--muted-foreground)] uppercase font-bold tracking-wider">
                             Ponderación de Atribución
                           </span>
                           <div 
@@ -5689,14 +5689,14 @@ LIMIT 5;`);
                           <div className="font-mono text-lg font-black text-[#e85a2a]">
                             {revopsAttributionWeight}% / {100 - revopsAttributionWeight}%
                           </div>
-                          <p className="text-[10px] font-mono text-zinc-500">
+                          <p className="text-[10px] font-mono text-[var(--muted-foreground)]">
                             Primer Toque vs Multi-Touch
                           </p>
                         </div>
 
                         {/* Knob 2: Lead Scoring Trigger */}
-                        <div className="p-5 rounded bg-[#101216] border border-[#222630] flex flex-col items-center text-center space-y-3">
-                          <span className="font-mono text-[10px] text-zinc-400 uppercase font-bold tracking-wider">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs flex flex-col items-center text-center space-y-3">
+                          <span className="font-mono text-[10px] text-[var(--muted-foreground)] uppercase font-bold tracking-wider">
                             Umbral Lead Scoring (MQL)
                           </span>
                           <div 
@@ -5710,17 +5710,17 @@ LIMIT 5;`);
                           >
                             <div className="te-knob-notch" />
                           </div>
-                          <div className="font-mono text-lg font-black text-[#3ddc84]">
+                          <div className="font-mono text-lg font-black text-emerald-600 dark:text-[#3ddc84]">
                             {revopsMinLeadScore} Pts
                           </div>
-                          <p className="text-[10px] font-mono text-zinc-500">
+                          <p className="text-[10px] font-mono text-[var(--muted-foreground)]">
                             Puntuación mínima para alertar a SDRs
                           </p>
                         </div>
 
                         {/* Knob 3: Deal Threshold */}
-                        <div className="p-5 rounded bg-[#101216] border border-[#222630] flex flex-col items-center text-center space-y-3">
-                          <span className="font-mono text-[10px] text-zinc-400 uppercase font-bold tracking-wider">
+                        <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs flex flex-col items-center text-center space-y-3">
+                          <span className="font-mono text-[10px] text-[var(--muted-foreground)] uppercase font-bold tracking-wider">
                             Disparo Automático de Deal
                           </span>
                           <div 
@@ -5734,10 +5734,10 @@ LIMIT 5;`);
                           >
                             <div className="te-knob-notch" />
                           </div>
-                          <div className="font-mono text-lg font-black text-[#f5a623]">
+                          <div className="font-mono text-lg font-black text-amber-600 dark:text-[#f5a623]">
                             ${revopsAutoDealThreshold.toLocaleString()} USD
                           </div>
-                          <p className="text-[10px] font-mono text-zinc-500">
+                          <p className="text-[10px] font-mono text-[var(--muted-foreground)]">
                             Monto estimado para crear negocio directo
                           </p>
                         </div>
@@ -5749,16 +5749,16 @@ LIMIT 5;`);
                   {revopsActiveView === 'deals' && (
                     <div className="pt-6 space-y-4 animate-fade-in">
                       <div className="flex justify-between items-center px-1 font-mono text-xs">
-                        <span className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active" />
+                        <span className="font-bold text-[var(--foreground)] uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 te-led-active" />
                           Deals Ledger Transaccional (HubSpot Multi-Touch Attribution)
                         </span>
-                        <span className="text-zinc-500 text-[10px]">TOTAL CERRADO: $35,200 USD</span>
+                        <span className="text-[var(--muted-foreground)] text-[10px]">TOTAL CERRADO: $35,200 USD</span>
                       </div>
 
-                      <div className="overflow-x-auto rounded bg-[#07090a] border border-[#2a2e38]">
+                      <div className="overflow-x-auto rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
                         <table className="w-full text-left font-mono text-xs">
-                          <thead className="bg-[#101216] text-zinc-400 border-b border-[#2a2e38]">
+                          <thead className="bg-[var(--card-subtle)] text-[var(--muted-foreground)] border-b border-[var(--border)]">
                             <tr>
                               <th className="px-4 py-3 font-bold uppercase text-[10px]">ID Deal HubSpot</th>
                               <th className="px-4 py-3 font-bold uppercase text-[10px]">Empresa</th>
@@ -5767,7 +5767,7 @@ LIMIT 5;`);
                               <th className="px-4 py-3 font-bold uppercase text-[10px] text-right">Etapa Actual</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-[#1e222a]">
+                          <tbody className="divide-y divide-[var(--border)]">
                             {[
                               { id: "DEAL-8491", deal: "Implementación CRM Enterprise", company: "FinTech MX", article: "/blog/kpis-content-marketing", amount: "$8,500 USD", stage: "Closed Won" },
                               { id: "DEAL-8492", deal: "Auditoría RevOps Trimestral", company: "Logística Global", article: "/guia-marketing-contenidos-b2b", amount: "$3,200 USD", stage: "Closed Won" },
@@ -5775,19 +5775,19 @@ LIMIT 5;`);
                               { id: "DEAL-8494", deal: "Consultoría de AEO para ChatGPT", company: "Tech Retail", article: "/blog/herramientas-ia-redaccion-b2b", amount: "$6,000 USD", stage: "En Negociación" },
                               { id: "DEAL-8495", deal: "Contrato Anual RAG & Embeddings", company: "BioMed Latam", article: "/blog/arquitectura-aeo-2026", amount: "$12,000 USD", stage: "Propuesta Enviada" }
                             ].map((row, i) => (
-                              <tr key={i} className="hover:bg-[#151820] transition-colors">
-                                <td className="px-4 py-3 font-bold text-white">
-                                  <span className="text-[10px] text-[#ff7a59] font-mono mr-2">{row.id}</span>
+                              <tr key={i} className="hover:bg-[var(--card-subtle)] transition-colors">
+                                <td className="px-4 py-3 font-bold text-[var(--foreground)]">
+                                  <span className="text-[10px] text-orange-600 dark:text-[#ff7a59] font-mono mr-2">{row.id}</span>
                                   {row.deal}
                                 </td>
-                                <td className="px-4 py-3 text-zinc-300">{row.company}</td>
-                                <td className="px-4 py-3 text-[#e85a2a]">{row.article}</td>
-                                <td className="px-4 py-3 font-bold text-[#3ddc84]">{row.amount}</td>
+                                <td className="px-4 py-3 text-[var(--muted-foreground)]">{row.company}</td>
+                                <td className="px-4 py-3 text-orange-600 dark:text-[#e85a2a]">{row.article}</td>
+                                <td className="px-4 py-3 font-bold text-emerald-600 dark:text-[#3ddc84]">{row.amount}</td>
                                 <td className="px-4 py-3 text-right">
                                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
                                     row.stage.includes('Won') 
-                                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
-                                      : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30' 
+                                      : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30'
                                   }`}>
                                     {row.stage}
                                   </span>
@@ -5810,20 +5810,20 @@ LIMIT 5;`);
                 {/* TE Hardware Unit Chasis */}
                 <div className="te-rack-unit p-6">
                   {/* Header de Hardware */}
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-white/[0.08]">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[var(--border)]">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shadow-sm">
-                        <ServerStackIcon className="w-5 h-5 text-cyan-400" />
+                      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 shadow-sm">
+                        <ServerStackIcon className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[10px] font-semibold text-cyan-400 tracking-wider uppercase">
+                          <span className="font-mono text-[10px] font-semibold text-cyan-600 dark:text-cyan-400 tracking-wider uppercase">
                             SLOT 05 // MULTI-CMS AUDIO-PATCH DISPATCH RIG
                           </span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#38bdf8]" />
-                          <span className="font-mono text-[9px] text-cyan-400 font-bold">REST &amp; GRAPHQL</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_6px_#06b6d4]" />
+                          <span className="font-mono text-[9px] text-cyan-600 dark:text-cyan-400 font-bold">REST &amp; GRAPHQL</span>
                         </div>
-                        <h2 className="text-xl font-bold text-white tracking-tight">
+                        <h2 className="text-xl font-bold text-[var(--foreground)] tracking-tight">
                           CMS Connector &amp; Dispatch Bay
                         </h2>
                       </div>
@@ -5831,13 +5831,13 @@ LIMIT 5;`);
 
                     {/* Selector de CMS (Payload vs WordPress) en estilo Hardware */}
                     <div className="flex items-center gap-2">
-                      <div className="flex p-0.5 rounded bg-[#07090a] border border-[#2a2e38] font-mono text-[10px]">
+                      <div className="flex p-1 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] font-mono text-[10px]">
                         <button 
                           onClick={() => setCmsTab('payload')}
-                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all flex items-center gap-2 cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-all flex items-center gap-2 cursor-pointer ${
                             cmsTab === 'payload'
-                              ? 'bg-cyan-500 text-black font-black shadow-sm' 
-                              : 'text-zinc-400 hover:text-white'
+                              ? 'bg-cyan-600 dark:bg-cyan-500 text-white font-black shadow-xs' 
+                              : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                           }`}
                         >
                           <PayloadLogo className="w-3.5 h-3.5 shrink-0" />
@@ -5845,10 +5845,10 @@ LIMIT 5;`);
                         </button>
                         <button 
                           onClick={() => setCmsTab('wordpress')}
-                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all flex items-center gap-2 cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-all flex items-center gap-2 cursor-pointer ${
                             cmsTab === 'wordpress'
-                              ? 'bg-blue-500 text-white font-black shadow-sm' 
-                              : 'text-zinc-400 hover:text-white'
+                              ? 'bg-blue-600 dark:bg-blue-500 text-white font-black shadow-xs' 
+                              : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                           }`}
                         >
                           <WordPressLogo className="w-3.5 h-3.5 shrink-0" />
@@ -5866,7 +5866,7 @@ LIMIT 5;`);
                           );
                         }}
                         className={`te-button px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer ${
-                          cmsPatchConnected ? 'text-[#3ddc84]' : 'text-zinc-500'
+                          cmsPatchConnected ? 'text-emerald-600 dark:text-[#3ddc84]' : 'text-[var(--muted-foreground)]'
                         }`}
                       >
                         <div className={`te-jack-socket ${cmsPatchConnected ? 'connected' : ''}`}>
@@ -5878,16 +5878,16 @@ LIMIT 5;`);
                   </div>
 
                   {/* VIRTUAL PATCH BAY GRAPHIC (CONEXIÓN FÍSICA SIMULADA) */}
-                  <div className="p-4 my-6 rounded bg-[#07090a] border border-[#2a2e38] flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+                  <div className="p-4 my-6 rounded-2xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-4 font-mono text-xs shadow-xs">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-2">
                         <div className="te-jack-socket connected"><div className="te-jack-hole" /></div>
-                        <span className="text-zinc-400 text-[10px]">AEO ENGINE OUT</span>
+                        <span className="text-[var(--muted-foreground)] text-[10px]">AEO ENGINE OUT</span>
                       </div>
-                      <span className="text-[#e85a2a] font-bold">═══════════════►</span>
+                      <span className="text-orange-600 dark:text-[#e85a2a] font-bold">═══════════════►</span>
                       <div className="flex items-center gap-2">
                         <div className={`te-jack-socket ${cmsPatchConnected ? 'connected' : ''}`}><div className="te-jack-hole" /></div>
-                        <span className="text-cyan-400 font-bold text-[10px]">
+                        <span className="text-cyan-600 dark:text-cyan-400 font-bold text-[10px]">
                           {cmsTab === 'payload' ? 'PAYLOAD REST /posts' : 'WP REST /wp-json'}
                         </span>
                       </div>
@@ -5895,14 +5895,14 @@ LIMIT 5;`);
 
                     <div className="flex items-center gap-4 text-[10px]">
                       <div className="flex items-center gap-2">
-                        <span className="text-zinc-400">DESPACHO:</span>
-                        <div className="flex bg-[#14161b] rounded border border-[#2a2e38] p-0.5">
+                        <span className="text-[var(--muted-foreground)]">DESPACHO:</span>
+                        <div className="flex bg-[var(--card)] rounded-lg border border-[var(--border)] p-0.5">
                           {(['draft-review', 'canary-10', 'instant-publish'] as const).map((m) => (
                             <button
                               key={m}
                               onClick={() => setCmsDispatchMode(m)}
                               className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase transition-all cursor-pointer ${
-                                cmsDispatchMode === m ? 'bg-[#e85a2a] text-white' : 'text-zinc-400 hover:text-white'
+                                cmsDispatchMode === m ? 'bg-orange-500 text-white' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                               }`}
                             >
                               {m === 'draft-review' ? 'Draft' : m === 'canary-10' ? 'Canary 10%' : 'Instant'}
@@ -5917,9 +5917,9 @@ LIMIT 5;`);
                           id="autoSchema"
                           checked={cmsAutoInjectJsonLd}
                           onChange={(e) => setCmsAutoInjectJsonLd(e.target.checked)}
-                          className="rounded border-[#2a2e38] text-[#e85a2a] cursor-pointer"
+                          className="rounded border-[var(--border)] text-orange-500 cursor-pointer"
                         />
-                        <label htmlFor="autoSchema" className="text-zinc-300 text-[10px] cursor-pointer">
+                        <label htmlFor="autoSchema" className="text-[var(--foreground)] text-[10px] cursor-pointer">
                           Schema JSON-LD Auto
                         </label>
                       </div>
@@ -5933,13 +5933,13 @@ LIMIT 5;`);
                     {/* Status Card Payload */}
                     <div className="glass-card p-6 border-l-4 border-l-cyan-500 flex flex-wrap items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-white shadow-md">
-                          <PayloadLogo className="w-6 h-6 text-white" />
+                        <div className="w-12 h-12 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] flex items-center justify-center text-[var(--foreground)] shadow-xs">
+                          <PayloadLogo className="w-6 h-6 text-[var(--foreground)]" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <h3 className="font-bold text-base text-[var(--foreground)]">Payload CMS Native REST Connector</h3>
-                            <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded font-mono font-bold">
+                            <span className="text-[10px] bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 px-2 py-0.5 rounded font-mono font-bold">
                               Compatible con Payload 2.x &amp; 3.x
                             </span>
                           </div>
@@ -5953,7 +5953,7 @@ LIMIT 5;`);
                         <button 
                           onClick={handleTestPayload}
                           disabled={isTestingPayload}
-                          className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          className="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
                         >
                           <BoltIcon className="w-4 h-4" />
                           {isTestingPayload ? 'Probando Handshake...' : 'Probar Conexión (Ping Test)'}
@@ -5963,16 +5963,16 @@ LIMIT 5;`);
 
                     {/* Handshake Result Box */}
                     {payloadTestResult && (
-                      <div className="p-4 rounded-xl bg-slate-950 border border-cyan-500/40 space-y-2 text-xs animate-fade-in font-mono">
-                        <div className="flex justify-between items-center text-cyan-400 font-bold">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-cyan-500/40 space-y-2 text-xs animate-fade-in font-mono shadow-xs">
+                        <div className="flex justify-between items-center text-cyan-600 dark:text-cyan-400 font-bold">
                           <span>Handshake Status: {payloadTestResult.status}</span>
-                          <span className="text-emerald-400">Latencia: {payloadTestResult.latency}</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">Latencia: {payloadTestResult.latency}</span>
                         </div>
-                        <p className="text-slate-300">{payloadTestResult.message}</p>
-                        <div className="flex items-center gap-2 text-[11px] text-slate-400 pt-1 border-t border-slate-800">
+                        <p className="text-[var(--foreground)]">{payloadTestResult.message}</p>
+                        <div className="flex items-center gap-2 text-[11px] text-[var(--muted-foreground)] pt-1 border-t border-[var(--border)]">
                           <span>Colecciones detectadas:</span>
                           {payloadTestResult.collections.map((col, i) => (
-                            <span key={i} className="px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-700">{col}</span>
+                            <span key={i} className="px-2 py-0.5 rounded bg-[var(--card)] text-cyan-700 dark:text-cyan-300 border border-[var(--border)]">{col}</span>
                           ))}
                         </div>
                       </div>
@@ -6139,16 +6139,16 @@ LIMIT 5;`);
                             Así de simple es tu colección en Payload CMS para recibir los artículos:
                           </p>
 
-                          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-300 space-y-1 overflow-x-auto leading-relaxed">
-                            <p className="text-purple-400">// Posts.ts en Payload</p>
-                            <p><span className="text-cyan-400">export const</span> Posts: CollectionConfig = &#123;</p>
-                            <p className="pl-3">slug: <span className="text-emerald-400">'posts'</span>,</p>
-                            <p className="pl-3">admin: &#123; useAsTitle: <span className="text-emerald-400">'title'</span> &#125;,</p>
-                            <p className="pl-3">versions: &#123; drafts: <span className="text-amber-400">true</span> &#125;,</p>
+                          <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] text-[11px] font-mono text-[var(--foreground)] space-y-1 overflow-x-auto leading-relaxed shadow-xs">
+                            <p className="text-purple-500 dark:text-purple-400">// Posts.ts en Payload</p>
+                            <p><span className="text-cyan-600 dark:text-cyan-400">export const</span> Posts: CollectionConfig = &#123;</p>
+                            <p className="pl-3">slug: <span className="text-emerald-600 dark:text-emerald-400">'posts'</span>,</p>
+                            <p className="pl-3">admin: &#123; useAsTitle: <span className="text-emerald-600 dark:text-emerald-400">'title'</span> &#125;,</p>
+                            <p className="pl-3">versions: &#123; drafts: <span className="text-amber-600 dark:text-amber-400">true</span> &#125;,</p>
                             <p className="pl-3">fields: [</p>
-                            <p className="pl-6">&#123; name: <span className="text-emerald-400">'title'</span>, type: <span className="text-emerald-400">'text'</span> &#125;,</p>
-                            <p className="pl-6">&#123; name: <span className="text-emerald-400">'content'</span>, type: <span className="text-emerald-400">'richText'</span> &#125;,</p>
-                            <p className="pl-6">&#123; name: <span className="text-emerald-400">'schemaJsonLd'</span>, type: <span className="text-emerald-400">'json'</span> &#125;,</p>
+                            <p className="pl-6">&#123; name: <span className="text-emerald-600 dark:text-emerald-400">'title'</span>, type: <span className="text-emerald-600 dark:text-emerald-400">'text'</span> &#125;,</p>
+                            <p className="pl-6">&#123; name: <span className="text-emerald-600 dark:text-emerald-400">'content'</span>, type: <span className="text-emerald-600 dark:text-emerald-400">'richText'</span> &#125;,</p>
+                            <p className="pl-6">&#123; name: <span className="text-emerald-600 dark:text-emerald-400">'schemaJsonLd'</span>, type: <span className="text-emerald-600 dark:text-emerald-400">'json'</span> &#125;,</p>
                             <p className="pl-3">],</p>
                             <p>&#125;</p>
                           </div>
@@ -6184,13 +6184,13 @@ LIMIT 5;`);
                     {/* Status Card WordPress */}
                     <div className="glass-card p-6 border-l-4 border-l-blue-500 flex flex-wrap items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-blue-500/30 flex items-center justify-center text-white shadow-md">
+                        <div className="w-12 h-12 rounded-xl bg-[var(--card-subtle)] border border-blue-500/30 flex items-center justify-center text-[var(--foreground)] shadow-xs">
                           <WordPressLogo className="w-7 h-7" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <h3 className="font-bold text-base text-[var(--foreground)]">Conector Oficial de WordPress</h3>
-                            <span className="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-mono font-bold">
+                            <span className="text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded font-mono font-bold">
                               Plugin Oficial v1.2 &amp; REST API
                             </span>
                           </div>
@@ -6204,7 +6204,7 @@ LIMIT 5;`);
                         <button 
                           onClick={handleTestWp}
                           disabled={isTestingWp}
-                          className="bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
                         >
                           <BoltIcon className="w-4 h-4" />
                           {isTestingWp ? 'Verificando WordPress...' : 'Probar Conexión con WordPress'}
@@ -6214,16 +6214,16 @@ LIMIT 5;`);
 
                     {/* WordPress Test Result Box */}
                     {wpTestResult && (
-                      <div className="p-4 rounded-xl bg-slate-950 border border-blue-500/40 space-y-2 text-xs animate-fade-in font-mono">
-                        <div className="flex justify-between items-center text-blue-400 font-bold">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-blue-500/40 space-y-2 text-xs animate-fade-in font-mono shadow-xs">
+                        <div className="flex justify-between items-center text-blue-600 dark:text-blue-400 font-bold">
                           <span>Estado: {wpTestResult.status}</span>
-                          <span className="text-emerald-400">Latencia: {wpTestResult.latency}</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">Latencia: {wpTestResult.latency}</span>
                         </div>
-                        <p className="text-slate-300">{wpTestResult.message}</p>
-                        <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400 pt-1 border-t border-slate-800">
-                          <span>Usuario Vinculado: <strong className="text-white">{wpTestResult.user}</strong></span>
+                        <p className="text-[var(--foreground)]">{wpTestResult.message}</p>
+                        <div className="flex flex-wrap items-center gap-3 text-[11px] text-[var(--muted-foreground)] pt-1 border-t border-[var(--border)]">
+                          <span>Usuario Vinculado: <strong className="text-[var(--foreground)]">{wpTestResult.user}</strong></span>
                           <span>•</span>
-                          <span>Plugin SEO: <strong className="text-emerald-400">{wpTestResult.seoPlugin}</strong></span>
+                          <span>Plugin SEO: <strong className="text-emerald-600 dark:text-emerald-400">{wpTestResult.seoPlugin}</strong></span>
                         </div>
                       </div>
                     )}
@@ -6530,82 +6530,82 @@ LIMIT 5;`);
                 {/* Score & KPI Strip - Analítica de Datos & Calidad CRM */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* KPI 1 */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
                         Calidad de Base
                       </span>
-                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                         +56% Mejora
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">97.4%</span>
-                        <span className="text-xs font-medium text-emerald-400">Enterprise Clean</span>
+                        <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">97.4%</span>
+                        <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Enterprise Clean</span>
                       </div>
-                      <p className="text-xs text-zinc-400 font-normal mt-2.5">0 inconsistencias de mayúsculas o caracteres inválidos</p>
+                      <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">0 inconsistencias de mayúsculas o caracteres inválidos</p>
                     </div>
                   </div>
 
                   {/* KPI 2 */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_6px_#0ea5e9]" />
                         Enriquecimiento Web
                       </span>
-                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                         100% Cobertura
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">20 / 20</span>
-                        <span className="text-xs text-zinc-400">Atributos</span>
+                        <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">20 / 20</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">Atributos</span>
                       </div>
-                      <p className="text-xs text-zinc-400 font-normal mt-2.5">Industria, tamaño de equipo y tech stack agregados</p>
+                      <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Industria, tamaño de equipo y tech stack agregados</p>
                     </div>
                   </div>
 
                   {/* KPI 3 */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_#f97316]" />
                         Duplicados Fusionados
                       </span>
-                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
                         Deduplicado
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">1 Lead</span>
-                        <span className="text-xs text-zinc-400">Consolidado</span>
+                        <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">1 Lead</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">Consolidado</span>
                       </div>
-                      <p className="text-xs text-zinc-400 font-normal mt-2.5">Identificado por dominio web idéntico y fusionado</p>
+                      <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Identificado por dominio web idéntico y fusionado</p>
                     </div>
                   </div>
 
                   {/* KPI 4 */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                  <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]" />
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_6px_#a855f7]" />
                         Compatibilidad HubSpot
                       </span>
-                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
                         Hub ID #982104
                       </span>
                     </div>
                     <div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl sm:text-4xl font-extrabold text-[#c084fc] font-sans tabular-nums">100%</span>
-                        <span className="text-xs text-zinc-400">Compatible</span>
+                        <span className="text-3xl sm:text-4xl font-extrabold text-purple-600 dark:text-[#c084fc] font-sans tabular-nums">100%</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">Compatible</span>
                       </div>
-                      <p className="text-xs text-zinc-400 font-normal mt-2.5">Propiedades estándar alineadas para sync API directa</p>
+                      <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Propiedades estándar alineadas para sync API directa</p>
                     </div>
                   </div>
                 </div>
@@ -6956,7 +6956,7 @@ LIMIT 5;`);
                     </div>
 
                     {/* Mini Spectrum Audio Bar Array */}
-                    <div className="flex items-end gap-1.5 h-6 px-3 py-1 rounded bg-[#07090a] border border-[#2a2e38]">
+                    <div className="flex items-end gap-1.5 h-6 px-3 py-1 rounded-lg bg-[var(--card-subtle)] border border-[var(--border)]">
                       {[40, 75, 55, 90, 65, 80, 45, 95, 70, 85, 60, 50].map((h, i) => (
                         <span 
                           key={i} 
@@ -6964,7 +6964,7 @@ LIMIT 5;`);
                           style={{ 
                             height: `${h}%`,
                             animationDelay: `${i * 0.1}s`,
-                            backgroundColor: i % 3 === 0 ? '#e85a2a' : i % 3 === 1 ? '#3ddc84' : '#38bdf8'
+                            backgroundColor: i % 3 === 0 ? '#e85a2a' : i % 3 === 1 ? '#10b981' : '#0ea5e9'
                           }} 
                         />
                       ))}
@@ -6974,19 +6974,19 @@ LIMIT 5;`);
                   {/* 4 Motor Synthesizer Blocks - Analítica Moderna & Telemetría AEO */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                     {/* Block 1 */}
-                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_#f97316]" />
                           AEO Share of Voice
                         </span>
-                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           #1 Líder
                         </span>
                       </div>
                       <div>
                         <div className="flex items-baseline justify-between">
-                          <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">42.8%</span>
+                          <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">42.8%</span>
                           <div className="te-segment-meter">
                             <span className="te-segment-cell active-green" />
                             <span className="te-segment-cell active-green" />
@@ -6994,24 +6994,24 @@ LIMIT 5;`);
                             <span className="te-segment-cell active-orange" />
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Superando a AcmeCorp (28.4%) en citación general</p>
+                        <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Superando a AcmeCorp (28.4%) en citación general</p>
                       </div>
                     </div>
 
                     {/* Block 2 */}
-                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_6px_#0ea5e9]" />
                           Perplexity Pro
                         </span>
-                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                           17/25 Citas
                         </span>
                       </div>
                       <div>
                         <div className="flex items-baseline justify-between">
-                          <span className="text-3xl sm:text-4xl font-extrabold text-[#38bdf8] font-sans tabular-nums">68%</span>
+                          <span className="text-3xl sm:text-4xl font-extrabold text-sky-600 dark:text-[#38bdf8] font-sans tabular-nums">68%</span>
                           <div className="te-segment-meter">
                             <span className="te-segment-cell active-green" />
                             <span className="te-segment-cell active-green" />
@@ -7019,24 +7019,24 @@ LIMIT 5;`);
                             <span className="te-segment-cell active-green" />
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Citado como fuente de autoridad principal en consultas de nicho</p>
+                        <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Citado como fuente de autoridad principal en consultas de nicho</p>
                       </div>
                     </div>
 
                     {/* Block 3 */}
-                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
                           ChatGPT Search
                         </span>
-                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           9/25 Citas
                         </span>
                       </div>
                       <div>
                         <div className="flex items-baseline justify-between">
-                          <span className="text-3xl sm:text-4xl font-extrabold text-[#3ddc84] font-sans tabular-nums">36%</span>
+                          <span className="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-[#3ddc84] font-sans tabular-nums">36%</span>
                           <div className="te-segment-meter">
                             <span className="te-segment-cell active-green" />
                             <span className="te-segment-cell active-green" />
@@ -7044,24 +7044,24 @@ LIMIT 5;`);
                             <span className="te-segment-cell" />
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Menciones directas en respuestas de comparativas B2B</p>
+                        <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Menciones directas en respuestas de comparativas B2B</p>
                       </div>
                     </div>
 
                     {/* Block 4 */}
-                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]" />
                           Claude 3.5 Sonnet
                         </span>
-                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                           6/25 Citas
                         </span>
                       </div>
                       <div>
                         <div className="flex items-baseline justify-between">
-                          <span className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] font-sans tabular-nums">24%</span>
+                          <span className="text-3xl sm:text-4xl font-extrabold text-amber-600 dark:text-[#f5a623] font-sans tabular-nums">24%</span>
                           <div className="te-segment-meter">
                             <span className="te-segment-cell active-green" />
                             <span className="te-segment-cell active-yellow" />
@@ -7069,42 +7069,42 @@ LIMIT 5;`);
                             <span className="te-segment-cell" />
                           </div>
                         </div>
-                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Oportunidad de optimización con schemas semánticos RAG</p>
+                        <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5">Oportunidad de optimización con schemas semánticos RAG</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Comparativa Sintética Tú vs Competidores */}
-                  <div className="mt-6 p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-3 font-mono text-xs">
-                    <span className="font-bold text-white uppercase tracking-wider block text-[10px]">
+                  <div className="mt-6 p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-3 font-mono text-xs shadow-xs">
+                    <span className="font-bold text-[var(--foreground)] uppercase tracking-wider block text-[10px]">
                       Presencia Espectral de Marca en LLMs (Tú vs Rivales)
                     </span>
                     <div className="space-y-2.5">
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="font-bold text-[#e85a2a]">Tu Marca (soyroman.com / Buildations)</span>
-                          <span className="font-bold text-white">42.8%</span>
+                          <span className="font-bold text-orange-600 dark:text-[#e85a2a]">Tu Marca (soyroman.com / Buildations)</span>
+                          <span className="font-bold text-[var(--foreground)]">42.8%</span>
                         </div>
-                        <div className="w-full bg-[#14161b] rounded h-2 overflow-hidden border border-[#2a2e38]">
-                          <div className="bg-[#e85a2a] h-2 rounded shadow-[0_0_8px_#e85a2a]" style={{ width: '42.8%' }} />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-zinc-400">AcmeCorp</span>
-                          <span className="text-zinc-500">28.4%</span>
-                        </div>
-                        <div className="w-full bg-[#14161b] rounded h-2 overflow-hidden border border-[#2a2e38]">
-                          <div className="bg-zinc-600 h-2 rounded" style={{ width: '28.4%' }} />
+                        <div className="w-full bg-[var(--card-subtle)] rounded-full h-2 overflow-hidden border border-[var(--border)]">
+                          <div className="bg-[#e85a2a] h-2 rounded-full shadow-[0_0_8px_#e85a2a]" style={{ width: '42.8%' }} />
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-zinc-400">GlobalTech Latam</span>
-                          <span className="text-zinc-500">16.1%</span>
+                          <span className="text-[var(--muted-foreground)]">AcmeCorp</span>
+                          <span className="text-[var(--muted-foreground)]">28.4%</span>
                         </div>
-                        <div className="w-full bg-[#14161b] rounded h-2 overflow-hidden border border-[#2a2e38]">
-                          <div className="bg-zinc-600 h-2 rounded" style={{ width: '16.1%' }} />
+                        <div className="w-full bg-[var(--card-subtle)] rounded-full h-2 overflow-hidden border border-[var(--border)]">
+                          <div className="bg-zinc-400 dark:bg-zinc-600 h-2 rounded-full" style={{ width: '28.4%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-[var(--muted-foreground)]">GlobalTech Latam</span>
+                          <span className="text-[var(--muted-foreground)]">16.1%</span>
+                        </div>
+                        <div className="w-full bg-[var(--card-subtle)] rounded-full h-2 overflow-hidden border border-[var(--border)]">
+                          <div className="bg-zinc-400 dark:bg-zinc-600 h-2 rounded-full" style={{ width: '16.1%' }} />
                         </div>
                       </div>
                     </div>
@@ -7183,33 +7183,33 @@ LIMIT 5;`);
                 </div>
 
                 {/* SIMULADOR EN VIVO DE MOTOR AEO CON AUDITORÍA VECTORIAL Y RADAR 64-BIT */}
-                <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#07090a] text-zinc-200 space-y-6">
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-te)] pb-4">
+                <div className="te-frame p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] space-y-6 shadow-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#e85a2a] te-led-active"></span>
-                        <span className="te-label text-[#e85a2a]">
+                        <span className="w-2.5 h-2.5 rounded-full bg-orange-500 te-led-active"></span>
+                        <span className="te-label text-orange-600 dark:text-[#e85a2a]">
                           SIMULADOR DINÁMICO // AUDITORÍA DE CITABILIDAD EN TIEMPO REAL
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold font-mono tracking-tight text-white mt-1">
+                      <h3 className="text-xl font-bold font-mono tracking-tight text-[var(--foreground)] mt-1">
                         Consola de Inferencia AEO: Inyectar Consulta en Motores de Respuesta
                       </h3>
-                      <p className="text-xs text-zinc-400 mt-0.5">
+                      <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
                         Prueba en caliente cómo respondería Perplexity Pro, ChatGPT Search o Claude a una intención de compra con tus fragmentos de vectores activos.
                       </p>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-zinc-400 uppercase font-bold">Motor IA:</span>
+                      <span className="text-[10px] font-mono text-[var(--muted-foreground)] uppercase font-bold">Motor IA:</span>
                       {(['Perplexity', 'ChatGPT', 'Claude', 'Gemini'] as const).map((eng) => (
                         <button
                           key={eng}
                           onClick={() => setAeoSimulatorEngine(eng)}
-                          className={`px-3 py-1.5 rounded text-xs font-mono font-bold transition-all border cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all border cursor-pointer ${
                             aeoSimulatorEngine === eng
-                              ? 'bg-[#e85a2a] text-white border-[#e85a2a] shadow-sm'
-                              : 'border-[var(--border-te)] bg-[#121418] text-zinc-400 hover:border-zinc-500'
+                              ? 'bg-orange-500 text-white border-orange-500 shadow-xs'
+                              : 'border-[var(--border)] bg-[var(--card-subtle)] text-[var(--muted-foreground)] hover:border-[var(--border-te)]'
                           }`}
                         >
                           {eng}
@@ -7226,9 +7226,9 @@ LIMIT 5;`);
                         value={aeoTestQuery}
                         onChange={(e) => setAeoTestQuery(e.target.value)}
                         placeholder="Introduce el prompt o intención de búsqueda..."
-                        className="w-full bg-[#0e1116] border border-[var(--border-te)] rounded-xl px-4 py-2.5 text-xs text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-[#e85a2a]"
+                        className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl px-4 py-2.5 text-xs text-[var(--foreground)] font-mono placeholder:text-[var(--muted-foreground)] focus:outline-none focus:border-orange-500"
                       />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-mono text-zinc-500">
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-mono text-[var(--muted-foreground)]">
                         1536-DIM SIMILARITY
                       </span>
                     </div>
@@ -7270,25 +7270,25 @@ LIMIT 5;`);
                   {aeoSimulationResult && (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
                       {/* Columna Izquierda: Pantalla LCD de Respuesta Generada */}
-                      <div className="lg:col-span-2 te-screen p-5 rounded-xl border border-[var(--border-te)] space-y-3">
-                        <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                          <span className="text-[10px] font-mono font-bold text-zinc-400 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active"></span>
+                      <div className="lg:col-span-2 te-screen p-5 rounded-xl border border-[var(--border)] space-y-3 shadow-xs">
+                        <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+                          <span className="text-[10px] font-mono font-bold text-[var(--muted-foreground)] flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 te-led-active"></span>
                             <span>RESPUESTA SINTÉTICA GENERADA // {aeoSimulatorEngine.toUpperCase()}</span>
                           </span>
-                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#3ddc84]/10 text-[#3ddc84] border border-[#3ddc84]/30 font-bold">
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-[#3ddc84] border border-emerald-500/30 font-bold">
                             FUENTE #1 CITADA CON ÉXITO
                           </span>
                         </div>
 
-                        <p className="text-xs font-mono text-zinc-200 leading-relaxed">
+                        <p className="text-xs font-mono text-[var(--foreground)] leading-relaxed">
                           «{aeoSimulationResult.answerSnippet}»
                         </p>
 
                         <div className="pt-2 flex flex-wrap items-center gap-2">
-                          <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold">Fuentes Respaldadas:</span>
+                          <span className="text-[10px] font-mono text-[var(--muted-foreground)] uppercase font-bold">Fuentes Respaldadas:</span>
                           {aeoSimulationResult.sourcesList.map((src, i) => (
-                            <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[#38bdf8]">
+                            <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] text-cyan-600 dark:text-[#38bdf8]">
                               [{i + 1}] {src}
                             </span>
                           ))}
@@ -7296,40 +7296,40 @@ LIMIT 5;`);
                       </div>
 
                       {/* Columna Derecha: Indicador de Confianza & Telemetría Vectorial */}
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/95 to-[#0c0d12]/95 border border-white/[0.08] shadow-xl space-y-4 flex flex-col justify-between">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs space-y-4 flex flex-col justify-between">
                         <div className="space-y-3">
-                          <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block">
+                          <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider block">
                             Telemetría Vectorial &amp; Confianza
                           </span>
                           <div className="flex items-baseline justify-between">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">
                               {aeoSimulationResult.confidenceScore}%
                             </span>
-                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                               Alta Certeza AEO
                             </span>
                           </div>
                           
                           {/* Barra de progreso LED */}
-                          <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-white/[0.08]">
+                          <div className="w-full bg-[var(--card-subtle)] h-2 rounded-full overflow-hidden border border-[var(--border)]">
                             <div 
-                              className="bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-400 h-full rounded-full"
+                              className="bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-500 h-full rounded-full"
                               style={{ width: `${aeoSimulationResult.confidenceScore}%` }}
                             ></div>
                           </div>
 
-                          <div className="text-xs text-zinc-400 space-y-1.5 pt-1 font-sans">
+                          <div className="text-xs text-[var(--muted-foreground)] space-y-1.5 pt-1 font-sans">
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Vector Ref:</span>
-                              <span className="text-white font-mono">{aeoSimulationResult.citationVectorId}</span>
+                              <span>Vector Ref:</span>
+                              <span className="text-[var(--foreground)] font-mono">{aeoSimulationResult.citationVectorId}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Index Store:</span>
-                              <span className="text-emerald-400 font-semibold">pgvector (HNSW)</span>
+                              <span>Index Store:</span>
+                              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">pgvector (HNSW)</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-zinc-500">Distancia Coseno:</span>
-                              <span className="text-orange-400 font-mono font-bold">0.028 (Muy Cercana)</span>
+                              <span>Distancia Coseno:</span>
+                              <span className="text-orange-600 dark:text-orange-400 font-mono font-bold">0.028 (Muy Cercana)</span>
                             </div>
                           </div>
                         </div>
@@ -7339,10 +7339,10 @@ LIMIT 5;`);
                             setActiveTab('databaseStudio');
                             showToast('Inspeccionar Vector', `Saltando a la tabla aeo_citation_vectors con el id ${aeoSimulationResult.citationVectorId}`, 'info');
                           }}
-                          className="w-full py-2 px-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.18] text-white font-semibold text-xs transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
+                          className="w-full py-2 px-3 rounded-xl bg-[var(--card-subtle)] hover:bg-[var(--muted)] border border-[var(--border)] hover:border-[var(--border-te)] text-[var(--foreground)] font-semibold text-xs transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
                         >
                           <span>Inspeccionar en DB Studio</span>
-                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-zinc-400" />
+                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-[var(--muted-foreground)]" />
                         </button>
                       </div>
                     </div>
@@ -8370,20 +8370,20 @@ LIMIT 5;`);
                 {/* TE Hardware Unit Chasis */}
                 <div className="te-rack-unit p-6">
                   {/* Header de Hardware */}
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-white/[0.08]">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[var(--border)]">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shadow-sm">
                         <ChartBarIcon className="w-5 h-5 text-red-400" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[10px] font-semibold text-red-400 tracking-wider uppercase">
+                          <span className="font-mono text-[10px] font-semibold text-red-500 dark:text-red-400 tracking-wider uppercase">
                             SLOT 08 // GSC CONTENT DECAY RADAR SCOPE
                           </span>
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_#ef4444]" />
-                          <span className="font-mono text-[9px] text-red-400 font-bold">RADAR SWEEP ACTIVE</span>
+                          <span className="font-mono text-[9px] text-red-500 dark:text-red-400 font-bold">RADAR SWEEP ACTIVE</span>
                         </div>
-                        <h2 className="text-xl font-bold text-white tracking-tight">
+                        <h2 className="text-xl font-bold text-[var(--foreground)] tracking-tight">
                           Search Console Decay &amp; Cannibalization Radar
                         </h2>
                       </div>
@@ -8391,15 +8391,15 @@ LIMIT 5;`);
 
                     {/* Filtros de Radar y Acciones */}
                     <div className="flex items-center gap-2">
-                      <div className="flex p-0.5 rounded bg-[#07090a] border border-[#2a2e38] font-mono text-[10px]">
+                      <div className="flex p-0.5 rounded-lg bg-[var(--card-subtle)] border border-[var(--border)] font-mono text-[10px]">
                         {(['all', 'critical', 'quickwin'] as const).map((flt) => (
                           <button
                             key={flt}
                             onClick={() => setDecayRadarFilter(flt)}
-                            className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                            className={`px-3 py-1.5 rounded-md font-bold uppercase transition-all cursor-pointer ${
                               decayRadarFilter === flt
-                                ? 'bg-[#e85a2a] text-white shadow-sm'
-                                : 'text-zinc-400 hover:text-white'
+                                ? 'bg-[var(--primary)] text-white shadow-xs'
+                                : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                             }`}
                           >
                             {flt === 'all' ? 'Todas' : flt === 'critical' ? 'Críticas (-20%+)' : 'Quick Wins (11-20)'}
@@ -8422,9 +8422,9 @@ LIMIT 5;`);
                   {/* RADAR SWEEP INTERACTIVE CONSOLE */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-6">
                     {/* Visualizador de Radar Militar / Sweep 360° */}
-                    <div className="p-5 rounded bg-[#07090a] border border-[#2a2e38] flex flex-col items-center justify-center space-y-4 relative overflow-hidden">
-                      <div className="flex justify-between w-full items-center text-[10px] font-mono text-zinc-400 border-b border-[#1e222a] pb-2">
-                        <span className="text-red-400 font-bold uppercase tracking-wider">RADAR 360° SWEEP</span>
+                    <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs flex flex-col items-center justify-center space-y-4 relative overflow-hidden">
+                      <div className="flex justify-between w-full items-center text-[10px] font-mono text-[var(--muted-foreground)] border-b border-[var(--border)] pb-2">
+                        <span className="text-rose-600 dark:text-red-400 font-bold uppercase tracking-wider">RADAR 360° SWEEP</span>
                         <span>FREQ: 14.8 KHZ</span>
                       </div>
 
@@ -8436,72 +8436,72 @@ LIMIT 5;`);
                         <div className="absolute top-[60%] left-[70%] w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f5a623]" title="/servicios/seo-local (-19%)" />
                         <div className="absolute bottom-[25%] left-[25%] w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]" title="/blog/tendencias-2023 (-78%)" />
                         <div className="absolute top-[35%] right-[20%] w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#3ddc84]" title="Quick win #14" />
-                        <div className="w-2 h-2 rounded-full bg-white z-10" />
+                        <div className="w-2 h-2 rounded-full bg-[var(--foreground)] z-10" />
                       </div>
 
-                      <div className="flex justify-between w-full text-[9px] font-mono text-zinc-500 pt-2 border-t border-[#1e222a]">
-                        <span className="text-red-400 font-bold">🔴 14 Muriendo</span>
-                        <span className="text-amber-400 font-bold">🟡 3 Canibalizadas</span>
-                        <span className="text-[#3ddc84] font-bold">🟢 28 Quick Wins</span>
+                      <div className="flex justify-between w-full text-[9px] font-mono text-[var(--muted-foreground)] pt-2 border-t border-[var(--border)]">
+                        <span className="text-rose-600 dark:text-red-400 font-bold">🔴 14 Muriendo</span>
+                        <span className="text-amber-600 dark:text-amber-400 font-bold">🟡 3 Canibalizadas</span>
+                        <span className="text-emerald-600 dark:text-[#3ddc84] font-bold">🟢 28 Quick Wins</span>
                       </div>
                     </div>
 
                     {/* Resumen de Presión de Tráfico Perdido - Analítica Moderna */}
                     <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                          <span className="text-xs font-semibold text-rose-600 dark:text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
                             <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_6px_#f43f5e]" />
                             Páginas Muriendo
                           </span>
-                          <span className="text-xs font-semibold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
+                          <span className="text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
                             -20% Tráfico
                           </span>
                         </div>
                         <div>
                           <div className="flex items-baseline gap-2">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">14</span>
-                            <span className="text-xs text-zinc-400">URLs críticas</span>
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">14</span>
+                            <span className="text-xs text-[var(--muted-foreground)]">URLs críticas</span>
                           </div>
-                          <p className="text-xs text-zinc-400 font-normal mt-2.5 leading-relaxed">Pérdida pasiva continua de impresiones detectada en los últimos 90 días</p>
+                          <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5 leading-relaxed">Pérdida pasiva continua de impresiones detectada en los últimos 90 días</p>
                         </div>
                       </div>
 
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                          <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]" />
                             Canibalización
                           </span>
-                          <span className="text-xs font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                          <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
                             3 Clusters
                           </span>
                         </div>
                         <div>
                           <div className="flex items-baseline gap-2">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] font-sans tabular-nums">3</span>
-                            <span className="text-xs text-zinc-400">conflictos</span>
+                            <span className="text-3xl sm:text-4xl font-extrabold text-amber-600 dark:text-[#f5a623] font-sans tabular-nums">3</span>
+                            <span className="text-xs text-[var(--muted-foreground)]">conflictos</span>
                           </div>
-                          <p className="text-xs text-zinc-400 font-normal mt-2.5 leading-relaxed">URLs compitiendo entre sí por la misma intención de búsqueda primaria</p>
+                          <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5 leading-relaxed">URLs compitiendo entre sí por la misma intención de búsqueda primaria</p>
                         </div>
                       </div>
 
-                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all duration-200 flex flex-col justify-between group">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
                             Quick Wins
                           </span>
-                          <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                             Pos. 11-20
                           </span>
                         </div>
                         <div>
                           <div className="flex items-baseline gap-2">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-[#3ddc84] font-sans tabular-nums">28</span>
-                            <span className="text-xs text-zinc-400">oportunidades</span>
+                            <span className="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-[#3ddc84] font-sans tabular-nums">28</span>
+                            <span className="text-xs text-[var(--muted-foreground)]">oportunidades</span>
                           </div>
-                          <p className="text-xs text-zinc-400 font-normal mt-2.5 leading-relaxed">Contenido a punto de ingresar a la primera página con un leve refresco</p>
+                          <p className="text-xs text-[var(--muted-foreground)] font-normal mt-2.5 leading-relaxed">Contenido a punto de ingresar a la primera página con un leve refresco</p>
                         </div>
                       </div>
                     </div>
@@ -8510,16 +8510,16 @@ LIMIT 5;`);
                   {/* TABLA DE AUDITORÍA DE DECAIMIENTO ESTILO TERMINAL 64-BIT */}
                   <div className="space-y-3 font-mono text-xs">
                     <div className="flex justify-between items-center px-1">
-                      <span className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-red-400 te-led-active" />
+                      <span className="font-bold text-[var(--foreground)] uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-rose-500 te-led-active" />
                         URLs con Alerta de Pérdida de Tráfico Orgánico
                       </span>
-                      <span className="text-zinc-500 text-[10px]">COMPARATIVA: ÚLTIMOS 90 DÍAS VS PREVIO</span>
+                      <span className="text-[var(--muted-foreground)] text-[10px]">COMPARATIVA: ÚLTIMOS 90 DÍAS VS PREVIO</span>
                     </div>
 
-                    <div className="overflow-x-auto rounded bg-[#07090a] border border-[#2a2e38]">
+                    <div className="overflow-x-auto rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
                       <table className="w-full text-left font-mono text-xs">
-                        <thead className="bg-[#101216] text-zinc-400 border-b border-[#2a2e38]">
+                        <thead className="bg-[var(--card-subtle)] text-[var(--muted-foreground)] border-b border-[var(--border)]">
                           <tr>
                             <th className="px-4 py-3 font-bold uppercase text-[10px]">URL Afectada</th>
                             <th className="px-4 py-3 font-bold uppercase text-[10px]">Tráfico Mes Anterior</th>
@@ -8528,7 +8528,7 @@ LIMIT 5;`);
                             <th className="px-4 py-3 font-bold uppercase text-[10px] text-right">Acción de Refresco IA</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#1e222a]">
+                        <tbody className="divide-y divide-[var(--border)]">
                           {[
                             { url: "/blog/que-es-el-marketing", old: "14,500", new: "9,200", loss: "-36%", status: "Crítica" },
                             { url: "/servicios/seo-local", old: "8,100", new: "6,500", loss: "-19%", status: "Alerta" },
@@ -8537,23 +8537,23 @@ LIMIT 5;`);
                           ].map((row, i) => (
                             <tr 
                               key={i} 
-                              className={`hover:bg-[#151820] transition-colors cursor-pointer ${decaySelectedUrl === row.url ? 'bg-[#181b24]' : ''}`}
+                              className={`hover:bg-[var(--card-subtle)] transition-colors cursor-pointer ${decaySelectedUrl === row.url ? 'bg-[var(--card-subtle)]' : ''}`}
                               onClick={() => setDecaySelectedUrl(row.url)}
                             >
-                              <td className="px-4 py-3 font-bold text-white flex items-center gap-2">
-                                <span className="text-[10px] text-red-400">●</span>
+                              <td className="px-4 py-3 font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <span className="text-[10px] text-rose-500">●</span>
                                 <span>{row.url}</span>
                               </td>
-                              <td className="px-4 py-3 text-zinc-400">{row.old}</td>
-                              <td className="px-4 py-3 text-white font-bold">{row.new}</td>
-                              <td className="px-4 py-3 font-bold text-red-500">{row.loss}</td>
+                              <td className="px-4 py-3 text-[var(--muted-foreground)]">{row.old}</td>
+                              <td className="px-4 py-3 text-[var(--foreground)] font-bold">{row.new}</td>
+                              <td className="px-4 py-3 font-bold text-rose-600 dark:text-red-500">{row.loss}</td>
                               <td className="px-4 py-3 text-right">
                                 <button 
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     showToast('Regeneración Asistida Disparada', `Agente Vera reescribirá y actualizará ${row.url} en Payload/WP.`, 'success');
                                   }}
-                                  className="te-button px-3 py-1 text-[11px] font-bold text-[#e85a2a] hover:bg-[#e85a2a] hover:text-white transition-all cursor-pointer"
+                                  className="te-button px-3 py-1 text-[11px] font-bold text-orange-600 dark:text-[#e85a2a] hover:bg-orange-500 hover:text-white transition-all cursor-pointer"
                                 >
                                   Reescribir con IA ⚡
                                 </button>
@@ -8669,13 +8669,13 @@ LIMIT 5;`);
 
                   <div className="flex items-center gap-2.5">
                     {/* Switch Modo Cómic Historieta vs Modo Técnico Clásico */}
-                    <div className="flex items-center p-1 rounded-xl bg-black border-2 border-black dark:border-white shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#e85a2a]">
+                    <div className="flex items-center p-1 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] shadow-xs">
                       <button
                         onClick={() => setDocDisplayMode('comic')}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                           docDisplayMode === 'comic'
-                            ? 'bg-[#ffffff] text-black font-extrabold shadow-sm'
-                            : 'text-zinc-400 hover:text-white'
+                            ? 'bg-[var(--card)] text-[var(--foreground)] font-extrabold shadow-xs border border-[var(--border)]'
+                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                         }`}
                         title="Modo Historieta Gráfica B&N: Historia de la marca y desarrollo"
                       >
@@ -8686,8 +8686,8 @@ LIMIT 5;`);
                         onClick={() => setDocDisplayMode('classic')}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                           docDisplayMode === 'classic'
-                            ? 'bg-[var(--primary)] text-white shadow-sm'
-                            : 'text-zinc-400 hover:text-white'
+                            ? 'bg-[var(--primary)] text-white shadow-xs'
+                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                         }`}
                         title="Modo Manual Técnico Tradicional"
                       >
@@ -9972,7 +9972,7 @@ LIMIT 5;`,
 
                   <div className="flex items-center gap-2.5">
                     {/* Switcher de Sub-pestañas DB Studio */}
-                    <div className="flex items-center p-1 rounded-xl bg-black border border-[var(--border-te)]">
+                    <div className="flex items-center p-1 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] shadow-xs">
                       {[
                         { id: 'tables', label: 'Tablas & Esquemas', icon: '🗄️' },
                         { id: 'queryRunner', label: 'SQL Query Runner', icon: '⚡' },
@@ -9984,8 +9984,8 @@ LIMIT 5;`,
                           onClick={() => setActiveDbTab(t.id as any)}
                           className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                             activeDbTab === t.id
-                              ? 'bg-[#e85a2a] text-white shadow-sm'
-                              : 'text-zinc-400 hover:text-white'
+                              ? 'bg-[var(--primary)] text-white shadow-xs'
+                              : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                           }`}
                         >
                           <span>{t.icon}</span>
@@ -10164,11 +10164,11 @@ LIMIT 5;`,
                 {/* SUB-VISTA 2: SQL QUERY RUNNER INTERACTIVO */}
                 {activeDbTab === 'queryRunner' && (
                   <div className="space-y-6">
-                    <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#0a0c0e] space-y-4">
-                      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div className="te-frame p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)] space-y-4 shadow-xs">
+                      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
                         <div className="flex items-center gap-2">
                           <span className="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
-                          <span className="te-label text-[#38bdf8]">POSTGRESQL &amp; PGVECTOR TERMINAL // 64-BIT QUERY EXECUTION</span>
+                          <span className="te-label text-sky-600 dark:text-[#38bdf8]">POSTGRESQL &amp; PGVECTOR TERMINAL // 64-BIT QUERY EXECUTION</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
@@ -10199,18 +10199,18 @@ WHERE tablename = 'aeo_citation_vectors';`);
                       </div>
 
                       {/* Editor SQL Monospace con Chasis TE */}
-                      <div className="relative rounded-xl border border-[var(--border-te)] bg-[#07090a] p-3">
+                      <div className="relative rounded-xl border border-[var(--border)] bg-[var(--card-subtle)] p-3">
                         <textarea
                           rows={7}
                           value={activeSqlQuery}
                           onChange={(e) => setActiveSqlQuery(e.target.value)}
-                          className="w-full bg-transparent text-emerald-400 font-mono text-xs focus:outline-none resize-none leading-relaxed"
+                          className="w-full bg-transparent text-emerald-600 dark:text-emerald-400 font-mono text-xs focus:outline-none resize-none leading-relaxed"
                           placeholder="Escribe tu consulta SQL aquí..."
                         />
                       </div>
 
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-[10px] font-mono text-zinc-500">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
                           Presiona Ejecutar o CMD+Enter para procesar el query en el clúster.
                         </span>
 
@@ -10233,7 +10233,7 @@ WHERE tablename = 'aeo_citation_vectors';`);
                             }, 700);
                           }}
                           disabled={isExecutingSql}
-                          className="te-button-primary px-6 py-2.5 text-xs font-mono font-bold flex items-center gap-2 cursor-pointer shadow-sm"
+                          className="te-button-primary px-6 py-2.5 text-xs font-mono font-bold flex items-center gap-2 cursor-pointer shadow-xs"
                         >
                           {isExecutingSql ? (
                             <>
@@ -10251,19 +10251,19 @@ WHERE tablename = 'aeo_citation_vectors';`);
 
                       {/* Resultados del Query en Cuadrícula de Datos */}
                       {sqlQueryResults && (
-                        <div className="pt-4 border-t border-zinc-800 space-y-3">
+                        <div className="pt-4 border-t border-[var(--border)] space-y-3">
                           <div className="flex items-center justify-between text-xs font-mono">
-                            <span className="text-zinc-400">
-                              Filas devueltas: <strong className="text-white">{sqlQueryResults.rowsCount}</strong>
+                            <span className="text-[var(--muted-foreground)]">
+                              Filas devueltas: <strong className="text-[var(--foreground)]">{sqlQueryResults.rowsCount}</strong>
                             </span>
-                            <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+                            <span className="text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
                               Tiempo de ejecución: {sqlQueryResults.latencyMs}ms (200 OK)
                             </span>
                           </div>
 
-                          <div className="overflow-x-auto border border-zinc-800 rounded-xl bg-[#090b0e]">
+                          <div className="overflow-x-auto border border-[var(--border)] rounded-xl bg-[var(--card)]">
                             <table className="w-full text-left text-xs font-mono">
-                              <thead className="bg-[#121418] text-zinc-400 text-[10px] uppercase border-b border-zinc-800">
+                              <thead className="bg-[var(--card-subtle)] text-[var(--muted-foreground)] text-[10px] uppercase border-b border-[var(--border)]">
                                 <tr>
                                   <th className="py-2.5 px-3">id</th>
                                   <th className="py-2.5 px-3">slug</th>
@@ -10272,14 +10272,14 @@ WHERE tablename = 'aeo_citation_vectors';`);
                                   <th className="py-2.5 px-3">source_authority</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-zinc-800">
+                              <tbody className="divide-y divide-[var(--border)]">
                                 {sqlQueryResults.data.map((row, i) => (
-                                  <tr key={i} className="hover:bg-zinc-900/50">
-                                    <td className="py-2.5 px-3 text-zinc-400">{row.id}</td>
-                                    <td className="py-2.5 px-3 text-[#38bdf8] font-bold">{row.slug}</td>
-                                    <td className="py-2.5 px-3 text-emerald-400 font-bold">{row.cosine_similarity}</td>
-                                    <td className="py-2.5 px-3 text-[#f5a623]">{row.aeo_sentiment}</td>
-                                    <td className="py-2.5 px-3 text-white font-bold">{row.source_authority}/100</td>
+                                  <tr key={i} className="hover:bg-[var(--card-subtle)]/70 transition-colors">
+                                    <td className="py-2.5 px-3 text-[var(--muted-foreground)]">{row.id}</td>
+                                    <td className="py-2.5 px-3 text-sky-600 dark:text-[#38bdf8] font-bold">{row.slug}</td>
+                                    <td className="py-2.5 px-3 text-emerald-600 dark:text-emerald-400 font-bold">{row.cosine_similarity}</td>
+                                    <td className="py-2.5 px-3 text-amber-600 dark:text-[#f5a623]">{row.aeo_sentiment}</td>
+                                    <td className="py-2.5 px-3 text-[var(--foreground)] font-bold">{row.source_authority}/100</td>
                                   </tr>
                                 ))}
                               </tbody>
@@ -10294,24 +10294,24 @@ WHERE tablename = 'aeo_citation_vectors';`);
                 {/* SUB-VISTA 3: TENSORES VECTORIALES (1536 DIMENSIONES EMBEDDING VIEWER) */}
                 {activeDbTab === 'vectorEmbeddings' && (
                   <div className="space-y-6">
-                    <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#07090a] space-y-4">
-                      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div className="te-frame p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)] space-y-4 shadow-xs">
+                      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
                         <div>
-                          <h3 className="text-base font-bold font-mono text-white flex items-center gap-2">
+                          <h3 className="text-base font-bold font-mono text-[var(--foreground)] flex items-center gap-2">
                             <span>🧬</span> Matriz de Embeddings: text-embedding-3-small (OpenAI / Supabase)
                           </h3>
-                          <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                          <p className="text-xs text-[var(--muted-foreground)] font-mono mt-0.5">
                             Cada vector representa la proyección semántica en 1,536 dimensiones de tus guías y artículos pilares.
                           </p>
                         </div>
-                        <span className="text-xs font-mono px-3 py-1 rounded bg-[#e85a2a]/10 text-[#e85a2a] border border-[#e85a2a]/30 font-bold">
+                        <span className="text-xs font-mono px-3 py-1 rounded bg-[#e85a2a]/10 text-orange-600 dark:text-[#e85a2a] border border-[#e85a2a]/30 font-bold">
                           1,536 FLOATS POR VECTOR
                         </span>
                       </div>
 
                       {/* Heatmap / Osciloscopio de Distribución Vectorial 64-bit */}
-                      <div className="p-4 rounded-xl bg-[#0d0f14] border border-[var(--border-te)] space-y-3">
-                        <span className="te-label text-zinc-400 block">VISUALIZADOR DE DENSIDAD DE TENSORES (PRIMERAS 64 DIMENSIONES)</span>
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-3">
+                        <span className="te-label text-[var(--muted-foreground)] block">VISUALIZADOR DE DENSIDAD DE TENSORES (PRIMERAS 64 DIMENSIONES)</span>
                         <div className="grid grid-cols-8 sm:grid-cols-16 gap-1.5 pt-1">
                           {Array.from({ length: 64 }).map((_, i) => {
                             const val = Math.sin(i * 0.45) * 0.5 + 0.5;
@@ -10321,7 +10321,7 @@ WHERE tablename = 'aeo_citation_vectors';`);
                                 className="h-6 rounded-xs flex items-center justify-center font-mono text-[7px] font-bold transition-all hover:scale-125 cursor-pointer"
                                 style={{
                                   backgroundColor: `rgba(232, 90, 42, ${Math.max(0.15, val)})`,
-                                  color: val > 0.5 ? '#ffffff' : '#8a8f9d'
+                                  color: val > 0.5 ? '#ffffff' : 'var(--foreground)'
                                 }}
                                 title={`Dimensión D-${i}: ${(val * 2 - 1).toFixed(4)}`}
                               >
@@ -10330,10 +10330,10 @@ WHERE tablename = 'aeo_citation_vectors';`);
                             );
                           })}
                         </div>
-                        <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 pt-1">
+                        <div className="flex justify-between items-center text-[10px] font-mono text-[var(--muted-foreground)] pt-1">
                           <span>-1.0000 (Repulsión)</span>
-                          <span className="text-emerald-400">0.0000 (Ortogonal)</span>
-                          <span className="text-[#e85a2a]">+1.0000 (Máxima Afinidad Coseno)</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">0.0000 (Ortogonal)</span>
+                          <span className="text-orange-600 dark:text-[#e85a2a]">+1.0000 (Máxima Afinidad Coseno)</span>
                         </div>
                       </div>
                     </div>
@@ -10343,48 +10343,48 @@ WHERE tablename = 'aeo_citation_vectors';`);
                 {/* SUB-VISTA 4: ÍNDICES HNSW & OPTIMIZACIÓN DE LATENCIA */}
                 {activeDbTab === 'indexes' && (
                   <div className="space-y-6">
-                    <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#07090a] space-y-4">
-                      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div className="te-frame p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)] space-y-4 shadow-xs">
+                      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
                         <div>
-                          <h3 className="text-base font-bold font-mono text-white flex items-center gap-2">
+                          <h3 className="text-base font-bold font-mono text-[var(--foreground)] flex items-center gap-2">
                             <span>🎯</span> Gestión de Índices HNSW (Hierarchical Navigable Small World)
                           </h3>
-                          <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                          <p className="text-xs text-[var(--muted-foreground)] font-mono mt-0.5">
                             Optimiza los parámetros m (conexiones por nodo) y ef_construction para lograr latencias sub-15ms en miles de vectores.
                           </p>
                         </div>
-                        <span className="text-xs font-mono px-3 py-1 rounded bg-[#3ddc84]/10 text-[#3ddc84] border border-[#3ddc84]/30 font-bold">
+                        <span className="text-xs font-mono px-3 py-1 rounded bg-emerald-500/10 text-emerald-600 dark:text-[#3ddc84] border border-emerald-500/30 font-bold">
                           ÍNDICE HNSW ACTIVO
                         </span>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-2">
-                          <span className="te-label text-zinc-400 block">m (Max Conexiones / Capa)</span>
-                          <span className="text-2xl font-mono font-bold text-white">16</span>
-                          <p className="text-[11px] text-zinc-400 font-mono">
+                        <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2">
+                          <span className="te-label text-[var(--muted-foreground)] block">m (Max Conexiones / Capa)</span>
+                          <span className="text-2xl font-mono font-bold text-[var(--foreground)]">16</span>
+                          <p className="text-[11px] text-[var(--muted-foreground)] font-mono">
                             Mayor recall y precisión en vecindarios densos sin sobrecargar la memoria RAM.
                           </p>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-2">
-                          <span className="te-label text-zinc-400 block">ef_construction</span>
-                          <span className="text-2xl font-mono font-bold text-[#f5a623]">64</span>
-                          <p className="text-[11px] text-zinc-400 font-mono">
+                        <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2">
+                          <span className="te-label text-[var(--muted-foreground)] block">ef_construction</span>
+                          <span className="text-2xl font-mono font-bold text-amber-600 dark:text-[#f5a623]">64</span>
+                          <p className="text-[11px] text-[var(--muted-foreground)] font-mono">
                             Balance perfecto entre tiempo de indexación al publicar y velocidad de consulta.
                           </p>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-2">
-                          <span className="te-label text-zinc-400 block">ef_search (Inferencia)</span>
-                          <span className="text-2xl font-mono font-bold text-[#3ddc84]">40</span>
-                          <p className="text-[11px] text-zinc-400 font-mono">
+                        <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2">
+                          <span className="te-label text-[var(--muted-foreground)] block">ef_search (Inferencia)</span>
+                          <span className="text-2xl font-mono font-bold text-emerald-600 dark:text-[#3ddc84]">40</span>
+                          <p className="text-[11px] text-[var(--muted-foreground)] font-mono">
                             Garantiza búsquedas top-5 en menos de 12ms al redactar con Claude o GPT-4o.
                           </p>
                         </div>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-black border border-zinc-800 font-mono text-xs text-emerald-400">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] font-mono text-xs text-emerald-600 dark:text-emerald-400">
                         <code>{`CREATE INDEX ON aeo_citation_vectors 
 USING hnsw (embedding vector_cosine_ops) 
 WITH (m = 16, ef_construction = 64);`}</code>
@@ -10400,22 +10400,22 @@ WITH (m = 16, ef_construction = 64);`}</code>
             {activeTab === 'finopsStudio' && (
               <div className="te-rack-unit relative p-6 space-y-6 animate-fade-in">
                 {/* Top Module Header */}
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-white/[0.08]">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-[var(--border)]">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="te-badge te-badge-orange font-mono text-[9px]">SLOT-09 // FINOPS ENGINE</span>
-                      <span className="te-badge font-mono text-[9px] bg-white/[0.04] text-zinc-300">REAL-TIME TOKENOMICS</span>
+                      <span className="te-badge font-mono text-[9px] bg-white/[0.04] text-[var(--muted-foreground)]">REAL-TIME TOKENOMICS</span>
                       {finopsKillSwitchActive ? (
                         <span className="te-badge font-mono text-[9px] bg-red-950/80 text-red-400 border-red-800 animate-pulse">KILL-SWITCH ENGAGED</span>
                       ) : (
                         <span className="te-badge te-badge-green font-mono text-[9px]">TELEMETRY LIVE</span>
                       )}
                     </div>
-                    <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                      <CurrencyDollarIcon className="w-5 h-5 text-orange-400" />
+                    <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)] flex items-center gap-2">
+                      <CurrencyDollarIcon className="w-5 h-5 text-orange-500" />
                       Token Telemetry &amp; FinOps Studio
                     </h2>
-                    <p className="text-xs text-zinc-400 mt-0.5">
+                    <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
                       Monitoreo de cuota, consumo de contexto LLM multi-modelo y costo por artículo en USD con corte de emergencia.
                     </p>
                   </div>
@@ -10432,13 +10432,13 @@ WITH (m = 16, ef_construction = 64);`}</code>
                             : 'KILL-SWITCH RELEASED: Telemetría y llamadas de API restauradas.'
                         );
                       }}
-                      className={`px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 border ${
+                      className={`px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 border cursor-pointer ${
                         finopsKillSwitchActive
                           ? 'bg-red-900/60 border-red-500 text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.4)]'
-                          : 'bg-[#181b20] border-zinc-700 hover:border-red-500/60 text-zinc-300 hover:text-red-400'
+                          : 'bg-[var(--card)] border-[var(--border)] hover:border-red-500/60 text-[var(--foreground)] hover:text-red-500'
                       }`}
                     >
-                      <span className={`w-2 h-2 rounded-full ${finopsKillSwitchActive ? 'bg-red-400 animate-ping' : 'bg-zinc-600'}`} />
+                      <span className={`w-2 h-2 rounded-full ${finopsKillSwitchActive ? 'bg-red-400 animate-ping' : 'bg-zinc-400'}`} />
                       {finopsKillSwitchActive ? 'KILL SWITCH [ACTIVO]' : 'ENGAGE KILL SWITCH'}
                     </button>
 
@@ -10459,7 +10459,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         document.body.removeChild(link);
                         toast.success('Ledger FinOps exportado a CSV.');
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-300 font-mono text-xs flex items-center gap-1.5 transition-all"
+                      className="px-3 py-1.5 rounded-lg bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--muted)] text-[var(--foreground)] font-mono text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
                     >
                       <ArrowDownTrayIcon className="w-3.5 h-3.5" />
                       Export CSV
@@ -10468,58 +10468,58 @@ WITH (m = 16, ef_construction = 64);`}</code>
                 </div>
 
                 {/* Main 64-bit Hardware Token Meter - Analítica Ejecutiva & Telemetría */}
-                <div className="p-6 rounded-2xl bg-gradient-to-b from-[#131620]/95 to-[#0c0d12]/95 border border-white/[0.08] shadow-xl space-y-5">
+                <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs space-y-5">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                      <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider block mb-1">
                         Consumo Mensual de Tokens (LLMs)
                       </span>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                        <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] font-sans tabular-nums">
                           {finopsTokensUsed.toLocaleString()}
                         </span>
-                        <span className="text-xs font-semibold text-zinc-400">tokens procesados</span>
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)]">tokens procesados</span>
                       </div>
                       <div className="flex items-center gap-2 mt-2">
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           {((finopsTokensUsed / finopsTokenBudget) * 100).toFixed(1)}% de cuota utilizada
                         </span>
-                        <span className="text-xs text-zinc-500">Límite mensual: {finopsTokenBudget.toLocaleString()}</span>
+                        <span className="text-xs text-[var(--muted-foreground)]">Límite mensual: {finopsTokenBudget.toLocaleString()}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-6 text-right">
                       <div>
-                        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider block mb-1">
                           Costo Estimado
                         </span>
-                        <div className="text-2xl font-extrabold text-white font-sans tabular-nums">
-                          $184.20 <span className="text-xs font-normal text-zinc-400">USD</span>
+                        <div className="text-2xl font-extrabold text-[var(--foreground)] font-sans tabular-nums">
+                          $184.20 <span className="text-xs font-normal text-[var(--muted-foreground)]">USD</span>
                         </div>
                       </div>
-                      <div className="h-10 w-px bg-white/[0.08]" />
+                      <div className="h-10 w-px bg-[var(--border)]" />
                       <div>
-                        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                        <span className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider block mb-1">
                           Costo / Artículo
                         </span>
-                        <div className="text-2xl font-extrabold text-[#3ddc84] font-sans tabular-nums">
-                          $0.084 <span className="text-xs font-normal text-zinc-400">USD</span>
+                        <div className="text-2xl font-extrabold text-emerald-600 dark:text-[#3ddc84] font-sans tabular-nums">
+                          $0.084 <span className="text-xs font-normal text-[var(--muted-foreground)]">USD</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* 20-Segment Hardware LED Meter */}
-                  <div className="space-y-2 pt-2 border-t border-white/[0.06]">
-                    <div className="flex items-center justify-between text-[11px] font-semibold text-zinc-400">
+                  <div className="space-y-2 pt-2 border-t border-[var(--border)]">
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-[var(--muted-foreground)]">
                       <span>0M Tokens</span>
-                      <span className="text-amber-400 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f5a623]" />
+                      <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]" />
                         Umbral de Alerta (80%: 40M)
                       </span>
                       <span>50M Máximo Asignado</span>
                     </div>
-                    <div className="grid grid-cols-20 gap-1.5 p-1.5 bg-[#0a0c10] rounded-xl border border-white/[0.06]">
+                    <div className="grid grid-cols-20 gap-1.5 p-1.5 bg-[var(--card-subtle)] rounded-xl border border-[var(--border)]">
                       {Array.from({ length: 20 }).map((_, i) => {
                         const cellPercent = (i + 1) * 5;
                         const currentPercent = (finopsTokensUsed / finopsTokenBudget) * 100;
@@ -10527,11 +10527,11 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         const isWarning = cellPercent > 70 && cellPercent <= 85;
                         const isDanger = cellPercent > 85;
                         
-                        let cellClass = "bg-zinc-900 border border-zinc-800/80";
+                        let cellClass = "bg-zinc-200 dark:bg-zinc-800 border border-[var(--border)]";
                         if (isFilled) {
                           if (isDanger) cellClass = "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.7)]";
                           else if (isWarning) cellClass = "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]";
-                          else cellClass = "bg-[#3ddc84] shadow-[0_0_8px_rgba(61,220,132,0.6)]";
+                          else cellClass = "bg-emerald-500 dark:bg-[#3ddc84] shadow-[0_0_8px_rgba(61,220,132,0.6)]";
                         }
                         
                         return <div key={i} className={`h-4 rounded-sm transition-all duration-300 ${cellClass}`} />;
@@ -10584,44 +10584,44 @@ WITH (m = 16, ef_construction = 64);`}</code>
                       barWidth: '13%'
                     }
                   ].map((model, idx) => (
-                    <div key={idx} className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all space-y-3.5">
+                    <div key={idx} className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--border-te)] shadow-xs hover:shadow transition-all space-y-3.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-white tracking-tight">{model.name}</span>
-                        <span className="text-xs font-extrabold text-white font-sans tabular-nums">{model.cost}</span>
+                        <span className="text-sm font-bold text-[var(--foreground)] tracking-tight">{model.name}</span>
+                        <span className="text-xs font-extrabold text-[var(--foreground)] font-sans tabular-nums">{model.cost}</span>
                       </div>
-                      <p className="text-xs text-zinc-400 line-clamp-1 font-normal">{model.role}</p>
+                      <p className="text-xs text-[var(--muted-foreground)] line-clamp-1 font-normal">{model.role}</p>
 
                       <div className="space-y-1.5">
-                        <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
+                        <div className="h-1.5 w-full bg-[var(--card-subtle)] rounded-full overflow-hidden">
                           <div 
                             className="h-full rounded-full" 
                             style={{ width: model.barWidth, backgroundColor: model.color }} 
                           />
                         </div>
-                        <div className="flex items-center justify-between text-xs text-zinc-400 font-sans tabular-nums">
+                        <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)] font-sans tabular-nums">
                           <span>{model.tokens}</span>
                           <span>Latencia: {model.latency}</span>
                         </div>
                       </div>
 
-                      <div className="pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-xs">
-                        <span className="text-zinc-400">Prompt Cache Hit:</span>
-                        <span className="text-[#3ddc84] font-bold font-sans tabular-nums">{model.cacheHit}</span>
+                      <div className="pt-2.5 border-t border-[var(--border)] flex items-center justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Prompt Cache Hit:</span>
+                        <span className="text-emerald-600 dark:text-[#3ddc84] font-bold font-sans tabular-nums">{model.cacheHit}</span>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Parametric Hardware Calibration Bar */}
-                <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-6">
                     <div className="flex items-center gap-3">
                       <div className="te-knob-dial">
                         <div className="te-knob-notch" style={{ transform: 'rotate(45deg)' }} />
                       </div>
                       <div>
-                        <span className="te-label text-zinc-400">BUDGET ALERT</span>
-                        <div className="text-xs font-mono font-bold text-white">$180.00 USD</div>
+                        <span className="te-label text-[var(--muted-foreground)]">BUDGET ALERT</span>
+                        <div className="text-xs font-mono font-bold text-[var(--foreground)]">$180.00 USD</div>
                       </div>
                     </div>
 
@@ -10630,8 +10630,8 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         <div className="te-knob-notch" style={{ transform: 'rotate(-25deg)' }} />
                       </div>
                       <div>
-                        <span className="te-label text-zinc-400">MAX ARTICLE CAP</span>
-                        <div className="text-xs font-mono font-bold text-[#3ddc84]">$0.12 / art</div>
+                        <span className="te-label text-[var(--muted-foreground)]">MAX ARTICLE CAP</span>
+                        <div className="text-xs font-mono font-bold text-emerald-600 dark:text-[#3ddc84]">$0.12 / art</div>
                       </div>
                     </div>
                   </div>
@@ -10642,7 +10642,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         setFinopsTokensUsed(prev => prev + 250000);
                         toast.success('+250,000 tokens inyectados en la telemetría para prueba de estrés.');
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-mono text-xs hover:text-white transition-all"
+                      className="px-3 py-1.5 rounded-lg bg-[var(--card-subtle)] border border-[var(--border)] hover:bg-[var(--muted)] text-[var(--foreground)] font-mono text-xs transition-all cursor-pointer shadow-xs"
                     >
                       + Simular Carga (+250k tok)
                     </button>
@@ -10651,7 +10651,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         setFinopsTokensUsed(18420100);
                         toast.success('Contador de telemetría restaurado a baseline.');
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-zinc-400 font-mono text-xs hover:text-white transition-all"
+                      className="px-3 py-1.5 rounded-lg bg-[var(--card-subtle)] border border-[var(--border)] hover:bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] font-mono text-xs transition-all cursor-pointer shadow-xs"
                     >
                       Reset Telemetría
                     </button>
@@ -10784,36 +10784,36 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           setActiveIndustryPreset(preset.id as any);
                           toast.success(`Preset [${preset.title}] cargado en todo el laboratorio.`);
                         }}
-                        className={`p-5 rounded-xl border transition-all cursor-pointer relative ${
+                        className={`p-5 rounded-2xl border transition-all cursor-pointer relative shadow-xs ${
                           isSelected
-                            ? 'bg-[#15181e] border-[var(--accent-te)] shadow-[0_0_20px_rgba(232,90,42,0.2)]'
-                            : 'bg-[#121418] border-[var(--border-te)] hover:border-zinc-700'
+                            ? 'bg-[var(--card)] border-[var(--primary)] ring-2 ring-[var(--primary)]/20 shadow-md'
+                            : 'bg-[var(--card)] border-[var(--border)] hover:border-[var(--border-te)] hover:shadow'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-3">
                           <span 
                             className="text-[9px] font-mono px-2 py-0.5 rounded-md font-bold"
                             style={{ 
-                              backgroundColor: isSelected ? `${preset.color}20` : '#1c1f26',
-                              color: isSelected ? preset.color : '#888'
+                              backgroundColor: isSelected ? `${preset.color}20` : 'var(--card-subtle)',
+                              color: isSelected ? preset.color : 'var(--muted-foreground)'
                             }}
                           >
                             {preset.badge}
                           </span>
-                          <span className={`w-3 h-3 rounded-full border flex items-center justify-center ${
-                            isSelected ? 'border-[var(--accent-te)] bg-[var(--accent-te)]' : 'border-zinc-700'
+                          <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                            isSelected ? 'border-[var(--primary)] bg-[var(--primary)]' : 'border-[var(--border)]'
                           }`}>
-                            {isSelected && <span className="w-1.5 h-1.5 bg-black rounded-full" />}
+                            {isSelected && <span className="w-1.5 h-1.5 bg-white rounded-full" />}
                           </span>
                         </div>
 
-                        <h3 className="text-sm font-mono font-bold text-white mb-1.5">{preset.title}</h3>
-                        <p className="text-xs text-zinc-400 font-mono mb-4 leading-relaxed">{preset.desc}</p>
+                        <h3 className="text-sm font-mono font-bold text-[var(--foreground)] mb-1.5">{preset.title}</h3>
+                        <p className="text-xs text-[var(--muted-foreground)] font-mono mb-4 leading-relaxed">{preset.desc}</p>
 
-                        <div className="space-y-1.5 pt-3 border-t border-zinc-800/80">
+                        <div className="space-y-1.5 pt-3 border-t border-[var(--border)]">
                           {preset.features.map((feat, fIdx) => (
-                            <div key={fIdx} className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-300">
-                              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                            <div key={fIdx} className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--foreground)]">
+                              <span className="w-1 h-1 rounded-full bg-[var(--primary)]" />
                               <span>{feat}</span>
                             </div>
                           ))}
@@ -10824,21 +10824,21 @@ WITH (m = 16, ef_construction = 64);`}</code>
                 </div>
 
                 {/* Parametric Hardware Fine-Tuner Rack */}
-                <div className="p-5 rounded-xl bg-black border border-[var(--border-te)] space-y-4">
+                <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4 shadow-xs">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="te-label text-zinc-400">FINE-TUNING HARDWARE DECK</span>
-                      <h4 className="text-sm font-mono font-bold text-white mt-0.5">Afinación Paramétrica del Motor Activo</h4>
+                      <span className="te-label text-[var(--muted-foreground)]">FINE-TUNING HARDWARE DECK</span>
+                      <h4 className="text-sm font-mono font-bold text-[var(--foreground)] mt-0.5">Afinación Paramétrica del Motor Activo</h4>
                     </div>
-                    <span className="text-[11px] font-mono text-[var(--accent-te)]">64-BIT PRECISION</span>
+                    <span className="text-[11px] font-mono text-orange-600 dark:text-[var(--accent-te)]">64-BIT PRECISION</span>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                     {/* Knobs & Controls */}
-                    <div className="p-4 rounded-lg bg-[#121418] border border-zinc-800 space-y-3">
+                    <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="te-label text-zinc-400">AGRESIVIDAD DE CITACIÓN</span>
-                        <span className="text-xs font-mono font-bold text-[#3ddc84]">{revopsAttributionWeight}%</span>
+                        <span className="te-label text-[var(--muted-foreground)]">AGRESIVIDAD DE CITACIÓN</span>
+                        <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#3ddc84]">{revopsAttributionWeight}%</span>
                       </div>
                       <input
                         type="range"
@@ -10846,17 +10846,17 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         max="100"
                         value={revopsAttributionWeight}
                         onChange={(e) => setRevopsAttributionWeight(Number(e.target.value))}
-                        className="w-full accent-[var(--accent-te)] bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
+                        className="w-full accent-[var(--primary)] bg-zinc-200 dark:bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
                       />
-                      <p className="text-[10px] font-mono text-zinc-500">
+                      <p className="text-[10px] font-mono text-[var(--muted-foreground)]">
                         Ajusta la densidad de fragmentos directos formateados para Perplexity y SearchGPT.
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-lg bg-[#121418] border border-zinc-800 space-y-3">
+                    <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="te-label text-zinc-400">SENSIBILIDAD RADAR GSC</span>
-                        <span className="text-xs font-mono font-bold text-[var(--accent-te)]">-{decayRadarSensitivity}%</span>
+                        <span className="te-label text-[var(--muted-foreground)]">SENSIBILIDAD RADAR GSC</span>
+                        <span className="text-xs font-mono font-bold text-orange-600 dark:text-[var(--accent-te)]">-{decayRadarSensitivity}%</span>
                       </div>
                       <input
                         type="range"
@@ -10864,26 +10864,26 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         max="60"
                         value={decayRadarSensitivity}
                         onChange={(e) => setDecayRadarSensitivity(Number(e.target.value))}
-                        className="w-full accent-[var(--accent-te)] bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
+                        className="w-full accent-[var(--primary)] bg-zinc-200 dark:bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
                       />
-                      <p className="text-[10px] font-mono text-zinc-500">
+                      <p className="text-[10px] font-mono text-[var(--muted-foreground)]">
                         Umbral de caída de clics para catalogar un post como contenido en decaimiento crítico.
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-lg bg-[#121418] border border-zinc-800 space-y-3">
+                    <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="te-label text-zinc-400">UMBRAL COSENO PGVECTOR</span>
-                        <span className="text-xs font-mono font-bold text-[#38bdf8]">0.82 cos(θ)</span>
+                        <span className="te-label text-[var(--muted-foreground)]">UMBRAL COSENO PGVECTOR</span>
+                        <span className="text-xs font-mono font-bold text-sky-600 dark:text-[#38bdf8]">0.82 cos(θ)</span>
                       </div>
                       <input
                         type="range"
                         min="70"
                         max="95"
                         defaultValue="82"
-                        className="w-full accent-[#38bdf8] bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
+                        className="w-full accent-sky-500 bg-zinc-200 dark:bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
                       />
-                      <p className="text-[10px] font-mono text-zinc-500">
+                      <p className="text-[10px] font-mono text-[var(--muted-foreground)]">
                         Filtro de similitud vectorial para deduplicar tópicos antes de iniciar redacción.
                       </p>
                     </div>
@@ -10896,7 +10896,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
             {activeTab === 'settings' && (
               <div className="space-y-8 animate-fade-in">
                 {/* Header Banner */}
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border border-zinc-800 p-8 shadow-2xl">
+                <div className="relative overflow-hidden rounded-2xl bg-[var(--card)] border border-[var(--border)] p-8 shadow-xs">
                   <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-[var(--primary)]/10 blur-3xl pointer-events-none" />
                   <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                     <div className="space-y-2">
@@ -10905,18 +10905,18 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse shadow-[0_0_8px_rgba(255,90,0,0.8)]" />
                           {accountSettings.plan}
                         </span>
-                        <span className="px-2.5 py-1 rounded-md text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 font-bold flex items-center gap-1">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 font-bold flex items-center gap-1">
                           <CheckCircleIcon className="w-3.5 h-3.5" /> SLA {accountSettings.slaGuaranteed}
                         </span>
-                        <span className="px-2.5 py-1 rounded-md text-[11px] font-mono text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 font-bold flex items-center gap-1">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] font-mono text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 font-bold flex items-center gap-1">
                           <ShieldCheckIcon className="w-3.5 h-3.5" /> Bóveda HSM AES-256
                         </span>
                       </div>
-                      <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-3">
+                      <h1 className="text-2xl sm:text-3xl font-black text-[var(--foreground)] tracking-tight flex items-center gap-3">
                         <Cog6ToothIcon className="w-8 h-8 text-[var(--primary)]" />
                         Configuración de Cuenta &amp; Bóveda Enterprise
                       </h1>
-                      <p className="text-xs sm:text-sm text-zinc-400 max-w-3xl leading-relaxed">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)] max-w-3xl leading-relaxed">
                         Control unificado de llaves maestras de IA, orquestación de registros DNS multinodo, despacho de webhooks transaccionales y gobernanza de equipo para <strong>{accountSettings.agencyName}</strong>.
                       </p>
                     </div>
@@ -10930,9 +10930,9 @@ WITH (m = 16, ef_construction = 64);`}</code>
                             'success'
                           );
                         }}
-                        className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+                        className="px-4 py-2 rounded-xl bg-[var(--card-subtle)] hover:bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs"
                       >
-                        <ArrowDownTrayIcon className="w-4 h-4 text-cyan-400" />
+                        <ArrowDownTrayIcon className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                         Exportar Auditoría SOC-2
                       </button>
 
@@ -11044,7 +11044,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: ClaudeLogo,
                           value: accountSettings.apiKeys.anthropicKey,
                           badge: 'Razonamiento Primario',
-                          badgeColor: 'border-amber-500/30 text-amber-400 bg-amber-500/10'
+                          badgeColor: 'border-amber-500/30 text-amber-500 dark:text-amber-400 bg-amber-500/10'
                         },
                         {
                           id: 'openaiKey',
@@ -11053,7 +11053,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: OpenAILogo,
                           value: accountSettings.apiKeys.openaiKey,
                           badge: 'Vectores & Validación',
-                          badgeColor: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10'
+                          badgeColor: 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
                         },
                         {
                           id: 'deepseekKey',
@@ -11062,7 +11062,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: CpuChipIcon,
                           value: accountSettings.apiKeys.deepseekKey,
                           badge: 'MoE Fast Lane',
-                          badgeColor: 'border-blue-500/30 text-blue-400 bg-blue-500/10'
+                          badgeColor: 'border-blue-500/30 text-blue-500 dark:text-blue-400 bg-blue-500/10'
                         },
                         {
                           id: 'googleSearchConsoleToken',
@@ -11071,7 +11071,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: GoogleLogo,
                           value: accountSettings.apiKeys.googleSearchConsoleToken,
                           badge: 'Indexación & Clics',
-                          badgeColor: 'border-red-500/30 text-red-400 bg-red-500/10'
+                          badgeColor: 'border-red-500/30 text-red-500 dark:text-red-400 bg-red-500/10'
                         },
                         {
                           id: 'hubspotAccessToken',
@@ -11080,7 +11080,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: HubSpotLogo,
                           value: accountSettings.apiKeys.hubspotAccessToken,
                           badge: 'CRM Sincronizado',
-                          badgeColor: 'border-orange-500/30 text-orange-400 bg-orange-500/10'
+                          badgeColor: 'border-orange-500/30 text-orange-500 dark:text-orange-400 bg-orange-500/10'
                         },
                         {
                           id: 'vercelApiToken',
@@ -11089,7 +11089,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: VercelLogo,
                           value: accountSettings.apiKeys.vercelApiToken,
                           badge: 'Edge Hosting Live',
-                          badgeColor: 'border-zinc-500/30 text-zinc-300 bg-zinc-500/10'
+                          badgeColor: 'border-zinc-500/30 text-[var(--muted-foreground)] bg-zinc-500/10'
                         },
                         {
                           id: 'neonApiKey',
@@ -11098,7 +11098,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: NeonLogo,
                           value: accountSettings.apiKeys.neonApiKey,
                           badge: 'Base de Datos Núcleo',
-                          badgeColor: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10'
+                          badgeColor: 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
                         },
                         {
                           id: 'supabaseServiceKey',
@@ -11107,7 +11107,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: SupabaseLogo,
                           value: accountSettings.apiKeys.supabaseServiceKey,
                           badge: 'Service Role Vault',
-                          badgeColor: 'border-teal-500/30 text-teal-400 bg-teal-500/10'
+                          badgeColor: 'border-teal-500/30 text-teal-600 dark:text-teal-400 bg-teal-500/10'
                         },
                         {
                           id: 'pineconeApiKey',
@@ -11116,7 +11116,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           icon: PineconeLogo,
                           value: accountSettings.apiKeys.pineconeApiKey,
                           badge: 'RAG Semántico',
-                          badgeColor: 'border-purple-500/30 text-purple-400 bg-purple-500/10'
+                          badgeColor: 'border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-500/10'
                         },
                       ].map((card) => {
                         const Icon = card.icon;
@@ -11191,8 +11191,8 @@ WITH (m = 16, ef_construction = 64);`}</code>
 
                             <div className="pt-2 border-t border-[var(--border)]/60 flex items-center justify-between gap-2">
                               {ping ? (
-                                <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+                                <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
                                   {ping.latency}ms • {ping.status}
                                 </span>
                               ) : (
@@ -11226,14 +11226,14 @@ WITH (m = 16, ef_construction = 64);`}</code>
                 {/* TAB 2: GESTIÓN DNS & DOMINIOS CUSTOM */}
                 {settingsTab === 'dns' && (
                   <div className="space-y-6">
-                    <div className="p-6 rounded-2xl bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border border-zinc-800 space-y-4">
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-xs space-y-4">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div className="space-y-1">
-                          <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                            <GlobeAltIcon className="w-4 h-4 text-cyan-400" />
+                          <h3 className="font-bold text-sm text-[var(--foreground)] flex items-center gap-2">
+                            <GlobeAltIcon className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                             Servidores de Nombres Anycast Oficiales (DNS Master Cluster)
                           </h3>
-                          <p className="text-xs text-zinc-400">
+                          <p className="text-xs text-[var(--muted-foreground)]">
                             Apunta los dominios de tus clientes a estos nameservers para habilitar enrutamiento automático de satélites, balanceo multi-edge e inyección instantánea de registros SSL.
                           </p>
                         </div>
@@ -11251,7 +11251,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                               }, 1200);
                             }}
                             disabled={dnsTesting}
-                            className="px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+                            className="px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs"
                           >
                             <ArrowPathIcon className={`w-3.5 h-3.5 ${dnsTesting ? 'animate-spin' : ''}`} />
                             <span>{dnsTesting ? 'Validando 84 PoPs...' : 'Validar Propagación Global'}</span>
@@ -11288,7 +11288,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                                 }
                               );
                             }}
-                            className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                            className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                           >
                             <PlusIcon className="w-3.5 h-3.5" />
                             <span>+ Nuevo Registro DNS</span>
@@ -11303,9 +11303,9 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           { label: 'Anycast Root IP', val: '76.76.21.21 (Vercel Global)' },
                           { label: 'Dedicated Cluster IP', val: '138.201.192.44 (Hetzner Bare-Metal)' }
                         ].map((ns, idx) => (
-                          <div key={idx} className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-xs space-y-1">
-                            <span className="text-[10px] font-mono text-zinc-400 block uppercase font-bold">{ns.label}</span>
-                            <span className="font-mono text-white font-bold block truncate">{ns.val}</span>
+                          <div key={idx} className="p-3 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] text-xs space-y-1">
+                            <span className="text-[10px] font-mono text-[var(--muted-foreground)] block uppercase font-bold">{ns.label}</span>
+                            <span className="font-mono text-[var(--foreground)] font-bold block truncate">{ns.val}</span>
                           </div>
                         ))}
                       </div>
@@ -11317,7 +11317,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         <span className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
                           Zona DNS Activa: buildations.studio ({accountSettings.dnsRecords.length} Registros)
                         </span>
-                        <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                           DNSSEC ACTIVO &amp; FIRMADO
                         </span>
                       </div>
@@ -11342,30 +11342,30 @@ WITH (m = 16, ef_construction = 64);`}</code>
                                   <span
                                     className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                                       dns.type === 'A'
-                                        ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                        ? 'bg-blue-500/15 text-blue-500 dark:text-blue-400 border border-blue-500/30'
                                         : dns.type === 'CNAME'
-                                        ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30'
-                                        : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                        ? 'bg-purple-500/15 text-purple-500 dark:text-purple-400 border border-purple-500/30'
+                                        : 'bg-amber-500/15 text-amber-500 dark:text-amber-400 border border-amber-500/30'
                                     }`}
                                   >
                                     {dns.type}
                                   </span>
                                 </td>
                                 <td className="px-6 py-3.5 font-bold text-[var(--foreground)]">{dns.host}</td>
-                                <td className="px-6 py-3.5 text-zinc-400 truncate max-w-xs">{dns.value}</td>
+                                <td className="px-6 py-3.5 text-[var(--muted-foreground)] truncate max-w-xs">{dns.value}</td>
                                 <td className="px-6 py-3.5 text-[var(--foreground)] font-sans">{dns.target}</td>
                                 <td className="px-6 py-3.5 text-[var(--muted-foreground)]">{dns.ttl}</td>
                                 <td className="px-6 py-3.5">
                                   <span
                                     className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold ${
                                       dns.status === 'Validado'
-                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse'
+                                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                                        : 'bg-amber-500/10 text-amber-500 dark:text-amber-400 border border-amber-500/20 animate-pulse'
                                     }`}
                                   >
                                     <span
                                       className={`w-1.5 h-1.5 rounded-full ${
-                                        dns.status === 'Validado' ? 'bg-emerald-400' : 'bg-amber-400'
+                                        dns.status === 'Validado' ? 'bg-emerald-500' : 'bg-amber-500'
                                       }`}
                                     />
                                     {dns.status}
@@ -11396,7 +11396,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                     {/* SSL / TLS Status Card */}
                     <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex flex-col md:flex-row items-center justify-between gap-4">
                       <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400">
                           <ShieldCheckIcon className="w-6 h-6" />
                         </div>
                         <div>
@@ -11406,7 +11406,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           </p>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                      <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
                         A+ QUALYS SSL RATING
                       </span>
                     </div>
@@ -11475,7 +11475,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                             </div>
 
                             <div className="flex items-center gap-2">
-                              <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                              <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                                 {wh.lastTrigger}
                               </span>
 
@@ -11517,7 +11517,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                             </div>
 
                             <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
-                              Firma HMAC-SHA256: <strong className="text-zinc-300">whsec_98fa7sdf897asdf</strong>
+                              Firma HMAC-SHA256: <strong className="text-[var(--foreground)]">whsec_98fa7sdf897asdf</strong>
                             </span>
                           </div>
                         </div>
@@ -11525,25 +11525,25 @@ WITH (m = 16, ef_construction = 64);`}</code>
                     </div>
 
                     {/* Live Dispatch Log Preview */}
-                    <div className="rounded-2xl bg-zinc-950 border border-zinc-800 p-5 space-y-3 font-mono text-xs">
-                      <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                        <span className="text-zinc-400 font-bold uppercase text-[10px] flex items-center gap-2">
-                          <CommandLineIcon className="w-4 h-4 text-emerald-400" /> Registro de Entregas Recientes (Live Dispatch Log)
+                    <div className="rounded-2xl bg-[var(--card-subtle)] border border-[var(--border)] p-5 space-y-3 font-mono text-xs shadow-xs">
+                      <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+                        <span className="text-[var(--foreground)] font-bold uppercase text-[10px] flex items-center gap-2">
+                          <CommandLineIcon className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Registro de Entregas Recientes (Live Dispatch Log)
                         </span>
-                        <span className="text-[10px] text-emerald-400 font-bold">100% SUCCESS RATE (200 OK)</span>
+                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">100% SUCCESS RATE (200 OK)</span>
                       </div>
-                      <div className="space-y-2 text-[11px] text-zinc-300">
+                      <div className="space-y-2 text-[11px] text-[var(--foreground)]">
                         <div className="flex items-center justify-between">
-                          <span className="text-zinc-500">[12:45:10 UTC] POST https://api.hubspot.com/automation/v3/...</span>
-                          <span className="text-emerald-400 font-bold">200 OK (24ms)</span>
+                          <span className="text-[var(--muted-foreground)]">[12:45:10 UTC] POST https://api.hubspot.com/automation/v3/...</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold">200 OK (24ms)</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-zinc-500">[12:12:04 UTC] POST https://buildations.studio/api/revalidate...</span>
-                          <span className="text-emerald-400 font-bold">200 OK (38ms)</span>
+                          <span className="text-[var(--muted-foreground)]">[12:12:04 UTC] POST https://buildations.studio/api/revalidate...</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold">200 OK (38ms)</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-zinc-500">[10:04:19 UTC] POST https://hooks.slack.com/services/...</span>
-                          <span className="text-emerald-400 font-bold">200 OK (52ms)</span>
+                          <span className="text-[var(--muted-foreground)]">[10:04:19 UTC] POST https://hooks.slack.com/services/...</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold">200 OK (52ms)</span>
                         </div>
                       </div>
                     </div>
@@ -11557,9 +11557,9 @@ WITH (m = 16, ef_construction = 64);`}</code>
                       <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="w-10 h-10 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-2">
-                            <VercelLogo className="w-6 h-6 text-white" />
+                            <VercelLogo className="w-6 h-6 text-[var(--foreground)]" />
                           </div>
-                          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
+                          <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
                             EDGE ANYCAST
                           </span>
                         </div>
@@ -11578,7 +11578,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           </div>
                           <div className="flex justify-between text-[11px]">
                             <span className="text-[var(--muted-foreground)]">Time-to-First-Byte:</span>
-                            <span className="text-emerald-400 font-bold">&lt; 14ms</span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-bold">&lt; 14ms</span>
                           </div>
                         </div>
                       </div>
@@ -11586,9 +11586,9 @@ WITH (m = 16, ef_construction = 64);`}</code>
                       <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="w-10 h-10 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-2">
-                            <NeonLogo className="w-6 h-6 text-emerald-400" />
+                            <NeonLogo className="w-6 h-6 text-emerald-500 dark:text-emerald-400" />
                           </div>
-                          <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">
+                          <span className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">
                             SERVERLESS POSTGRES
                           </span>
                         </div>
@@ -11603,11 +11603,11 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           </div>
                           <div className="flex justify-between text-[11px]">
                             <span className="text-[var(--muted-foreground)]">Branch Activa:</span>
-                            <span className="text-cyan-400 font-bold">main-production</span>
+                            <span className="text-cyan-600 dark:text-cyan-400 font-bold">main-production</span>
                           </div>
                           <div className="flex justify-between text-[11px]">
                             <span className="text-[var(--muted-foreground)]">Conexiones Pool:</span>
-                            <span className="text-emerald-400 font-bold">Hasta 10,000 vía PgBouncer</span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-bold">Hasta 10,000 vía PgBouncer</span>
                           </div>
                         </div>
                       </div>
@@ -11617,7 +11617,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           <div className="w-10 h-10 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-center p-2">
                             <HetznerLogo className="w-6 h-6 text-red-500" />
                           </div>
-                          <span className="text-[10px] font-mono text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 font-bold">
+                          <span className="text-[10px] font-mono text-red-600 dark:text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 font-bold">
                             BARE-METAL CLUSTER
                           </span>
                         </div>
@@ -11636,7 +11636,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           </div>
                           <div className="flex justify-between text-[11px]">
                             <span className="text-[var(--muted-foreground)]">Almacenamiento:</span>
-                            <span className="text-emerald-400 font-bold">2x 1.92TB NVMe PCIe 4.0</span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-bold">2x 1.92TB NVMe PCIe 4.0</span>
                           </div>
                         </div>
                       </div>
@@ -11761,17 +11761,17 @@ WITH (m = 16, ef_construction = 64);`}</code>
                                 </td>
                                 <td className="px-6 py-4">
                                   {member.twoFactor ? (
-                                    <span className="text-emerald-400 font-mono text-[11px] font-bold flex items-center gap-1">
+                                    <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[11px] font-bold flex items-center gap-1">
                                       <ShieldCheckIcon className="w-3.5 h-3.5" /> FIDO2 / YubiKey OK
                                     </span>
                                   ) : (
-                                    <span className="text-zinc-500 font-mono text-[11px]">N/A</span>
+                                    <span className="text-[var(--muted-foreground)] font-mono text-[11px]">N/A</span>
                                   )}
                                 </td>
                                 <td className="px-6 py-4 text-[var(--muted-foreground)] font-mono text-[11px]">{member.lastLogin}</td>
                                 <td className="px-6 py-4">
-                                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                     {member.status}
                                   </span>
                                 </td>
@@ -13153,21 +13153,21 @@ WITH (m = 16, ef_construction = 64);`}</code>
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent animate-laser-sweep pointer-events-none" />
 
             {/* Header del Onboarding */}
-            <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-zinc-950 via-zinc-900 to-black flex items-center justify-between shrink-0">
+            <div className="p-6 border-b border-[var(--border)] bg-[var(--card)] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3.5">
                 <div className="w-11 h-11 rounded-2xl bg-[var(--primary)]/15 border border-[var(--primary)]/30 flex items-center justify-center text-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.3)] animate-holo-float">
                   <SparklesIcon className="w-6 h-6 animate-pulse" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="font-black text-base sm:text-lg text-white tracking-tight">
+                    <h3 className="font-black text-base sm:text-lg text-[var(--foreground)] tracking-tight">
                       Recorrido de Configuración Guiada <span className="text-[var(--primary)]">// Zero-to-One</span>
                     </h3>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] border border-[var(--primary)]/40 font-bold">
                       Paso {onboardingStep} de 5
                     </span>
                   </div>
-                  <p className="text-xs text-zinc-400">
+                  <p className="text-xs text-[var(--muted-foreground)]">
                     Sigue las indicaciones visuales para desplegar y calibrar tu flota de motores, bases de datos y conectores CMS.
                   </p>
                 </div>
@@ -13175,7 +13175,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
 
               <div className="flex items-center gap-3">
                 {/* Stepper Dots Indicator */}
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800">
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--card-subtle)] border border-[var(--border)]">
                   {[1, 2, 3, 4, 5].map((s) => (
                     <button
                       key={s}
@@ -13184,8 +13184,8 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         onboardingStep === s
                           ? 'w-7 bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]'
                           : onboardingStep > s
-                          ? 'w-2.5 bg-emerald-400'
-                          : 'w-2.5 bg-zinc-700'
+                          ? 'w-2.5 bg-emerald-500'
+                          : 'w-2.5 bg-[var(--muted)]'
                       }`}
                       title={`Ir al Paso ${s}`}
                     />
@@ -13194,7 +13194,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
 
                 <button
                   onClick={() => setIsOnboardingOpen(false)}
-                  className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                  className="p-2 rounded-xl text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors cursor-pointer"
                   title="Cerrar Asistente (Esc)"
                 >
                   <XMarkIcon className="w-5 h-5" />
@@ -13203,7 +13203,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
             </div>
 
             {/* Stepper Progress Bar */}
-            <div className="w-full bg-zinc-900 h-1 overflow-hidden">
+            <div className="w-full bg-[var(--muted)] h-1 overflow-hidden">
               <div
                 className="bg-gradient-to-r from-[var(--primary)] to-amber-400 h-full transition-all duration-500"
                 style={{ width: `${(onboardingStep / 5) * 100}%` }}
@@ -13303,12 +13303,12 @@ WITH (m = 16, ef_construction = 64);`}</code>
                   </div>
 
                   {/* Visual Simulation Strip */}
-                  <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 max-w-4xl mx-auto flex items-center justify-between text-xs font-mono text-zinc-400">
+                  <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] max-w-4xl mx-auto flex items-center justify-between text-xs font-mono text-[var(--muted-foreground)]">
                     <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                       Perfil seleccionado calibrando presets de IA...
                     </span>
-                    <span className="text-zinc-200 font-bold uppercase">{onboardingScenario.replace('_', ' ')}</span>
+                    <span className="text-[var(--foreground)] font-bold uppercase">{onboardingScenario.replace('_', ' ')}</span>
                   </div>
                 </div>
               )}
@@ -13317,7 +13317,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
               {onboardingStep === 2 && (
                 <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
                   <div className="text-center space-y-2">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 font-bold">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-600 dark:text-cyan-400 font-bold">
                       02. Identidad Web &amp; Red Anycast
                     </span>
                     <h2 className="text-2xl font-black text-[var(--foreground)]">Vincular Dominio y Configurar Enrutamiento DNS</h2>
@@ -13358,8 +13358,8 @@ WITH (m = 16, ef_construction = 64);`}</code>
                         />
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 space-y-1">
-                        <span className="font-bold flex items-center gap-1.5 text-blue-400">
+                      <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-600 dark:text-blue-300 space-y-1">
+                        <span className="font-bold flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
                           <GlobeAltIcon className="w-4 h-4" /> Certificado SSL/TLS Automático
                         </span>
                         <p className="text-[11px] leading-relaxed">
@@ -13369,44 +13369,44 @@ WITH (m = 16, ef_construction = 64);`}</code>
                     </div>
 
                     {/* Esquema Visual de Registros DNS a Configurar */}
-                    <div className="p-6 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-4 font-mono text-xs">
-                      <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                        <span className="text-zinc-400 uppercase font-bold text-[10px] flex items-center gap-2">
-                          <ServerStackIcon className="w-4 h-4 text-cyan-400" /> Registros DNS Requeridos
+                    <div className="p-6 rounded-2xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-4 font-mono text-xs">
+                      <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+                        <span className="text-[var(--foreground)] uppercase font-bold text-[10px] flex items-center gap-2">
+                          <ServerStackIcon className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> Registros DNS Requeridos
                         </span>
-                        <span className="text-[9px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded font-bold">
+                        <span className="text-[9px] bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded font-bold">
                           84 POPs ANYCAST
                         </span>
                       </div>
 
                       <div className="space-y-2.5">
-                        <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                        <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] flex items-center justify-between">
                           <div>
-                            <span className="text-[10px] font-bold text-blue-400 block">REGISTRO A (APEX)</span>
-                            <span className="text-zinc-200">@ → 76.76.21.21</span>
+                            <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 block">REGISTRO A (APEX)</span>
+                            <span className="text-[var(--foreground)]">@ → 76.76.21.21</span>
                           </div>
-                          <span className="text-[10px] text-emerald-400 font-bold">Vercel Edge</span>
+                          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">Vercel Edge</span>
                         </div>
 
-                        <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                        <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] flex items-center justify-between">
                           <div>
-                            <span className="text-[10px] font-bold text-purple-400 block">CNAME (SUBDOMINIOS)</span>
-                            <span className="text-zinc-200">cname → cname.vercel-dns.com</span>
+                            <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 block">CNAME (SUBDOMINIOS)</span>
+                            <span className="text-[var(--foreground)]">cname → cname.vercel-dns.com</span>
                           </div>
-                          <span className="text-[10px] text-emerald-400 font-bold">Global CDN</span>
+                          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">Global CDN</span>
                         </div>
 
-                        <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                        <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] flex items-center justify-between">
                           <div>
-                            <span className="text-[10px] font-bold text-amber-400 block">TXT (VERIFICACIÓN)</span>
-                            <span className="text-zinc-200">_buildations-challenge=live-ok</span>
+                            <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 block">TXT (VERIFICACIÓN)</span>
+                            <span className="text-[var(--foreground)]">_buildations-challenge=live-ok</span>
                           </div>
-                          <span className="text-[10px] text-emerald-400 font-bold">SHA-256</span>
+                          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">SHA-256</span>
                         </div>
                       </div>
 
                       <div className="pt-2 text-center">
-                        <span className="text-[10px] text-zinc-500">
+                        <span className="text-[10px] text-[var(--muted-foreground)]">
                           Al continuar, el sistema generará estos registros automáticamente en la Bóveda de DNS.
                         </span>
                       </div>
@@ -13683,17 +13683,17 @@ WITH (m = 16, ef_construction = 64);`}</code>
                   </div>
 
                   {/* DIAGRAMA ANIMADO DE TUBERÍA DE 64 BITS */}
-                  <div className="p-6 rounded-2xl bg-zinc-950 border-2 border-[var(--primary)]/50 relative overflow-hidden space-y-6 shadow-2xl">
+                  <div className="p-6 rounded-2xl bg-[var(--card)] border-2 border-[var(--primary)]/50 relative overflow-hidden space-y-6 shadow-lg">
                     <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--primary)]/10 rounded-full blur-3xl pointer-events-none" />
 
-                    <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                    <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
                       <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                        <span className="font-mono text-xs font-bold text-white uppercase tracking-wider">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                        <span className="font-mono text-xs font-bold text-[var(--foreground)] uppercase tracking-wider">
                           Pipeline Topológico Activo: {onboardingFormData.siteDomain.replace(/^https?:\/\//, '')}
                         </span>
                       </div>
-                      <span className="font-mono text-[10px] text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">
+                      <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">
                         ESTADO: LISTO PARA LANZAMIENTO
                       </span>
                     </div>
@@ -13701,63 +13701,63 @@ WITH (m = 16, ef_construction = 64);`}</code>
                     {/* Flujo Gráfico en 4 Nodos con Cables Animados */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
                       {/* Nodo 1 */}
-                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
-                        <div className="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-400 mx-auto flex items-center justify-center font-bold text-xs">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-500 dark:text-orange-400 mx-auto flex items-center justify-center font-bold text-xs">
                           1
                         </div>
-                        <span className="font-bold text-xs text-white block">Rastreo &amp; SERP</span>
-                        <p className="text-[10px] text-zinc-400 font-mono">Llama 3.1 + GSC Telemetry</p>
-                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ Calibrado</span>
+                        <span className="font-bold text-xs text-[var(--foreground)] block">Rastreo &amp; SERP</span>
+                        <p className="text-[10px] text-[var(--muted-foreground)] font-mono">Llama 3.1 + GSC Telemetry</p>
+                        <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">✓ Calibrado</span>
                       </div>
 
                       {/* Nodo 2 */}
-                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2 text-center relative group">
                         <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/20 text-[var(--primary)] mx-auto flex items-center justify-center font-bold text-xs">
                           2
                         </div>
-                        <span className="font-bold text-xs text-white block">Inferencia &amp; AEO</span>
-                        <p className="text-[10px] text-zinc-400 font-mono">{onboardingFormData.engineModel.split('+')[0]}</p>
-                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ 1536d Vectors</span>
+                        <span className="font-bold text-xs text-[var(--foreground)] block">Inferencia &amp; AEO</span>
+                        <p className="text-[10px] text-[var(--muted-foreground)] font-mono">{onboardingFormData.engineModel.split('+')[0]}</p>
+                        <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">✓ 1536d Vectors</span>
                       </div>
 
                       {/* Nodo 3 */}
-                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
-                        <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center font-bold text-xs">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 mx-auto flex items-center justify-center font-bold text-xs">
                           3
                         </div>
-                        <span className="font-bold text-xs text-white block">Despacho CMS</span>
-                        <p className="text-[10px] text-zinc-400 font-mono">{onboardingFormData.cmsTarget.split('(')[0]}</p>
-                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ REST API OK</span>
+                        <span className="font-bold text-xs text-[var(--foreground)] block">Despacho CMS</span>
+                        <p className="text-[10px] text-[var(--muted-foreground)] font-mono">{onboardingFormData.cmsTarget.split('(')[0]}</p>
+                        <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">✓ REST API OK</span>
                       </div>
 
                       {/* Nodo 4 */}
-                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center font-bold text-xs">
+                      <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center font-bold text-xs">
                           4
                         </div>
-                        <span className="font-bold text-xs text-white block">RevOps &amp; Atribución</span>
-                        <p className="text-[10px] text-zinc-400 font-mono">HubSpot CRM SLA 5m</p>
-                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ Pipeline Live</span>
+                        <span className="font-bold text-xs text-[var(--foreground)] block">RevOps &amp; Atribución</span>
+                        <p className="text-[10px] text-[var(--muted-foreground)] font-mono">HubSpot CRM SLA 5m</p>
+                        <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">✓ Pipeline Live</span>
                       </div>
                     </div>
 
                     {/* Resumen de Ajustes Seleccionados */}
-                    <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+                    <div className="p-4 rounded-xl bg-[var(--card-subtle)] border border-[var(--border)] grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
                       <div>
-                        <span className="text-[10px] text-zinc-500 block uppercase">Dominio Base:</span>
-                        <span className="text-white font-bold truncate block">{onboardingFormData.siteDomain}</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)] block uppercase">Dominio Base:</span>
+                        <span className="text-[var(--foreground)] font-bold truncate block">{onboardingFormData.siteDomain}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] text-zinc-500 block uppercase">Escenario:</span>
-                        <span className="text-orange-400 font-bold capitalize block">{onboardingScenario.replace('_', ' ')}</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)] block uppercase">Escenario:</span>
+                        <span className="text-orange-500 dark:text-orange-400 font-bold capitalize block">{onboardingScenario.replace('_', ' ')}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] text-zinc-500 block uppercase">Base de Datos:</span>
-                        <span className="text-emerald-400 font-bold truncate block">{onboardingFormData.databaseBinding.split('(')[0]}</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)] block uppercase">Base de Datos:</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold truncate block">{onboardingFormData.databaseBinding.split('(')[0]}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] text-zinc-500 block uppercase">Disponibilidad SLA:</span>
-                        <span className="text-cyan-400 font-bold block">99.98% Dedicado</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)] block uppercase">Disponibilidad SLA:</span>
+                        <span className="text-cyan-600 dark:text-cyan-400 font-bold block">99.98% Dedicado</span>
                       </div>
                     </div>
                   </div>
@@ -13767,14 +13767,14 @@ WITH (m = 16, ef_construction = 64);`}</code>
             </div>
 
             {/* Footer con Navegación Anterior / Siguiente / Finalizar */}
-            <div className="p-5 border-t border-[var(--border)] bg-gradient-to-r from-zinc-950 via-zinc-900 to-black flex items-center justify-between shrink-0">
+            <div className="p-5 border-t border-[var(--border)] bg-[var(--card)] flex items-center justify-between shrink-0">
               <button
                 onClick={() => setOnboardingStep(Math.max(1, onboardingStep - 1))}
                 disabled={onboardingStep === 1}
                 className={`px-5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                   onboardingStep === 1
-                    ? 'border-zinc-800 text-zinc-600 cursor-not-allowed'
-                    : 'border-zinc-700 text-zinc-300 hover:bg-zinc-800'
+                    ? 'border-[var(--border)] text-[var(--muted-foreground)]/40 cursor-not-allowed'
+                    : 'border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--card-subtle)]'
                 }`}
               >
                 ← Paso Anterior
@@ -13783,7 +13783,7 @@ WITH (m = 16, ef_construction = 64);`}</code>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setIsOnboardingOpen(false)}
-                  className="text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer px-3 py-2"
+                  className="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors cursor-pointer px-3 py-2"
                 >
                   Configurar más tarde
                 </button>
