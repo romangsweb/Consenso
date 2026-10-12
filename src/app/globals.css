@@ -224,3 +224,16 @@ body {
   border-right: 2px solid var(--primary);
 }
 
+@keyframes toastProgress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-toast-bar {
+  animation: toastProgress 4.5s linear forwards;
+}
+

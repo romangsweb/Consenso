@@ -58,6 +58,85 @@ export default function DashboardMockup() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Sistema de Notificaciones Toasts y Alertas Diseñadas de BUILDATIONS STUDIO
+  const [toasts, setToasts] = useState<Array<{
+    id: string;
+    title: string;
+    message: string;
+    type: 'success' | 'info' | 'warning' | 'error';
+    timestamp: string;
+    action?: { label: string; onClick: () => void };
+  }>>([
+    {
+      id: 'toast-init',
+      title: 'Sistema de Notificaciones Activo',
+      message: 'Alertas visuales de alta precisión sin popups genéricos del navegador.',
+      type: 'info',
+      timestamp: 'Ahora'
+    }
+  ]);
+
+  const showToast = (
+    title: string, 
+    message: string, 
+    type: 'success' | 'info' | 'warning' | 'error' = 'info',
+    action?: { label: string; onClick: () => void }
+  ) => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const newToast = {
+      id,
+      title,
+      message,
+      type,
+      timestamp: 'Justo ahora',
+      action
+    };
+    setToasts(prev => [newToast, ...prev].slice(0, 4));
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 4500);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  // Diálogo Modal Custom para Entrada de Usuario (sustituye prompt del navegador)
+  const [promptDialog, setPromptDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    description: string;
+    defaultValue: string;
+    placeholder: string;
+    onSubmit: (value: string) => void;
+  }>({
+    isOpen: false,
+    title: '',
+    description: '',
+    defaultValue: '',
+    placeholder: '',
+    onSubmit: () => {}
+  });
+  const [promptInputValue, setPromptInputValue] = useState('');
+
+  const showPrompt = (
+    title: string,
+    description: string,
+    defaultValue: string,
+    placeholder: string,
+    onSubmit: (value: string) => void
+  ) => {
+    setPromptInputValue(defaultValue);
+    setPromptDialog({
+      isOpen: true,
+      title,
+      description,
+      defaultValue,
+      placeholder,
+      onSubmit
+    });
+  };
+
   // Nuevas capacidades UX/UI de alto impacto
   const [engineViewMode, setEngineViewMode] = useState<'form' | 'flowCanvas'>('flowCanvas');
   const [selectedFlowStep, setSelectedFlowStep] = useState<string | null>('synthesizer');
@@ -601,8 +680,17 @@ export default function DashboardMockup() {
                   <div className="border-t border-[var(--border)] mt-1 pt-1">
                     <button 
                       onClick={() => {
-                        alert('Formulario para conectar nuevo dominio o CMS.');
                         setIsWorkspaceDropdownOpen(false);
+                        showPrompt(
+                          'Vincular Nuevo Sitio Web',
+                          'Introduce la URL raíz del nuevo proyecto o dominio (ej. https://empresa.com):',
+                          'https://',
+                          'https://tu-dominio.com',
+                          (newDomain) => {
+                            setCurrentWorkspace(newDomain.replace(/^https?:\/\//, ''));
+                            showToast('Sitio Vinculado', `Workspace actualizado a ${newDomain}`, 'success');
+                          }
+                        );
                       }}
                       className="w-full text-left px-3 py-1.5 rounded-lg text-xs text-[var(--primary)] font-bold hover:bg-[var(--muted)] transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
@@ -820,7 +908,7 @@ export default function DashboardMockup() {
 
                   <div className="flex items-center gap-2">
                     <button 
-                      onClick={() => alert('Generando informe ejecutivo PDF formal para el cliente con sellos y métricas...')}
+                      onClick={() => showToast('Generando Informe C-Level', 'Compilando informe ejecutivo formal con sellos de autoridad y atribución RevOps en PDF...', 'success')}
                       className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_12px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-1.5"
                     >
                       <DocumentTextIcon className="w-4 h-4" /> Exportar Informe PDF (C-Level)
@@ -1063,7 +1151,7 @@ export default function DashboardMockup() {
                           frequency: '3_per_week',
                           status: 'configured'
                         });
-                        alert('Plantilla SaaS Enterprise precargada con los parámetros óptimos de RevOps y AEO.');
+                        showToast('Plantilla SaaS Precargada', 'Parámetros optimizados para RevOps B2B y citabilidad AEO en Claude 3.5 Sonnet.', 'success');
                       }}
                       className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
                     >
@@ -2110,7 +2198,7 @@ export default function DashboardMockup() {
                         </div>
                         <div className="flex items-center gap-2">
                           <button 
-                            onClick={() => alert('Simulando ejecución manual de prueba del pipeline completo...')}
+                            onClick={() => showToast('Ciclo de Prueba Forzado', 'Ejecutando pipeline completo en modo sandbox: Ingesta -> RAG -> AEO -> Webhook', 'info')}
                             className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                           >
                             <PlayIcon className="w-3.5 h-3.5" /> Forzar Ciclo de Prueba
@@ -3186,8 +3274,8 @@ export default function DashboardMockup() {
                                 className="flex-1 bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
                               />
                               <button 
-                                onClick={() => alert('API Key copiada.')}
-                                className="bg-[var(--card)] border border-[var(--border)] px-3 py-2 rounded-lg text-xs hover:bg-[var(--muted)] transition-colors"
+                                onClick={() => showToast('API Key Copiada', 'Token de Payload CMS copiado al portapapeles con éxito.', 'success')}
+                                className="bg-[var(--card)] border border-[var(--border)] px-3 py-2 rounded-lg text-xs hover:bg-[var(--muted)] transition-colors cursor-pointer"
                               >
                                 Copiar
                               </button>
@@ -3309,7 +3397,7 @@ export default function DashboardMockup() {
                             Cada vez que el motor AEO apruebe un artículo o cumpla su ciclo semanal, se creará un nuevo borrador en Payload instantáneamente.
                           </p>
                           <button 
-                            onClick={() => alert('Simulando despacho de prueba a Payload CMS en /api/posts...')}
+                            onClick={() => showToast('Despacho a Payload CMS', 'Borrador de prueba enviado exitosamente a /api/posts con 200 OK.', 'success')}
                             className="w-full bg-[var(--primary)] text-white py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm"
                           >
                             Disparar Artículo de Prueba a Payload
@@ -3406,7 +3494,7 @@ export default function DashboardMockup() {
                                 </p>
                               </div>
                               <button 
-                                onClick={() => alert('Descargando buildations-studio-connector-v1.2.zip...')}
+                                onClick={() => showToast('Descargando Conector', 'Preparando archivo buildations-studio-connector-v1.2.zip (38 KB)...', 'info')}
                                 className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.4)] cursor-pointer flex items-center gap-2"
                               >
                                 <ArrowDownTrayIcon className="w-4 h-4" /> Descargar buildations-connector.zip
@@ -3429,7 +3517,7 @@ export default function DashboardMockup() {
                                 bld_wp_pair_8a9df7a6sd5f89as6df8_soyroman
                               </span>
                               <button 
-                                onClick={() => alert('Token copiado al portapapeles.')}
+                                onClick={() => showToast('Token Copiado', 'Clave secreta de emparejamiento copiada al portapapeles.', 'success')}
                                 className="bg-[var(--card)] border border-[var(--border)] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[var(--muted)] transition-colors cursor-pointer"
                               >
                                 Copiar Clave
@@ -3491,7 +3579,7 @@ export default function DashboardMockup() {
                             </div>
 
                             <button 
-                              onClick={() => alert('Simulando envío de borrador vía Plugin a WordPress...')}
+                              onClick={() => showToast('Post Enviado a WordPress', 'Artículo de prueba recibido como borrador en el plugin oficial con 200 OK.', 'success')}
                               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-xs font-bold transition-all cursor-pointer shadow-sm"
                             >
                               Enviar Post de Prueba a WordPress
@@ -3652,7 +3740,7 @@ export default function DashboardMockup() {
                         setIsEnrichingActive(true);
                         setTimeout(() => {
                           setIsEnrichingActive(false);
-                          alert('¡Enriquecimiento y Limpieza completados! 5 registros procesados con 98.2% de Calidad Enterprise.');
+                          showToast('Enriquecimiento & Limpieza', '5 registros procesados con 98.2% de Calidad Enterprise según mejores prácticas de HubSpot.', 'success');
                         }, 1400);
                       }}
                       disabled={isEnrichingActive}
@@ -3662,7 +3750,7 @@ export default function DashboardMockup() {
                       {isEnrichingActive ? 'Rastreando & Limpiando...' : 'Ejecutar Enriquecimiento & Limpieza'}
                     </button>
                     <button 
-                      onClick={() => alert('Exportando base depurada en formato CSV listo para importar en HubSpot CRM...')}
+                      onClick={() => showToast('Exportación CSV', 'Descargando base de datos depurada compatible con HubSpot Contacts & Companies.', 'success')}
                       className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2.5 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
                     >
                       <ArrowDownTrayIcon className="w-4 h-4" /> Exportar CSV para HubSpot
@@ -3901,7 +3989,7 @@ export default function DashboardMockup() {
                       </span>
                       <div className="flex items-center gap-3">
                         <button 
-                          onClick={() => alert('Sincronizando 5 leads a HubSpot CRM... Contactos y Empresas vinculadas exitosamente.')}
+                          onClick={() => showToast('Sincronización HubSpot CRM', '5 contactos y empresas vinculadas a Deals de Ventas en Hub ID #982104.', 'success')}
                           className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all shadow-md cursor-pointer flex items-center gap-1.5"
                         >
                           <ArrowPathIcon className="w-3.5 h-3.5" /> Sincronizar Directo a HubSpot (Hub ID #982104)
@@ -4675,13 +4763,13 @@ export default function DashboardMockup() {
 
                   <div className="flex items-center gap-2.5">
                     <button 
-                      onClick={() => alert('Exportando matriz de datasets vectorizados en formato .JSONL para Pinecone / Qdrant...')}
+                      onClick={() => showToast('Exportación Vectorial .JSONL', 'Matriz de embeddings compilada lista para ingestion en Pinecone / Qdrant.', 'success')}
                       className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
                     >
                       Exportar .JSONL Vectorial
                     </button>
                     <button 
-                      onClick={() => alert('Sincronizando embeddings con base de datos vectorial (Pinecone index: buildations-rag)... 81 vectores actualizados.')}
+                      onClick={() => showToast('Sincronización Vectorial', 'Índice Pinecone "buildations-rag" actualizado con 81 vectores (1,536 dims).', 'success')}
                       className="bg-[var(--primary)] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer"
                     >
                       + Sincronizar Embeddings
@@ -4881,10 +4969,15 @@ export default function DashboardMockup() {
                   <div className="flex items-center gap-2.5">
                     <button 
                       onClick={() => {
-                        const domain = prompt('Introduce el dominio para rastreo y auditoría de URLs:', 'https://buildations.studio');
-                        if (domain) {
-                          alert(`Escaneo profundo iniciado para ${domain}. Analizando 42 URLs y grafos de enlazado interno...`);
-                        }
+                        showPrompt(
+                          'Escanear Dominio & Jerarquía de URLs',
+                          'Introduce la URL del sitio web o sitemap.xml para analizar la estructura de silos:',
+                          'https://buildations.studio',
+                          'https://dominio.com',
+                          (domain) => {
+                            showToast('Escaneo Profundo Iniciado', `Analizando arquitectura de ${domain} y grafos de enlazado interno...`, 'info');
+                          }
+                        );
                       }}
                       className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
                     >
@@ -4974,19 +5067,25 @@ export default function DashboardMockup() {
 
                   <button 
                     onClick={() => {
-                      const newSiloTitle = prompt('Nombre del nuevo Pilar de Contenido:');
-                      const newSiloSlug = prompt('Slug raíz del pilar (ej: /growth-marketing):');
-                      if (newSiloTitle && newSiloSlug) {
-                        const newSilo = {
-                          id: `silo-${Date.now()}`,
-                          pillarTitle: newSiloTitle,
-                          slug: newSiloSlug.startsWith('/') ? newSiloSlug : `/${newSiloSlug}`,
-                          authorityScore: 70,
-                          recommendation: 'Nuevo Silo creado manualmente. Añade satélites para construir densidad semántica.',
-                          satellites: []
-                        };
-                        setSitemapSilos([...sitemapSilos, newSilo]);
-                      }
+                      showPrompt(
+                        'Crear Nuevo Silo Pilar',
+                        'Introduce el nombre del pilar temático principal (ej. Growth Hacking & Retención):',
+                        'Arquitectura RevOps B2B',
+                        'Nombre del Pilar',
+                        (newSiloTitle) => {
+                          const baseSlug = '/' + newSiloTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                          const newSilo = {
+                            id: `silo-${Date.now()}`,
+                            pillarTitle: newSiloTitle,
+                            slug: baseSlug,
+                            authorityScore: 75,
+                            recommendation: 'Nuevo Silo creado. Añade satélites para construir densidad semántica.',
+                            satellites: []
+                          };
+                          setSitemapSilos([...sitemapSilos, newSilo]);
+                          showToast('Silo Pilar Creado', `Se configuró el silo ${newSiloTitle} (${baseSlug})`, 'success');
+                        }
+                      );
                     }}
                     className="px-3.5 py-1.5 rounded-lg bg-[var(--foreground)] text-[var(--background)] text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer flex items-center gap-1.5"
                   >
@@ -5050,20 +5149,25 @@ export default function DashboardMockup() {
                               </div>
                               <button 
                                 onClick={() => {
-                                  const title = prompt('Título del nuevo artículo o landing satélite:');
-                                  const slugPart = prompt('Sub-slug (ej: integraciones-clave):');
-                                  if (title && slugPart) {
-                                    const cleanSlug = slugPart.startsWith('/') ? slugPart : `/${slugPart}`;
-                                    const updated = [...sitemapSilos];
-                                    updated[siloIdx].satellites.push({
-                                      id: `sat-${Date.now()}`,
-                                      title,
-                                      slug: `${silo.slug}${cleanSlug}`,
-                                      status: 'draft',
-                                      priority: 'Media'
-                                    });
-                                    setSitemapSilos(updated);
-                                  }
+                                  showPrompt(
+                                    `Añadir Satélite a ${silo.pillarTitle}`,
+                                    'Introduce el título del nuevo contenido satélite para enlazado interno:',
+                                    'Mejores Prácticas de Integración',
+                                    'Título del artículo satélite',
+                                    (title) => {
+                                      const subSlug = '/' + title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                                      const updated = [...sitemapSilos];
+                                      updated[siloIdx].satellites.push({
+                                        id: `sat-${Date.now()}`,
+                                        title,
+                                        slug: `${silo.slug}${subSlug}`,
+                                        status: 'draft',
+                                        priority: 'Media'
+                                      });
+                                      setSitemapSilos(updated);
+                                      showToast('Satélite Añadido', `Página "${title}" vinculada al pilar ${silo.pillarTitle}`, 'success');
+                                    }
+                                  );
                                 }}
                                 className="px-3 py-1.5 rounded-lg bg-[var(--muted)] hover:bg-[var(--primary)] hover:text-white text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5"
                               >
@@ -5081,7 +5185,7 @@ export default function DashboardMockup() {
                             </div>
                             <button 
                               onClick={() => {
-                                alert(`Simulación de arquitectura ejecutada. Se generaron 3 recomendaciones para optimizar el clúster ${silo.pillarTitle}.`);
+                                showToast('Sugerencia Aplicada', `Se recalibraron los enlaces internos del clúster ${silo.pillarTitle} con éxito.`, 'success');
                               }}
                               className="text-[11px] font-semibold text-[var(--status-ready)] hover:underline cursor-pointer shrink-0"
                             >
@@ -5394,7 +5498,7 @@ export default function DashboardMockup() {
 
                 <button 
                   onClick={() => {
-                    alert('¡Artículo aprobado y publicado con éxito vía Webhook en WordPress/Next.js!');
+                    showToast('Artículo Aprobado', 'Borrador despachado con éxito vía Webhook al CMS con Schema JSON-LD inyectado.', 'success');
                     setIsCanvasModalOpen(false);
                   }}
                   className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_12px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-1.5"
@@ -5624,7 +5728,10 @@ export default function DashboardMockup() {
               <p className="px-3 py-1.5 text-[10px] font-bold uppercase text-[var(--muted-foreground)] tracking-wider">Acciones Rápidas</p>
               
               {[
+                { name: "Constructor Gráfico de Motores", tab: "engineBuilder", icon: "⚙️", desc: "Formulario por pasos & arquitectura de operación topológica" },
                 { name: "Ir al Lanzador & Configurador SEO/AEO", tab: "engineLauncher", icon: "🚀", desc: "Configura el agente generativo para tu web" },
+                { name: "Reconstructor de Sitemaps (Silos)", tab: "sitemapReconstructor", icon: "🗺️", desc: "Edición de slugs, satélites y canibalizaciones" },
+                { name: "Datasets de Keywords & RAG Vectorial", tab: "rag", icon: "🧠", desc: "Listas temáticas de 1,536 dimensiones" },
                 { name: "Ver Motor RevOps & Conexión HubSpot", tab: "revopsHubspot", icon: "🔄", desc: "Atribución de ingresos y deals cerrados" },
                 { name: "Conectar CMS (Payload & WordPress)", tab: "cmsConnectors", icon: "🔌", desc: "Configura REST API o Plugin para despacho de artículos" },
                 { name: "Consultar AEO / GEO Share of Voice", tab: "aiShareOfVoice", icon: "✨", desc: "Monitorea citaciones en ChatGPT y Perplexity" },
@@ -5639,10 +5746,22 @@ export default function DashboardMockup() {
                   <button 
                     key={i}
                     onClick={() => {
-                      if (item.tab) setActiveTab(item.tab);
-                      if (item.action === 'canvas') setIsCanvasModalOpen(true);
-                      if (item.action === 'terminal') setIsTerminalOpen(true);
-                      if (item.action === 'theme') toggleTheme();
+                      if (item.tab) {
+                        setActiveTab(item.tab);
+                        showToast(item.name, item.desc, 'info');
+                      }
+                      if (item.action === 'canvas') {
+                        setIsCanvasModalOpen(true);
+                        showToast('Editor Canvas', 'Abriendo lienzo editorial para previsualizar artículos', 'info');
+                      }
+                      if (item.action === 'terminal') {
+                        setIsTerminalOpen(true);
+                        showToast('Consola Kernel', 'Monitoreando telemetría de agentes autónomos', 'info');
+                      }
+                      if (item.action === 'theme') {
+                        toggleTheme();
+                        showToast('Tema Actualizado', theme === 'dark' ? 'Modo Día Activado' : 'Modo Noche Activado', 'success');
+                      }
                       setIsCommandPaletteOpen(false);
                       setSearchQuery('');
                     }}
@@ -5735,13 +5854,13 @@ export default function DashboardMockup() {
               {/* Controles de Agente */}
               <div className="pt-4 border-t border-[var(--border)] space-y-2">
                 <button 
-                  onClick={() => alert(`Se envió instrucción prioritaria al Agente ${selectedAgent}`)}
+                  onClick={() => showToast('Instrucción Enviada', `Se envió tarea prioritaria al Agente ${selectedAgent?.toUpperCase()} en el Kernel.`, 'info')}
                   className="w-full bg-[var(--primary)] text-white py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm"
                 >
                   Asignar Tarea Prioritaria a este Agente
                 </button>
                 <button 
-                  onClick={() => alert(`Agente ${selectedAgent} pausado temporalmente.`)}
+                  onClick={() => showToast('Agente Pausado', `El Agente ${selectedAgent?.toUpperCase()} ha sido suspendido temporalmente.`, 'warning')}
                   className="w-full bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] py-2 rounded-lg text-xs font-semibold cursor-pointer"
                 >
                   Pausar Agente Temporalmente
@@ -5835,7 +5954,7 @@ export default function DashboardMockup() {
 
         <button 
           onClick={() => {
-            alert('¡Ciclo forzado disparado! El motor autónomo está analizando nuevas oportunidades...');
+            showToast('Ciclo Autónomo Disparado', 'El motor está rastreando oportunidades en tiempo real...', 'info');
             setIsTerminalOpen(true);
           }}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-[0_0_12px_rgba(255,90,0,0.4)]"
@@ -5845,6 +5964,143 @@ export default function DashboardMockup() {
           <span>Disparar Motor</span>
         </button>
       </div>
+
+      {/* SISTEMA DE NOTIFICACIONES TOASTS FLOTANTES (ESTÉTICA GLASS INDUSTRIAL) */}
+      <div className="fixed top-20 right-6 z-50 flex flex-col gap-3 max-w-sm sm:max-w-md w-full pointer-events-none">
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className={`pointer-events-auto p-4 rounded-2xl backdrop-blur-2xl border shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 flex items-start gap-3.5 relative overflow-hidden ${
+              toast.type === 'success'
+                ? 'bg-[var(--card)]/95 border-emerald-500/40 shadow-[0_8px_30px_rgba(16,185,129,0.12)]'
+                : toast.type === 'warning'
+                ? 'bg-[var(--card)]/95 border-amber-500/40 shadow-[0_8px_30px_rgba(245,158,11,0.12)]'
+                : toast.type === 'error'
+                ? 'bg-[var(--card)]/95 border-rose-500/40 shadow-[0_8px_30px_rgba(244,63,94,0.12)]'
+                : 'bg-[var(--card)]/95 border-[var(--primary)]/40 shadow-[0_8px_30px_rgba(255,90,0,0.15)]'
+            }`}
+          >
+            {/* Indicador de Semáforo / Tipo */}
+            <div className="shrink-0 mt-0.5">
+              {toast.type === 'success' && (
+                <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                  ✓
+                </div>
+              )}
+              {toast.type === 'warning' && (
+                <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
+                  !
+                </div>
+              )}
+              {toast.type === 'error' && (
+                <div className="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs">
+                  ✕
+                </div>
+              )}
+              {toast.type === 'info' && (
+                <div className="w-7 h-7 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center font-bold text-xs">
+                  ⚡
+                </div>
+              )}
+            </div>
+
+            {/* Contenido de la Notificación */}
+            <div className="flex-1 min-w-0 pr-4">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <h5 className="font-bold text-xs text-[var(--foreground)] truncate">{toast.title}</h5>
+                <span className="text-[10px] font-mono text-[var(--muted-foreground)] shrink-0">{toast.timestamp}</span>
+              </div>
+              <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">{toast.message}</p>
+              
+              {/* Botón de Acción Opcional */}
+              {toast.action && (
+                <button
+                  onClick={toast.action.onClick}
+                  className="mt-2 text-[10px] font-bold text-[var(--primary)] hover:underline cursor-pointer block"
+                >
+                  {toast.action.label} →
+                </button>
+              )}
+            </div>
+
+            {/* Botón Cerrar */}
+            <button
+              onClick={() => removeToast(toast.id)}
+              className="text-zinc-400 hover:text-[var(--foreground)] text-xs p-1 rounded transition-colors cursor-pointer shrink-0"
+              title="Cerrar notificación"
+            >
+              ✕
+            </button>
+
+            {/* Barra de progreso inferior de auto-dismiss */}
+            <div 
+              className={`absolute bottom-0 left-0 h-0.5 w-full animate-toast-bar ${
+                toast.type === 'success' ? 'bg-emerald-400' : toast.type === 'warning' ? 'bg-amber-400' : toast.type === 'error' ? 'bg-rose-400' : 'bg-[var(--primary)]'
+              }`}
+            ></div>
+          </div>
+        ))}
+      </div>
+
+      {/* DIÁLOGO MODAL CUSTOM PARA PROMPT / ENTRADA DE DATOS */}
+      {promptDialog.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="w-full max-w-md bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
+                <h4 className="font-bold text-sm text-[var(--foreground)]">{promptDialog.title}</h4>
+              </div>
+              <button 
+                onClick={() => setPromptDialog({ ...promptDialog, isOpen: false })}
+                className="text-zinc-400 hover:text-[var(--foreground)] text-xs cursor-pointer font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+              {promptDialog.description}
+            </p>
+
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (promptInputValue.trim()) {
+                  promptDialog.onSubmit(promptInputValue.trim());
+                  setPromptDialog({ ...promptDialog, isOpen: false });
+                }
+              }}
+              className="space-y-4"
+            >
+              <input 
+                type="text" 
+                value={promptInputValue}
+                onChange={(e) => setPromptInputValue(e.target.value)}
+                placeholder={promptDialog.placeholder}
+                autoFocus
+                className="w-full px-4 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono focus:outline-none focus:border-[var(--primary)] shadow-inner"
+              />
+
+              <div className="flex justify-end gap-2.5 pt-2">
+                <button 
+                  type="button"
+                  onClick={() => setPromptDialog({ ...promptDialog, isOpen: false })}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit"
+                  className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer"
+                >
+                  Confirmar Acción
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   );
