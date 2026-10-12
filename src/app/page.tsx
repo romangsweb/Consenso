@@ -37,12 +37,31 @@ export default function DashboardMockup() {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isCanvasModalOpen, setIsCanvasModalOpen] = useState(false);
   const [selectedArticleTitle, setSelectedArticleTitle] = useState('Cómo alinear Marketing y Ventas en HubSpot para reducir el ciclo de cierre');
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
     if (savedTheme) {
       setTheme(savedTheme);
     }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen(prev => !prev);
+      }
+      if (e.key === 'Escape') {
+        setIsCommandPaletteOpen(false);
+        setIsCanvasModalOpen(false);
+        setIsNotificationsOpen(false);
+        setIsWorkspaceDropdownOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const toggleTheme = () => {
@@ -253,14 +272,16 @@ export default function DashboardMockup() {
           </div>
           
           <div className="flex items-center space-x-3">
-            <div className="relative hidden md:block">
-              <MagnifyingGlassIcon className="w-4 h-4 text-[var(--muted-foreground)] absolute left-3 top-1/2 -translate-y-1/2" />
-              <input 
-                type="text" 
-                placeholder="Ctrl + K para buscar..." 
-                className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-full pl-9 pr-4 py-1.5 text-xs focus:outline-none focus:border-[var(--primary)] transition-colors w-52 sm:w-64"
-              />
-            </div>
+            <button 
+              onClick={() => setIsCommandPaletteOpen(true)}
+              className="hidden md:flex items-center justify-between bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-full pl-3 pr-2 py-1.5 text-xs transition-all w-52 sm:w-64 cursor-pointer shadow-sm group"
+            >
+              <div className="flex items-center gap-2">
+                <MagnifyingGlassIcon className="w-3.5 h-3.5 text-[var(--muted-foreground)] group-hover:text-[var(--primary)]" />
+                <span>Buscar acción o silo...</span>
+              </div>
+              <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--muted-foreground)]">⌘K</kbd>
+            </button>
 
             {/* Live Terminal Agent Button */}
             <button
@@ -292,10 +313,71 @@ export default function DashboardMockup() {
               )}
             </button>
 
-            <button className="relative p-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors cursor-pointer">
-              <BellIcon className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--primary)] rounded-full border border-[var(--background)]"></span>
-            </button>
+            {/* Notification Center Trigger */}
+            <div className="relative">
+              <button 
+                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                className="relative p-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] rounded-lg transition-colors cursor-pointer"
+                title="Notificaciones y Alertas Autónomas"
+              >
+                <BellIcon className="w-5 h-5" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--primary)] rounded-full border border-[var(--background)] animate-pulse"></span>
+              </button>
+
+              {/* Notification Center Dropdown */}
+              {isNotificationsOpen && (
+                <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-2xl p-4 z-50 animate-fade-in text-xs space-y-3">
+                  <div className="flex justify-between items-center border-b border-[var(--border)] pb-2">
+                    <span className="font-bold text-sm">Centro de Alertas Autónomas</span>
+                    <span className="text-[10px] bg-[var(--primary)]/10 text-[var(--primary)] px-2 py-0.5 rounded font-bold">3 Nuevas</span>
+                  </div>
+
+                  <div className="space-y-2.5 max-h-72 overflow-y-auto">
+                    <div className="p-3 rounded-xl bg-[var(--background)] border border-emerald-500/30 space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-emerald-500 text-[11px]">Borrador IA Listo</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)]">Hace 12 min</span>
+                      </div>
+                      <p className="text-[var(--foreground)]">El motor generó el artículo: <strong>"Cómo alinear MQLs en HubSpot"</strong>.</p>
+                      <button 
+                        onClick={() => {
+                          setIsNotificationsOpen(false);
+                          setIsCanvasModalOpen(true);
+                        }}
+                        className="text-[10px] font-bold text-[var(--primary)] hover:underline pt-1 block"
+                      >
+                        Abrir en Editor Canvas →
+                      </button>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-[var(--background)] border border-amber-500/30 space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-amber-500 text-[11px]">Oportunidad de Citación IA</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)]">Hace 1 hora</span>
+                      </div>
+                      <p className="text-[var(--foreground)]">Perplexity está buscando referencias sobre <em>"auditoría revops cdmx"</em>. Te recomendamos publicar un satélite.</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-[var(--background)] border border-blue-500/30 space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-blue-400 text-[11px]">Sincronización HubSpot OK</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)]">Hace 3 horas</span>
+                      </div>
+                      <p className="text-[var(--foreground)]">Nuevo MQL registrado desde el cluster de Marketing de Contenidos.</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-[var(--border)] text-center">
+                    <button 
+                      onClick={() => setIsNotificationsOpen(false)}
+                      className="text-[11px] font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+                    >
+                      Marcar todas como leídas
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
@@ -1969,31 +2051,66 @@ export default function DashboardMockup() {
         </div>
       )}
 
-      {/* DRAWER 2: TERMINAL DE AGENTES AUTÓNOMOS EN TIEMPO REAL */}
-      {isTerminalOpen && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950 text-emerald-400 border-t-2 border-emerald-500/50 shadow-2xl animate-fade-in font-mono text-xs max-h-72 flex flex-col">
-          <div className="px-6 py-2.5 bg-slate-900 border-b border-slate-800 flex justify-between items-center text-slate-300">
-            <div className="flex items-center gap-2">
-              <CommandLineIcon className="w-4 h-4 text-emerald-400" />
-              <span className="font-bold text-xs text-white">Terminal de Ejecución de Agentes • Buildations Engine v2.4</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping ml-2"></span>
+      {/* MODAL 3: COMMAND PALETTE GLOBAL (CMD + K) */}
+      {isCommandPaletteOpen && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/75 backdrop-blur-md animate-fade-in">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden">
+            <div className="p-4 border-b border-[var(--border)] flex items-center gap-3 bg-[var(--background)]">
+              <MagnifyingGlassIcon className="w-5 h-5 text-[var(--primary)]" />
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Escribe un comando o busca una herramienta (ej. 'lanzador', 'hubspot', 'palabras')..."
+                className="flex-1 bg-transparent text-sm text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none"
+                autoFocus
+              />
+              <kbd className="bg-[var(--muted)] text-[10px] font-mono px-2 py-1 rounded border border-[var(--border)] text-[var(--muted-foreground)]">ESC</kbd>
             </div>
-            <button 
-              onClick={() => setIsTerminalOpen(false)}
-              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
-            >
-              <XMarkIcon className="w-4 h-4" />
-            </button>
-          </div>
 
-          <div className="p-4 overflow-y-auto space-y-1.5 flex-1 bg-black/90">
-            <p className="text-slate-500">[11:04:12] [SYSTEM] Buildations Engine inicializado en modo background daemon...</p>
-            <p className="text-slate-400">[11:04:18] [WORKER-AI] Conexión establecida con Cloudflare Llama 3.1 8B Instruct (Latency: 184ms)</p>
-            <p className="text-emerald-400">[11:05:02] [MONITOR] Rastreando SERP para keyword: "alinear marketing y ventas hubspot" (10 competidores analizados)</p>
-            <p className="text-emerald-400">[11:05:33] [AEO-ANALYST] Detectada oportunidad de Direct Answer: "diferencia entre MQL y SQL en HubSpot"</p>
-            <p className="text-yellow-400">[11:06:14] [WRITER-AGENT] Redactando borrador #ART-892 (Longitud generada: 2,240 palabras, 4 tablas, 3 FAQ schemas)</p>
-            <p className="text-cyan-400">[11:07:05] [HUBSPOT-LINK] Mapeando propiedades de atribución a portal #24981290... OK</p>
-            <p className="text-emerald-300 font-bold">[11:08:40] [STATUS] Borrador listo en cola de aprobación. Esperando confirmación de usuario en Live Canvas.</p>
+            <div className="p-2 max-h-80 overflow-y-auto space-y-1 text-xs">
+              <p className="px-3 py-1.5 text-[10px] font-bold uppercase text-[var(--muted-foreground)] tracking-wider">Acciones Rápidas</p>
+              
+              {[
+                { name: "Ir al Lanzador & Configurador SEO/AEO", tab: "engineLauncher", icon: "🚀", desc: "Configura el agente generativo para tu web" },
+                { name: "Ver Motor RevOps & Conexión HubSpot", tab: "revopsHubspot", icon: "🔄", desc: "Atribución de ingresos y deals cerrados" },
+                { name: "Consultar AEO / GEO Share of Voice", tab: "aiShareOfVoice", icon: "✨", desc: "Monitorea citaciones en ChatGPT y Perplexity" },
+                { name: "Abrir Editor Canvas de Artículos", action: "canvas", icon: "📝", desc: "Previsualiza y aprueba borradores antes de publicar" },
+                { name: "Abrir Terminal de Agentes Autónomos", action: "terminal", icon: "💻", desc: "Logs en vivo del motor de IA en segundo plano" },
+                { name: "Explorar Topic Clusters & Silos", tab: "clusterMap", icon: "🕸️", desc: "Diseña la arquitectura semántica del sitio" },
+                { name: "Inspeccionar SERP & AEO X-Ray", tab: "serpxray", icon: "⚡", desc: "Analiza el Top 10 de Google con Llama 3.1" },
+                { name: "Alternar Modo Día / Modo Noche", action: "theme", icon: "🌓", desc: "Cambia el tema de color del estudio" },
+              ]
+                .filter(item => !searchQuery || item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase()))
+                .map((item, i) => (
+                  <button 
+                    key={i}
+                    onClick={() => {
+                      if (item.tab) setActiveTab(item.tab);
+                      if (item.action === 'canvas') setIsCanvasModalOpen(true);
+                      if (item.action === 'terminal') setIsTerminalOpen(true);
+                      if (item.action === 'theme') toggleTheme();
+                      setIsCommandPaletteOpen(false);
+                      setSearchQuery('');
+                    }}
+                    className="w-full p-2.5 rounded-xl hover:bg-[var(--muted)] flex items-center justify-between transition-colors text-left group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-base">{item.icon}</span>
+                      <div>
+                        <p className="font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">{item.name}</p>
+                        <p className="text-[11px] text-[var(--muted-foreground)]">{item.desc}</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Seleccionar ↵</span>
+                  </button>
+                ))}
+            </div>
+
+            <div className="p-3 bg-[var(--background)] border-t border-[var(--border)] flex justify-between items-center text-[10px] text-[var(--muted-foreground)]">
+              <span>Usa <strong>↑ ↓</strong> para navegar y <strong>Enter</strong> para ejecutar</span>
+              <span>Buildations Studio OS</span>
+            </div>
           </div>
         </div>
       )}
