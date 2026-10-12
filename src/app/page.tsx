@@ -14,7 +14,9 @@ import {
   CpuChipIcon,
   DocumentTextIcon,
   SunIcon,
-  MoonIcon
+  MoonIcon,
+  SparklesIcon,
+  ShareIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -64,6 +66,18 @@ export default function DashboardMockup() {
           <div>
             <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Herramientas SEO & IA</p>
             <div className="space-y-1">
+              <button 
+                onClick={() => setActiveTab('aiShareOfVoice')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'aiShareOfVoice' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <SparklesIcon className="w-5 h-5 mr-3" /> AEO Share of Voice
+              </button>
+              <button 
+                onClick={() => setActiveTab('clusterMap')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'clusterMap' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <ShareIcon className="w-5 h-5 mr-3" /> Topic Clusters & Silos
+              </button>
               <button 
                 onClick={() => setActiveTab('serpxray')}
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'serpxray' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
@@ -147,6 +161,8 @@ export default function DashboardMockup() {
             <span className="mx-2">/</span>
             <span className="text-[var(--foreground)] font-semibold capitalize">
               {activeTab
+                .replace('aiShareOfVoice', 'AEO / GEO Share of Voice')
+                .replace('clusterMap', 'Clusters & Silos de Contenido')
                 .replace('serpxray', 'SERP & AEO X-Ray')
                 .replace('apihub', 'API Hub')
                 .replace('contentDecay', 'Auditoría GSC')
@@ -260,6 +276,340 @@ export default function DashboardMockup() {
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 1: AEO / GEO SHARE OF VOICE (MOTOR DE CITACIONES EN IAS) */}
+            {activeTab === 'aiShareOfVoice' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-bold mb-1 flex items-center">
+                      <SparklesIcon className="w-6 h-6 text-[var(--primary)] mr-2" />
+                      AEO & GEO Share of Voice (Visibilidad en IAs)
+                    </h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">Monitorea en tiempo real qué porcentaje de veces tu marca es citada por ChatGPT, Perplexity y Claude.</p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
+                      Programar Sondeo Diario
+                    </button>
+                    <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)] cursor-pointer">
+                      + Ejecutar Sondeo (25 Consultas)
+                    </button>
+                  </div>
+                </div>
+
+                {/* KPI Cards AI Engine */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                  <div className="glass-card p-6 border-t-2 border-t-[var(--primary)]">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">AI Share of Voice Total</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">42.8%</span>
+                      <span className="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded">
+                        #1 en el nicho
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Superando a AcmeCorp (28.4%)</p>
+                  </div>
+
+                  <div className="glass-card p-6 border-t-2 border-t-cyan-500">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Perplexity Pro</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">68%</span>
+                      <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">
+                        17 de 25
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Citado como fuente recomendada</p>
+                  </div>
+
+                  <div className="glass-card p-6 border-t-2 border-t-emerald-500">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">ChatGPT Plus (Search)</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">36%</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                        9 de 25
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Citado en respuestas de comparativas</p>
+                  </div>
+
+                  <div className="glass-card p-6 border-t-2 border-t-amber-500">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Claude 3.5 Sonnet</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">24%</span>
+                      <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">
+                        6 de 25
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Oportunidad de optimización en guías</p>
+                  </div>
+                </div>
+
+                {/* Comparativa Tú vs Competencia en IAs */}
+                <div className="glass-card p-6">
+                  <h3 className="font-semibold text-lg mb-4">Presencia de Marca en Motores LLM (Tú vs Rivales)</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-semibold text-[var(--primary)]">Tu Marca (Agencia Román)</span>
+                        <span className="font-bold">42.8%</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-3">
+                        <div className="bg-[var(--primary)] h-3 rounded-full" style={{ width: '42.8%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-semibold">AcmeCorp</span>
+                        <span className="font-bold text-[var(--muted-foreground)]">28.4%</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-3">
+                        <div className="bg-slate-500 h-3 rounded-full" style={{ width: '28.4%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-semibold">GlobalTech</span>
+                        <span className="font-bold text-[var(--muted-foreground)]">16.1%</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-3">
+                        <div className="bg-slate-500 h-3 rounded-full" style={{ width: '16.1%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Live AI Prompts Audit Table */}
+                <div className="glass-card overflow-hidden">
+                  <div className="px-6 py-4 border-b border-[var(--border)] flex justify-between items-center">
+                    <h3 className="font-semibold text-sm">Consultas de Usuarios Reales Simuladas en IAs</h3>
+                    <span className="text-xs text-[var(--muted-foreground)]">Última auditoría: Hoy a las 09:30 AM</span>
+                  </div>
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-[var(--card)] text-[var(--muted-foreground)]">
+                      <tr>
+                        <th className="px-6 py-3 font-medium">Prompt del Usuario en la IA</th>
+                        <th className="px-6 py-3 font-medium">Motor</th>
+                        <th className="px-6 py-3 font-medium">Mención Obtenida</th>
+                        <th className="px-6 py-3 font-medium">Fuentes Citadas</th>
+                        <th className="px-6 py-3 font-medium text-right">Sentimiento</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border)]">
+                      {[
+                        { 
+                          prompt: "¿Qué agencia en CDMX es especialista en SEO para empresas B2B?", 
+                          engine: "Perplexity", 
+                          mention: "Citado en Posición #1", 
+                          source: "soyroman.com/casos", 
+                          sentiment: "98% Positivo" 
+                        },
+                        { 
+                          prompt: "Comparativa de las mejores empresas de marketing para SaaS en 2026", 
+                          engine: "ChatGPT", 
+                          mention: "Incluido en Top 3", 
+                          source: "LinkedIn + Clutch", 
+                          sentiment: "92% Positivo" 
+                        },
+                        { 
+                          prompt: "Especialistas en arquitectura AEO y optimización de Answer Engine", 
+                          engine: "Claude", 
+                          mention: "Mención Destacada", 
+                          source: "soyroman.com/aeo", 
+                          sentiment: "95% Positivo" 
+                        },
+                        { 
+                          prompt: "¿Cuánto cobra en promedio una agencia de performance marketing en México?", 
+                          engine: "Perplexity", 
+                          mention: "No Citado", 
+                          source: "blog.acmecorp.com", 
+                          sentiment: "Oportunidad" 
+                        },
+                      ].map((row, i) => (
+                        <tr key={i} className="hover:bg-[var(--muted)]/50 transition-colors">
+                          <td className="px-6 py-4 font-medium text-[var(--foreground)]">{row.prompt}</td>
+                          <td className="px-6 py-4">
+                            <span className="px-2 py-1 rounded text-xs border border-[var(--border)] bg-[var(--muted)] font-semibold">
+                              {row.engine}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`text-xs font-bold px-2 py-0.5 rounded ${row.mention.includes('#1') ? 'bg-emerald-500/10 text-emerald-500' : row.mention.includes('No') ? 'bg-red-500/10 text-red-500' : 'bg-cyan-500/10 text-cyan-400'}`}>
+                              {row.mention}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-xs font-mono text-[var(--muted-foreground)]">{row.source}</td>
+                          <td className="px-6 py-4 text-right">
+                            <span className={`text-xs font-semibold ${row.sentiment.includes('Oportunidad') ? 'text-amber-500' : 'text-emerald-500'}`}>
+                              {row.sentiment}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: TOPIC CLUSTERS & SILOS DE CONTENIDO */}
+            {activeTab === 'clusterMap' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-bold mb-1 flex items-center">
+                      <ShareIcon className="w-6 h-6 text-[var(--primary)] mr-2" />
+                      Topic Clusters & Silos de Contenido
+                    </h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">Diseña arquitecturas semánticas con una página pilar central y artículos satélite interconectados.</p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
+                      Exportar Mapa a CSV
+                    </button>
+                    <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)] cursor-pointer">
+                      Sincronizar a WordPress / Webflow
+                    </button>
+                  </div>
+                </div>
+
+                {/* Generator Bar */}
+                <div className="glass-card p-4 flex gap-4">
+                  <input 
+                    type="text" 
+                    defaultValue="Marketing de Contenidos para B2B"
+                    placeholder="Palabra Clave Pilar o Tema Central..."
+                    className="flex-1 bg-[var(--card)] border border-[var(--border)] rounded-lg px-4 py-2 text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)] transition-colors text-base"
+                  />
+                  <select className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-lg px-4 py-2 focus:outline-none">
+                    <option>Arquitectura: Silo Estricto (Pilar + 6 Satélites)</option>
+                    <option>Arquitectura: Web Semántica Radial</option>
+                  </select>
+                  <button className="bg-[var(--primary)] text-white px-6 py-2 rounded-lg font-bold hover:bg-[var(--primary-hover)] transition-colors cursor-pointer shadow-sm">
+                    Generar Silo con IA
+                  </button>
+                </div>
+
+                {/* PILLAR PAGE CARD (CENTRAL NODE) */}
+                <div className="glass-card p-6 border-l-8 border-l-[var(--primary)] relative overflow-hidden">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-bold px-3 py-1 rounded-full border border-[var(--primary)]/30">
+                      NODO PILAR PRINCIPAL (PÁGINA MAESTRA)
+                    </span>
+                    <span className="text-xs text-[var(--muted-foreground)] font-mono">Volumen Acumulado del Silo: 18,400 / mes</span>
+                  </div>
+                  <h3 className="text-2xl font-black mb-2">Guía Definitiva de Marketing de Contenidos B2B (2026)</h3>
+                  <p className="text-sm text-[var(--muted-foreground)] mb-4">
+                    Página extensa (3,500 palabras) orientada a la intención de búsqueda general. Todos los satélites enlazan a este nodo con anchors optimizados.
+                  </p>
+                  <div className="flex gap-4 text-xs font-mono">
+                    <span className="bg-[var(--muted)] px-3 py-1.5 rounded border border-[var(--border)]">URL: /guia-marketing-contenidos-b2b</span>
+                    <span className="bg-[var(--muted)] px-3 py-1.5 rounded border border-[var(--border)]">Word Count Objetivo: 3,500</span>
+                    <span className="bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded border border-emerald-500/30 font-bold">Estado: Publicado (Rank #4)</span>
+                  </div>
+                </div>
+
+                {/* SATELLITES (CLUSTER NODES GRID) */}
+                <div>
+                  <h3 className="text-lg font-bold mb-4 flex items-center">
+                    <span className="w-2 h-6 bg-[var(--primary)] rounded mr-2"></span>
+                    Satélites Especializados Conectados (6 Artículos Secundarios)
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[
+                      {
+                        title: "Cómo crear un calendario editorial B2B",
+                        url: "/blog/calendario-editorial-b2b",
+                        anchor: "estrategia de marketing de contenidos",
+                        kd: 18,
+                        vol: "1,400",
+                        intent: "Informativa"
+                      },
+                      {
+                        title: "Métricas y KPIs de content marketing para directores",
+                        url: "/blog/kpis-content-marketing",
+                        anchor: "medición de marketing de contenidos",
+                        kd: 24,
+                        vol: "2,100",
+                        intent: "Transaccional"
+                      },
+                      {
+                        title: "Estrategias de distribución multicanal: de blog a LinkedIn",
+                        url: "/blog/distribucion-multicanal-b2b",
+                        anchor: "distribución de contenidos B2B",
+                        kd: 32,
+                        vol: "920",
+                        intent: "Comercial"
+                      },
+                      {
+                        title: "Auditoría de contenidos paso a paso (Plantilla gratuita)",
+                        url: "/blog/auditoria-de-contenidos",
+                        anchor: "optimización de contenido pilar",
+                        kd: 21,
+                        vol: "1,800",
+                        intent: "Guía Práctica"
+                      },
+                      {
+                        title: "Storytelling y casos de éxito en ventas complejas",
+                        url: "/blog/storytelling-b2b-ventas",
+                        anchor: "narrativas en marketing de contenidos",
+                        kd: 14,
+                        vol: "650",
+                        intent: "Inspiracional"
+                      },
+                      {
+                        title: "Herramientas de IA y RAG para equipos editoriales",
+                        url: "/blog/herramientas-ia-redaccion-b2b",
+                        anchor: "producción asistida por IA",
+                        kd: 41,
+                        vol: "3,400",
+                        intent: "Comercial"
+                      },
+                    ].map((sat, i) => (
+                      <div key={i} className="glass-card p-5 flex flex-col justify-between hover:border-[var(--primary)] transition-all group">
+                        <div>
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="text-[10px] uppercase font-bold text-[var(--muted-foreground)] bg-[var(--muted)] px-2 py-0.5 rounded border border-[var(--border)]">
+                              Satélite #{i+1}
+                            </span>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${sat.kd > 30 ? 'bg-amber-500/10 text-amber-500' : 'bg-emerald-500/10 text-emerald-500'}`}>
+                              KD {sat.kd}
+                            </span>
+                          </div>
+                          <h4 className="font-bold text-base mb-2 group-hover:text-[var(--primary)] transition-colors">{sat.title}</h4>
+                          <p className="text-xs font-mono text-[var(--muted-foreground)] mb-3">{sat.url}</p>
+                        </div>
+
+                        <div className="border-t border-[var(--border)] pt-3 space-y-2 text-xs">
+                          <div className="flex justify-between">
+                            <span className="text-[var(--muted-foreground)]">Volumen:</span>
+                            <span className="font-mono font-semibold">{sat.vol} / mes</span>
+                          </div>
+                          <div className="bg-[var(--card)] p-2 rounded border border-[var(--border)]">
+                            <span className="text-[10px] text-[var(--muted-foreground)] block">Anchor Text Hacia el Pilar:</span>
+                            <span className="font-semibold text-[var(--primary)]">"{sat.anchor}"</span>
+                          </div>
+                          <button className="w-full mt-2 bg-[var(--muted)] hover:bg-[var(--primary)] hover:text-white py-1.5 rounded transition-colors text-xs font-medium cursor-pointer">
+                            Generar Esquema con IA
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* INTERNAL LINKING RULES */}
+                <div className="glass-card p-6 border-t-2 border-t-emerald-500">
+                  <h4 className="font-bold text-sm mb-2 text-emerald-500">Reglas Automatizadas de Interlinking para este Silo</h4>
+                  <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                    1. Cada satélite transfiere autoridad al <strong>Nodo Pilar</strong> mediante exactamente 1 enlace contextual en los primeros 3 párrafos.<br />
+                    2. Los satélites tienen enlaces cruzados a exactamente 2 satélites hermanos del mismo silo temático.<br />
+                    3. Ningún satélite enlaza hacia satélites de otros temas para evitar fugas de PageRank y preservar la relevancia semántica pura.
+                  </p>
                 </div>
               </div>
             )}
