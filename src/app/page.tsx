@@ -42,7 +42,8 @@ import {
   KeyIcon,
   FunnelIcon,
   TableCellsIcon,
-  ArrowPathIcon
+  ArrowPathIcon,
+  TrashIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -168,6 +169,81 @@ export default function DashboardMockup() {
       hubspotSync: 'Listo para Exportar'
     }
   ]);
+
+  // Estados para Datasets de Keywords RAG y Reconstructor de Sitemaps
+  const [keywordDatasets, setKeywordDatasets] = useState([
+    {
+      id: 'ds-revops',
+      name: 'Dataset RevOps B2B & Pipelines HubSpot',
+      category: 'RevOps & Ventas',
+      count: 24,
+      embeddingsStatus: 'Sincronizado (1,536 dims)',
+      topKw: ['alineacion marketing ventas', 'mql to sql conversion', 'revops cdmx', 'automatizacion pipeline'],
+      similarityScore: '0.94 cosine'
+    },
+    {
+      id: 'ds-aeo',
+      name: 'Dataset Búsqueda Generativa & AEO Citabilidad',
+      category: 'AEO & AI Search',
+      count: 38,
+      embeddingsStatus: 'Sincronizado (1,536 dims)',
+      topKw: ['como aparecer en perplexity', 'optimizacion searchgpt', 'schema json-ld aeo', 'knowledge graph seo'],
+      similarityScore: '0.91 cosine'
+    },
+    {
+      id: 'ds-saas',
+      name: 'Dataset FinTech & B2B SaaS Enterprise',
+      category: 'SaaS & Fintech',
+      count: 19,
+      embeddingsStatus: 'En Cola de Vectorización',
+      topKw: ['pasarelas de pago latam', 'retencion cohortes saas', 'sla ventas enterprise'],
+      similarityScore: '0.88 cosine'
+    }
+  ]);
+  const [selectedDatasetId, setSelectedDatasetId] = useState('ds-revops');
+  const [newKeywordInput, setNewKeywordInput] = useState('');
+  const [newDatasetName, setNewDatasetName] = useState('');
+
+  // Estructura de Sitemap Jerárquico Editable
+  const [sitemapSilos, setSitemapSilos] = useState([
+    {
+      id: 'silo-1',
+      pillarTitle: 'HubSpot RevOps & Alineación Comercial',
+      slug: '/revops-hubspot',
+      authorityScore: 92,
+      recommendation: 'Pilar Sólido - Top 3 en SERP. Agregar 2 clusters satélite para capturar long-tail transaccional.',
+      satellites: [
+        { id: 'sat-1-1', title: 'Cómo alinear Marketing y Ventas en HubSpot', slug: '/revops-hubspot/alinear-marketing-ventas', status: 'published', priority: 'Alta' },
+        { id: 'sat-1-2', title: 'Definición de SLAs entre MQLs y SQLs', slug: '/revops-hubspot/sla-mql-sql', status: 'published', priority: 'Alta' },
+        { id: 'sat-1-3', title: 'Automatización de Pipelines para Equipos B2B', slug: '/revops-hubspot/automatizar-pipeline', status: 'draft', priority: 'Media' },
+        { id: 'sat-1-4', title: 'Auditoría de Higiene y Calidad de Leads en HubSpot', slug: '/revops-hubspot/higiene-leads-hubspot', status: 'planned', priority: 'Urgente' }
+      ]
+    },
+    {
+      id: 'silo-2',
+      pillarTitle: 'Optimización de Búsqueda AEO & GEO para Motores de Respuesta',
+      slug: '/aeo-optimizacion',
+      authorityScore: 86,
+      recommendation: 'Oportunidad Crítica - Perplexity está demandando fuentes locales en CDMX. Vincular con schema FAQPage.',
+      satellites: [
+        { id: 'sat-2-1', title: 'Estrategias AEO para B2B en México y Latam', slug: '/aeo-optimizacion/estrategias-aeo-mexico', status: 'published', priority: 'Alta' },
+        { id: 'sat-2-2', title: 'Cómo Estructurar Schema FAQPage y Organization', slug: '/aeo-optimizacion/schema-faqpage-jsonld', status: 'draft', priority: 'Alta' },
+        { id: 'sat-2-3', title: 'Comparativa: SEO Tradicional vs Visibilidad AEO', slug: '/aeo-optimizacion/seo-vs-aeo', status: 'planned', priority: 'Media' }
+      ]
+    },
+    {
+      id: 'silo-3',
+      pillarTitle: 'Arquitectura de Contenido y Conectores CMS Autónomos',
+      slug: '/conectores-cms',
+      authorityScore: 78,
+      recommendation: 'Canibalización Potencial - 2 URLs compiten por el término "CMS headless". Se sugiere fusionar en silo pilar.',
+      satellites: [
+        { id: 'sat-3-1', title: 'Integración Nativa con Payload CMS 3.x App Router', slug: '/conectores-cms/payload-cms-guia', status: 'published', priority: 'Media' },
+        { id: 'sat-3-2', title: 'Plugin Oficial de WordPress para Publicación Headless', slug: '/conectores-cms/plugin-wordpress-oficial', status: 'draft', priority: 'Alta' }
+      ]
+    }
+  ]);
+  const [sitemapFilter, setSitemapFilter] = useState<'all' | 'issues' | 'opportunities'>('all');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
@@ -374,7 +450,13 @@ export default function DashboardMockup() {
                 onClick={() => setActiveTab('rag')}
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'rag' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
               >
-                <DocumentTextIcon className="w-5 h-5 mr-3" /> RAG Vector Extractor
+                <DocumentTextIcon className="w-5 h-5 mr-3" /> Datasets RAG &amp; Embeddings
+              </button>
+              <button 
+                onClick={() => setActiveTab('sitemapReconstructor')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'sitemapReconstructor' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <ShareIcon className="w-5 h-5 mr-3 text-amber-400" /> Reconstructor de Sitemaps
               </button>
               <button 
                 onClick={() => setActiveTab('contentDecay')}
@@ -496,12 +578,13 @@ export default function DashboardMockup() {
                 .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
                 .replace('cmsConnectors', 'Conectores CMS Oficiales (Payload & WordPress)')
                 .replace('dataEnrichment', 'Enriquecedor de Datos & Limpieza B2B (HubSpot Best Practices)')
-                .replace('aiShareOfVoice', 'AEO / GEO Share of Voice')
+                .replace('sitemapReconstructor', 'Reconstructor y Optimizador de Sitemaps (Arquitectura de Silos)')
+                .replace('aiShareOfVoice', 'Radar de Citabilidad & Búsqueda')
                 .replace('clusterMap', 'Clusters & Silos de Contenido')
                 .replace('serpxray', 'SERP & AEO X-Ray')
                 .replace('apihub', 'API Hub')
                 .replace('contentDecay', 'Auditoría GSC')
-                .replace('rag', 'RAG Extractor')
+                .replace('rag', 'Datasets de Keywords & RAG Vectorial')
                 .replace('planner', 'Keyword Planner')
                 .replace('competitors', 'Radar Competencia')
               }
@@ -3509,69 +3592,557 @@ export default function DashboardMockup() {
               </div>
             )}
 
-            {/* RAG VECTOR EXTRACTOR TAB */}
+            {/* DATASETS DE KEYWORDS & RAG VECTORIAL TAB */}
             {activeTab === 'rag' && (
               <div className="space-y-8 animate-fade-in">
-                <div className="flex justify-between items-end">
+                {/* Header */}
+                <div className="flex flex-wrap justify-between items-end gap-4 border-b border-[var(--border)] pb-6">
                   <div>
-                    <h2 className="text-2xl font-bold mb-1">RAG Vector Extractor</h2>
-                    <p className="text-[var(--muted-foreground)] text-sm">Scrapea, limpia y formatea contenido web para alimentar Modelos LLM (RAG).</p>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
+                      <span className="text-[11px] font-mono tracking-widest uppercase text-[var(--muted-foreground)] font-bold">
+                        VECTORIAL ENGINE // 1536-DIM EMBEDDINGS
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
+                      Datasets de Keywords &amp; Entrenamiento RAG
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                      Agrupa tus listas maestras de palabras clave por clúster temático para calibrar la base de conocimiento vectorial de tus motores.
+                    </p>
                   </div>
-                  <div className="flex space-x-3">
-                    <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors flex items-center cursor-pointer shadow-sm">
-                       Exportar .JSONL
+
+                  <div className="flex items-center gap-2.5">
+                    <button 
+                      onClick={() => alert('Exportando matriz de datasets vectorizados en formato .JSONL para Pinecone / Qdrant...')}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      Exportar .JSONL Vectorial
                     </button>
-                    <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)] cursor-pointer">
-                      Enviar a Pinecone
+                    <button 
+                      onClick={() => alert('Sincronizando embeddings con base de datos vectorial (Pinecone index: buildations-rag)... 81 vectores actualizados.')}
+                      className="bg-[var(--primary)] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer"
+                    >
+                      + Sincronizar Embeddings
                     </button>
                   </div>
                 </div>
 
-                <div className="glass-card p-4 flex gap-4">
-                  <input 
-                    type="text" 
-                    placeholder="URL o Sitemap (ej. 'https://acmecorp.com/blog')"
-                    className="flex-1 bg-[var(--card)] border border-[var(--border)] rounded-lg px-4 py-2 text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-                  />
-                  <select className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-lg px-4 py-2 focus:outline-none">
-                    <option>Chunk Size: 512</option>
-                    <option>Chunk Size: 1024</option>
-                    <option>Chunk Size: 2048</option>
-                  </select>
-                  <button className="bg-[var(--foreground)] text-[var(--background)] px-6 py-2 rounded-lg font-bold hover:opacity-90 transition-opacity cursor-pointer">
-                    Extraer & Limpiar
+                {/* Sub-Sección 1: Datasets Activos & Creación Rápida */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Selector y Lista de Datasets */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-mono font-bold uppercase text-[var(--muted-foreground)]">Datasets de Entrenamiento</h4>
+                      <span className="text-[10px] font-mono text-[var(--primary)] font-bold">{keywordDatasets.length} Clústers</span>
+                    </div>
+
+                    <div className="space-y-2.5">
+                      {keywordDatasets.map((ds) => (
+                        <div
+                          key={ds.id}
+                          onClick={() => setSelectedDatasetId(ds.id)}
+                          className={`p-4 rounded-xl border transition-all cursor-pointer text-left ${selectedDatasetId === ds.id ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.15)]' : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--border)]/80 opacity-80'}`}
+                        >
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] font-bold">
+                              {ds.category}
+                            </span>
+                            <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                              {ds.similarityScore}
+                            </span>
+                          </div>
+                          <h5 className="font-bold text-sm text-[var(--foreground)]">{ds.name}</h5>
+                          <div className="mt-2 pt-2 border-t border-[var(--border)] flex items-center justify-between text-[11px] text-[var(--muted-foreground)] font-mono">
+                            <span>{ds.count} Keywords</span>
+                            <span className="text-[10px] text-zinc-400">{ds.embeddingsStatus}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Crear Nuevo Dataset */}
+                    <div className="glass-card p-4 space-y-3">
+                      <span className="text-xs font-bold text-[var(--foreground)] block">Crear Nuevo Dataset Temático</span>
+                      <input 
+                        type="text" 
+                        value={newDatasetName}
+                        onChange={(e) => setNewDatasetName(e.target.value)}
+                        placeholder="Nombre (ej. Lead Nurturing & MQLs)"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono focus:outline-none focus:border-[var(--primary)]"
+                      />
+                      <button 
+                        onClick={() => {
+                          if (!newDatasetName) return;
+                          const newDs = {
+                            id: `ds-${Date.now()}`,
+                            name: newDatasetName,
+                            category: 'Estrategia Custom',
+                            count: 0,
+                            embeddingsStatus: 'Pendiente de Vectorizar',
+                            topKw: [],
+                            similarityScore: '0.90 cosine'
+                          };
+                          setKeywordDatasets([...keywordDatasets, newDs]);
+                          setSelectedDatasetId(newDs.id);
+                          setNewDatasetName('');
+                        }}
+                        className="w-full py-2 rounded-lg bg-[var(--foreground)] text-[var(--background)] text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer"
+                      >
+                        + Crear Dataset en RAG
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Detalle del Dataset Seleccionado & Añadir Keywords */}
+                  <div className="lg:col-span-2 space-y-4">
+                    {(() => {
+                      const currentDs = keywordDatasets.find(d => d.id === selectedDatasetId) || keywordDatasets[0];
+                      return (
+                        <div className="glass-card p-6 space-y-5">
+                          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
+                            <div>
+                              <span className="text-[10px] font-mono uppercase text-[var(--primary)] font-bold">
+                                Clúster Activo // {currentDs.category}
+                              </span>
+                              <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">{currentDs.name}</h3>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                Vectorizado
+                              </span>
+                              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono bg-[var(--muted)] text-[var(--muted-foreground)]">
+                                1,536 dimensiones
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Input para Inyectar Keywords al Dataset */}
+                          <div className="flex gap-2">
+                            <input 
+                              type="text" 
+                              value={newKeywordInput}
+                              onChange={(e) => setNewKeywordInput(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' && newKeywordInput) {
+                                  currentDs.topKw.push(newKeywordInput);
+                                  currentDs.count += 1;
+                                  setNewKeywordInput('');
+                                }
+                              }}
+                              placeholder="Escribe una keyword o pega lista separada por comas (ej: crm b2b, pipeline revops)"
+                              className="flex-1 px-4 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono focus:outline-none focus:border-[var(--primary)]"
+                            />
+                            <button 
+                              onClick={() => {
+                                if (!newKeywordInput) return;
+                                currentDs.topKw.push(newKeywordInput);
+                                currentDs.count += 1;
+                                setNewKeywordInput('');
+                              }}
+                              className="bg-[var(--primary)] text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-colors cursor-pointer shadow-sm"
+                            >
+                              Inyectar
+                            </button>
+                          </div>
+
+                          {/* Lista de Keywords Vectorizadas */}
+                          <div>
+                            <span className="text-xs font-mono font-bold uppercase text-[var(--muted-foreground)] block mb-3">
+                              Términos Vectorizados en este Dataset ({currentDs.topKw.length})
+                            </span>
+                            <div className="flex flex-wrap gap-2">
+                              {currentDs.topKw.map((kw, i) => (
+                                <span 
+                                  key={i}
+                                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs font-mono text-[var(--foreground)] group hover:border-[var(--primary)] transition-colors"
+                                >
+                                  <span>{kw}</span>
+                                  <span className="text-[9px] text-zinc-500 font-mono">0.9{4 - (i % 5)}</span>
+                                  <button 
+                                    onClick={() => {
+                                      currentDs.topKw.splice(i, 1);
+                                      currentDs.count = Math.max(0, currentDs.count - 1);
+                                      setKeywordDatasets([...keywordDatasets]);
+                                    }}
+                                    className="text-zinc-500 hover:text-rose-400 font-bold ml-1 text-xs cursor-pointer"
+                                  >
+                                    ×
+                                  </button>
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Muestra Vectorial Preview */}
+                          <div className="pt-4 border-t border-[var(--border)] space-y-2">
+                            <span className="text-[11px] font-mono text-[var(--muted-foreground)] block">
+                              Embeddings Vector Chunk Preview (text-embedding-3-small):
+                            </span>
+                            <pre className="bg-black/60 p-3.5 rounded-xl text-[11px] text-emerald-400 font-mono overflow-x-auto border border-white/5">
+{`{
+  "dataset_id": "${currentDs.id}",
+  "vector_id": "vec_${currentDs.id.slice(3)}",
+  "keywords_count": ${currentDs.topKw.length},
+  "cosine_similarity_threshold": 0.85,
+  "embedding_sample": [-0.0142, 0.0891, 0.0412, -0.0076, 0.0521, "... +1,531 dims"]
+}`}
+                            </pre>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* RECONSTRUCTOR Y OPTIMIZADOR DE SITEMAPS (SILO ARCHITECTURE) TAB */}
+            {activeTab === 'sitemapReconstructor' && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header */}
+                <div className="flex flex-wrap justify-between items-end gap-4 border-b border-[var(--border)] pb-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[var(--status-ready)] shadow-[0_0_8px_rgba(245,158,11,0.8)]"></span>
+                      <span className="text-[11px] font-mono tracking-widest uppercase text-[var(--muted-foreground)] font-bold">
+                        ARQUITECTURA DE INFORMACIÓN // SILO TOPOLOGY &amp; INTERNAL LINKING
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
+                      Reconstructor de Sitemaps &amp; Silos de Contenido
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
+                      Reestructura la jerarquía de URLs de tu dominio en clústers temáticos estancos (Pillar &amp; Satellites). Edita slugs en caliente, previene canibalizaciones de palabras clave y compila el sitemap.xml canónico optimizado para motores de búsqueda y AEO.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2.5">
+                    <button 
+                      onClick={() => {
+                        const domain = prompt('Introduce el dominio para rastreo y auditoría de URLs:', 'https://buildations.studio');
+                        if (domain) {
+                          alert(`Escaneo profundo iniciado para ${domain}. Analizando 42 URLs y grafos de enlazado interno...`);
+                        }
+                      }}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      <ArrowPathIcon className="w-4 h-4 text-[var(--status-ready)]" />
+                      Escanear Dominio / XML
+                    </button>
+                    <button 
+                      onClick={() => {
+                        const xmlSample = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` + 
+                          sitemapSilos.map(silo => `  <url>\n    <loc>https://buildations.studio${silo.slug}</loc>\n    <priority>1.0</priority>\n    <changefreq>weekly</changefreq>\n  </url>\n` + 
+                            silo.satellites.map(sat => `  <url>\n    <loc>https://buildations.studio${sat.slug}</loc>\n    <priority>${sat.priority === 'Alta' || sat.priority === 'Urgente' ? '0.8' : '0.6'}</priority>\n    <changefreq>monthly</changefreq>\n  </url>`).join('\n')
+                          ).join('\n') + `\n</urlset>`;
+                        
+                        const blob = new Blob([xmlSample], { type: 'application/xml' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'sitemap-buildations-silos.xml';
+                        a.click();
+                        URL.revokeObjectURL(url);
+                      }}
+                      className="bg-[var(--primary)] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-2"
+                    >
+                      <ArrowDownTrayIcon className="w-4 h-4" />
+                      Exportar sitemap.xml
+                    </button>
+                  </div>
+                </div>
+
+                {/* Métricas de Topología Web */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="glass-card p-4 rounded-xl border border-[var(--border)]">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Silos Pilares</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-2xl font-bold font-mono text-[var(--foreground)]">{sitemapSilos.length}</span>
+                      <span className="text-[10px] font-mono text-[var(--status-ready)]">Clusters Principales</span>
+                    </div>
+                  </div>
+                  <div className="glass-card p-4 rounded-xl border border-[var(--border)]">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">URLs Satélite Indexadas</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-2xl font-bold font-mono text-[var(--foreground)]">
+                        {sitemapSilos.reduce((acc, s) => acc + s.satellites.length, 0)}
+                      </span>
+                      <span className="text-[10px] font-mono text-emerald-400">100% Crawleables</span>
+                    </div>
+                  </div>
+                  <div className="glass-card p-4 rounded-xl border border-[var(--border)]">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Profundidad Media de Clics</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-2xl font-bold font-mono text-[var(--foreground)]">1.8</span>
+                      <span className="text-[10px] font-mono text-emerald-400">Nivel Óptimo (&lt;3)</span>
+                    </div>
+                  </div>
+                  <div className="glass-card p-4 rounded-xl border border-[var(--border)]">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Salud de Enlazado Interno</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-2xl font-bold font-mono text-[var(--foreground)]">88/100</span>
+                      <span className="text-[10px] font-mono text-[var(--status-ready)]">Sin URLs Huérfanas</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Filtros & Recomendador Automático */}
+                <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono text-[var(--muted-foreground)] mr-1">Filtrar Silos:</span>
+                    <button 
+                      onClick={() => setSitemapFilter('all')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${sitemapFilter === 'all' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      Todos ({sitemapSilos.length})
+                    </button>
+                    <button 
+                      onClick={() => setSitemapFilter('issues')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${sitemapFilter === 'issues' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      Conflictos / Canibalización (1)
+                    </button>
+                    <button 
+                      onClick={() => setSitemapFilter('opportunities')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${sitemapFilter === 'opportunities' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      Oportunidades AEO (2)
+                    </button>
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      const newSiloTitle = prompt('Nombre del nuevo Pilar de Contenido:');
+                      const newSiloSlug = prompt('Slug raíz del pilar (ej: /growth-marketing):');
+                      if (newSiloTitle && newSiloSlug) {
+                        const newSilo = {
+                          id: `silo-${Date.now()}`,
+                          pillarTitle: newSiloTitle,
+                          slug: newSiloSlug.startsWith('/') ? newSiloSlug : `/${newSiloSlug}`,
+                          authorityScore: 70,
+                          recommendation: 'Nuevo Silo creado manualmente. Añade satélites para construir densidad semántica.',
+                          satellites: []
+                        };
+                        setSitemapSilos([...sitemapSilos, newSilo]);
+                      }
+                    }}
+                    className="px-3.5 py-1.5 rounded-lg bg-[var(--foreground)] text-[var(--background)] text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer flex items-center gap-1.5"
+                  >
+                    + Nuevo Silo Pilar
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="md:col-span-1 space-y-4">
-                    <div className="glass-card p-4">
-                      <h4 className="font-bold text-sm mb-4">Pipeline de Limpieza</h4>
-                      <ul className="space-y-3 text-sm text-[var(--muted-foreground)]">
-                        <li className="flex justify-between"><span>Remover Nav/Footer</span> <span className="text-emerald-500 font-bold">✓</span></li>
-                        <li className="flex justify-between"><span>Extraer Tablas a Markdown</span> <span className="text-emerald-500 font-bold">✓</span></li>
-                        <li className="flex justify-between"><span>Remover Boilerplate</span> <span className="text-emerald-500 font-bold">✓</span></li>
-                        <li className="flex justify-between"><span>Generar Metadata IA</span> <span className="text-emerald-500 font-bold">✓</span></li>
-                      </ul>
+                {/* Lista de Silos Jerárquicos Editables */}
+                <div className="space-y-6">
+                  {sitemapSilos
+                    .filter(silo => {
+                      if (sitemapFilter === 'issues') return silo.recommendation.toLowerCase().includes('canibalización');
+                      if (sitemapFilter === 'opportunities') return silo.recommendation.toLowerCase().includes('aeo') || silo.recommendation.toLowerCase().includes('long-tail');
+                      return true;
+                    })
+                    .map((silo, siloIdx) => (
+                      <div 
+                        key={silo.id} 
+                        className="glass-card rounded-2xl border border-[var(--border)] overflow-hidden shadow-sm"
+                      >
+                        {/* Cabecera del Pilar */}
+                        <div className="p-5 bg-[var(--card)]/90 border-b border-[var(--border)] space-y-3">
+                          <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                              <span className="w-7 h-7 rounded-lg bg-[var(--status-ready)]/10 text-[var(--status-ready)] font-mono text-xs font-bold flex items-center justify-center border border-[var(--status-ready)]/20">
+                                P{siloIdx + 1}
+                              </span>
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    type="text" 
+                                    value={silo.pillarTitle}
+                                    onChange={(e) => {
+                                      const updated = [...sitemapSilos];
+                                      updated[siloIdx].pillarTitle = e.target.value;
+                                      setSitemapSilos(updated);
+                                    }}
+                                    className="font-bold text-base text-[var(--foreground)] bg-transparent hover:bg-[var(--muted)]/40 px-2 py-0.5 rounded focus:bg-[var(--background)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] transition-colors"
+                                  />
+                                </div>
+                                <div className="flex items-center gap-2 mt-0.5 px-2">
+                                  <span className="text-[11px] font-mono text-[var(--muted-foreground)]">Slug raíz:</span>
+                                  <input 
+                                    type="text" 
+                                    value={silo.slug}
+                                    onChange={(e) => {
+                                      const updated = [...sitemapSilos];
+                                      updated[siloIdx].slug = e.target.value;
+                                      setSitemapSilos(updated);
+                                    }}
+                                    className="text-[11px] font-mono text-[var(--primary)] bg-transparent hover:bg-[var(--muted)]/40 px-1 py-0.5 rounded focus:bg-[var(--background)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2.5">
+                              <div className="text-right">
+                                <span className="text-[10px] font-mono text-[var(--muted-foreground)] block">Autoridad de Silo</span>
+                                <span className="text-sm font-bold font-mono text-emerald-400">{silo.authorityScore}/100</span>
+                              </div>
+                              <button 
+                                onClick={() => {
+                                  const title = prompt('Título del nuevo artículo o landing satélite:');
+                                  const slugPart = prompt('Sub-slug (ej: integraciones-clave):');
+                                  if (title && slugPart) {
+                                    const cleanSlug = slugPart.startsWith('/') ? slugPart : `/${slugPart}`;
+                                    const updated = [...sitemapSilos];
+                                    updated[siloIdx].satellites.push({
+                                      id: `sat-${Date.now()}`,
+                                      title,
+                                      slug: `${silo.slug}${cleanSlug}`,
+                                      status: 'draft',
+                                      priority: 'Media'
+                                    });
+                                    setSitemapSilos(updated);
+                                  }
+                                }}
+                                className="px-3 py-1.5 rounded-lg bg-[var(--muted)] hover:bg-[var(--primary)] hover:text-white text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+                              >
+                                + Satélite
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Recomendación inteligente del motor */}
+                          <div className="p-3 rounded-xl bg-[var(--background)]/80 border border-[var(--border)] flex items-start gap-2.5 text-xs">
+                            <SparklesIcon className="w-4 h-4 text-[var(--status-ready)] shrink-0 mt-0.5" />
+                            <div className="flex-1">
+                              <span className="font-semibold text-[var(--foreground)]">Diagnóstico de Silo: </span>
+                              <span className="text-[var(--muted-foreground)]">{silo.recommendation}</span>
+                            </div>
+                            <button 
+                              onClick={() => {
+                                alert(`Simulación de arquitectura ejecutada. Se generaron 3 recomendaciones para optimizar el clúster ${silo.pillarTitle}.`);
+                              }}
+                              className="text-[11px] font-semibold text-[var(--status-ready)] hover:underline cursor-pointer shrink-0"
+                            >
+                              Aplicar sugerencia →
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Lista de Satélites del Silo */}
+                        <div className="p-4 space-y-2.5">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--muted-foreground)] font-bold block mb-2 px-1">
+                            URLs Satélite Vinculadas ({silo.satellites.length})
+                          </span>
+
+                          {silo.satellites.length === 0 ? (
+                            <p className="text-xs text-[var(--muted-foreground)] italic px-2 py-4 text-center">
+                              No hay satélites en este silo. Añade páginas para consolidar la autoridad temática.
+                            </p>
+                          ) : (
+                            silo.satellites.map((sat, satIdx) => (
+                              <div 
+                                key={sat.id}
+                                className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-[var(--card)]/50 border border-[var(--border)] hover:border-[var(--primary)]/40 transition-colors"
+                              >
+                                <div className="flex items-center gap-3 flex-1 min-w-[280px]">
+                                  <span className="text-xs font-mono text-[var(--muted-foreground)] select-none">
+                                    ↳
+                                  </span>
+                                  <div className="flex-1">
+                                    <input 
+                                      type="text" 
+                                      value={sat.title}
+                                      onChange={(e) => {
+                                        const updated = [...sitemapSilos];
+                                        updated[siloIdx].satellites[satIdx].title = e.target.value;
+                                        setSitemapSilos(updated);
+                                      }}
+                                      className="text-xs font-semibold text-[var(--foreground)] bg-transparent hover:bg-[var(--muted)]/50 px-1.5 py-0.5 rounded w-full focus:bg-[var(--background)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+                                    />
+                                    <input 
+                                      type="text" 
+                                      value={sat.slug}
+                                      onChange={(e) => {
+                                        const updated = [...sitemapSilos];
+                                        updated[siloIdx].satellites[satIdx].slug = e.target.value;
+                                        setSitemapSilos(updated);
+                                      }}
+                                      className="text-[11px] font-mono text-[var(--muted-foreground)] bg-transparent hover:bg-[var(--muted)]/50 px-1.5 py-0.5 rounded w-full focus:bg-[var(--background)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                  {/* Selector de Estado */}
+                                  <select 
+                                    value={sat.status}
+                                    onChange={(e) => {
+                                      const updated = [...sitemapSilos];
+                                      updated[siloIdx].satellites[satIdx].status = e.target.value;
+                                      setSitemapSilos(updated);
+                                    }}
+                                    className="px-2 py-1 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[11px] font-mono text-[var(--foreground)] cursor-pointer focus:outline-none"
+                                  >
+                                    <option value="published">Publicado</option>
+                                    <option value="draft">Borrador</option>
+                                    <option value="planned">Planificado</option>
+                                  </select>
+
+                                  {/* Badge de Prioridad */}
+                                  <select 
+                                    value={sat.priority}
+                                    onChange={(e) => {
+                                      const updated = [...sitemapSilos];
+                                      updated[siloIdx].satellites[satIdx].priority = e.target.value;
+                                      setSitemapSilos(updated);
+                                    }}
+                                    className="px-2 py-1 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[11px] font-mono text-[var(--status-ready)] cursor-pointer focus:outline-none"
+                                  >
+                                    <option value="Alta">Prioridad: Alta</option>
+                                    <option value="Media">Prioridad: Media</option>
+                                    <option value="Urgente">Prioridad: Urgente</option>
+                                  </select>
+
+                                  {/* Eliminar Satélite */}
+                                  <button 
+                                    onClick={() => {
+                                      const updated = [...sitemapSilos];
+                                      updated[siloIdx].satellites.splice(satIdx, 1);
+                                      setSitemapSilos(updated);
+                                    }}
+                                    className="p-1 rounded hover:bg-rose-500/10 text-zinc-500 hover:text-rose-400 text-xs transition-colors cursor-pointer"
+                                    title="Eliminar satélite"
+                                  >
+                                    <TrashIcon className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Previsualizador en tiempo real de Sitemap XML & Reglas de Redirección */}
+                <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[var(--foreground)]">Compilación de sitemap.xml Canónico</h4>
+                      <p className="text-xs text-[var(--muted-foreground)]">Previsualización del XML estructurado con atributos de prioridad y frecuencia calculados por el motor.</p>
                     </div>
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      RFC 6596 Compatible
+                    </span>
                   </div>
-                  <div className="md:col-span-2 glass-card p-6">
-                    <h4 className="font-bold text-sm mb-4">Vista Previa de Chunks (Formato Vectorial)</h4>
-                    <pre className="bg-slate-950 p-4 rounded text-xs text-emerald-400 overflow-x-auto border border-slate-800 font-mono">
-{`{
-  "id": "vec_8f92a1",
-  "metadata": {
-    "source_url": "https://acmecorp.com/guide",
-    "title": "Guía Definitiva B2B",
-    "author": "Equipo de Contenido",
-    "chunk_index": 1,
-    "intent": "informational"
-  },
-  "text": "# Introducción al B2B\\nEl marketing B2B moderno requiere...",
-  "tokens": 482
-}`}
-                    </pre>
-                  </div>
+
+                  <pre className="bg-black/70 p-4 rounded-xl text-[11px] text-amber-300 font-mono overflow-x-auto border border-white/5 max-h-56">
+{`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+` + sitemapSilos.map(s => `  <!-- SILO: ${s.pillarTitle} -->\n  <url>\n    <loc>https://buildations.studio${s.slug}</loc>\n    <priority>1.0</priority>\n    <changefreq>weekly</changefreq>\n  </url>\n` + s.satellites.map(sat => `  <url>\n    <loc>https://buildations.studio${sat.slug}</loc>\n    <priority>${sat.priority === 'Alta' || sat.priority === 'Urgente' ? '0.80' : '0.60'}</priority>\n    <changefreq>monthly</changefreq>\n  </url>`).join('\n')).join('\n') + `
+</urlset>`}
+                  </pre>
                 </div>
               </div>
             )}
