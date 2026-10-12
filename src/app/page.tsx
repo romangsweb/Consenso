@@ -254,6 +254,10 @@ export default function DashboardMockup() {
   const [decayRadarSensitivity, setDecayRadarSensitivity] = useState(25);
   const [decaySelectedUrl, setDecaySelectedUrl] = useState<string | null>('/blog/que-es-el-marketing');
 
+  // Estados de Vista Simplificada de Overview (Módulos Disponibles -> Detalle de Motores)
+  const [overviewMode, setOverviewMode] = useState<'modules' | 'telemetry'>('modules');
+  const [inspectedEngineId, setInspectedEngineId] = useState<string | null>(null);
+
   // Telemetría FinOps & Token Ingestion Meter
   const [finopsTokenBudget, setFinopsTokenBudget] = useState(50000000); // 50M tokens
   const [finopsTokensUsed, setFinopsTokensUsed] = useState(18420100);
@@ -2155,35 +2159,333 @@ LIMIT 5;`);
               </div>
             )}
 
-            {/* OVERVIEW TAB - MINIMAL & CLEAN EDITORIAL AESTHETIC */}
+            {/* OVERVIEW TAB - MODULAR ARCHITECTURE (MÓDULOS DISPONIBLES PRIMERO) */}
             {activeTab === 'overview' && (
               <div className="space-y-8 animate-fade-in">
-                {/* Header Minimalista y Limpio */}
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[var(--border)]">
+                {/* Header Limpio & Selector de Modo Overview */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[var(--border)]">
                   <div>
                     <div className="flex items-center gap-2 mb-1.5">
                       <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
                       <span className="text-[11px] font-mono tracking-widest uppercase text-[var(--muted-foreground)] font-bold">
                         Workspace // {currentWorkspace}
                       </span>
+                      <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-zinc-800 text-zinc-300 border border-zinc-700">
+                        PRESET: {activeIndustryPreset.toUpperCase()}
+                      </span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[var(--foreground)]">
-                      Rendimiento &amp; <span className="font-semibold text-[var(--foreground)]">Posicionamiento</span>
+                      Módulos &amp; <span className="font-semibold text-[var(--foreground)]">Motores Disponibles</span>
                     </h2>
                     <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                      Métricas consolidadas de tracción orgánica, visibilidad en respuestas y atribución a Deals.
+                      Catálogo central de hardware IA: selecciona cualquier módulo para entrar a su universo de calibración y detalle.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-[11px] font-mono text-[var(--muted-foreground)] px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)]/60">
-                      Sync: <strong className="text-[var(--foreground)]">Hace 4m</strong>
-                    </span>
-                    <button className="bg-[var(--foreground)] text-[var(--background)] px-4 py-1.5 rounded-lg text-xs font-semibold hover:opacity-90 transition-opacity cursor-pointer shadow-sm">
-                      Exportar
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    {/* Switch Táctil de Modo: Módulos vs Telemetría Consolidada */}
+                    <div className="flex items-center p-1 bg-[#121418] border border-[var(--border-te)] rounded-lg font-mono text-xs">
+                      <button
+                        onClick={() => {
+                          setOverviewMode('modules');
+                          setInspectedEngineId(null);
+                        }}
+                        className={`px-3 py-1.5 rounded-md transition-all font-bold flex items-center gap-1.5 ${
+                          overviewMode === 'modules'
+                            ? 'bg-[#1e222b] text-[var(--accent-te)] border border-[var(--accent-te)]/30 shadow-sm'
+                            : 'text-zinc-400 hover:text-zinc-200'
+                        }`}
+                      >
+                        <RectangleStackIcon className="w-3.5 h-3.5" />
+                        Módulos (9)
+                      </button>
+
+                      <button
+                        onClick={() => setOverviewMode('telemetry')}
+                        className={`px-3 py-1.5 rounded-md transition-all font-bold flex items-center gap-1.5 ${
+                          overviewMode === 'telemetry'
+                            ? 'bg-[#1e222b] text-[#3ddc84] border border-[#3ddc84]/30 shadow-sm'
+                            : 'text-zinc-400 hover:text-zinc-200'
+                        }`}
+                      >
+                        <BoltIcon className="w-3.5 h-3.5" />
+                        Telemetría Global
+                      </button>
+                    </div>
+
+                    <button 
+                      onClick={() => {
+                        toast.info('Sincronizando estado y latencia de todos los motores...');
+                        setTimeout(() => toast.success('9 motores de hardware sincronizados con éxito.'), 500);
+                      }}
+                      className="bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-300 px-3 py-2 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <ArrowPathIcon className="w-3.5 h-3.5" />
+                      Sync
                     </button>
                   </div>
                 </div>
+
+                {/* PRIMERA SECCIÓN: CATÁLOGO DE MÓDULOS DISPONIBLES */}
+                <div className="space-y-6">
+                  {/* Drawer de Inspección Rápida de Parámetros de Motor (si hay uno inspeccionado) */}
+                  {inspectedEngineId && (
+                    <div className="te-rack-unit relative p-6 bg-[#0c0e12] border-2 border-[var(--accent-te)] shadow-[0_0_30px_rgba(232,90,42,0.15)] animate-fade-in space-y-4">
+                      <span className="te-rack-screw top-2.5 left-2.5" />
+                      <span className="te-rack-screw top-2.5 right-2.5" />
+                      <span className="te-rack-screw bottom-2.5 left-2.5" />
+                      <span className="te-rack-screw bottom-2.5 right-2.5" />
+
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border-te)]">
+                        <div className="flex items-center gap-2.5">
+                          <span className="te-badge te-badge-orange font-mono text-[9px]">INSPECCIÓN DE HARDWARE</span>
+                          <span className="font-mono text-xs font-bold text-white uppercase">
+                            PARÁMETROS TÉCNICOS // {inspectedEngineId.toUpperCase()}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              setActiveTab(inspectedEngineId);
+                              toast.success(`Accediendo al universo de ${inspectedEngineId.toUpperCase()}...`);
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-[var(--accent-te)] hover:bg-[#d04b1e] text-black font-mono text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                          >
+                            <span>Entrar al Universo Completo</span>
+                            <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                          </button>
+
+                          <button
+                            onClick={() => setInspectedEngineId(null)}
+                            className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-zinc-400 hover:text-white transition-all cursor-pointer"
+                          >
+                            <XMarkIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                        <div className="p-3 rounded-lg bg-[#121418] border border-zinc-800 space-y-1">
+                          <span className="te-label text-zinc-400">ESTADO OPERACIONAL</span>
+                          <div className="text-sm font-mono font-bold text-[#3ddc84] flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#3ddc84] animate-pulse" />
+                            ONLINE (64-BIT TELEMETRY)
+                          </div>
+                          <p className="text-[10px] font-mono text-zinc-500">Sin caídas en los últimos 1,420 ciclos.</p>
+                        </div>
+
+                        <div className="p-3 rounded-lg bg-[#121418] border border-zinc-800 space-y-1">
+                          <span className="te-label text-zinc-400">PERFIL APLICADO</span>
+                          <div className="text-sm font-mono font-bold text-[var(--accent-te)] uppercase">
+                            {activeIndustryPreset} ENTERPRISE
+                          </div>
+                          <p className="text-[10px] font-mono text-zinc-500">Calibración adaptada a tu sector.</p>
+                        </div>
+
+                        <div className="p-3 rounded-lg bg-[#121418] border border-zinc-800 space-y-1">
+                          <span className="te-label text-zinc-400">LATENCIA MEDIA</span>
+                          <div className="text-sm font-mono font-bold text-[#38bdf8]">18.4 ms</div>
+                          <p className="text-[10px] font-mono text-zinc-500">Conexión directa vía Next.js App Router.</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Grid de Tarjetas de Módulos Estilo Teenage Engineering */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {[
+                      {
+                        id: 'aiShareOfVoice',
+                        slot: 'SLOT-01',
+                        title: 'Motor AEO & Citabilidad LLM',
+                        metric: '64.2%',
+                        metricLabel: 'Citación en SearchGPT & Perplexity',
+                        desc: 'Osciloscopio espectral de 12 canales. Maximiza la probabilidad de ser la fuente citada por modelos de lenguaje.',
+                        badge: 'ONLINE',
+                        badgeColor: 'te-badge-green',
+                        icon: SparklesIcon
+                      },
+                      {
+                        id: 'engineBuilder',
+                        slot: 'SLOT-02',
+                        title: 'Constructor Visual de Agentes',
+                        metric: '4 Agentes',
+                        metricLabel: 'Topología Operativa en Vivo',
+                        desc: 'Diseñador paso a paso de motores autónomos. Conecta fuentes de datos, LLMs y memorias RAG en un canvas interactivo.',
+                        badge: 'BUILDER',
+                        badgeColor: 'te-badge-orange',
+                        icon: CpuChipIcon
+                      },
+                      {
+                        id: 'revopsHubspot',
+                        slot: 'SLOT-04',
+                        title: 'Motor RevOps & Atribución HubSpot',
+                        metric: '$348,500',
+                        metricLabel: 'Pipeline Comercial Atribuido',
+                        desc: 'Atribución multi-toque de deals comerciales generados por contenido orgánico. Sincronización continua con HubSpot CRM.',
+                        badge: 'PIPELINE',
+                        badgeColor: 'te-badge-green',
+                        icon: BriefcaseIcon
+                      },
+                      {
+                        id: 'cmsConnectors',
+                        slot: 'SLOT-05',
+                        title: 'Patch Bay de Conectores CMS',
+                        metric: '18 ms',
+                        metricLabel: 'Payload CMS & WordPress REST',
+                        desc: 'Matriz física de conectores con despacho canary en 10% y auto-inyección de datos estructurados JSON-LD Schema.',
+                        badge: 'PATCH BAY',
+                        badgeColor: 'te-badge-orange',
+                        icon: ServerStackIcon
+                      },
+                      {
+                        id: 'pgvectorDatabase',
+                        slot: 'SLOT-06',
+                        title: 'Base Vectorial pgvector & HNSW',
+                        metric: '1536-dim',
+                        metricLabel: 'Índice de Similitud Coseno',
+                        desc: 'Almacenamiento vectorial en PostgreSQL. Deduplica ángulos temáticos y busca contexto relevante en menos de 12ms.',
+                        badge: 'HNSW RAG',
+                        badgeColor: 'te-badge-green',
+                        icon: CircleStackIcon
+                      },
+                      {
+                        id: 'executiveAudit',
+                        slot: 'SLOT-07',
+                        title: 'Auditoría Ejecutiva & Scorecard',
+                        metric: '94/100',
+                        metricLabel: 'Calificación C-Level Grado A+',
+                        desc: 'Scorecard ejecutivo de autoridad sintética, roadmap trimestral priorizado y exportador de informes en Markdown.',
+                        badge: 'C-LEVEL',
+                        badgeColor: 'te-badge-orange',
+                        icon: PresentationChartLineIcon
+                      },
+                      {
+                        id: 'contentDecay',
+                        slot: 'SLOT-08',
+                        title: 'Radar GSC & Decaimiento',
+                        metric: '14 URLs',
+                        metricLabel: 'En Alerta de Pérdida de Tráfico',
+                        desc: 'Barrido militar táctico 360° para detectar pérdida de posiciones orgánicas antes de que impacte los ingresos.',
+                        badge: 'RADAR 360°',
+                        badgeColor: 'te-badge-orange',
+                        icon: ArrowTrendingUpIcon
+                      },
+                      {
+                        id: 'finopsStudio',
+                        slot: 'SLOT-09',
+                        title: 'Token Telemetry & FinOps Studio',
+                        metric: '18.4M / 50M',
+                        metricLabel: 'Tokens Consumidos ($184.20 USD)',
+                        desc: 'Medidor analógico de 20 segmentos de consumo mensual de tokens con interruptor de corte de emergencia físico.',
+                        badge: 'FINOPS',
+                        badgeColor: 'te-badge-green',
+                        icon: CurrencyDollarIcon
+                      },
+                      {
+                        id: 'presetsStudio',
+                        slot: 'SLOT-10',
+                        title: 'Bóveda de Presets Multi-Nicho',
+                        metric: '4 Nichos',
+                        metricLabel: 'SaaS, FinTech, E-Com, Salud',
+                        desc: 'Afinación paramétrica de todos los motores con 1 toque. Exporta y restaura configuraciones en formato .rig.json.',
+                        badge: 'RIG PROFILES',
+                        badgeColor: 'te-badge-orange',
+                        icon: AdjustmentsVerticalIcon
+                      }
+                    ].map((mod) => {
+                      const IconComponent = mod.icon;
+                      const isInspected = inspectedEngineId === mod.id;
+
+                      return (
+                        <div
+                          key={mod.id}
+                          className={`te-rack-unit relative p-5 transition-all duration-200 flex flex-col justify-between group ${
+                            isInspected 
+                              ? 'border-[var(--accent-te)] bg-[#14171d] shadow-[0_0_20px_rgba(232,90,42,0.2)]'
+                              : 'hover:border-zinc-600 hover:bg-[#13161c]'
+                          }`}
+                        >
+                          <span className="te-rack-screw top-2.5 left-2.5" />
+                          <span className="te-rack-screw top-2.5 right-2.5" />
+                          <span className="te-rack-screw bottom-2.5 left-2.5" />
+                          <span className="te-rack-screw bottom-2.5 right-2.5" />
+
+                          {/* Header del Módulo */}
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+                                  {mod.slot}
+                                </span>
+                                <span className={`te-badge ${mod.badgeColor} font-mono text-[8px]`}>
+                                  {mod.badge}
+                                </span>
+                              </div>
+
+                              <div className="w-2 h-2 rounded-full bg-[#3ddc84] shadow-[0_0_6px_rgba(61,220,132,0.8)]" />
+                            </div>
+
+                            <div className="flex items-start gap-3">
+                              <div className="p-2 rounded-lg bg-[#181b20] border border-[var(--border-te)] text-zinc-300 group-hover:text-[var(--accent-te)] transition-colors">
+                                <IconComponent className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <h3 className="text-sm font-mono font-bold text-white group-hover:text-[var(--accent-te)] transition-colors">
+                                  {mod.title}
+                                </h3>
+                                <p className="text-[11px] text-zinc-400 font-mono mt-0.5 line-clamp-2 leading-relaxed">
+                                  {mod.desc}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Métrica Clave y Controles de Apertura */}
+                          <div className="mt-5 pt-3 border-t border-[var(--border-te)] space-y-3">
+                            <div>
+                              <span className="text-2xl font-mono font-bold tracking-tight text-white block">
+                                {mod.metric}
+                              </span>
+                              <span className="text-[10px] font-mono text-zinc-500 block">
+                                {mod.metricLabel}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2 pt-1">
+                              <button
+                                onClick={() => {
+                                  setActiveTab(mod.id);
+                                  toast.success(`Ingresando al universo de ${mod.title}...`);
+                                }}
+                                className="flex-1 py-1.5 px-3 rounded-lg bg-[var(--accent-te)] hover:bg-[#d04b1e] text-black font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                              >
+                                <span>Abrir Motor</span>
+                                <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setInspectedEngineId(isInspected ? null : mod.id);
+                                }}
+                                className="py-1.5 px-2.5 rounded-lg bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-400 hover:text-white font-mono text-xs transition-all cursor-pointer"
+                                title="Inspección rápida in-situ"
+                              >
+                                <EyeIcon className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* SEGUNDA SECCIÓN: TELEMETRÍA GLOBAL (ESQUEMA & OSCILOSCOPIO) */}
+                {overviewMode === 'telemetry' && (
+                  <div className="space-y-6 pt-4 border-t border-[var(--border-te)]">
 
                 {/* TEENAGE ENGINEERING HARDWARE CONTROL UNIT // THE 64-BIT LEGO PRINCIPLE */}
                 <div className="te-frame p-6 bg-te-dots relative overflow-hidden space-y-6">
@@ -2443,6 +2745,8 @@ LIMIT 5;`);
                 </div>
               </div>
             )}
+          </div>
+        )}
 
             {/* TAB: CONSTRUCTOR GRÁFICO DE MOTORES & ARQUITECTURA OPERATIVA */}
             {activeTab === 'engineBuilder' && (
