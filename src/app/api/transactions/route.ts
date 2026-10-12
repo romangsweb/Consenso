@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  return NextResponse.json({ status: 'ok', name: 'MKT NEXUS API' });
+  return NextResponse.json({ status: 'ok', name: 'BUILDATIONS STUDIO API' });
 }

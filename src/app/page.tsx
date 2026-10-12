@@ -48,7 +48,7 @@ export default function DashboardMockup() {
           <div className="w-8 h-8 rounded bg-[var(--primary)] mr-3 flex items-center justify-center shadow-[0_0_12px_rgba(255,90,0,0.35)]">
             <GlobeAltIcon className="w-5 h-5 text-white" />
           </div>
-          <h1 className="font-bold text-lg tracking-wide">MKT<span className="text-[var(--primary)]">NEXUS</span></h1>
+          <h1 className="font-bold text-base tracking-wide">BUILDATIONS <span className="text-[var(--primary)] font-black">STUDIO</span></h1>
         </div>
         
         <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
