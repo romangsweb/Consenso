@@ -19,12 +19,23 @@ import {
   ShareIcon,
   RocketLaunchIcon,
   ArrowPathRoundedSquareIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  CommandLineIcon,
+  EyeIcon,
+  ChevronDownIcon,
+  XMarkIcon,
+  PencilSquareIcon,
+  PlusIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
   const [activeTab, setActiveTab] = useState('overview');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [currentWorkspace, setCurrentWorkspace] = useState('soyroman.com');
+  const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isCanvasModalOpen, setIsCanvasModalOpen] = useState(false);
+  const [selectedArticleTitle, setSelectedArticleTitle] = useState('Cómo alinear Marketing y Ventas en HubSpot para reducir el ciclo de cierre');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
@@ -177,11 +188,54 @@ export default function DashboardMockup() {
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
         
         {/* Top Header */}
-        <header className="h-16 border-b border-[var(--border)] flex items-center justify-between px-8 bg-[var(--background)]/80 backdrop-blur-md z-10 transition-colors duration-200">
+        <header className="h-16 border-b border-[var(--border)] flex items-center justify-between px-8 bg-[var(--background)]/80 backdrop-blur-md z-20 transition-colors duration-200">
           <div className="flex items-center text-sm font-medium text-[var(--muted-foreground)]">
-            <span>Workspace</span>
-            <span className="mx-2">/</span>
-            <span className="text-[var(--foreground)] font-semibold capitalize">
+            
+            {/* Workspace Selector Dropdown */}
+            <div className="relative mr-4">
+              <button 
+                onClick={() => setIsWorkspaceDropdownOpen(!isWorkspaceDropdownOpen)}
+                className="flex items-center gap-2 bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--foreground)] px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition-all cursor-pointer"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>Workspace: <strong className="text-[var(--foreground)]">{currentWorkspace}</strong></span>
+                <ChevronDownIcon className="w-3.5 h-3.5 text-[var(--muted-foreground)]" />
+              </button>
+
+              {isWorkspaceDropdownOpen && (
+                <div className="absolute left-0 mt-2 w-56 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-2xl p-2 z-50 animate-fade-in">
+                  <p className="px-2 py-1 text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Tus Proyectos Activos</p>
+                  {['soyroman.com', 'fintechmx.io', 'agencia-growth.com'].map((ws) => (
+                    <button 
+                      key={ws}
+                      onClick={() => {
+                        setCurrentWorkspace(ws);
+                        setIsWorkspaceDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-between transition-colors cursor-pointer ${currentWorkspace === ws ? 'bg-[var(--primary)]/10 text-[var(--primary)] font-bold' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                    >
+                      <span>{ws}</span>
+                      {currentWorkspace === ws && <span className="text-xs">✓</span>}
+                    </button>
+                  ))}
+                  <div className="border-t border-[var(--border)] mt-1 pt-1">
+                    <button 
+                      onClick={() => {
+                        alert('Formulario para conectar nuevo dominio o CMS.');
+                        setIsWorkspaceDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-1.5 rounded-lg text-xs text-[var(--primary)] font-bold hover:bg-[var(--muted)] transition-colors flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <PlusIcon className="w-3.5 h-3.5" /> + Vincular Nuevo Sitio
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <span className="text-[var(--border)] hidden sm:inline">|</span>
+            <span className="mx-2 hidden sm:inline">Sección:</span>
+            <span className="text-[var(--foreground)] font-semibold capitalize hidden sm:inline">
               {activeTab
                 .replace('engineLauncher', 'Lanzador y Configurador de Motor SEO/AEO')
                 .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
@@ -198,7 +252,7 @@ export default function DashboardMockup() {
           </div>
           
           <div className="flex items-center space-x-3">
-            <div className="relative">
+            <div className="relative hidden md:block">
               <MagnifyingGlassIcon className="w-4 h-4 text-[var(--muted-foreground)] absolute left-3 top-1/2 -translate-y-1/2" />
               <input 
                 type="text" 
@@ -206,6 +260,17 @@ export default function DashboardMockup() {
                 className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-full pl-9 pr-4 py-1.5 text-xs focus:outline-none focus:border-[var(--primary)] transition-colors w-52 sm:w-64"
               />
             </div>
+
+            {/* Live Terminal Agent Button */}
+            <button
+              onClick={() => setIsTerminalOpen(!isTerminalOpen)}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-sm cursor-pointer transition-all ${isTerminalOpen ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-[var(--border)] bg-[var(--card)] hover:border-emerald-500 text-[var(--foreground)]'}`}
+              title="Abrir Terminal de Agentes Autónomos"
+            >
+              <CommandLineIcon className="w-4 h-4 text-emerald-500" />
+              <span className="hidden lg:inline">Terminal IA</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            </button>
 
             {/* Day / Night Theme Button */}
             <button
@@ -523,8 +588,14 @@ export default function DashboardMockup() {
                         <p>• Longitud: <strong className="text-[var(--foreground)]">2,200 palabras</strong></p>
                       </div>
                       <div className="pt-2">
-                        <button className="w-full bg-[var(--muted)] text-[var(--foreground)] py-2 rounded text-xs hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer font-medium">
-                          Previsualizar Borrador IA
+                        <button 
+                          onClick={() => {
+                            setSelectedArticleTitle("Cómo alinear Marketing y Ventas en HubSpot para reducir el ciclo de cierre");
+                            setIsCanvasModalOpen(true);
+                          }}
+                          className="w-full bg-[var(--primary)] text-white py-2 rounded text-xs hover:bg-[var(--primary-hover)] transition-colors cursor-pointer font-bold shadow-sm flex items-center justify-center gap-1.5"
+                        >
+                          <EyeIcon className="w-4 h-4" /> Previsualizar & Editar Borrador IA
                         </button>
                       </div>
                     </div>
@@ -1539,6 +1610,195 @@ export default function DashboardMockup() {
           </div>
         </div>
       </main>
+
+      {/* MODAL 1: LIVE ARTICLE CANVAS & AEO EDITOR */}
+      {isCanvasModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md animate-fade-in">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-5xl h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+            
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-[var(--border)] flex justify-between items-center bg-[var(--background)]">
+              <div className="flex items-center gap-3">
+                <span className="p-2 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)]">
+                  <PencilSquareIcon className="w-5 h-5" />
+                </span>
+                <div>
+                  <h3 className="font-bold text-base leading-tight">Editor Canvas & Simulador de Aprobación CMS</h3>
+                  <p className="text-xs text-[var(--muted-foreground)]">Revisa la estructura generada por el motor AEO antes de enviar al blog.</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => {
+                    alert('¡Artículo aprobado y despachado con éxito vía Webhook!');
+                    setIsCanvasModalOpen(false);
+                  }}
+                  className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_12px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-1.5"
+                >
+                  <CheckCircleIcon className="w-4 h-4" /> Aprobar & Enviar a CMS
+                </button>
+                <button 
+                  onClick={() => setIsCanvasModalOpen(false)}
+                  className="p-2 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors cursor-pointer"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body: 2 Columns */}
+            <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+              
+              {/* Left Column: Article Document Preview */}
+              <div className="flex-1 overflow-y-auto p-8 space-y-6 border-r border-[var(--border)] bg-[var(--card)]">
+                <div>
+                  <span className="text-[10px] font-mono uppercase bg-[var(--primary)]/10 text-[var(--primary)] px-2.5 py-1 rounded font-bold">
+                    Silo: RevOps & HubSpot • 2,200 Palabras
+                  </span>
+                  <h1 className="text-2xl sm:text-3xl font-black mt-3 leading-snug text-[var(--foreground)]">
+                    {selectedArticleTitle}
+                  </h1>
+                  <p className="text-xs text-[var(--muted-foreground)] mt-2 font-mono">
+                    Slug sugerido: <span className="text-[var(--primary)]">/blog/alinear-marketing-ventas-hubspot-revops</span>
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs space-y-2">
+                  <strong className="text-[var(--foreground)] block">Extracto / Direct Answer para Perplexity & Google:</strong>
+                  <p className="text-[var(--muted-foreground)] leading-relaxed italic">
+                    "Alinear Marketing y Ventas en HubSpot requiere definir un SLA (Acuerdo de Nivel de Servicio) basado en Lead Scoring, sincronizar propiedades de ciclo de vida automáticas y activar notificaciones instantáneas para el equipo comercial ante prospectos calificados."
+                  </p>
+                </div>
+
+                <div className="prose prose-sm max-w-none text-[var(--foreground)] space-y-4 text-xs sm:text-sm leading-relaxed">
+                  <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">1. El Verdadero Costo de la Fricción entre Marketing y Ventas</h2>
+                  <p className="text-[var(--muted-foreground)]">
+                    En las empresas B2B tradicionales, hasta el 70% de los leads generados por campañas publicitarias nunca son contactados por los ejecutivos comerciales. Esto ocurre porque no existe un criterio unificado de lo que constituye un <em>Marketing Qualified Lead (MQL)</em> vs un <em>Sales Qualified Lead (SQL)</em>.
+                  </p>
+
+                  <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">2. Tabla Comparativa de Criterios de Calificación</h2>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs border border-[var(--border)] rounded-lg">
+                      <thead className="bg-[var(--muted)] text-[var(--muted-foreground)]">
+                        <tr>
+                          <th className="p-2.5">Etapa</th>
+                          <th className="p-2.5">Criterio en HubSpot</th>
+                          <th className="p-2.5">Acción Automatizada</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[var(--border)]">
+                        <tr>
+                          <td className="p-2.5 font-bold">MQL</td>
+                          <td className="p-2.5">Score &gt; 50 pts + Descarga Guía</td>
+                          <td className="p-2.5">Nutrición por email</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2.5 font-bold text-[var(--primary)]">SQL</td>
+                          <td className="p-2.5">Solicitud de Demo + Tamaño Empresa &gt; 20</td>
+                          <td className="p-2.5 font-bold text-emerald-500">Asignar SDR en 5 min</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h2 className="text-lg font-bold border-b border-[var(--border)] pb-2">3. Implementación Paso a Paso del Workflow</h2>
+                  <p className="text-[var(--muted-foreground)]">
+                    Al utilizar las propiedades calculadas de HubSpot CRM combinadas con triggers de interacción de contenido, el ciclo comercial promedio disminuye de 45 a 18 días.
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Column: AEO / GEO Scorecard & Metadata */}
+              <div className="w-full lg:w-80 bg-[var(--background)] p-6 space-y-6 overflow-y-auto">
+                <div>
+                  <h4 className="font-bold text-sm mb-1">Diagnóstico AEO Score</h4>
+                  <div className="flex items-center gap-3 mt-2">
+                    <div className="text-3xl font-black text-emerald-500">96<span className="text-xs text-[var(--muted-foreground)]">/100</span></div>
+                    <span className="text-[10px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-1 rounded">
+                      Listo para Indexar
+                    </span>
+                  </div>
+                </div>
+
+                {/* AEO Checklist */}
+                <div className="space-y-3 text-xs">
+                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Checklist de Calidad</p>
+                  
+                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
+                    <span>Respuesta Directa en Párrafo 1</span>
+                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
+                    <span>Tabla Comparativa Estructurada</span>
+                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
+                    <span>Schema JSON-LD inyectado</span>
+                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-[var(--card)] border border-[var(--border)]">
+                    <span>Enlaces Internos al Pilar (1)</span>
+                    <span className="text-emerald-500 font-bold">✓ Pasa</span>
+                  </div>
+                </div>
+
+                {/* SEO Meta Fields */}
+                <div className="space-y-3 text-xs border-t border-[var(--border)] pt-4">
+                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Meta Etiquetas Generadas</p>
+                  <div>
+                    <label className="text-[10px] font-bold text-[var(--muted-foreground)] block mb-1">Meta Title</label>
+                    <input 
+                      type="text" 
+                      defaultValue="Cómo alinear Marketing y Ventas en HubSpot | Guía RevOps 2026"
+                      className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-xs text-[var(--foreground)]"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-[var(--muted-foreground)] block mb-1">Meta Description</label>
+                    <textarea 
+                      rows={3}
+                      defaultValue="Aprende a integrar marketing y ventas en HubSpot CRM. Descubre workflows automatizados y SLAs para reducir el ciclo comercial hasta un 40%."
+                      className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-xs text-[var(--foreground)] leading-relaxed"
+                    />
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DRAWER 2: TERMINAL DE AGENTES AUTÓNOMOS EN TIEMPO REAL */}
+      {isTerminalOpen && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950 text-emerald-400 border-t-2 border-emerald-500/50 shadow-2xl animate-fade-in font-mono text-xs max-h-72 flex flex-col">
+          <div className="px-6 py-2.5 bg-slate-900 border-b border-slate-800 flex justify-between items-center text-slate-300">
+            <div className="flex items-center gap-2">
+              <CommandLineIcon className="w-4 h-4 text-emerald-400" />
+              <span className="font-bold text-xs text-white">Terminal de Ejecución de Agentes • Buildations Engine v2.4</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping ml-2"></span>
+            </div>
+            <button 
+              onClick={() => setIsTerminalOpen(false)}
+              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <XMarkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="p-4 overflow-y-auto space-y-1.5 flex-1 bg-black/90">
+            <p className="text-slate-500">[11:04:12] [SYSTEM] Buildations Engine inicializado en modo background daemon...</p>
+            <p className="text-slate-400">[11:04:18] [WORKER-AI] Conexión establecida con Cloudflare Llama 3.1 8B Instruct (Latency: 184ms)</p>
+            <p className="text-emerald-400">[11:05:02] [MONITOR] Rastreando SERP para keyword: "alinear marketing y ventas hubspot" (10 competidores analizados)</p>
+            <p className="text-emerald-400">[11:05:33] [AEO-ANALYST] Detectada oportunidad de Direct Answer: "diferencia entre MQL y SQL en HubSpot"</p>
+            <p className="text-yellow-400">[11:06:14] [WRITER-AGENT] Redactando borrador #ART-892 (Longitud generada: 2,240 palabras, 4 tablas, 3 FAQ schemas)</p>
+            <p className="text-cyan-400">[11:07:05] [HUBSPOT-LINK] Mapeando propiedades de atribución a portal #24981290... OK</p>
+            <p className="text-emerald-300 font-bold">[11:08:40] [STATUS] Borrador listo en cola de aprobación. Esperando confirmación de usuario en Live Canvas.</p>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
