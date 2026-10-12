@@ -300,3 +300,44 @@ body {
   animation: dataStreamParticles 20s linear infinite;
 }
 
+/* ONBOARDING & SETUP VISUAL FLOW ANIMATIONS */
+@keyframes setupPulseBeacon {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 90, 0, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(255, 90, 0, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 90, 0, 0); }
+}
+
+.animate-setup-beacon {
+  animation: setupPulseBeacon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pipelineFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-pipeline-gradient {
+  background-size: 200% 200%;
+  animation: pipelineFlow 4s ease infinite;
+}
+
+@keyframes holographicFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(0.5deg); }
+}
+
+.animate-holo-float {
+  animation: holographicFloat 4s ease-in-out infinite;
+}
+
+@keyframes radarSweepCircle {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-radar-sweep {
+  animation: radarSweepCircle 4s linear infinite;
+}
+
+

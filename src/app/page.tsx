@@ -801,6 +801,23 @@ export default function DashboardMockup() {
     { id: 'usr-4', name: 'Service Worker Autopilot', email: 'service-bot@buildations.internal', role: 'Bot de Orquestación', status: 'En Ejecución', twoFactor: false, lastLogin: 'En Vivo' },
   ]);
 
+  // Estados para el Recorrido Interactivo de Onboarding Guiado (Zero-to-One Setup Wizard)
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [onboardingScenario, setOnboardingScenario] = useState<'b2b_saas' | 'ecommerce' | 'agency_white_label' | 'custom_dev'>('b2b_saas');
+  const [onboardingStep, setOnboardingStep] = useState(1);
+  const [onboardingFormData, setOnboardingFormData] = useState({
+    siteDomain: 'https://mi-empresa-saas.com',
+    targetNiche: 'B2B Software & AI Automation',
+    engineModel: 'Anthropic Claude 3.7 + DeepSeek Fast MoE',
+    databaseBinding: 'Neon PostgreSQL (Serverless)',
+    cmsTarget: 'Payload CMS + Next.js App Router',
+    primaryGoal: 'Maximizar Citabilidad AEO en Perplexity y ChatGPT',
+    dnsSetupType: 'Vercel Anycast Edge + Hetzner Worker Node',
+    hubspotSync: true
+  });
+  const [isOnboardingTestingConnection, setIsOnboardingTestingConnection] = useState(false);
+  const [onboardingTestSuccess, setOnboardingTestSuccess] = useState(false);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
     if (savedTheme) {
@@ -819,6 +836,7 @@ export default function DashboardMockup() {
         setIsWorkspaceDropdownOpen(false);
         setSelectedAgent(null);
         setIsQuickScanModalOpen(false);
+        setIsOnboardingOpen(false);
       }
     };
 
@@ -1052,6 +1070,19 @@ export default function DashboardMockup() {
                   <BookOpenIcon className="w-5 h-5 mr-3 text-cyan-400" /> Manual &amp; Documentación
                 </div>
                 <span className="text-[9px] font-mono px-1.5 rounded bg-[var(--muted)] text-[var(--foreground)] font-bold">V2.4</span>
+              </button>
+
+              <button 
+                onClick={() => {
+                  setOnboardingStep(1);
+                  setIsOnboardingOpen(true);
+                }}
+                className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer text-amber-400 hover:text-white hover:bg-amber-500/20 bg-amber-500/10 border border-amber-500/30"
+              >
+                <div className="flex items-center">
+                  <SparklesIcon className="w-5 h-5 mr-3 text-amber-400 animate-pulse" /> Tour de Onboarding
+                </div>
+                <span className="text-[9px] font-mono px-1.5 rounded bg-amber-500/30 text-amber-200 font-bold">GUIADO</span>
               </button>
             </div>
           </div>
@@ -1292,6 +1323,19 @@ export default function DashboardMockup() {
                 <span className="text-[8px] px-1 rounded bg-orange-500/20 text-orange-300 font-bold">COMPILANDO</span>
               </button>
             </div>
+
+            {/* Onboarding Wizard Launcher Button */}
+            <button
+              onClick={() => {
+                setOnboardingStep(1);
+                setIsOnboardingOpen(true);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--primary)] bg-[var(--primary)]/10 hover:bg-[var(--primary)]/20 text-[var(--primary)] text-xs font-bold shadow-sm transition-all cursor-pointer animate-setup-beacon"
+              title="Iniciar Recorrido de Configuración Guiada Paso a Paso (Nuevo Usuario)"
+            >
+              <SparklesIcon className="w-3.5 h-3.5 text-[var(--primary)] animate-pulse" />
+              <span>Configuración Guiada (Zero-to-One)</span>
+            </button>
 
             {/* Executive vs Technical View Switch */}
             <button
@@ -8006,6 +8050,7 @@ export default function DashboardMockup() {
                 { name: "Inspeccionar SERP & AEO X-Ray", tab: "serpxray", icon: "⚡", desc: "Analiza el Top 10 de Google con Llama 3.1" },
                 { name: "Manual de Uso, Homologación & FAQs", tab: "documentation", icon: "📖", desc: "Guía técnica oficial, matriz de arquitectura y resolución de dudas" },
                 { name: "Configuración de Cuenta & Enterprise Vault", tab: "settings", icon: "⚙️", desc: "Bóveda de API Keys, orquestación DNS, webhooks y credenciales" },
+                { name: "Tour de Onboarding Guiado (Zero-to-One)", action: "onboarding", icon: "✨", desc: "Asistente visual interactivo paso a paso para configurar tu servicio de cero" },
                 { name: "Alternar Modo Día / Modo Noche", action: "theme", icon: "🌓", desc: "Cambia el tema de color del estudio" },
               ]
                 .filter(item => !searchQuery || item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -8024,6 +8069,11 @@ export default function DashboardMockup() {
                       if (item.action === 'terminal') {
                         setIsTerminalOpen(true);
                         showToast('Consola Kernel', 'Monitoreando telemetría de agentes autónomos', 'info');
+                      }
+                      if (item.action === 'onboarding') {
+                        setOnboardingStep(1);
+                        setIsOnboardingOpen(true);
+                        showToast('Tour de Onboarding', 'Iniciando asistente de configuración visual', 'info');
                       }
                       if (item.action === 'theme') {
                         toggleTheme();
@@ -8549,6 +8599,688 @@ export default function DashboardMockup() {
                 Cerrar Panel de Infraestructura
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 7: ONBOARDING INTERACTIVO ZERO-TO-ONE (SETUP WIZARD CON ANIMACIONES 64-BIT) */}
+      {isOnboardingOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-xl animate-fade-in">
+          <div className="bg-[var(--card)] border-2 border-[var(--primary)]/60 rounded-3xl w-full max-w-5xl h-[92vh] flex flex-col shadow-[0_0_60px_rgba(255,90,0,0.35)] overflow-hidden relative">
+            
+            {/* Ambient Animated Beam */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent animate-laser-sweep pointer-events-none" />
+
+            {/* Header del Onboarding */}
+            <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-zinc-950 via-zinc-900 to-black flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-[var(--primary)]/15 border border-[var(--primary)]/30 flex items-center justify-center text-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.3)] animate-holo-float">
+                  <SparklesIcon className="w-6 h-6 animate-pulse" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-black text-base sm:text-lg text-white tracking-tight">
+                      Recorrido de Configuración Guiada <span className="text-[var(--primary)]">// Zero-to-One</span>
+                    </h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] border border-[var(--primary)]/40 font-bold">
+                      Paso {onboardingStep} de 5
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-400">
+                    Sigue las indicaciones visuales para desplegar y calibrar tu flota de motores, bases de datos y conectores CMS.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                {/* Stepper Dots Indicator */}
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setOnboardingStep(s)}
+                      className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                        onboardingStep === s
+                          ? 'w-7 bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]'
+                          : onboardingStep > s
+                          ? 'w-2.5 bg-emerald-400'
+                          : 'w-2.5 bg-zinc-700'
+                      }`}
+                      title={`Ir al Paso ${s}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setIsOnboardingOpen(false)}
+                  className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                  title="Cerrar Asistente (Esc)"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Stepper Progress Bar */}
+            <div className="w-full bg-zinc-900 h-1 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-[var(--primary)] to-amber-400 h-full transition-all duration-500"
+                style={{ width: `${(onboardingStep / 5) * 100}%` }}
+              />
+            </div>
+
+            {/* Modal Body: Dynamic Step Content */}
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+
+              {/* PASO 1: SELECCIÓN DEL ESCENARIO DE NEGOCIO */}
+              {onboardingStep === 1 && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="text-center max-w-2xl mx-auto space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--primary)] font-bold">
+                      01. Topología del Proyecto
+                    </span>
+                    <h2 className="text-2xl font-black text-[var(--foreground)]">¿Cuál es el Escenario Operativo de tu Organización?</h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                      Configuraremos automáticamente la arquitectura de silos, umbrales de latencia y modelos de IA según tu modelo de negocio.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto pt-2">
+                    {[
+                      {
+                        id: 'b2b_saas',
+                        title: 'Empresa B2B / SaaS de Alto Valor',
+                        desc: 'Sincronización nativa con HubSpot, atribución de pipeline comercial MQL/SQL y citabilidad en respuestas de Perplexity.',
+                        badge: 'Recomendado RevOps',
+                        badgeColor: 'border-orange-500/40 text-orange-400 bg-orange-500/10',
+                        features: ['HubSpot Private App PAT', 'Silos de Decisión de Compra', 'Anthropic Claude 3.7 Reasoning']
+                      },
+                      {
+                        id: 'ecommerce',
+                        title: 'E-commerce & Catálogo Multi-Producto',
+                        desc: 'Generación programática de fichas técnicas AEO, sitemaps divididos por categorías y purga instantánea en Vercel Edge.',
+                        badge: 'Alta Frecuencia',
+                        badgeColor: 'border-cyan-500/40 text-cyan-400 bg-cyan-500/10',
+                        features: ['DeepSeek MoE Inferencia Rápida', 'Reconstructor de Slugs Masivo', 'Caché Edge TTFB < 15ms']
+                      },
+                      {
+                        id: 'agency_white_label',
+                        title: 'Agencia Digital & White-Label Multicliente',
+                        desc: 'Espacios de trabajo separados por dominio, portal ejecutivo C-Level para clientes y branding personalizado sin mención a Consenso.',
+                        badge: 'Multi-Tenant',
+                        badgeColor: 'border-purple-500/40 text-purple-400 bg-purple-500/10',
+                        features: ['Portales Ejecutivos C-Level', 'Exportación de Reportes PDF/JSON', 'RBAC y Roles de Colaboradores']
+                      },
+                      {
+                        id: 'custom_dev',
+                        title: 'Arquitectura Headless & Cloud Híbrido',
+                        desc: 'Desacoplamiento total con Next.js 15, base de datos Neon Serverless, Hetzner Bare-Metal y API REST para CMS propio.',
+                        badge: 'DevOps / Bare-Metal',
+                        badgeColor: 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10',
+                        features: ['Cluster Hetzner NVMe', 'Postgres + pgvector 1536d', 'Webhooks HMAC-SHA256']
+                      }
+                    ].map((scenario) => {
+                      const isSelected = onboardingScenario === scenario.id;
+                      return (
+                        <div
+                          key={scenario.id}
+                          onClick={() => setOnboardingScenario(scenario.id as any)}
+                          className={`p-6 rounded-2xl border-2 transition-all cursor-pointer relative group flex flex-col justify-between ${
+                            isSelected
+                              ? 'bg-[var(--primary)]/10 border-[var(--primary)] shadow-[0_0_25px_rgba(255,90,0,0.25)]'
+                              : 'bg-[var(--card)] border-[var(--border)] hover:border-zinc-500 hover:bg-[var(--muted)]/40'
+                          }`}
+                        >
+                          <div className="space-y-3">
+                            <div className="flex items-start justify-between gap-2">
+                              <span className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full border font-bold ${scenario.badgeColor}`}>
+                                {scenario.badge}
+                              </span>
+                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isSelected ? 'border-[var(--primary)] bg-[var(--primary)] text-white' : 'border-zinc-600'}`}>
+                                {isSelected && <CheckIcon className="w-3 h-3 font-black" />}
+                              </div>
+                            </div>
+                            <h3 className="font-bold text-base text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
+                              {scenario.title}
+                            </h3>
+                            <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                              {scenario.desc}
+                            </p>
+                          </div>
+
+                          <div className="pt-4 border-t border-[var(--border)]/70 mt-4 space-y-1.5">
+                            {scenario.features.map((f, idx) => (
+                              <div key={idx} className="flex items-center gap-2 text-[11px] text-[var(--foreground)] font-mono">
+                                <span className="text-[var(--primary)]">✓</span>
+                                <span>{f}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Visual Simulation Strip */}
+                  <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 max-w-4xl mx-auto flex items-center justify-between text-xs font-mono text-zinc-400">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      Perfil seleccionado calibrando presets de IA...
+                    </span>
+                    <span className="text-zinc-200 font-bold uppercase">{onboardingScenario.replace('_', ' ')}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* PASO 2: CONECTIVIDAD DE DOMINIO & DNS */}
+              {onboardingStep === 2 && (
+                <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
+                  <div className="text-center space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 font-bold">
+                      02. Identidad Web &amp; Red Anycast
+                    </span>
+                    <h2 className="text-2xl font-black text-[var(--foreground)]">Vincular Dominio y Configurar Enrutamiento DNS</h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                      Tu dominio será enlazado a la red de borde global de Vercel y al clúster de cómputo para satélites automatizados.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    {/* Formulario de Dominio */}
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                      <div>
+                        <label className="text-xs font-bold text-[var(--foreground)] block mb-1">
+                          Dominio Principal de Producción
+                        </label>
+                        <input
+                          type="text"
+                          value={onboardingFormData.siteDomain}
+                          onChange={(e) => setOnboardingFormData({ ...onboardingFormData, siteDomain: e.target.value })}
+                          placeholder="https://tu-dominio.com"
+                          className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl px-4 py-2.5 text-xs font-mono text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none"
+                        />
+                        <p className="text-[10px] text-[var(--muted-foreground)] mt-1">
+                          Acepta subdominios (ej. <code>blog.miempresa.com</code>) o dominios raíz (Apex).
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-bold text-[var(--foreground)] block mb-1">
+                          Nicho o Industria de Operación
+                        </label>
+                        <input
+                          type="text"
+                          value={onboardingFormData.targetNiche}
+                          onChange={(e) => setOnboardingFormData({ ...onboardingFormData, targetNiche: e.target.value })}
+                          placeholder="ej. Finanzas B2B, Logística, Consultoría"
+                          className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl px-4 py-2.5 text-xs text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 space-y-1">
+                        <span className="font-bold flex items-center gap-1.5 text-blue-400">
+                          <GlobeAltIcon className="w-4 h-4" /> Certificado SSL/TLS Automático
+                        </span>
+                        <p className="text-[11px] leading-relaxed">
+                          La emisión del certificado Wildcard TLS 1.3 se gestiona de forma transparente sin intervención manual.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Esquema Visual de Registros DNS a Configurar */}
+                    <div className="p-6 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-4 font-mono text-xs">
+                      <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span className="text-zinc-400 uppercase font-bold text-[10px] flex items-center gap-2">
+                          <ServerStackIcon className="w-4 h-4 text-cyan-400" /> Registros DNS Requeridos
+                        </span>
+                        <span className="text-[9px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded font-bold">
+                          84 POPs ANYCAST
+                        </span>
+                      </div>
+
+                      <div className="space-y-2.5">
+                        <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] font-bold text-blue-400 block">REGISTRO A (APEX)</span>
+                            <span className="text-zinc-200">@ → 76.76.21.21</span>
+                          </div>
+                          <span className="text-[10px] text-emerald-400 font-bold">Vercel Edge</span>
+                        </div>
+
+                        <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] font-bold text-purple-400 block">CNAME (SUBDOMINIOS)</span>
+                            <span className="text-zinc-200">cname → cname.vercel-dns.com</span>
+                          </div>
+                          <span className="text-[10px] text-emerald-400 font-bold">Global CDN</span>
+                        </div>
+
+                        <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] font-bold text-amber-400 block">TXT (VERIFICACIÓN)</span>
+                            <span className="text-zinc-200">_buildations-challenge=live-ok</span>
+                          </div>
+                          <span className="text-[10px] text-emerald-400 font-bold">SHA-256</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 text-center">
+                        <span className="text-[10px] text-zinc-500">
+                          Al continuar, el sistema generará estos registros automáticamente en la Bóveda de DNS.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* PASO 3: BÓVEDA DE IA & CLUSTERS DE BASES DE DATOS */}
+              {onboardingStep === 3 && (
+                <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
+                  <div className="text-center space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold">
+                      03. Motores de Inferencia &amp; Almacenamiento
+                    </span>
+                    <h2 className="text-2xl font-black text-[var(--foreground)]">Seleccionar Motor de IA y Clúster de Datos</h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                      Define la combinación de modelos de lenguaje para razonamiento y la base de datos relacional/vectorial.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    {/* Tarjeta de Motores de IA */}
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-bold font-mono uppercase text-[var(--foreground)] flex items-center gap-2">
+                          <CpuChipIcon className="w-4 h-4 text-[var(--primary)]" />
+                          Flota de Modelos de Lenguaje
+                        </h4>
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)] font-bold">
+                          DUAL-ENGINE
+                        </span>
+                      </div>
+
+                      <div className="space-y-2.5">
+                        {[
+                          {
+                            name: 'Anthropic Claude 3.7 + DeepSeek R1',
+                            tag: 'Máxima Precisión Editorial & AEO',
+                            icon: ClaudeLogo,
+                            desc: 'Claude razona el contenido pilar; DeepSeek filtra miles de micro-intenciones a bajo costo.'
+                          },
+                          {
+                            name: 'OpenAI GPT-4o + Text-Embedding-3',
+                            tag: 'Estándar Corporativo Multimodal',
+                            icon: OpenAILogo,
+                            desc: 'Alta consistencia sintáctica y generación masiva de representaciones de 1,536 dimensiones.'
+                          },
+                          {
+                            name: 'DeepSeek V3 Autónomo (Ultra-Fast)',
+                            tag: 'Velocidad de Alto Volumen',
+                            icon: CpuChipIcon,
+                            desc: 'Inferencia a 90 tokens/segundo con costo reducido para catálogos extensos.'
+                          }
+                        ].map((m, i) => (
+                          <div
+                            key={i}
+                            onClick={() => setOnboardingFormData({ ...onboardingFormData, engineModel: m.name })}
+                            className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                              onboardingFormData.engineModel === m.name
+                                ? 'bg-[var(--primary)]/10 border-[var(--primary)]'
+                                : 'bg-[var(--background)] border-[var(--border)] hover:border-zinc-500'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-bold text-xs text-[var(--foreground)]">{m.name}</span>
+                              <span className="text-[9px] font-mono text-zinc-400">{m.tag}</span>
+                            </div>
+                            <p className="text-[11px] text-[var(--muted-foreground)] leading-tight">{m.desc}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tarjeta de Clúster de Datos */}
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-bold font-mono uppercase text-[var(--foreground)] flex items-center gap-2">
+                          <ServerStackIcon className="w-4 h-4 text-emerald-400" />
+                          Capa de Datos &amp; pgvector
+                        </h4>
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">
+                          POSTGRESQL 16
+                        </span>
+                      </div>
+
+                      <div className="space-y-2.5">
+                        {[
+                          {
+                            name: 'Neon PostgreSQL (Dedicated Serverless)',
+                            tag: 'Escalado Elástico a Cero',
+                            icon: NeonLogo,
+                            desc: '0.25 a 8 Compute Units automáticas. Branching instantáneo para pruebas aisladas.'
+                          },
+                          {
+                            name: 'Hetzner AX101 Bare-Metal Cluster',
+                            tag: 'Rendimiento Dedicado NVMe',
+                            icon: HetznerLogo,
+                            desc: 'Servidor físico con AMD EPYC, 128GB RAM y SSDs PCIe Gen4 sin límites de I/O.'
+                          },
+                          {
+                            name: 'Supabase pgvector Híbrido',
+                            tag: 'Full-Stack con Auth y RLS',
+                            icon: SupabaseLogo,
+                            desc: 'Tablas de auditoría en tiempo real y compatibilidad con LangChain / LlamaIndex.'
+                          }
+                        ].map((db, i) => (
+                          <div
+                            key={i}
+                            onClick={() => setOnboardingFormData({ ...onboardingFormData, databaseBinding: db.name })}
+                            className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                              onboardingFormData.databaseBinding === db.name
+                                ? 'bg-emerald-500/10 border-emerald-500'
+                                : 'bg-[var(--background)] border-[var(--border)] hover:border-zinc-500'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-bold text-xs text-[var(--foreground)]">{db.name}</span>
+                              <span className="text-[9px] font-mono text-zinc-400">{db.tag}</span>
+                            </div>
+                            <p className="text-[11px] text-[var(--muted-foreground)] leading-tight">{db.desc}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* PASO 4: CONECTOR CMS & REVOPS HUBSPOT */}
+              {onboardingStep === 4 && (
+                <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
+                  <div className="text-center space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">
+                      04. Despacho Editorial &amp; CRM Sync
+                    </span>
+                    <h2 className="text-2xl font-black text-[var(--foreground)]">Conectar CMS y Trazabilidad Comercial</h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                      Los artículos generados con validación AEO serán publicados vía API a tu CMS y registrarán atribución de ingresos.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    {/* CMS Target Selector */}
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                      <h4 className="text-xs font-bold font-mono uppercase text-[var(--foreground)] flex items-center gap-2">
+                        <DocumentTextIcon className="w-4 h-4 text-cyan-400" />
+                        CMS de Destino de Publicación
+                      </h4>
+
+                      <div className="space-y-3">
+                        {[
+                          {
+                            id: 'Payload CMS + Next.js App Router',
+                            title: 'Payload CMS (TypeScript Nativo)',
+                            desc: 'Inyección de Schema JSON-LD directo en base de datos PostgreSQL. Soporte de campos visuales y Drafts.',
+                            icon: PayloadLogo
+                          },
+                          {
+                            id: 'WordPress REST API / Plugin',
+                            title: 'WordPress (Application Password)',
+                            desc: 'Despacho automatizado a sitios WordPress estándar con soporte de Yoast SEO y RankMath.',
+                            icon: WordPressLogo
+                          },
+                          {
+                            id: 'Custom Headless API Webhook',
+                            title: 'API Personalizada / Webhook Endpoint',
+                            desc: 'Entrega en payload JSON con firma criptográfica HMAC-SHA256 para sistemas propietarios.',
+                            icon: BoltIcon
+                          }
+                        ].map((cms) => (
+                          <div
+                            key={cms.id}
+                            onClick={() => setOnboardingFormData({ ...onboardingFormData, cmsTarget: cms.id })}
+                            className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3.5 ${
+                              onboardingFormData.cmsTarget === cms.id
+                                ? 'bg-cyan-500/10 border-cyan-500'
+                                : 'bg-[var(--background)] border-[var(--border)] hover:border-zinc-500'
+                            }`}
+                          >
+                            <cms.icon className="w-5 h-5 text-white shrink-0 mt-0.5" />
+                            <div className="space-y-1">
+                              <span className="font-bold text-xs text-[var(--foreground)] block">{cms.title}</span>
+                              <p className="text-[11px] text-[var(--muted-foreground)] leading-tight">{cms.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* HubSpot RevOps Integration Card */}
+                    <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-bold font-mono uppercase text-[var(--foreground)] flex items-center gap-2">
+                          <HubSpotLogo className="w-4 h-4" />
+                          Sincronización RevOps HubSpot
+                        </h4>
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 font-bold border border-orange-500/30">
+                          CRM SYNC
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                        Conecta tu portal de HubSpot para medir qué clusters de contenido generan mayor cantidad de MQLs, SQLs y negocios cerrados ganados.
+                      </p>
+
+                      <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-[var(--foreground)]">Activar Telemetría de Deals</span>
+                          <input
+                            type="checkbox"
+                            checked={onboardingFormData.hubspotSync}
+                            onChange={(e) => setOnboardingFormData({ ...onboardingFormData, hubspotSync: e.target.checked })}
+                            className="w-4 h-4 accent-[var(--primary)] cursor-pointer"
+                          />
+                        </div>
+                        <div className="text-[11px] font-mono text-zinc-400 space-y-1">
+                          <div className="flex justify-between">
+                            <span>Mapeo de Propiedades:</span>
+                            <span className="text-emerald-400 font-bold">14 Propiedades Auto</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>SLA Notificación SDR:</span>
+                            <span className="text-white font-bold">&lt; 5 minutos</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Ping Test Button */}
+                      <div className="pt-2">
+                        <button
+                          onClick={() => {
+                            setIsOnboardingTestingConnection(true);
+                            setOnboardingTestSuccess(false);
+                            setTimeout(() => {
+                              setIsOnboardingTestingConnection(false);
+                              setOnboardingTestSuccess(true);
+                              showToast(
+                                'Conexión CMS & CRM Verificada',
+                                'Tokens validados con éxito. Latencia de respuesta: 24ms (200 OK).',
+                                'success'
+                              );
+                            }, 1100);
+                          }}
+                          disabled={isOnboardingTestingConnection}
+                          className="w-full py-2.5 rounded-xl border border-[var(--border)] bg-[var(--background)] hover:bg-[var(--muted)] text-xs font-bold text-[var(--foreground)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                          <ArrowPathIcon className={`w-3.5 h-3.5 ${isOnboardingTestingConnection ? 'animate-spin text-[var(--primary)]' : ''}`} />
+                          <span>
+                            {isOnboardingTestingConnection
+                              ? 'Comprobando Conexión REST...'
+                              : onboardingTestSuccess
+                              ? '✓ Conexión Validada (200 OK)'
+                              : 'Probar Ping de Conexión'}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* PASO 5: SIMULADOR DE PIPELINE EN VIVO & ACTIVACIÓN */}
+              {onboardingStep === 5 && (
+                <div className="space-y-6 animate-fade-in max-w-4xl mx-auto">
+                  <div className="text-center space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--primary)] font-bold">
+                      05. Despliegue &amp; Validación de la Flota
+                    </span>
+                    <h2 className="text-2xl font-black text-[var(--foreground)]">Tu Ecosistema está Listo para Encenderse</h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                      Revisa el diagrama de arquitectura generado dinámicamente antes de encender el motor autónomo.
+                    </p>
+                  </div>
+
+                  {/* DIAGRAMA ANIMADO DE TUBERÍA DE 64 BITS */}
+                  <div className="p-6 rounded-2xl bg-zinc-950 border-2 border-[var(--primary)]/50 relative overflow-hidden space-y-6 shadow-2xl">
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--primary)]/10 rounded-full blur-3xl pointer-events-none" />
+
+                    <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                        <span className="font-mono text-xs font-bold text-white uppercase tracking-wider">
+                          Pipeline Topológico Activo: {onboardingFormData.siteDomain.replace(/^https?:\/\//, '')}
+                        </span>
+                      </div>
+                      <span className="font-mono text-[10px] text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded">
+                        ESTADO: LISTO PARA LANZAMIENTO
+                      </span>
+                    </div>
+
+                    {/* Flujo Gráfico en 4 Nodos con Cables Animados */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+                      {/* Nodo 1 */}
+                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-400 mx-auto flex items-center justify-center font-bold text-xs">
+                          1
+                        </div>
+                        <span className="font-bold text-xs text-white block">Rastreo &amp; SERP</span>
+                        <p className="text-[10px] text-zinc-400 font-mono">Llama 3.1 + GSC Telemetry</p>
+                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ Calibrado</span>
+                      </div>
+
+                      {/* Nodo 2 */}
+                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/20 text-[var(--primary)] mx-auto flex items-center justify-center font-bold text-xs">
+                          2
+                        </div>
+                        <span className="font-bold text-xs text-white block">Inferencia &amp; AEO</span>
+                        <p className="text-[10px] text-zinc-400 font-mono">{onboardingFormData.engineModel.split('+')[0]}</p>
+                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ 1536d Vectors</span>
+                      </div>
+
+                      {/* Nodo 3 */}
+                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center font-bold text-xs">
+                          3
+                        </div>
+                        <span className="font-bold text-xs text-white block">Despacho CMS</span>
+                        <p className="text-[10px] text-zinc-400 font-mono">{onboardingFormData.cmsTarget.split('(')[0]}</p>
+                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ REST API OK</span>
+                      </div>
+
+                      {/* Nodo 4 */}
+                      <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 text-center relative group">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center font-bold text-xs">
+                          4
+                        </div>
+                        <span className="font-bold text-xs text-white block">RevOps &amp; Atribución</span>
+                        <p className="text-[10px] text-zinc-400 font-mono">HubSpot CRM SLA 5m</p>
+                        <span className="text-[9px] text-emerald-400 font-mono font-bold block">✓ Pipeline Live</span>
+                      </div>
+                    </div>
+
+                    {/* Resumen de Ajustes Seleccionados */}
+                    <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+                      <div>
+                        <span className="text-[10px] text-zinc-500 block uppercase">Dominio Base:</span>
+                        <span className="text-white font-bold truncate block">{onboardingFormData.siteDomain}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-500 block uppercase">Escenario:</span>
+                        <span className="text-orange-400 font-bold capitalize block">{onboardingScenario.replace('_', ' ')}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-500 block uppercase">Base de Datos:</span>
+                        <span className="text-emerald-400 font-bold truncate block">{onboardingFormData.databaseBinding.split('(')[0]}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-500 block uppercase">Disponibilidad SLA:</span>
+                        <span className="text-cyan-400 font-bold block">99.98% Dedicado</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* Footer con Navegación Anterior / Siguiente / Finalizar */}
+            <div className="p-5 border-t border-[var(--border)] bg-gradient-to-r from-zinc-950 via-zinc-900 to-black flex items-center justify-between shrink-0">
+              <button
+                onClick={() => setOnboardingStep(Math.max(1, onboardingStep - 1))}
+                disabled={onboardingStep === 1}
+                className={`px-5 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                  onboardingStep === 1
+                    ? 'border-zinc-800 text-zinc-600 cursor-not-allowed'
+                    : 'border-zinc-700 text-zinc-300 hover:bg-zinc-800'
+                }`}
+              >
+                ← Paso Anterior
+              </button>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setIsOnboardingOpen(false)}
+                  className="text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer px-3 py-2"
+                >
+                  Configurar más tarde
+                </button>
+
+                {onboardingStep < 5 ? (
+                  <button
+                    onClick={() => {
+                      setOnboardingStep(onboardingStep + 1);
+                      showToast(
+                        `Paso ${onboardingStep + 1} Calibrado`,
+                        'Progreso guardado automáticamente en el perfil del workspace.',
+                        'info'
+                      );
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-black transition-all shadow-[0_0_20px_rgba(255,90,0,0.4)] cursor-pointer flex items-center gap-2"
+                  >
+                    <span>Siguiente Paso →</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsOnboardingOpen(false);
+                      setActiveTab('engineLauncher');
+                      showToast(
+                        '¡Flota Configurada y Encendida!',
+                        `El ecosistema para ${onboardingFormData.siteDomain} está 100% operativo con ${onboardingFormData.engineModel}.`,
+                        'success'
+                      );
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-xs font-black transition-all shadow-[0_0_25px_rgba(16,185,129,0.5)] cursor-pointer flex items-center gap-2"
+                  >
+                    <CheckCircleIcon className="w-4 h-4" />
+                    <span>Lanzar &amp; Activar Servicios</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       )}
