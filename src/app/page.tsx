@@ -43,7 +43,9 @@ import {
   FunnelIcon,
   TableCellsIcon,
   ArrowPathIcon,
-  TrashIcon
+  TrashIcon,
+  BookOpenIcon,
+  QuestionMarkCircleIcon
 } from '@heroicons/react/24/outline';
 
 // LOGOS OFICIALES EN SVG DE ALTA FIDELIDAD
@@ -561,6 +563,11 @@ export default function DashboardMockup() {
   const [dryRunLogs, setDryRunLogs] = useState<string[]>([]);
   const [isDryRunModalOpen, setIsDryRunModalOpen] = useState(false);
 
+  // Estados para Documentación, Manual de Uso y Homologación
+  const [docCategory, setDocCategory] = useState<'quickstart' | 'architecture' | 'engines' | 'connectors' | 'faqs' | 'troubleshooting'>('quickstart');
+  const [docSearchQuery, setDocSearchQuery] = useState('');
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
     if (savedTheme) {
@@ -797,6 +804,25 @@ export default function DashboardMockup() {
             </div>
           </div>
 
+          {/* Section 4: Documentación y Homologación */}
+          <div>
+            <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2 flex items-center justify-between">
+              <span>Homologación &amp; Ayuda</span>
+              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">DOCS</span>
+            </p>
+            <div className="space-y-1">
+              <button 
+                onClick={() => setActiveTab('documentation')}
+                className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'documentation' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <div className="flex items-center">
+                  <BookOpenIcon className="w-5 h-5 mr-3 text-cyan-400" /> Manual &amp; Documentación
+                </div>
+                <span className="text-[9px] font-mono px-1.5 rounded bg-[var(--muted)] text-[var(--foreground)] font-bold">V2.4</span>
+              </button>
+            </div>
+          </div>
+
           {/* Industrial Status Widget */}
           <div className="mx-2 p-3 rounded-xl bg-gradient-to-b from-[var(--card)] to-[var(--background)] border border-[var(--border)] relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--primary)]/5 rounded-full blur-xl pointer-events-none"></div>
@@ -927,6 +953,7 @@ export default function DashboardMockup() {
                 .replace('rag', 'Datasets de Keywords & RAG Vectorial')
                 .replace('planner', 'Keyword Planner')
                 .replace('competitors', 'Radar Competencia')
+                .replace('documentation', 'Manual de Uso, Homologación de Módulos & FAQs Técnicos')
               }
             </span>
           </div>
@@ -6006,6 +6033,460 @@ export default function DashboardMockup() {
               </div>
             )}
 
+            {/* TAB: DOCUMENTACIÓN OFICIAL, MANUAL DE USO, HOMOLOGACIÓN & FAQS */}
+            {activeTab === 'documentation' && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header Documentación */}
+                <div className="flex flex-wrap justify-between items-end gap-4 border-b border-[var(--border)] pb-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse"></span>
+                      <span className="text-[11px] font-mono tracking-widest uppercase text-cyan-400 font-bold">
+                        DOCUMENTACIÓN &amp; HOMOLOGACIÓN TÉCNICA // BUILDATIONS STUDIO V2.4
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
+                      Manual de Uso, Arquitectura del Sistema &amp; Preguntas Frecuentes
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-3xl leading-relaxed">
+                      Guía exhaustiva para operar motores generativos, conectar CMS (Payload &amp; WordPress), vincular pipelines vectoriales (Supabase pgvector / Pinecone / Qdrant) y sincronizar ventas en HubSpot con citabilidad AEO.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2.5">
+                    <button 
+                      onClick={() => {
+                        const content = `# MANUAL TÉCNICO Y ESPECIFICACIÓN BUILDATIONS STUDIO V2.4\nGenerado: ${new Date().toISOString()}\n\nArquitectura: 64-bit Hybrid Vector Runtime\nConectores: Payload CMS 3.x, WordPress REST, Supabase pgvector, Pinecone, HubSpot RevOps\n`;
+                        const blob = new Blob([content], { type: 'text/markdown' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'manual-tecnico-buildations-studio.md';
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        showToast('Descarga Iniciada', 'Manual técnico completo descargado en Markdown.', 'success');
+                      }}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      <ArrowDownTrayIcon className="w-4 h-4 text-cyan-400" />
+                      Descargar Manual (.MD)
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab('engineBuilder')}
+                      className="bg-[var(--primary)] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      <RocketLaunchIcon className="w-4 h-4" />
+                      Ir al Constructor
+                    </button>
+                  </div>
+                </div>
+
+                {/* Barra de Navegación de Categorías y Buscador de Docs */}
+                <div className="glass-card p-3 rounded-2xl border border-[var(--border)] flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {[
+                      { id: 'quickstart', label: '01. Inicio Rápido (3 Minutos)', icon: '⚡' },
+                      { id: 'architecture', label: '02. Arquitectura & Homologación', icon: '🏛️' },
+                      { id: 'engines', label: '03. Operación de Motores', icon: '⚙️' },
+                      { id: 'connectors', label: '04. Conectores CMS & DBs', icon: '🔌' },
+                      { id: 'faqs', label: '05. Preguntas Frecuentes (FAQs)', icon: '❓' },
+                      { id: 'troubleshooting', label: '06. Solución de Problemas', icon: '🛠️' },
+                    ].map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => setDocCategory(cat.id as any)}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                          docCategory === cat.id
+                            ? 'bg-[var(--primary)] text-white shadow-md'
+                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]/50'
+                        }`}
+                      >
+                        <span>{cat.icon}</span>
+                        <span>{cat.label}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="relative min-w-[220px]">
+                    <MagnifyingGlassIcon className="w-4 h-4 text-[var(--muted-foreground)] absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input 
+                      type="text" 
+                      placeholder="Buscar en la documentación..." 
+                      value={docSearchQuery}
+                      onChange={(e) => setDocSearchQuery(e.target.value)}
+                      className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:border-[var(--primary)] outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* CONTENIDO 01: QUICKSTART */}
+                {docCategory === 'quickstart' && (
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">⚡</span>
+                        <h3 className="text-lg font-bold text-[var(--foreground)]">
+                          Flujo de Puesta en Marcha en 3 Pasos
+                        </h3>
+                      </div>
+                      <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                        Sigue estos tres hitos esenciales para pasar de cero a un clúster de redacción y citabilidad operando de forma autónoma:
+                      </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2 relative overflow-hidden">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)] font-bold">
+                            PASO 01
+                          </span>
+                          <h4 className="text-sm font-bold text-[var(--foreground)]">Conectar el CMS Oficial</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Dirígete a <strong>Conectores CMS</strong> y configura tu endpoint de <em>Payload CMS 3.x</em> o tu token de <em>WordPress REST</em>. Realiza un Ping Test para validar el handshake 200 OK.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2 relative overflow-hidden">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold">
+                            PASO 02
+                          </span>
+                          <h4 className="text-sm font-bold text-[var(--foreground)]">Calibrar el Motor en el Constructor</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Abre <strong>Constructor de Motores</strong>. Elige el LLM (Claude 3.5 Sonnet para máxima citabilidad AEO), la base vectorial (Supabase pgvector) y vincula tus datasets de palabras clave.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2 relative overflow-hidden">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">
+                            PASO 03
+                          </span>
+                          <h4 className="text-sm font-bold text-[var(--foreground)]">Compilar y Activar</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Ejecuta una simulación <em>Dry-Run</em>. Si la latencia es &lt; 2s y el fact-checking supera el 90%, haz clic en <strong>Compilar y Activar</strong> para registrarlo en el clúster de workers.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Matriz de Roles y Accesos */}
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-3">
+                      <h4 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
+                        <ShieldCheckIcon className="w-4 h-4 text-emerald-400" />
+                        Requisitos de Seguridad &amp; Variables de Entorno
+                      </h4>
+                      <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                        Asegúrate de configurar en tu archivo <code>.env.local</code> los siguientes secretos para garantizar que los conectores operen sin bloqueos:
+                      </p>
+                      <div className="p-3 rounded-xl bg-black/80 border border-slate-800 font-mono text-[11px] text-cyan-300 space-y-1 overflow-x-auto">
+                        <p># Bases de Datos &amp; Memoria Vectorial</p>
+                        <p>SUPABASE_URL=https://tu-proyecto.supabase.co</p>
+                        <p>SUPABASE_SERVICE_ROLE_KEY=eyJh... # Acceso de servidor para pgvector</p>
+                        <p>PINECONE_API_KEY=pcsk_... # Si usas clúster serverless</p>
+                        <p className="pt-2"># Modelos de Inteligencia Artificial</p>
+                        <p>ANTHROPIC_API_KEY=sk-ant-api03-... # Claude 3.5 Sonnet</p>
+                        <p>OPENAI_API_KEY=sk-proj-... # GPT-4o &amp; Embeddings</p>
+                        <p className="pt-2"># CRM &amp; RevOps</p>
+                        <p>HUBSPOT_ACCESS_TOKEN=pat-na1-... # Inyección de Deals y UTMs</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* CONTENIDO 02: ARQUITECTURA & HOMOLOGACIÓN */}
+                {docCategory === 'architecture' && (
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-4">
+                      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+                        <div>
+                          <h3 className="text-base font-bold text-[var(--foreground)]">
+                            Matriz de Homologación de Módulos (Design System &amp; Stack)
+                          </h3>
+                          <p className="text-xs text-[var(--muted-foreground)]">
+                            Estándares arquitectónicos unificados en todo BUILDATIONS STUDIO para consistencia visual y de rendimiento.
+                          </p>
+                        </div>
+                        <span className="font-mono text-[10px] px-2.5 py-1 rounded bg-[var(--primary)]/10 text-[var(--primary)] font-bold">
+                          ESTÁNDAR V2.4 HOMOLOGADO
+                        </span>
+                      </div>
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs border-collapse">
+                          <thead>
+                            <tr className="border-b border-[var(--border)] text-[var(--muted-foreground)] font-mono text-[10px] uppercase">
+                              <th className="py-2.5 pr-4">Módulo</th>
+                              <th className="py-2.5 px-4">Responsabilidad Primaria</th>
+                              <th className="py-2.5 px-4">Tecnologías Homologadas</th>
+                              <th className="py-2.5 px-4">Garantía SLA</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[var(--border)]">
+                            <tr>
+                              <td className="py-3 pr-4 font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <CpuChipIcon className="w-4 h-4 text-amber-400" /> Constructor de Motores
+                              </td>
+                              <td className="py-3 px-4 text-[var(--muted-foreground)]">Diseño topológico visual y asignación de flotas</td>
+                              <td className="py-3 px-4 font-mono text-zinc-300">SVG Flow Canvas + Next.js Server Components</td>
+                              <td className="py-3 px-4 font-mono text-emerald-400 font-bold">&lt; 1.8s latencia</td>
+                            </tr>
+                            <tr>
+                              <td className="py-3 pr-4 font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <DocumentTextIcon className="w-4 h-4 text-emerald-400" /> Vector Memory RAG
+                              </td>
+                              <td className="py-3 px-4 text-[var(--muted-foreground)]">Indexación semántica e inyección de contexto exacto</td>
+                              <td className="py-3 px-4 font-mono text-zinc-300">Supabase pgvector / Pinecone / text-embedding-3</td>
+                              <td className="py-3 px-4 font-mono text-emerald-400 font-bold">&gt; 0.88 Cosine</td>
+                            </tr>
+                            <tr>
+                              <td className="py-3 pr-4 font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <ServerStackIcon className="w-4 h-4 text-cyan-400" /> Conectores CMS
+                              </td>
+                              <td className="py-3 px-4 text-[var(--muted-foreground)]">Despacho de borradores, imágenes y metadatos SEO</td>
+                              <td className="py-3 px-4 font-mono text-zinc-300">Payload CMS 3.x REST / WordPress JSON REST</td>
+                              <td className="py-3 px-4 font-mono text-emerald-400 font-bold">200 OK Handshake</td>
+                            </tr>
+                            <tr>
+                              <td className="py-3 pr-4 font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <ArrowPathRoundedSquareIcon className="w-4 h-4 text-orange-400" /> RevOps &amp; HubSpot
+                              </td>
+                              <td className="py-3 px-4 text-[var(--muted-foreground)]">Atribución de ingresos orgánicos y creación de Deals</td>
+                              <td className="py-3 px-4 font-mono text-zinc-300">HubSpot Webhooks v3 + UTM Param Injector</td>
+                              <td className="py-3 px-4 font-mono text-emerald-400 font-bold">100% Trazable</td>
+                            </tr>
+                            <tr>
+                              <td className="py-3 pr-4 font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <SparklesIcon className="w-4 h-4 text-indigo-400" /> Radar de Citabilidad AEO
+                              </td>
+                              <td className="py-3 px-4 text-[var(--muted-foreground)]">Simulación de respuestas en Perplexity y ChatGPT</td>
+                              <td className="py-3 px-4 font-mono text-zinc-300">Claude 3.5 Sonnet + JSON-LD Validator</td>
+                              <td className="py-3 px-4 font-mono text-emerald-400 font-bold">&gt; 90% Densidad</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* CONTENIDO 03: OPERACIÓN DE MOTORES */}
+                {docCategory === 'engines' && (
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-4">
+                      <h3 className="text-base font-bold text-[var(--foreground)]">
+                        Guía de Operación: Flota Multidominio &amp; Tipos de Motores
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                        BUILDATIONS STUDIO permite ejecutar múltiples motores concurrentes con personalidades, cronogramas y dominios independientes.
+                      </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-bold text-xs text-[var(--foreground)]">1. Motor de Autoridad &amp; Citabilidad (AEO)</h4>
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">RECOMENDADO B2B</span>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Diseñado para aparecer como fuente citada con enlaces en Perplexity, ChatGPT Search y Google AI Overviews. Utiliza temperatura baja (0.2 - 0.4), alta densidad de entidades y esquemas JSON-LD <code>FAQPage</code> y <code>BreadcrumbList</code>.
+                          </p>
+                          <div className="text-[10px] font-mono text-slate-400 pt-1">
+                            Frecuencia óptima: <strong>3 por semana</strong> (Lunes, Miércoles, Viernes).
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-bold text-xs text-[var(--foreground)]">2. Motor de Landing Pages &amp; Silos</h4>
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-bold">PROGRAMÁTICO</span>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Crea clusters de páginas de servicios o comparativas combinando variables de tu nicho. Evita canibalización cruzando las URLs con el módulo de Reconstructor de Sitemaps antes de publicar.
+                          </p>
+                          <div className="text-[10px] font-mono text-slate-400 pt-1">
+                            Frecuencia óptima: <strong>Diario</strong> o por lotes planificados.
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-bold text-xs text-[var(--foreground)]">3. Motor de Noticias &amp; Decaimiento GSC</h4>
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold">REACTIVO</span>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Monitorea las URLs de tu Google Search Console que han perdido clics o impresiones en los últimos 30 días. El agente autónomo reescribe introducciones, refresca datos y añade secciones de preguntas frecuentes en tiempo real.
+                          </p>
+                          <div className="text-[10px] font-mono text-slate-400 pt-1">
+                            Frecuencia óptima: <strong>En tiempo real</strong> o semanal.
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-bold text-xs text-[var(--foreground)]">4. Modo 'Draft' vs 'Autonomous Autopilot'</h4>
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold">CONTROL</span>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            En modo <code>_status: 'draft'</code>, el motor deposita los artículos listos en tu CMS para que tu editor humano dé el visto bueno final con un clic. En modo <code>autonomous</code>, publica directamente a producción y actualiza el sitemap.xml.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* CONTENIDO 04: CONECTORES CMS & DATABASES */}
+                {docCategory === 'connectors' && (
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-4">
+                      <h3 className="text-base font-bold text-[var(--foreground)]">
+                        Especificación de Conexión: Payload CMS, WordPress, Supabase &amp; Pinecone
+                      </h3>
+                      
+                      <div className="space-y-4 text-xs">
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center gap-2">
+                            <PayloadLogo className="w-4 h-4 text-white" />
+                            <h4 className="font-bold text-[var(--foreground)]">Payload CMS (Headless 2.x &amp; 3.x)</h4>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">
+                            Se conecta directamente vía REST API a tu endpoint <code>/api/posts</code> o a tu colección personalizada. Requiere una API Key generada con <code>useAPIKey: true</code> o un token de servicio.
+                          </p>
+                          <div className="bg-black/60 p-2.5 rounded font-mono text-[10px] text-zinc-300">
+                            POST https://tu-dominio.com/api/posts<br />
+                            Headers: Authorization: users API-Key payload_live_sec_...
+                          </div>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center gap-2">
+                            <WordPressLogo className="w-4 h-4" />
+                            <h4 className="font-bold text-[var(--foreground)]">WordPress REST API &amp; Plugin Oficial</h4>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">
+                            Compatible con la ruta <code>/wp-json/wp/v2/posts</code> utilizando Application Passwords (Contraseñas de Aplicación nativas desde WordPress 5.6) o mediante el plugin oficial Buildations Connector.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] space-y-2">
+                          <div className="flex items-center gap-2">
+                            <SupabaseLogo className="w-4 h-4" />
+                            <PostgresLogo className="w-4 h-4" />
+                            <h4 className="font-bold text-[var(--foreground)]">Supabase pgvector (PostgreSQL Nativo)</h4>
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">
+                            Almacena embeddings de 1536 dimensiones (generados por <code>text-embedding-3-small</code>) en una tabla PostgreSQL con extensión <code>vector</code> habilitada. Permite búsquedas por similitud de coseno con latencia menor a 15ms.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* CONTENIDO 05: PREGUNTAS FRECUENTES (FAQS) */}
+                {docCategory === 'faqs' && (
+                  <div className="space-y-4">
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-2">
+                      <h3 className="text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+                        <QuestionMarkCircleIcon className="w-5 h-5 text-cyan-400" />
+                        Preguntas Frecuentes Técnicas &amp; Operativas (FAQs)
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        Respuestas a las dudas más comunes sobre la operación autónoma, citabilidad en IA y prevención de penalizaciones.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      {[
+                        {
+                          q: "¿Cómo garantiza BUILDATIONS que el contenido no sea penalizado por Google o marcado como spam de IA?",
+                          a: "El sistema no redacta con 'prompts genéricos'. Integra guardarraíles de calidad estrictos (filtro anti-alucinación al 90%+), verificación de entidades, inyección de datos propios vía RAG y esquemas estructurados de Schema.org. Cada artículo responde preguntas de búsqueda con datos comprobables, cumpliendo al 100% las directrices EEAT de Google."
+                        },
+                        {
+                          q: "¿Qué diferencia hay entre SEO tradicional y AEO (Answer Engine Optimization)?",
+                          a: "El SEO tradicional optimiza para conseguir clics en la lista azul de Google. El AEO optimiza para ser la fuente primaria citada por modelos conversacionales (Perplexity, ChatGPT, Claude, Google AI Overviews). Requiere respuestas directas en el primer párrafo, tablas de datos, estructura de silo limpia y marcado semántico exacto."
+                        },
+                        {
+                          q: "¿Puedo tener más de un motor encendido para diferentes sitios web al mismo tiempo?",
+                          a: "Sí. El panel de 'Flota de Motores' permite crear y correr múltiples motores concurrentes. Por ejemplo, puedes tener el 'Motor 1' redactando para tu SaaS B2B en Payload CMS y el 'Motor 2' actualizando una tienda o blog de noticias en WordPress."
+                        },
+                        {
+                          q: "¿Qué sucede si no cuento con Pinecone o Qdrant?",
+                          a: "Puedes usar directamente Supabase pgvector (incluido en cualquier proyecto de Supabase / PostgreSQL). Es ultrarrápido, de costo mínimo y soporta indexación HNSW e IVFFlat para millones de vectores."
+                        },
+                        {
+                          q: "¿Cómo se conecta con HubSpot CRM y qué datos inyecta?",
+                          a: "A través del API v3 de HubSpot. Cuando un artículo genera un lead o una visita calificada, el sistema asocia el Deal y los parámetros UTM (utm_source=aeo_engine, utm_campaign=nombre_del_motor) al contacto en el CRM para que el equipo comercial sepa exactamente qué artículo originó la oportunidad."
+                        },
+                        {
+                          q: "¿Qué modelo de IA es el más recomendado para redacción?",
+                          a: "Para máxima citabilidad en motores de respuesta recomendamos Claude 3.5 Sonnet debido a su rigor estructural y lenguaje natural no redundante. Para esquemas JSON estrictos o velocidad masiva, GPT-4o Enterprise es ideal. Para presupuestos reducidos, DeepSeek-V3 ofrece un rendimiento sobresaliente."
+                        }
+                      ].map((faq, idx) => {
+                        const isOpen = expandedFaq === idx;
+                        return (
+                          <div 
+                            key={idx}
+                            className={`glass-card rounded-xl border transition-all cursor-pointer ${
+                              isOpen ? 'border-[var(--primary)]/60 bg-[var(--card)]' : 'border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--border)]/80'
+                            }`}
+                          >
+                            <div 
+                              onClick={() => setExpandedFaq(isOpen ? null : idx)}
+                              className="p-4 flex items-center justify-between gap-4"
+                            >
+                              <h4 className="font-bold text-xs text-[var(--foreground)] leading-snug">
+                                {faq.q}
+                              </h4>
+                              <span className={`text-xs font-mono text-[var(--primary)] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                                ▼
+                              </span>
+                            </div>
+                            {isOpen && (
+                              <div className="px-4 pb-4 pt-1 border-t border-[var(--border)]/50 text-xs text-[var(--muted-foreground)] leading-relaxed animate-fade-in">
+                                {faq.a}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* CONTENIDO 06: TROUBLESHOOTING */}
+                {docCategory === 'troubleshooting' && (
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-4">
+                      <h3 className="text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+                        <CommandLineIcon className="w-5 h-5 text-amber-400" />
+                        Diagnóstico de Errores Comunes &amp; Códigos de Estado
+                      </h3>
+
+                      <div className="space-y-3 text-xs">
+                        <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 space-y-1">
+                          <span className="font-bold font-mono text-[11px] block text-red-400">401 Unauthorized en Conector CMS</span>
+                          <p className="text-[11px] leading-relaxed">
+                            Causa: El token o Application Password expiró o tiene permisos de sólo lectura. Asegúrate de que el usuario tenga rol de 'Editor' o 'Administrator' y que en Payload la propiedad <code>useAPIKey: true</code> esté habilitada.
+                          </p>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 space-y-1">
+                          <span className="font-bold font-mono text-[11px] block text-amber-400">0 Chunks Inyectados en Memoria RAG</span>
+                          <p className="text-[11px] leading-relaxed">
+                            Causa: El umbral de similitud (Cosine Threshold) está demasiado alto (ej. 0.98) o no has indexado documentos en la colección. Se recomienda fijar el umbral entre <strong>0.82 y 0.88</strong> para balance óptimo.
+                          </p>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 space-y-1">
+                          <span className="font-bold font-mono text-[11px] block text-blue-400">CORS Error al probar Ping Test local</span>
+                          <p className="text-[11px] leading-relaxed">
+                            Causa: Tu CMS no permite solicitudes desde <code>localhost:3000</code>. Añade <code>http://localhost:3000</code> a la lista de orígenes permitidos en la configuración de CORS de Payload o en los headers de WordPress.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
         </div>
       </main>
@@ -6292,6 +6773,7 @@ export default function DashboardMockup() {
                 { name: "Abrir Terminal de Agentes Autónomos", action: "terminal", icon: "💻", desc: "Logs en vivo del motor de IA en segundo plano" },
                 { name: "Explorar Topic Clusters & Silos", tab: "clusterMap", icon: "🕸️", desc: "Diseña la arquitectura semántica del sitio" },
                 { name: "Inspeccionar SERP & AEO X-Ray", tab: "serpxray", icon: "⚡", desc: "Analiza el Top 10 de Google con Llama 3.1" },
+                { name: "Manual de Uso, Homologación & FAQs", tab: "documentation", icon: "📖", desc: "Guía técnica oficial, matriz de arquitectura y resolución de dudas" },
                 { name: "Alternar Modo Día / Modo Noche", action: "theme", icon: "🌓", desc: "Cambia el tema de color del estudio" },
               ]
                 .filter(item => !searchQuery || item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase()))
