@@ -46,6 +46,151 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline';
 
+// LOGOS OFICIALES EN SVG DE ALTA FIDELIDAD
+function SupabaseLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <path 
+        d="M13.4 2.1C13.2 1.4 12.3 1.2 11.8 1.7L2.4 11.9C1.8 12.6 2.3 13.6 3.2 13.6H11V21.9C11 22.6 11.9 22.8 12.4 22.3L21.8 12.1C22.4 11.4 21.9 10.4 21 10.4H13.4V2.1Z" 
+        fill="#3ECF8E" 
+      />
+    </svg>
+  );
+}
+
+function PostgresLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path 
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.8 16.5c-.8.1-1.7-.2-2.1-.8-.4-.6-.4-1.4-.4-2.2v-1.1c0-.4-.1-.7-.4-.9-.3-.2-.7-.2-1.1-.1-.3.1-.6.3-.9.6-.3.3-.6.7-.8 1.1-.2.4-.4.8-.7 1.1-.3.3-.7.5-1.1.5-.3 0-.6-.1-.8-.3-.2-.2-.3-.5-.3-.8 0-.4.1-.8.3-1.2.2-.4.4-.7.7-1 .3-.3.6-.5.9-.7.4-.2.8-.3 1.2-.4.4-.1.8-.1 1.2 0 .4.1.8.3 1.1.6.3.3.5.7.5 1.1v.8c0 .5.1.9.3 1.3.2.4.6.6 1 .6.4 0 .8-.2 1-.5.3-.3.4-.8.4-1.3v-1.8c0-.6.2-1.2.6-1.6.4-.4 1-.6 1.6-.6h1.5c.6 0 1.2.2 1.6.6.4.4.6 1 .6 1.6v2.5c0 .9-.3 1.7-.9 2.3-.6.6-1.4.9-2.3.9h-.8z" 
+        fill="#336791"
+      />
+    </svg>
+  );
+}
+
+function PineconeLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.5l5.5 3.5L12 11.5 6.5 8 12 4.5zM6 9.5l5 3v6l-5-3.5V9.5zm7 9v-6l5-3v5.5l-5 3.5z" fill="#000000" className="dark:fill-white" />
+    </svg>
+  );
+}
+
+function QdrantLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="18" rx="4" fill="#DC2626" />
+      <path d="M7 12a5 5 0 1 0 10 0 5 5 0 0 0-10 0zm6 3l3 3" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function HubSpotLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="4.5" fill="#FF7A59" />
+      <path d="M12 3v4.5M12 16.5V21M3 12h4.5M16.5 12H21" stroke="#FF7A59" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="12" cy="3" r="2" fill="#FF7A59" />
+      <circle cx="21" cy="12" r="2" fill="#FF7A59" />
+    </svg>
+  );
+}
+
+function PayloadLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2L2 7.5v9L12 22l10-5.5v-9L12 2zm0 2.5l7.5 4.1-7.5 4.2-7.5-4.2L12 4.5zM4 9.8l7 3.9v7.5l-7-3.9V9.8zm9 11.4v-7.5l7-3.9v7.5l-7 3.9z" />
+    </svg>
+  );
+}
+
+function WordPressLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-8.2 10c0-1.8.6-3.4 1.5-4.8l4.4 12.1C5.8 17.8 3.8 15.1 3.8 12zm8.2 8.2c-1.1 0-2.2-.2-3.1-.7l3.4-9.9 3.5 9.7c-1.2.6-2.5.9-3.8.9zm1.3-12.7c.6 0 1.2-.1 1.2-.1.5 0 .5-.7 0-.7 0 0-.8.1-1.6.1-.8 0-1.6-.1-1.6-.1-.5 0-.5.7 0 .7 0 0 .5.1 1.1.1l2.4 7.2-1.9-5.7-1.4-4.5h-.1zm5.1 4.5c0-.9-.3-1.6-.6-2.2-.4-.8-.8-1.5-.8-2.3 0-.9.7-1.7 1.7-1.7h.2c1.7 1.8 2.8 4.2 2.8 6.9 0 2.4-.9 4.7-2.3 6.4l-1-7.1z" fill="#21759B" />
+    </svg>
+  );
+}
+
+function ClaudeLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="#D97706">
+      <path d="M12 2l2.2 6.8H21l-5.4 4 2.1 6.8-5.7-4.1-5.7 4.1 2.1-6.8L3 8.8h6.8L12 2z" />
+    </svg>
+  );
+}
+
+function OpenAILogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22.28 12a9.98 9.98 0 0 0-.75-3.83 5.03 5.03 0 0 0-4.35-6.52A5.02 5.02 0 0 0 11.2.66a5.02 5.02 0 0 0-7.38 3.12 5.02 5.02 0 0 0-2.1 8.22 5.02 5.02 0 0 0 2.1 8.22 5.02 5.02 0 0 0 5.98 2.43 5.02 5.02 0 0 0 5.98-2.43 5.03 5.03 0 0 0 6.5-6.52A9.97 9.97 0 0 0 22.28 12z" fill="#10A37F" />
+    </svg>
+  );
+}
+
+function GoogleLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+    </svg>
+  );
+}
+
+function TechBadge({ name }: { name: string }) {
+  const lower = name.toLowerCase();
+  let icon = null;
+  let border = "border-[var(--border)]";
+
+  if (lower.includes('supabase')) {
+    icon = <SupabaseLogo className="w-3.5 h-3.5 shrink-0" />;
+    border = "border-emerald-500/30 bg-emerald-500/10 text-emerald-400";
+  } else if (lower.includes('postgres')) {
+    icon = <PostgresLogo className="w-3.5 h-3.5 shrink-0" />;
+    border = "border-blue-500/30 bg-blue-500/10 text-blue-400";
+  } else if (lower.includes('hubspot')) {
+    icon = <HubSpotLogo className="w-3.5 h-3.5 shrink-0" />;
+    border = "border-orange-500/30 bg-orange-500/10 text-orange-400";
+  } else if (lower.includes('payload')) {
+    icon = <PayloadLogo className="w-3.5 h-3.5 shrink-0" />;
+    border = "border-zinc-500/30 bg-zinc-500/10 text-white";
+  } else if (lower.includes('wordpress')) {
+    icon = <WordPressLogo className="w-3.5 h-3.5 shrink-0" />;
+    border = "border-cyan-500/30 bg-cyan-500/10 text-cyan-400";
+  } else if (lower.includes('next.js') || lower.includes('nextjs')) {
+    icon = (
+      <span className="w-3.5 h-3.5 rounded-full bg-black border border-white/20 text-white flex items-center justify-center font-bold text-[8px] shrink-0">
+        N
+      </span>
+    );
+    border = "border-zinc-700 bg-black/40 text-zinc-200";
+  } else if (lower.includes('stripe')) {
+    icon = (
+      <span className="w-3.5 h-3.5 rounded bg-[#635BFF] text-white flex items-center justify-center font-bold text-[8px] shrink-0">
+        S
+      </span>
+    );
+    border = "border-indigo-500/30 bg-indigo-500/10 text-indigo-400";
+  } else if (lower.includes('vercel')) {
+    icon = (
+      <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 1L24 22H0L12 1Z" />
+      </svg>
+    );
+    border = "border-zinc-600 bg-zinc-900/50 text-zinc-300";
+  }
+
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[10px] font-mono font-medium ${border}`}>
+      {icon}
+      <span>{name}</span>
+    </span>
+  );
+}
+
 export default function DashboardMockup() {
   const [activeTab, setActiveTab] = useState('overview');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -1359,10 +1504,10 @@ export default function DashboardMockup() {
                       {/* Conectores Toggles */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[
-                          { key: 'payloadCms', title: 'Payload CMS 3.x', desc: 'API REST nativa para App Router y Next.js.', tag: 'Recomendado' },
-                          { key: 'wordpress', title: 'WordPress REST API', desc: 'Conexión vía Application Passwords oficial.', tag: 'CMS Clásico' },
-                          { key: 'gsc', title: 'Google Search Console', desc: 'Detección de clics perdidos y content decay.', tag: 'Métricas' },
-                          { key: 'competitorRss', title: 'Radar Competidores', desc: 'Extracción de topics en tiempo real de 14 blogs.', tag: 'Espionaje' }
+                          { key: 'payloadCms', title: 'Payload CMS 3.x', desc: 'API REST nativa para App Router y Next.js.', tag: 'Recomendado', logo: <PayloadLogo className="w-5 h-5 text-white" /> },
+                          { key: 'wordpress', title: 'WordPress REST API', desc: 'Conexión vía Application Passwords oficial.', tag: 'CMS Clásico', logo: <WordPressLogo className="w-5 h-5" /> },
+                          { key: 'gsc', title: 'Google Search Console', desc: 'Detección de clics perdidos y content decay.', tag: 'Métricas', logo: <GoogleLogo className="w-5 h-5" /> },
+                          { key: 'competitorRss', title: 'Radar Competidores', desc: 'Extracción de topics en tiempo real de 14 blogs.', tag: 'Espionaje', logo: <span className="text-base">📡</span> }
                         ].map((conn) => {
                           const isActive = engineConfig.connectors[conn.key as keyof typeof engineConfig.connectors] as boolean;
                           return (
@@ -1383,11 +1528,11 @@ export default function DashboardMockup() {
                                   : 'bg-[var(--card)]/40 border-[var(--border)] opacity-60 hover:opacity-80'
                               }`}
                             >
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] font-bold">
-                                  {conn.tag}
-                                </span>
-                                <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[9px] font-bold ${isActive ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'border-zinc-600'}`}>
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="p-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] shadow-sm">
+                                  {conn.logo}
+                                </div>
+                                <span className={`w-4 h-4 rounded-full border flex items-center justify-center text-[10px] font-bold ${isActive ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'border-zinc-600'}`}>
                                   {isActive ? '✓' : ''}
                                 </span>
                               </div>
@@ -1477,10 +1622,46 @@ export default function DashboardMockup() {
                       {/* Tarjetas de Selección de LLM */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[
-                          { id: 'Claude 3.5 Sonnet', title: 'Claude 3.5 Sonnet', provider: 'Anthropic', desc: 'Superior en AEO, razonamiento estructural y citabilidad.', badge: 'Recomendado AEO' },
-                          { id: 'GPT-4o Enterprise', title: 'GPT-4o Enterprise', provider: 'OpenAI', desc: 'Máxima velocidad de inferencia y esquemas JSON estrictos.', badge: 'Velocidad' },
-                          { id: 'DeepSeek-V3', title: 'DeepSeek-V3', provider: 'DeepSeek AI', desc: 'Costo ultra bajo y gran capacidad de síntesis técnica.', badge: 'Económico' },
-                          { id: 'Llama 3.3 70B', title: 'Llama 3.3 70B', provider: 'Meta / Groq', desc: 'Pesos abiertos, cero retención de datos y privacidad total.', badge: 'Open Weights' }
+                          { 
+                            id: 'Claude 3.5 Sonnet', 
+                            title: 'Claude 3.5 Sonnet', 
+                            provider: 'Anthropic', 
+                            desc: 'Superior en AEO, razonamiento estructural y citabilidad.', 
+                            badge: 'Recomendado AEO',
+                            icon: <ClaudeLogo className="w-5 h-5 text-amber-500 shrink-0" />
+                          },
+                          { 
+                            id: 'GPT-4o Enterprise', 
+                            title: 'GPT-4o Enterprise', 
+                            provider: 'OpenAI', 
+                            desc: 'Máxima velocidad de inferencia y esquemas JSON estrictos.', 
+                            badge: 'Velocidad',
+                            icon: <OpenAILogo className="w-5 h-5 text-emerald-400 shrink-0" />
+                          },
+                          { 
+                            id: 'DeepSeek-V3', 
+                            title: 'DeepSeek-V3', 
+                            provider: 'DeepSeek AI', 
+                            desc: 'Costo ultra bajo y gran capacidad de síntesis técnica.', 
+                            badge: 'Económico',
+                            icon: (
+                              <div className="w-5 h-5 rounded-md bg-blue-600/20 border border-blue-500/40 text-blue-400 flex items-center justify-center font-bold font-mono text-[10px] shrink-0">
+                                DS
+                              </div>
+                            )
+                          },
+                          { 
+                            id: 'Llama 3.3 70B', 
+                            title: 'Llama 3.3 70B', 
+                            provider: 'Meta / Groq', 
+                            desc: 'Pesos abiertos, cero retención de datos y privacidad total.', 
+                            badge: 'Open Weights',
+                            icon: (
+                              <div className="w-5 h-5 rounded-md bg-purple-600/20 border border-purple-500/40 text-purple-400 flex items-center justify-center font-bold font-mono text-[10px] shrink-0">
+                                ∞
+                              </div>
+                            )
+                          }
                         ].map((m) => (
                           <div 
                             key={m.id}
@@ -1491,12 +1672,15 @@ export default function DashboardMockup() {
                                 : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--border)]/80 opacity-75'
                             }`}
                           >
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--primary)] font-bold">
-                                {m.badge}
-                              </span>
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                {m.icon}
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--primary)] font-bold">
+                                  {m.badge}
+                                </span>
+                              </div>
                               {engineConfig.llmCore === m.id && (
-                                <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
+                                <span className="w-2.5 h-2.5 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
                               )}
                             </div>
                             <h4 className="font-bold text-xs text-[var(--foreground)]">{m.title}</h4>
@@ -1591,9 +1775,32 @@ export default function DashboardMockup() {
                       {/* Tarjetas Vector Store */}
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {[
-                          { id: 'Pinecone Vector DB', title: 'Pinecone Vector DB', desc: 'Índice serverless de baja latencia con namespaces dinámicos por cliente.', dims: '1,536 dims' },
-                          { id: 'Qdrant Distributed', title: 'Qdrant Distributed', desc: 'Cluster HNSW en memoria con filtrado por metadatos a velocidad de hardware.', dims: '1,536 dims' },
-                          { id: 'Supabase pgvector', title: 'Supabase pgvector', desc: 'Híbrido relacional SQL + extensiones vectoriales en PostgreSQL.', dims: '1,536 dims' }
+                          { 
+                            id: 'Pinecone Vector DB', 
+                            title: 'Pinecone Vector DB', 
+                            desc: 'Índice serverless de baja latencia con namespaces dinámicos por cliente.', 
+                            dims: '1,536 dims',
+                            logo: <PineconeLogo className="w-5 h-5 text-white" />
+                          },
+                          { 
+                            id: 'Qdrant Distributed', 
+                            title: 'Qdrant Distributed', 
+                            desc: 'Cluster HNSW en memoria con filtrado por metadatos a velocidad de hardware.', 
+                            dims: '1,536 dims',
+                            logo: <QdrantLogo className="w-5 h-5" />
+                          },
+                          { 
+                            id: 'Supabase pgvector', 
+                            title: 'Supabase pgvector (PostgreSQL)', 
+                            desc: 'Híbrido relacional SQL + extensiones vectoriales pgvector en Postgres.', 
+                            dims: '1,536 dims',
+                            logo: (
+                              <div className="flex items-center gap-1.5">
+                                <SupabaseLogo className="w-5 h-5" />
+                                <PostgresLogo className="w-5 h-5 text-blue-400" />
+                              </div>
+                            )
+                          }
                         ].map((vs) => (
                           <div 
                             key={vs.id}
@@ -1604,10 +1811,15 @@ export default function DashboardMockup() {
                                 : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--border)]/80 opacity-75'
                             }`}
                           >
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-[10px] font-mono text-emerald-400 font-bold">{vs.dims}</span>
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] shadow-sm">
+                                  {vs.logo}
+                                </div>
+                                <span className="text-[10px] font-mono text-emerald-400 font-bold">{vs.dims}</span>
+                              </div>
                               {engineConfig.vectorStore === vs.id && (
-                                <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
+                                <span className="w-2.5 h-2.5 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
                               )}
                             </div>
                             <h4 className="font-bold text-xs text-[var(--foreground)]">{vs.title}</h4>
@@ -1895,25 +2107,35 @@ export default function DashboardMockup() {
 
                         <div className="space-y-1.5 flex-1">
                           {engineConfig.connectors.payloadCms && (
-                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-cyan-400 flex items-center justify-between">
-                              <span>Payload CMS 3.x</span>
-                              <span className="text-emerald-400">ON</span>
+                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-zinc-200 flex items-center justify-between">
+                              <span className="flex items-center gap-1.5">
+                                <PayloadLogo className="w-3.5 h-3.5 text-zinc-300" />
+                                Payload CMS 3.x
+                              </span>
+                              <span className="text-emerald-400 text-[9px] font-bold">ON</span>
                             </div>
                           )}
                           {engineConfig.connectors.wordpress && (
-                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-blue-400 flex items-center justify-between">
-                              <span>WordPress REST</span>
-                              <span className="text-emerald-400">ON</span>
+                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-cyan-300 flex items-center justify-between">
+                              <span className="flex items-center gap-1.5">
+                                <WordPressLogo className="w-3.5 h-3.5" />
+                                WordPress REST
+                              </span>
+                              <span className="text-emerald-400 text-[9px] font-bold">ON</span>
                             </div>
                           )}
                           {engineConfig.connectors.gsc && (
-                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-amber-400 flex items-center justify-between">
-                              <span>GSC Decay Feed</span>
-                              <span className="text-emerald-400">ON</span>
+                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-amber-300 flex items-center justify-between">
+                              <span className="flex items-center gap-1.5">
+                                <GoogleLogo className="w-3.5 h-3.5" />
+                                GSC Decay Feed
+                              </span>
+                              <span className="text-emerald-400 text-[9px] font-bold">ON</span>
                             </div>
                           )}
-                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-zinc-300">
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-zinc-300 flex items-center justify-between">
                             <span>{engineConfig.connectors.keywordDatasets.length} Datasets RAG</span>
+                            <span className="text-emerald-400 text-[9px] font-bold">SYNC</span>
                           </div>
                         </div>
 
@@ -1928,7 +2150,17 @@ export default function DashboardMockup() {
                           <span className="text-[9px] font-mono uppercase text-amber-400 font-bold block mb-1">
                             02. Vector &amp; RAG Core
                           </span>
-                          <h4 className="text-xs font-bold text-white">{engineConfig.vectorStore}</h4>
+                          <div className="flex items-center gap-1.5">
+                            {engineConfig.vectorStore.includes('Pinecone') && <PineconeLogo className="w-4 h-4 text-amber-400" />}
+                            {engineConfig.vectorStore.includes('Qdrant') && <QdrantLogo className="w-4 h-4 text-red-500" />}
+                            {engineConfig.vectorStore.includes('Supabase') && (
+                              <div className="flex items-center gap-1">
+                                <SupabaseLogo className="w-3.5 h-3.5" />
+                                <PostgresLogo className="w-3.5 h-3.5" />
+                              </div>
+                            )}
+                            <h4 className="text-xs font-bold text-white truncate">{engineConfig.vectorStore}</h4>
+                          </div>
                         </div>
 
                         <div className="space-y-2 flex-1">
@@ -1963,7 +2195,11 @@ export default function DashboardMockup() {
                             </span>
                             <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse"></span>
                           </div>
-                          <h4 className="text-xs font-bold text-white">{engineConfig.llmCore}</h4>
+                          <div className="flex items-center gap-1.5">
+                            {engineConfig.llmCore.includes('Claude') && <ClaudeLogo className="w-4 h-4 text-amber-500" />}
+                            {engineConfig.llmCore.includes('GPT-4o') && <OpenAILogo className="w-4 h-4 text-emerald-400" />}
+                            <h4 className="text-xs font-bold text-white truncate">{engineConfig.llmCore}</h4>
+                          </div>
                         </div>
 
                         <div className="space-y-1.5 flex-1">
@@ -2031,7 +2267,10 @@ export default function DashboardMockup() {
                           </div>
 
                           <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono">
-                            <span className="text-slate-400 block">HubSpot Deals:</span>
+                            <span className="text-slate-400 flex items-center gap-1">
+                              <HubSpotLogo className="w-3 h-3" />
+                              HubSpot Deals:
+                            </span>
                             <span className="text-orange-400 font-bold">Hub #{engineConfig.hubspotPortalId}</span>
                           </div>
 
@@ -3147,13 +3386,15 @@ export default function DashboardMockup() {
                       onClick={() => setCmsTab('payload')}
                       className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${cmsTab === 'payload' ? 'bg-[var(--primary)] text-white shadow-md' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
                     >
-                      <span className="font-mono text-sm">🖤</span> Payload CMS (Headless)
+                      <PayloadLogo className="w-4 h-4 text-white shrink-0" />
+                      Payload CMS (Headless)
                     </button>
                     <button 
                       onClick={() => setCmsTab('wordpress')}
                       className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${cmsTab === 'wordpress' ? 'bg-[var(--primary)] text-white shadow-md' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
                     >
-                      <span className="font-mono text-sm">🌐</span> WordPress (Plugin &amp; REST)
+                      <WordPressLogo className="w-4 h-4 shrink-0" />
+                      WordPress (Plugin &amp; REST)
                     </button>
                   </div>
                 </div>
@@ -3165,8 +3406,8 @@ export default function DashboardMockup() {
                     {/* Status Card Payload */}
                     <div className="glass-card p-6 border-l-4 border-l-cyan-500 flex flex-wrap items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-black text-xl text-white shadow-md">
-                          P
+                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-white shadow-md">
+                          <PayloadLogo className="w-6 h-6 text-white" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
@@ -3416,8 +3657,8 @@ export default function DashboardMockup() {
                     {/* Status Card WordPress */}
                     <div className="glass-card p-6 border-l-4 border-l-blue-500 flex flex-wrap items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xl text-white shadow-md">
-                          W
+                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-blue-500/30 flex items-center justify-center text-white shadow-md">
+                          <WordPressLogo className="w-7 h-7" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
@@ -3940,11 +4181,9 @@ export default function DashboardMockup() {
 
                                 {/* Tech Stack */}
                                 <td className="p-3.5">
-                                  <div className="flex flex-wrap gap-1 max-w-[200px]">
+                                  <div className="flex flex-wrap gap-1.5 max-w-[220px]">
                                     {lead.techStack.map((tech, i) => (
-                                      <span key={i} className="px-1.5 py-0.5 rounded bg-[var(--background)] border border-[var(--border)] text-[9px] font-mono text-slate-300">
-                                        {tech}
-                                      </span>
+                                      <TechBadge key={i} name={tech} />
                                     ))}
                                   </div>
                                 </td>
