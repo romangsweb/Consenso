@@ -2064,60 +2064,78 @@ LIMIT 5;`);
                     </div>
                   </div>
 
-                  {/* Main Scorecard HUD */}
-                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 my-6 font-mono">
+                  {/* Main Scorecard HUD - Analítica Ejecutiva de Alta Legibilidad */}
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 my-6">
                     {/* Big Gauge Box */}
-                    <div className="p-6 rounded bg-[#07090a] border border-[#2a2e38] flex flex-col items-center justify-center text-center space-y-3">
-                      <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
-                        SCORE GLOBAL DE HOMOLOGACIÓN
+                    <div className="p-6 rounded-2xl bg-gradient-to-b from-[#131620]/95 to-[#0c0d12]/95 border border-white/[0.08] shadow-xl flex flex-col items-center justify-center text-center space-y-3">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                        Score Global de Homologación
                       </span>
-                      <div className="w-24 h-24 rounded-full border-4 border-[#e85a2a] flex items-center justify-center shadow-[0_0_20px_rgba(232,90,42,0.3)]">
-                        <span className="text-3xl font-black text-white">94</span>
+                      <div className="w-24 h-24 rounded-full border-4 border-orange-500/80 flex items-center justify-center shadow-[0_0_24px_rgba(232,90,42,0.35)] bg-orange-500/5">
+                        <span className="text-4xl font-extrabold text-white font-sans tabular-nums">94</span>
                       </div>
-                      <span className="text-[10px] text-[#3ddc84] font-bold bg-[#3ddc84]/10 px-2 py-0.5 rounded border border-[#3ddc84]/30">
-                        GRADO A+ (TOP 2% LATAM)
+                      <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                        Grado A+ (Top 2% LatAm)
                       </span>
                     </div>
 
                     {/* 3 Detail Factor Cards */}
                     <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
-                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">
-                          Citabilidad AEO (IAs)
-                        </span>
-                        <div className="flex items-baseline justify-between">
-                          <span className="text-2xl font-black text-[#e85a2a]">96%</span>
-                          <div className="te-segment-meter">
-                            <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" />
+                      {/* Factor 1: Citabilidad AEO */}
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                              Citabilidad AEO (IAs)
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                          </div>
+                          <div className="flex items-baseline justify-between pt-1">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">96%</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" />
+                            </div>
                           </div>
                         </div>
-                        <p className="text-[10px] text-zinc-500">Menciones en Perplexity, ChatGPT y Claude comprobadas</p>
+                        <p className="text-xs text-zinc-400 mt-3 font-normal leading-relaxed">Menciones en Perplexity, ChatGPT y Claude comprobadas en producción</p>
                       </div>
 
-                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
-                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">
-                          Topología de Silos
-                        </span>
-                        <div className="flex items-baseline justify-between">
-                          <span className="text-2xl font-black text-[#3ddc84]">92%</span>
-                          <div className="te-segment-meter">
-                            <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
+                      {/* Factor 2: Topología de Silos */}
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                              Topología de Silos
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                          </div>
+                          <div className="flex items-baseline justify-between pt-1">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">92%</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
+                            </div>
                           </div>
                         </div>
-                        <p className="text-[10px] text-zinc-500">Clusters temáticos estancos sin enlaces cruzados rotos</p>
+                        <p className="text-xs text-zinc-400 mt-3 font-normal leading-relaxed">Clusters temáticos estancos sin enlaces cruzados rotos ni fugas de PR</p>
                       </div>
 
-                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
-                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">
-                          Atribución a Negocios
-                        </span>
-                        <div className="flex items-baseline justify-between">
-                          <span className="text-2xl font-black text-cyan-400">90%</span>
-                          <div className="te-segment-meter">
-                            <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
+                      {/* Factor 3: Atribución a Negocios */}
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                              Atribución a Negocios
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                          </div>
+                          <div className="flex items-baseline justify-between pt-1">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">90%</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
+                            </div>
                           </div>
                         </div>
-                        <p className="text-[10px] text-zinc-500">Mapeo de deals y prospectos a hs_analytics verificado</p>
+                        <p className="text-xs text-zinc-400 mt-3 font-normal leading-relaxed">Mapeo de deals y prospectos a hs_analytics verificado con HubSpot</p>
                       </div>
                     </div>
                   </div>
@@ -2432,10 +2450,10 @@ LIMIT 5;`);
                           {/* Métrica Clave y Controles de Apertura */}
                           <div className="mt-5 pt-3.5 border-t border-white/[0.06] space-y-3">
                             <div>
-                              <span className="text-2xl font-bold font-mono tracking-tight text-white block">
+                              <span className="text-2xl sm:text-3xl font-extrabold font-sans tracking-tight text-white block tabular-nums">
                                 {mod.metric}
                               </span>
-                              <span className="text-[11px] font-medium text-zinc-400 block mt-0.5">
+                              <span className="text-xs font-medium text-zinc-400 block mt-0.5">
                                 {mod.metricLabel}
                               </span>
                             </div>
@@ -2615,65 +2633,113 @@ LIMIT 5;`);
                   </div>
                 </div>
 
-                {/* Grid de 4 Indicadores Hardware TE (Estilo Pantalla Segmentada LCD de Bolsillo) */}
-                <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-[var(--border-te)] border border-[var(--border-te)] bg-[var(--card)] rounded">
-                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
-                    <div className="flex justify-between items-start mb-6">
-                      <span className="te-label">M-01 // TRÁFICO</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active"></span>
+                {/* Grid de 4 Indicadores de Telemetría - Diseño Moderno & Analítica de Alta Legibilidad */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* KPI 1: Tráfico Orgánico */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                        Tráfico Orgánico
+                      </span>
+                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                        M-01
+                      </span>
                     </div>
                     <div>
-                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
-                        42.8k
-                      </p>
-                      <p className="te-label mt-2 text-[#3ddc84]">
-                        ↑ +18.4% / MES ORGÁNICO
-                      </p>
+                      <div className="flex items-baseline gap-2">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                          42,840
+                        </p>
+                        <span className="text-xs text-zinc-400">vis/mes</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2.5">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          ↑ +18.4%
+                        </span>
+                        <span className="text-[11px] text-zinc-400">vs mes anterior</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
-                    <div className="flex justify-between items-start mb-6">
-                      <span className="te-label">M-02 // KEYWORDS TOP 3</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]"></span>
+                  {/* KPI 2: Keywords Top 3 */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                        Keywords en Top 3
+                      </span>
+                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                        M-02
+                      </span>
                     </div>
                     <div>
-                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
-                        342
-                      </p>
-                      <p className="te-label mt-2 opacity-70">
-                        1,120 EN TOP 10 TOTAL
-                      </p>
+                      <div className="flex items-baseline gap-2">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                          342
+                        </p>
+                        <span className="text-xs text-zinc-400">queries</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2.5">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                          +24 nuevas
+                        </span>
+                        <span className="text-[11px] text-zinc-400">1,120 en Top 10 total</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
-                    <div className="flex justify-between items-start mb-6">
-                      <span className="te-label">M-03 // CITACIÓN AEO</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#e85a2a] te-led-fast"></span>
+                  {/* KPI 3: Citación AEO */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                        Citación AEO en LLMs
+                      </span>
+                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                        M-03
+                      </span>
                     </div>
                     <div>
-                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
-                        64.2%
-                      </p>
-                      <p className="te-label mt-2 text-[#e85a2a]">
-                        TOP 1 CHATGPT &amp; PERPLEXITY
-                      </p>
+                      <div className="flex items-baseline gap-2">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                          64.2%
+                        </p>
+                        <span className="text-xs text-zinc-400">share</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2.5">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                          #1 Líder
+                        </span>
+                        <span className="text-[11px] text-zinc-400">en ChatGPT &amp; Perplexity</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
-                    <div className="flex justify-between items-start mb-6">
-                      <span className="te-label">M-04 // PIPELINE DEALS</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#f5a623]"></span>
+                  {/* KPI 4: Pipeline Deals */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                        Pipeline Atribuido
+                      </span>
+                      <span className="font-mono text-[10px] text-zinc-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
+                        M-04
+                      </span>
                     </div>
                     <div>
-                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
-                        $148k
-                      </p>
-                      <p className="te-label mt-2 opacity-70">
-                        12 DEALS HUBSPOT CERRADOS
-                      </p>
+                      <div className="flex items-baseline gap-2">
+                        <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
+                          $148,000
+                        </p>
+                        <span className="text-xs text-zinc-400">USD</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2.5">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                          12 Deals
+                        </span>
+                        <span className="text-[11px] text-zinc-400">originados en HubSpot</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -5388,87 +5454,115 @@ LIMIT 5;`);
                   {/* SUB-VISTA 1: TELEMETRÍA Y PRESIÓN DE PIPELINE */}
                   {revopsActiveView === 'telemetry' && (
                     <div className="pt-6 space-y-6 animate-fade-in">
-                      {/* Pipeline Pressure Chamber HUD */}
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      {/* Pipeline Pressure Chamber HUD - Analítica Moderna & Telemetría Ejecutiva */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {/* Meter 1: MQLs */}
-                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
-                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                            <span className="uppercase tracking-wider">MQLS POR CONTENIDO</span>
-                            <span className="text-[#3ddc84] font-bold">+24% MES</span>
+                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                              MQLs por Contenido
+                            </span>
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                              +24% mes
+                            </span>
                           </div>
-                          <div className="flex items-baseline justify-between">
-                            <span className="font-mono text-3xl font-black text-white">148</span>
-                            <div className="te-segment-meter">
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-yellow" />
-                              <span className="te-segment-cell active-yellow" />
-                              <span className="te-segment-cell" />
+                          <div>
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">148</span>
+                              <div className="te-segment-meter">
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-yellow" />
+                                <span className="te-segment-cell active-yellow" />
+                                <span className="te-segment-cell" />
+                              </div>
                             </div>
+                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Mapeados a hs_analytics_first_touch</p>
                           </div>
-                          <p className="font-mono text-[9px] text-zinc-500">Mapeados a hs_analytics_first_touch</p>
                         </div>
 
                         {/* Meter 2: Pipeline Atribuido */}
-                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
-                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                            <span className="uppercase tracking-wider">PIPELINE ACTIVO</span>
-                            <span className="text-[#38bdf8] font-bold">18 DEALS</span>
+                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                              Pipeline Activo
+                            </span>
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                              18 Deals
+                            </span>
                           </div>
-                          <div className="flex items-baseline justify-between">
-                            <span className="font-mono text-3xl font-black text-[#38bdf8]">$42,500</span>
-                            <div className="te-segment-meter">
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-yellow" />
-                              <span className="te-segment-cell active-orange" />
-                              <span className="te-segment-cell active-orange" />
-                              <span className="te-segment-cell" />
+                          <div>
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-3xl sm:text-4xl font-extrabold text-[#38bdf8] font-sans tabular-nums">$42,500</span>
+                              <div className="te-segment-meter">
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-yellow" />
+                                <span className="te-segment-cell active-orange" />
+                                <span className="te-segment-cell active-orange" />
+                                <span className="te-segment-cell" />
+                              </div>
                             </div>
+                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Influenciado por Silos de Contenido AEO</p>
                           </div>
-                          <p className="font-mono text-[9px] text-zinc-500">Influenciado por Silos de Contenido AEO</p>
                         </div>
 
                         {/* Meter 3: Ventas Cerradas Ganadas */}
-                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
-                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                            <span className="uppercase tracking-wider">CLOSED WON REVENUE</span>
-                            <span className="text-[#3ddc84] font-bold">ROAS 8.4X</span>
+                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                              Closed Won Revenue
+                            </span>
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                              ROAS 8.4X
+                            </span>
                           </div>
-                          <div className="flex items-baseline justify-between">
-                            <span className="font-mono text-3xl font-black text-[#3ddc84]">$16,200</span>
-                            <div className="te-segment-meter">
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-yellow" />
+                          <div>
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-3xl sm:text-4xl font-extrabold text-[#3ddc84] font-sans tabular-nums">$16,200</span>
+                              <div className="te-segment-meter">
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-yellow" />
+                              </div>
                             </div>
+                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Facturación real verificada en HubSpot</p>
                           </div>
-                          <p className="font-mono text-[9px] text-zinc-500">Facturación real verificada en HubSpot</p>
                         </div>
 
                         {/* Meter 4: Tasa Lead-to-SQL */}
-                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
-                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                            <span className="uppercase tracking-wider">TASA LEAD-TO-SQL</span>
-                            <span className="text-[#f5a623] font-bold">TOP TIER</span>
+                        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                              Tasa Lead-to-SQL
+                            </span>
+                            <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                              Top Tier
+                            </span>
                           </div>
-                          <div className="flex items-baseline justify-between">
-                            <span className="font-mono text-3xl font-black text-[#f5a623]">22.4%</span>
-                            <div className="te-segment-meter">
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-green" />
-                              <span className="te-segment-cell active-yellow" />
-                              <span className="te-segment-cell active-yellow" />
-                              <span className="te-segment-cell" />
-                              <span className="te-segment-cell" />
+                          <div>
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] font-sans tabular-nums">22.4%</span>
+                              <div className="te-segment-meter">
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-green" />
+                                <span className="te-segment-cell active-yellow" />
+                                <span className="te-segment-cell active-yellow" />
+                                <span className="te-segment-cell" />
+                                <span className="te-segment-cell" />
+                              </div>
                             </div>
+                            <p className="text-xs text-zinc-400 font-normal mt-2.5">Filtrado con Lead Scoring de IA (+15 pts)</p>
                           </div>
-                          <p className="font-mono text-[9px] text-zinc-500">Filtrado con Lead Scoring de IA (+15 pts)</p>
                         </div>
                       </div>
 
@@ -6433,54 +6527,86 @@ LIMIT 5;`);
                   </div>
                 </div>
 
-                {/* Score & KPI Strip */}
+                {/* Score & KPI Strip - Analítica de Datos & Calidad CRM */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="glass-card p-5 border-l-4 border-l-[var(--primary)] space-y-1">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Score de Calidad de Base</span>
-                      <span className="text-xs font-mono font-bold text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-0.5 rounded border border-[var(--primary)]/20">+56% Mejora</span>
+                  {/* KPI 1 */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                        Calidad de Base
+                      </span>
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        +56% Mejora
+                      </span>
                     </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-[var(--foreground)]">97.4%</span>
-                      <span className="text-xs font-mono text-[var(--primary)]">Enterprise Clean</span>
+                    <div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">97.4%</span>
+                        <span className="text-xs font-medium text-emerald-400">Enterprise Clean</span>
+                      </div>
+                      <p className="text-xs text-zinc-400 font-normal mt-2.5">0 inconsistencias de mayúsculas o caracteres inválidos</p>
                     </div>
-                    <p className="text-[11px] text-[var(--muted-foreground)]">0 inconsistencias de mayúsculas o caracteres</p>
                   </div>
 
-                  <div className="glass-card p-5 border-l-4 border-l-amber-500 space-y-1">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Campos Nutridos vía Web Scraping</span>
-                      <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">100% Cobertura</span>
+                  {/* KPI 2 */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                        Enriquecimiento Web
+                      </span>
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        100% Cobertura
+                      </span>
                     </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-[var(--foreground)]">20 / 20</span>
-                      <span className="text-xs text-[var(--muted-foreground)]">Atributos</span>
+                    <div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">20 / 20</span>
+                        <span className="text-xs text-zinc-400">Atributos</span>
+                      </div>
+                      <p className="text-xs text-zinc-400 font-normal mt-2.5">Industria, tamaño de equipo y tech stack agregados</p>
                     </div>
-                    <p className="text-[11px] text-[var(--muted-foreground)]">Industria, tamaño de equipo y tech stack agregados</p>
                   </div>
 
-                  <div className="glass-card p-5 border-l-4 border-l-orange-400 space-y-1">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Duplicados Fusionados</span>
-                      <span className="text-xs font-mono font-bold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">Deduplicado</span>
+                  {/* KPI 3 */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                        Duplicados Fusionados
+                      </span>
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                        Deduplicado
+                      </span>
                     </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-[var(--foreground)]">1 Lead</span>
-                      <span className="text-xs text-[var(--muted-foreground)]">Consolidado</span>
+                    <div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">1 Lead</span>
+                        <span className="text-xs text-zinc-400">Consolidado</span>
+                      </div>
+                      <p className="text-xs text-zinc-400 font-normal mt-2.5">Identificado por dominio web idéntico y fusionado</p>
                     </div>
-                    <p className="text-[11px] text-[var(--muted-foreground)]">Identificado por dominio web idéntico</p>
                   </div>
 
-                  <div className="glass-card p-5 border-l-4 border-l-zinc-500 space-y-1">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Compatibilidad HubSpot CRM</span>
-                      <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">Hub ID #982104</span>
+                  {/* KPI 4 */}
+                  <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]" />
+                        Compatibilidad HubSpot
+                      </span>
+                      <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        Hub ID #982104
+                      </span>
                     </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-purple-400">100%</span>
-                      <span className="text-xs text-[var(--muted-foreground)]">Compatible</span>
+                    <div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-3xl sm:text-4xl font-extrabold text-[#c084fc] font-sans tabular-nums">100%</span>
+                        <span className="text-xs text-zinc-400">Compatible</span>
+                      </div>
+                      <p className="text-xs text-zinc-400 font-normal mt-2.5">Propiedades estándar alineadas para sync API directa</p>
                     </div>
-                    <p className="text-[11px] text-[var(--muted-foreground)]">Propiedades estándar alineadas para sync API</p>
                   </div>
                 </div>
 
@@ -6845,78 +6971,106 @@ LIMIT 5;`);
                     </div>
                   </div>
 
-                  {/* 4 Motor Synthesizer Blocks */}
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                  {/* 4 Motor Synthesizer Blocks - Analítica Moderna & Telemetría AEO */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                     {/* Block 1 */}
-                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
-                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                        <span className="uppercase tracking-wider">AEO SHARE OF VOICE</span>
-                        <span className="text-[#3ddc84] font-bold">#1 LÍDER</span>
+                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_#fb923c]" />
+                          AEO Share of Voice
+                        </span>
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          #1 Líder
+                        </span>
                       </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-mono text-3xl font-black text-[#e85a2a]">42.8%</span>
-                        <div className="te-segment-meter">
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-yellow" />
-                          <span className="te-segment-cell active-orange" />
+                      <div>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">42.8%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-yellow" />
+                            <span className="te-segment-cell active-orange" />
+                          </div>
                         </div>
+                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Superando a AcmeCorp (28.4%) en citación general</p>
                       </div>
-                      <p className="font-mono text-[9px] text-zinc-500">Superando a AcmeCorp (28.4%)</p>
                     </div>
 
                     {/* Block 2 */}
-                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
-                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                        <span className="uppercase tracking-wider">PERPLEXITY PRO</span>
-                        <span className="text-cyan-400 font-bold">17/25 CITAS</span>
+                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                          Perplexity Pro
+                        </span>
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                          17/25 Citas
+                        </span>
                       </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-mono text-3xl font-black text-cyan-400">68%</span>
-                        <div className="te-segment-meter">
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-green" />
+                      <div>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-3xl sm:text-4xl font-extrabold text-[#38bdf8] font-sans tabular-nums">68%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-green" />
+                          </div>
                         </div>
+                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Citado como fuente de autoridad principal en consultas de nicho</p>
                       </div>
-                      <p className="font-mono text-[9px] text-zinc-500">Citado como fuente principal</p>
                     </div>
 
                     {/* Block 3 */}
-                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
-                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                        <span className="uppercase tracking-wider">CHATGPT (SEARCH)</span>
-                        <span className="text-[#3ddc84] font-bold">9/25 CITAS</span>
+                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                          ChatGPT Search
+                        </span>
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          9/25 Citas
+                        </span>
                       </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-mono text-3xl font-black text-[#3ddc84]">36%</span>
-                        <div className="te-segment-meter">
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-yellow" />
-                          <span className="te-segment-cell" />
+                      <div>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-3xl sm:text-4xl font-extrabold text-[#3ddc84] font-sans tabular-nums">36%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-yellow" />
+                            <span className="te-segment-cell" />
+                          </div>
                         </div>
+                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Menciones directas en respuestas de comparativas B2B</p>
                       </div>
-                      <p className="font-mono text-[9px] text-zinc-500">Menciones en comparativas B2B</p>
                     </div>
 
                     {/* Block 4 */}
-                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
-                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                        <span className="uppercase tracking-wider">CLAUDE 3.5 SONNET</span>
-                        <span className="text-[#f5a623] font-bold">6/25 CITAS</span>
+                    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                          Claude 3.5 Sonnet
+                        </span>
+                        <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                          6/25 Citas
+                        </span>
                       </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-mono text-3xl font-black text-[#f5a623]">24%</span>
-                        <div className="te-segment-meter">
-                          <span className="te-segment-cell active-green" />
-                          <span className="te-segment-cell active-yellow" />
-                          <span className="te-segment-cell" />
-                          <span className="te-segment-cell" />
+                      <div>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] font-sans tabular-nums">24%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" />
+                            <span className="te-segment-cell active-yellow" />
+                            <span className="te-segment-cell" />
+                            <span className="te-segment-cell" />
+                          </div>
                         </div>
+                        <p className="text-xs text-zinc-400 font-normal mt-2.5">Oportunidad de optimización con schemas semánticos RAG</p>
                       </div>
-                      <p className="font-mono text-[9px] text-zinc-500">Oportunidad de optimización</p>
                     </div>
                   </div>
 
@@ -7141,37 +7295,41 @@ LIMIT 5;`);
                         </div>
                       </div>
 
-                      {/* Columna Derecha: Indicador de Confianza & Tensor 64-bit */}
-                      <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-3 flex flex-col justify-between">
-                        <div className="space-y-2">
-                          <span className="te-label text-zinc-400">TELEMETRÍA VECTORIAL</span>
+                      {/* Columna Derecha: Indicador de Confianza & Telemetría Vectorial */}
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/95 to-[#0c0d12]/95 border border-white/[0.08] shadow-xl space-y-4 flex flex-col justify-between">
+                        <div className="space-y-3">
+                          <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block">
+                            Telemetría Vectorial &amp; Confianza
+                          </span>
                           <div className="flex items-baseline justify-between">
-                            <span className="text-3xl font-mono font-black text-[#3ddc84]">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">
                               {aeoSimulationResult.confidenceScore}%
                             </span>
-                            <span className="text-[10px] font-mono text-zinc-400">SCORE AEO</span>
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                              Alta Certeza AEO
+                            </span>
                           </div>
                           
                           {/* Barra de progreso LED */}
-                          <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-zinc-800">
+                          <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-white/[0.08]">
                             <div 
-                              className="bg-gradient-to-r from-[#e85a2a] via-[#f5a623] to-[#3ddc84] h-full rounded-full"
+                              className="bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-400 h-full rounded-full"
                               style={{ width: `${aeoSimulationResult.confidenceScore}%` }}
                             ></div>
                           </div>
 
-                          <div className="text-[10px] font-mono text-zinc-400 space-y-1 pt-1">
+                          <div className="text-xs text-zinc-400 space-y-1.5 pt-1 font-sans">
                             <div className="flex justify-between">
-                              <span>Vector Ref:</span>
-                              <span className="text-white">{aeoSimulationResult.citationVectorId}</span>
+                              <span className="text-zinc-500">Vector Ref:</span>
+                              <span className="text-white font-mono">{aeoSimulationResult.citationVectorId}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span>Index Store:</span>
-                              <span className="text-emerald-400">pgvector (HNSW)</span>
+                              <span className="text-zinc-500">Index Store:</span>
+                              <span className="text-emerald-400 font-semibold">pgvector (HNSW)</span>
                             </div>
                             <div className="flex justify-between">
-                              <span>Distancia Coseno:</span>
-                              <span className="text-[#e85a2a]">0.028 (Muy Cercana)</span>
+                              <span className="text-zinc-500">Distancia Coseno:</span>
+                              <span className="text-orange-400 font-mono font-bold">0.028 (Muy Cercana)</span>
                             </div>
                           </div>
                         </div>
@@ -7181,9 +7339,10 @@ LIMIT 5;`);
                             setActiveTab('databaseStudio');
                             showToast('Inspeccionar Vector', `Saltando a la tabla aeo_citation_vectors con el id ${aeoSimulationResult.citationVectorId}`, 'info');
                           }}
-                          className="te-button w-full py-1.5 text-xs text-center font-mono cursor-pointer"
+                          className="w-full py-2 px-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.18] text-white font-semibold text-xs transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
                         >
-                          Inspeccionar en DB Studio ➔
+                          <span>Inspeccionar en DB Studio</span>
+                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 text-zinc-400" />
                         </button>
                       </div>
                     </div>
@@ -8287,45 +8446,63 @@ LIMIT 5;`);
                       </div>
                     </div>
 
-                    {/* Resumen de Presión de Tráfico Perdido */}
+                    {/* Resumen de Presión de Tráfico Perdido - Analítica Moderna */}
                     <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
-                        <span className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider block">
-                          Páginas Muriendo
-                        </span>
-                        <div className="flex items-baseline justify-between">
-                          <span className="font-mono text-3xl font-black text-white">14</span>
-                          <span className="text-[10px] font-mono font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/30">
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-semibold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_6px_#f43f5e]" />
+                            Páginas Muriendo
+                          </span>
+                          <span className="text-xs font-semibold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
                             -20% Tráfico
                           </span>
                         </div>
-                        <p className="text-[10px] font-mono text-zinc-500">Pérdida pasiva continua detectada en los últimos 90 días</p>
+                        <div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-white font-sans tabular-nums">14</span>
+                            <span className="text-xs text-zinc-400">URLs críticas</span>
+                          </div>
+                          <p className="text-xs text-zinc-400 font-normal mt-2.5 leading-relaxed">Pérdida pasiva continua de impresiones detectada en los últimos 90 días</p>
+                        </div>
                       </div>
 
-                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
-                        <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider block">
-                          Canibalización
-                        </span>
-                        <div className="flex items-baseline justify-between">
-                          <span className="font-mono text-3xl font-black text-[#f5a623]">3</span>
-                          <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
-                            Clusters
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-semibold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                            Canibalización
+                          </span>
+                          <span className="text-xs font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                            3 Clusters
                           </span>
                         </div>
-                        <p className="text-[10px] font-mono text-zinc-500">URLs compitiendo entre sí por la misma intención de búsqueda</p>
+                        <div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] font-sans tabular-nums">3</span>
+                            <span className="text-xs text-zinc-400">conflictos</span>
+                          </div>
+                          <p className="text-xs text-zinc-400 font-normal mt-2.5 leading-relaxed">URLs compitiendo entre sí por la misma intención de búsqueda primaria</p>
+                        </div>
                       </div>
 
-                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
-                        <span className="text-[10px] font-mono font-bold text-[#3ddc84] uppercase tracking-wider block">
-                          Oportunidades Quick Win
-                        </span>
-                        <div className="flex items-baseline justify-between">
-                          <span className="font-mono text-3xl font-black text-[#3ddc84]">28</span>
-                          <span className="text-[10px] font-mono font-bold text-[#3ddc84] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                      <div className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg backdrop-blur-xl transition-all duration-200 flex flex-col justify-between group">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-semibold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+                            Quick Wins
+                          </span>
+                          <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                             Pos. 11-20
                           </span>
                         </div>
-                        <p className="text-[10px] font-mono text-zinc-500">Contenido a punto de entrar a primera página con leve refresco</p>
+                        <div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl sm:text-4xl font-extrabold text-[#3ddc84] font-sans tabular-nums">28</span>
+                            <span className="text-xs text-zinc-400">oportunidades</span>
+                          </div>
+                          <p className="text-xs text-zinc-400 font-normal mt-2.5 leading-relaxed">Contenido a punto de ingresar a la primera página con un leve refresco</p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -10290,42 +10467,59 @@ WITH (m = 16, ef_construction = 64);`}</code>
                   </div>
                 </div>
 
-                {/* Main 64-bit Hardware Token Meter */}
-                <div className="p-5 rounded-xl bg-black border border-[var(--border-te)] space-y-4">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                {/* Main 64-bit Hardware Token Meter - Analítica Ejecutiva & Telemetría */}
+                <div className="p-6 rounded-2xl bg-gradient-to-b from-[#131620]/95 to-[#0c0d12]/95 border border-white/[0.08] shadow-xl space-y-5">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                      <span className="te-label text-zinc-400">TOTAL MONTHLY INGESTION METRICS</span>
-                      <div className="flex items-baseline gap-3 mt-1">
-                        <span className="text-3xl font-mono font-bold tracking-tight text-[#3ddc84]">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                        Consumo Mensual de Tokens (LLMs)
+                      </span>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans tabular-nums">
                           {finopsTokensUsed.toLocaleString()}
                         </span>
-                        <span className="text-xs font-mono text-zinc-500">
-                          / {finopsTokenBudget.toLocaleString()} TOKENS ({( (finopsTokensUsed / finopsTokenBudget) * 100 ).toFixed(1)}%)
+                        <span className="text-xs font-semibold text-zinc-400">tokens procesados</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          {((finopsTokensUsed / finopsTokenBudget) * 100).toFixed(1)}% de cuota utilizada
                         </span>
+                        <span className="text-xs text-zinc-500">Límite mensual: {finopsTokenBudget.toLocaleString()}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 text-right">
+                    <div className="flex items-center gap-6 text-right">
                       <div>
-                        <span className="te-label text-zinc-400">EST. MONTHLY COST</span>
-                        <div className="text-xl font-mono font-bold text-white">$184.20 USD</div>
+                        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                          Costo Estimado
+                        </span>
+                        <div className="text-2xl font-extrabold text-white font-sans tabular-nums">
+                          $184.20 <span className="text-xs font-normal text-zinc-400">USD</span>
+                        </div>
                       </div>
-                      <div className="h-8 w-[1px] bg-zinc-800" />
+                      <div className="h-10 w-px bg-white/[0.08]" />
                       <div>
-                        <span className="te-label text-zinc-400">AVG / ARTICLE</span>
-                        <div className="text-xl font-mono font-bold text-[var(--accent-te)]">$0.084 USD</div>
+                        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                          Costo / Artículo
+                        </span>
+                        <div className="text-2xl font-extrabold text-[#3ddc84] font-sans tabular-nums">
+                          $0.084 <span className="text-xs font-normal text-zinc-400">USD</span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* 20-Segment Hardware LED Meter */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400">
-                      <span>0M TOKENS</span>
-                      <span className="text-[var(--accent-te)]">ALERT THRESHOLD (80%: 40M)</span>
-                      <span>50M MAX CAP</span>
+                  <div className="space-y-2 pt-2 border-t border-white/[0.06]">
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-zinc-400">
+                      <span>0M Tokens</span>
+                      <span className="text-amber-400 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f5a623]" />
+                        Umbral de Alerta (80%: 40M)
+                      </span>
+                      <span>50M Máximo Asignado</span>
                     </div>
-                    <div className="grid grid-cols-20 gap-1 p-1 bg-[#121418] rounded-md border border-zinc-800">
+                    <div className="grid grid-cols-20 gap-1.5 p-1.5 bg-[#0a0c10] rounded-xl border border-white/[0.06]">
                       {Array.from({ length: 20 }).map((_, i) => {
                         const cellPercent = (i + 1) * 5;
                         const currentPercent = (finopsTokensUsed / finopsTokenBudget) * 100;
@@ -10390,29 +10584,29 @@ WITH (m = 16, ef_construction = 64);`}</code>
                       barWidth: '13%'
                     }
                   ].map((model, idx) => (
-                    <div key={idx} className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-3">
+                    <div key={idx} className="p-5 rounded-2xl bg-gradient-to-b from-[#131620]/90 to-[#0c0d12]/90 border border-white/[0.08] hover:border-white/[0.18] shadow-lg transition-all space-y-3.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono font-bold text-white">{model.name}</span>
-                        <span className="text-[10px] font-mono font-bold text-zinc-300">{model.cost}</span>
+                        <span className="text-sm font-bold text-white tracking-tight">{model.name}</span>
+                        <span className="text-xs font-extrabold text-white font-sans tabular-nums">{model.cost}</span>
                       </div>
-                      <p className="text-[10px] font-mono text-zinc-400 line-clamp-1">{model.role}</p>
+                      <p className="text-xs text-zinc-400 line-clamp-1 font-normal">{model.role}</p>
 
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
                           <div 
                             className="h-full rounded-full" 
                             style={{ width: model.barWidth, backgroundColor: model.color }} 
                           />
                         </div>
-                        <div className="flex items-center justify-between text-[9px] font-mono text-zinc-500">
+                        <div className="flex items-center justify-between text-xs text-zinc-400 font-sans tabular-nums">
                           <span>{model.tokens}</span>
-                          <span>LAT: {model.latency}</span>
+                          <span>Latencia: {model.latency}</span>
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[10px] font-mono">
+                      <div className="pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-xs">
                         <span className="text-zinc-400">Prompt Cache Hit:</span>
-                        <span className="text-[#3ddc84] font-bold">{model.cacheHit}</span>
+                        <span className="text-[#3ddc84] font-bold font-sans tabular-nums">{model.cacheHit}</span>
                       </div>
                     </div>
                   ))}
@@ -12615,79 +12809,93 @@ WITH (m = 16, ef_construction = 64);`}</code>
         </button>
       </div>
 
-      {/* SISTEMA DE NOTIFICACIONES TOASTS FLOTANTES (ESTÉTICA GLASS INDUSTRIAL) */}
+      {/* SISTEMA DE NOTIFICACIONES TOASTS - VENTANAS TÁCTILES ESTÉTICA INDUSTRIAL NEXT-GEN */}
       <div className="fixed top-20 right-6 z-50 flex flex-col gap-3 max-w-sm sm:max-w-md w-full pointer-events-none">
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto p-4 rounded-2xl backdrop-blur-2xl border shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 flex items-start gap-3.5 relative overflow-hidden ${
+            className={`pointer-events-auto p-4 rounded-2xl backdrop-blur-2xl border shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 flex flex-col gap-2 relative overflow-hidden ring-1 ring-white/[0.05] ${
               toast.type === 'success'
-                ? 'bg-[var(--card)]/95 border-emerald-500/40 shadow-[0_8px_30px_rgba(16,185,129,0.12)]'
+                ? 'bg-[#0b0e14]/95 border-emerald-500/30 shadow-[0_12px_40px_rgba(16,185,129,0.15)]'
                 : toast.type === 'warning'
-                ? 'bg-[var(--card)]/95 border-amber-500/40 shadow-[0_8px_30px_rgba(245,158,11,0.12)]'
+                ? 'bg-[#0f0e0c]/95 border-amber-500/30 shadow-[0_12px_40px_rgba(245,158,11,0.15)]'
                 : toast.type === 'error'
-                ? 'bg-[var(--card)]/95 border-rose-500/40 shadow-[0_8px_30px_rgba(244,63,94,0.12)]'
-                : 'bg-[var(--card)]/95 border-[var(--primary)]/40 shadow-[0_8px_30px_rgba(255,90,0,0.15)]'
+                ? 'bg-[#120b0d]/95 border-rose-500/30 shadow-[0_12px_40px_rgba(244,63,94,0.15)]'
+                : 'bg-[#120e0a]/95 border-orange-500/30 shadow-[0_12px_40px_rgba(232,90,42,0.18)]'
             }`}
           >
-            {/* Indicador de Semáforo / Tipo */}
-            <div className="shrink-0 mt-0.5">
-              {toast.type === 'success' && (
-                <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
-                  ✓
-                </div>
-              )}
-              {toast.type === 'warning' && (
-                <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
-                  !
-                </div>
-              )}
-              {toast.type === 'error' && (
-                <div className="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs">
-                  ✕
-                </div>
-              )}
-              {toast.type === 'info' && (
-                <div className="w-7 h-7 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center font-bold text-xs">
-                  ⚡
-                </div>
-              )}
-            </div>
-
-            {/* Contenido de la Notificación */}
-            <div className="flex-1 min-w-0 pr-4">
-              <div className="flex items-center justify-between gap-2 mb-0.5">
-                <h5 className="font-bold text-xs text-[var(--foreground)] truncate">{toast.title}</h5>
-                <span className="text-[10px] font-mono text-[var(--muted-foreground)] shrink-0">{toast.timestamp}</span>
+            {/* Top Micro-Rail Hardware Status Bar */}
+            <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 text-[9px] font-mono text-zinc-400">
+              <div className="flex items-center gap-2">
+                <span className="font-bold tracking-widest text-zinc-300">
+                  {toast.type === 'success' ? 'ACK // 0x200' : toast.type === 'error' ? 'ERR // 0x500' : 'SYS.EVT // 0x2A'}
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className={`w-1.5 h-1.5 rounded-full ${toast.type === 'success' ? 'bg-emerald-400' : toast.type === 'error' ? 'bg-rose-400' : 'bg-orange-400'} shadow-[0_0_6px_currentColor]`} />
+                  <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                  <span className="w-1 h-1 rounded-full bg-zinc-700" />
+                </span>
               </div>
-              <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">{toast.message}</p>
-              
-              {/* Botón de Acción Opcional */}
-              {toast.action && (
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-500">{toast.timestamp}</span>
                 <button
-                  onClick={toast.action.onClick}
-                  className="mt-2 text-[10px] font-bold text-[var(--primary)] hover:underline cursor-pointer block"
+                  onClick={() => removeToast(toast.id)}
+                  className="text-zinc-400 hover:text-white text-xs px-1 rounded hover:bg-white/10 transition-colors cursor-pointer"
+                  title="Cerrar notificación"
                 >
-                  {toast.action.label} →
+                  ✕
                 </button>
-              )}
+              </div>
             </div>
 
-            {/* Botón Cerrar */}
-            <button
-              onClick={() => removeToast(toast.id)}
-              className="text-zinc-400 hover:text-[var(--foreground)] text-xs p-1 rounded transition-colors cursor-pointer shrink-0"
-              title="Cerrar notificación"
-            >
-              ✕
-            </button>
+            {/* Contenido Principal con Alta Legibilidad */}
+            <div className="flex items-start gap-3 pt-1">
+              {/* Icono Táctil */}
+              <div className="shrink-0 mt-0.5">
+                {toast.type === 'success' && (
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center font-bold text-xs shadow-sm">
+                    ✓
+                  </div>
+                )}
+                {toast.type === 'warning' && (
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 flex items-center justify-center font-bold text-xs shadow-sm">
+                    !
+                  </div>
+                )}
+                {toast.type === 'error' && (
+                  <div className="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-400 flex items-center justify-center font-bold text-xs shadow-sm">
+                    ✕
+                  </div>
+                )}
+                {toast.type === 'info' && (
+                  <div className="w-8 h-8 rounded-xl bg-orange-500/10 border border-orange-500/25 text-orange-400 flex items-center justify-center font-bold text-xs shadow-sm">
+                    ⚡
+                  </div>
+                )}
+              </div>
 
-            {/* Barra de progreso inferior de auto-dismiss */}
+              <div className="flex-1 min-w-0">
+                <h5 className="font-semibold text-xs text-white tracking-tight">{toast.title}</h5>
+                <p className="text-xs text-zinc-300 leading-relaxed font-normal mt-0.5">{toast.message}</p>
+                
+                {toast.action && (
+                  <button
+                    onClick={toast.action.onClick}
+                    className="mt-2 text-xs font-semibold text-orange-400 hover:text-orange-300 hover:underline cursor-pointer flex items-center gap-1"
+                  >
+                    <span>{toast.action.label}</span>
+                    <span>→</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Barra de progreso táctil inferior con barrido LED */}
             <div 
-              className={`absolute bottom-0 left-0 h-0.5 w-full animate-toast-bar ${
-                toast.type === 'success' ? 'bg-emerald-400' : toast.type === 'warning' ? 'bg-amber-400' : toast.type === 'error' ? 'bg-rose-400' : 'bg-[var(--primary)]'
+              className={`absolute bottom-0 left-0 h-[2px] w-full animate-toast-bar ${
+                toast.type === 'success' ? 'bg-emerald-400' : toast.type === 'warning' ? 'bg-amber-400' : toast.type === 'error' ? 'bg-rose-400' : 'bg-orange-500'
               }`}
-            ></div>
+            />
           </div>
         ))}
       </div>
