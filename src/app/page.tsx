@@ -16,7 +16,10 @@ import {
   SunIcon,
   MoonIcon,
   SparklesIcon,
-  ShareIcon
+  ShareIcon,
+  RocketLaunchIcon,
+  ArrowPathRoundedSquareIcon,
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -58,6 +61,25 @@ export default function DashboardMockup() {
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'overview' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
               >
                 <ChartBarIcon className="w-5 h-5 mr-3" /> Visión General
+              </button>
+            </div>
+          </div>
+
+          {/* Section 2 */}
+          <div>
+            <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Motores & Lanzadores</p>
+            <div className="space-y-1">
+              <button 
+                onClick={() => setActiveTab('engineLauncher')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'engineLauncher' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <RocketLaunchIcon className="w-5 h-5 mr-3 text-amber-400" /> Lanzador SEO / AEO
+              </button>
+              <button 
+                onClick={() => setActiveTab('revopsHubspot')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'revopsHubspot' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <ArrowPathRoundedSquareIcon className="w-5 h-5 mr-3 text-orange-400" /> Motor RevOps & HubSpot
               </button>
             </div>
           </div>
@@ -161,6 +183,8 @@ export default function DashboardMockup() {
             <span className="mx-2">/</span>
             <span className="text-[var(--foreground)] font-semibold capitalize">
               {activeTab
+                .replace('engineLauncher', 'Lanzador y Configurador de Motor SEO/AEO')
+                .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
                 .replace('aiShareOfVoice', 'AEO / GEO Share of Voice')
                 .replace('clusterMap', 'Clusters & Silos de Contenido')
                 .replace('serpxray', 'SERP & AEO X-Ray')
@@ -277,6 +301,413 @@ export default function DashboardMockup() {
                     ))}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* TAB: LANZADOR Y CONFIGURADOR DE MOTORES SEO / AEO */}
+            {activeTab === 'engineLauncher' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-bold mb-1 flex items-center">
+                      <RocketLaunchIcon className="w-7 h-7 text-amber-500 mr-2" />
+                      Lanzador & Configurador de Motor Generativo (SEO / AEO)
+                    </h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">
+                      Configura el agente autónomo que se conectará a tu sitio web para planificar, redactar y publicar contenido optimizado para Google y Motores de IA.
+                    </p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
+                      Pausar Motor
+                    </button>
+                    <button className="bg-[var(--primary)] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer flex items-center">
+                      <RocketLaunchIcon className="w-4 h-4 mr-2" /> Desplegar Motor en Mi Sitio
+                    </button>
+                  </div>
+                </div>
+
+                {/* Status Bar */}
+                <div className="glass-card p-4 flex flex-wrap items-center justify-between gap-4 border-l-4 border-l-emerald-500">
+                  <div className="flex items-center space-x-3">
+                    <span className="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+                    <div>
+                      <p className="text-sm font-bold flex items-center gap-2">
+                        Estado del Motor: <span className="text-emerald-500">ACTIVO Y RASTREANDO</span>
+                      </p>
+                      <p className="text-xs text-[var(--muted-foreground)]">Sitio vinculado: <span className="font-mono text-[var(--foreground)]">https://soyroman.com</span> (Conector Webhook v2.4)</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-xs font-mono">
+                    <span className="bg-[var(--muted)] px-3 py-1.5 rounded border border-[var(--border)]">Ritmo: 3 Artículos / Semana</span>
+                    <span className="bg-[var(--muted)] px-3 py-1.5 rounded border border-[var(--border)]">Tokens Usados: 142k / 500k</span>
+                    <span className="bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded border border-emerald-500/20 font-bold">Próximo Despliegue: Mañana 08:00 AM</span>
+                  </div>
+                </div>
+
+                {/* Grid de Configuración Gráfica del Motor */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  
+                  {/* Columna 1 & 2: Ajustes de Comportamiento del Motor */}
+                  <div className="lg:col-span-2 space-y-6">
+                    
+                    {/* Tarjeta 1: Selección del Tipo de Agente */}
+                    <div className="glass-card p-6 space-y-4">
+                      <h3 className="font-bold text-base flex items-center">
+                        <span className="w-2 h-5 bg-[var(--primary)] rounded mr-2"></span>
+                        1. Selecciona el Tipo de Agente Generativo
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        Define la personalidad, profundidad de investigación y estilo de optimización del agente que operará en tu blog.
+                      </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <div className="p-4 rounded-xl border-2 border-[var(--primary)] bg-[var(--primary)]/5 cursor-pointer hover:border-[var(--primary)] transition-all">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-xs font-bold uppercase text-[var(--primary)]">Híbrido Recomendado</span>
+                            <CheckCircleIcon className="w-5 h-5 text-[var(--primary)]" />
+                          </div>
+                          <h4 className="font-bold text-sm mb-1">Agente AEO Máximo</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Optimizado para Perplexity y ChatGPT. Redacta en formato de respuesta directa, listas estructuradas y tablas comparativas.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] cursor-pointer hover:border-[var(--primary)] transition-all">
+                          <span className="text-xs font-bold uppercase text-[var(--muted-foreground)] block mb-2">SEO Clásico</span>
+                          <h4 className="font-bold text-sm mb-1">Agente Long-Form Pilar</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Guías completas de 3,000+ palabras con densidad semántica natural, encabezados H2/H3 y optimización tradicional de PageRank.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] cursor-pointer hover:border-[var(--primary)] transition-all">
+                          <span className="text-xs font-bold uppercase text-[var(--muted-foreground)] block mb-2">Noticioso / Viral</span>
+                          <h4 className="font-bold text-sm mb-1">Agente Newsjacking</h4>
+                          <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
+                            Detecta tendencias y publica artículos de 800 palabras en menos de 15 minutos para indexar en Google Discover.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Tarjeta 2: Tópicos y Mapa de Contenido a Armar */}
+                    <div className="glass-card p-6 space-y-4">
+                      <h3 className="font-bold text-base flex items-center">
+                        <span className="w-2 h-5 bg-amber-500 rounded mr-2"></span>
+                        2. Tópicos y Mapa de Contenido a Desarrollar
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        Ingresa los silos temáticos que el motor debe ir cubriendo automáticamente hasta completar la cobertura de autoridad.
+                      </p>
+
+                      <div className="space-y-3">
+                        <div className="flex gap-2">
+                          <input 
+                            type="text" 
+                            defaultValue="Automatizaciones RevOps, Inteligencia Artificial B2B, Arquitectura AEO, CRM HubSpot"
+                            className="flex-1 bg-[var(--card)] border border-[var(--border)] rounded-lg px-4 py-2 text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]"
+                          />
+                          <button className="bg-[var(--card)] border border-[var(--border)] px-4 py-2 text-xs font-bold rounded-lg hover:bg-[var(--muted)]">
+                            + Añadir Tópico
+                          </button>
+                        </div>
+
+                        {/* Tópicos Activos Tags */}
+                        <div className="flex flex-wrap gap-2 pt-2">
+                          <span className="px-3 py-1 bg-[var(--card)] border border-[var(--border)] text-xs rounded-full flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Silo 1: RevOps & HubSpot (12 de 15 completados)
+                          </span>
+                          <span className="px-3 py-1 bg-[var(--card)] border border-[var(--border)] text-xs rounded-full flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span> Silo 2: AEO & Answer Engines (4 de 10 en progreso)
+                          </span>
+                          <span className="px-3 py-1 bg-[var(--card)] border border-[var(--border)] text-xs rounded-full flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-blue-500"></span> Silo 3: Casos de Éxito y Comparativas (Pendiente)
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Tarjeta 3: Pipeline de Producción y Revisión */}
+                    <div className="glass-card p-6 space-y-4">
+                      <h3 className="font-bold text-base flex items-center">
+                        <span className="w-2 h-5 bg-emerald-500 rounded mr-2"></span>
+                        3. Pipeline de Lanzamiento y Aprobación
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                          <h4 className="font-bold text-xs uppercase text-[var(--muted-foreground)] mb-2">Modo de Publicación</h4>
+                          <label className="flex items-center space-x-2 text-sm cursor-pointer mb-2">
+                            <input type="radio" name="publish_mode" defaultChecked className="accent-[var(--primary)]" />
+                            <span>Crear como Borrador en CMS (Requiere Aprobación)</span>
+                          </label>
+                          <label className="flex items-center space-x-2 text-sm cursor-pointer">
+                            <input type="radio" name="publish_mode" className="accent-[var(--primary)]" />
+                            <span>Publicación 100% Autónoma (Autopiloto)</span>
+                          </label>
+                        </div>
+
+                        <div className="p-4 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                          <h4 className="font-bold text-xs uppercase text-[var(--muted-foreground)] mb-2">Enriquecimiento con IA</h4>
+                          <div className="space-y-1.5 text-xs text-[var(--muted-foreground)]">
+                            <label className="flex items-center space-x-2">
+                              <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                              <span>Generar Schema JSON-LD (FAQPage + Article)</span>
+                            </label>
+                            <label className="flex items-center space-x-2">
+                              <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                              <span>Autogenerar imágenes destacadas vía IA</span>
+                            </label>
+                            <label className="flex items-center space-x-2">
+                              <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                              <span>Inyectar enlaces internos a páginas comerciales</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Columna 3: Conector del Sitio Web (Snippet / Webhook) */}
+                  <div className="space-y-6">
+                    <div className="glass-card p-6 space-y-4 border-t-4 border-t-[var(--primary)]">
+                      <h3 className="font-bold text-base">Conexión con tu Sitio Web</h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        Selecciona cómo el motor inyectará los artículos generados en tu plataforma web.
+                      </p>
+
+                      <div className="space-y-3">
+                        <label className="block text-xs font-semibold text-[var(--muted-foreground)]">Plataforma CMS</label>
+                        <select className="w-full bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5 text-sm text-[var(--foreground)]">
+                          <option>WordPress (REST API / Plugin)</option>
+                          <option>Webflow (Collection Webhooks)</option>
+                          <option>Shopify (Blog Articles API)</option>
+                          <option>Next.js / Headless (Webhook Endpoint)</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="block text-xs font-semibold text-[var(--muted-foreground)]">URL del Webhook de Publicación</label>
+                        <input 
+                          type="text" 
+                          defaultValue="https://soyroman.com/api/mkt-engine/hook" 
+                          className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="block text-xs font-semibold text-[var(--muted-foreground)]">Token de Autenticación (Bearer)</label>
+                        <input 
+                          type="password" 
+                          defaultValue="mkt_live_98a7sd8f97a8sd7f89asdf" 
+                          className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                        />
+                      </div>
+
+                      <button className="w-full bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] py-2.5 rounded-lg text-xs font-bold hover:bg-[var(--muted)] transition-colors cursor-pointer">
+                        Probar Conexión (Ping Test)
+                      </button>
+                    </div>
+
+                    {/* Resumen del Próximo Artículo en Cola */}
+                    <div className="glass-card p-6 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs font-bold text-amber-500 uppercase">En Cola de Redacción</span>
+                        <span className="text-[10px] text-[var(--muted-foreground)] font-mono">ID: #ART-892</span>
+                      </div>
+                      <h4 className="font-bold text-sm">"Cómo alinear Marketing y Ventas en HubSpot para reducir el ciclo de cierre"</h4>
+                      <div className="text-xs space-y-1 text-[var(--muted-foreground)]">
+                        <p>• Silo: <strong className="text-[var(--foreground)]">RevOps & CRM</strong></p>
+                        <p>• Intención: <strong className="text-[var(--foreground)]">Comercial / B2B</strong></p>
+                        <p>• Longitud: <strong className="text-[var(--foreground)]">2,200 palabras</strong></p>
+                      </div>
+                      <div className="pt-2">
+                        <button className="w-full bg-[var(--muted)] text-[var(--foreground)] py-2 rounded text-xs hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer font-medium">
+                          Previsualizar Borrador IA
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )}
+
+            {/* TAB: MOTOR DE REVOPS & CONEXIÓN HUBSPOT */}
+            {activeTab === 'revopsHubspot' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h2 className="text-2xl font-bold mb-1 flex items-center">
+                      <ArrowPathRoundedSquareIcon className="w-7 h-7 text-orange-500 mr-2" />
+                      Motor de RevOps & Atribución HubSpot
+                    </h2>
+                    <p className="text-[var(--muted-foreground)] text-sm">
+                      Conecta las visitas y contenidos generados por el motor SEO/AEO con leads, deals y ventas reales cerradas en HubSpot CRM.
+                    </p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
+                      Sincronizar Propiedades
+                    </button>
+                    <button className="bg-[#ff7a59] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#e66a4b] transition-colors shadow-[0_0_15px_rgba(255,122,89,0.35)] cursor-pointer flex items-center">
+                      Re-conectar HubSpot OAuth
+                    </button>
+                  </div>
+                </div>
+
+                {/* KPI Cards RevOps */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                  <div className="glass-card p-6 border-t-2 border-t-[#ff7a59]">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">MQLs Generados por Contenido</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">148</span>
+                      <span className="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded">
+                        +24% este mes
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Registrados directamente en HubSpot</p>
+                  </div>
+
+                  <div className="glass-card p-6 border-t-2 border-t-blue-500">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Pipeline Atribuido (Deals)</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">$42,500</span>
+                      <span className="text-xs font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">
+                        18 Oportunidades
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Origen: Artículos del Motor AEO</p>
+                  </div>
+
+                  <div className="glass-card p-6 border-t-2 border-t-emerald-500">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Ventas Cerradas Ganadas</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">$16,200</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                        ROAS: 8.4x
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Negocios ganados en HubSpot</p>
+                  </div>
+
+                  <div className="glass-card p-6 border-t-2 border-t-purple-500">
+                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Tasa Lead-to-SQL</p>
+                    <div className="flex items-baseline justify-between mt-2">
+                      <span className="text-3xl font-bold">22.4%</span>
+                      <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">
+                        Alta Calidad
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Filtrados con formulario inteligente</p>
+                  </div>
+                </div>
+
+                {/* Sección 2: Configuración del Pipeline de RevOps con HubSpot */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  
+                  {/* Reglas de Atribución */}
+                  <div className="lg:col-span-2 glass-card p-6 space-y-4">
+                    <h3 className="font-bold text-base flex items-center">
+                      <span className="w-2 h-5 bg-[#ff7a59] rounded mr-2"></span>
+                      Mapeo de Atribución y Propiedades de Contacto
+                    </h3>
+                    <p className="text-xs text-[var(--muted-foreground)]">
+                      Cuando un usuario lee un artículo del motor y llena un formulario, el motor inyecta automáticamente estos campos en la ficha del contacto de HubSpot.
+                    </p>
+
+                    <div className="space-y-3 pt-2">
+                      <div className="flex justify-between items-center p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs">
+                        <div>
+                          <p className="font-bold">Original Search Term (AEO/SEO)</p>
+                          <p className="text-[var(--muted-foreground)]">Término exacto con el que llegó el prospecto</p>
+                        </div>
+                        <span className="font-mono text-[#ff7a59] font-bold">→ hs_analytics_first_touch_converting_campaign</span>
+                      </div>
+
+                      <div className="flex justify-between items-center p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs">
+                        <div>
+                          <p className="font-bold">Topic Cluster Influencer</p>
+                          <p className="text-[var(--muted-foreground)]">Silo de contenido que educó al lead</p>
+                        </div>
+                        <span className="font-mono text-[#ff7a59] font-bold">→ custom_topic_cluster_tag</span>
+                      </div>
+
+                      <div className="flex justify-between items-center p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs">
+                        <div>
+                          <p className="font-bold">Lead Scoring IA</p>
+                          <p className="text-[var(--muted-foreground)]">Puntuación estimada de compra calculada por IA</p>
+                        </div>
+                        <span className="font-mono text-[#ff7a59] font-bold">→ hubspot_score (+15 pts)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Estado de la Integración HubSpot */}
+                  <div className="glass-card p-6 space-y-4 border-t-4 border-t-[#ff7a59]">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-bold text-base">Estado de Cuenta HubSpot</h3>
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <div className="space-y-2 text-xs">
+                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Portal ID:</span> <span className="font-mono font-bold">24981290</span></p>
+                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Plan:</span> <span className="font-bold">Marketing & Sales Hub Pro</span></p>
+                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Último Sync:</span> <span>Hace 6 minutos</span></p>
+                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Workflows Vinculados:</span> <span className="text-emerald-500 font-bold">4 Activos</span></p>
+                    </div>
+
+                    <div className="pt-2 border-t border-[var(--border)]">
+                      <p className="text-[11px] text-[var(--muted-foreground)] mb-3">
+                        Disparador activo: Si un lead lee 2+ artículos del cluster RevOps, crear Deal automático en etapa <em>"Diagnóstico Solicitado"</em>.
+                      </p>
+                      <button className="w-full bg-[var(--card)] border border-[var(--border)] py-2 rounded text-xs font-bold hover:bg-[var(--muted)] transition-colors cursor-pointer">
+                        Ver Workflows en HubSpot ↗
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Tabla de Deals Cerrados por Contenido Generativo */}
+                <div className="glass-card overflow-hidden">
+                  <div className="px-6 py-4 border-b border-[var(--border)] flex justify-between items-center">
+                    <h3 className="font-semibold text-sm">Últimos Deals de HubSpot Atribuidos al Motor de Contenido</h3>
+                    <span className="text-xs text-[var(--muted-foreground)]">Atribución de Primer Toque y Multi-Touch</span>
+                  </div>
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-[var(--card)] text-[var(--muted-foreground)]">
+                      <tr>
+                        <th className="px-6 py-3 font-medium">Deal en HubSpot</th>
+                        <th className="px-6 py-3 font-medium">Empresa</th>
+                        <th className="px-6 py-3 font-medium">Artículo Convertidor</th>
+                        <th className="px-6 py-3 font-medium">Monto</th>
+                        <th className="px-6 py-3 font-medium text-right">Etapa Actual</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border)]">
+                      {[
+                        { deal: "Implementación CRM Enterprise", company: "FinTech MX", article: "/blog/kpis-content-marketing", amount: "$8,500 USD", stage: "Closed Won" },
+                        { deal: "Auditoría RevOps Trimestral", company: "Logística Global", article: "/guia-marketing-contenidos-b2b", amount: "$3,200 USD", stage: "Closed Won" },
+                        { deal: "Suscripción Agencia Pro", company: "SaaS Analytics", article: "/blog/calendario-editorial-b2b", amount: "$4,500 USD", stage: "Closed Won" },
+                        { deal: "Consultoría de AEO para ChatGPT", company: "Tech Retail", article: "/blog/herramientas-ia-redaccion-b2b", amount: "$6,000 USD", stage: "En Negociación" },
+                      ].map((row, i) => (
+                        <tr key={i} className="hover:bg-[var(--muted)]/50 transition-colors">
+                          <td className="px-6 py-4 font-semibold text-[var(--foreground)]">{row.deal}</td>
+                          <td className="px-6 py-4 text-xs font-mono">{row.company}</td>
+                          <td className="px-6 py-4 text-xs font-mono text-[var(--primary)]">{row.article}</td>
+                          <td className="px-6 py-4 font-bold text-emerald-500">{row.amount}</td>
+                          <td className="px-6 py-4 text-right">
+                            <span className={`text-xs font-bold px-2 py-0.5 rounded ${row.stage.includes('Won') ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'}`}>
+                              {row.stage}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
             )}
 
