@@ -329,6 +329,7 @@ export default function DashboardMockup() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedPaletteIndex, setSelectedPaletteIndex] = useState(0);
 
   // Sistema de Notificaciones Toasts y Alertas Diseñadas de BUILDATIONS STUDIO
   const [toasts, setToasts] = useState<Array<{
@@ -825,10 +826,31 @@ export default function DashboardMockup() {
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      const target = e.target as HTMLElement | null;
+      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsCommandPaletteOpen(prev => !prev);
+        return;
       }
+
+      if (!isInput && (e.metaKey || e.ctrlKey)) {
+        if (e.key === '1') {
+          e.preventDefault();
+          setActiveTab('overview');
+        } else if (e.key === '2') {
+          e.preventDefault();
+          setActiveTab('engineBuilder');
+        } else if (e.key === '3') {
+          e.preventDefault();
+          setActiveTab('engineLauncher');
+        } else if (e.key === '0' || e.key === ',') {
+          e.preventDefault();
+          setActiveTab('settings');
+        }
+      }
+
       if (e.key === 'Escape') {
         setIsCommandPaletteOpen(false);
         setIsCanvasModalOpen(false);
@@ -938,193 +960,258 @@ export default function DashboardMockup() {
           <div className="w-2 h-2 rounded-full bg-[var(--primary)]/30 animate-pulse-glow" title="Industrial Telemetry: Operational"></div>
         </div>
         
-        <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
-          {/* MODULO 1: ESTUDIO & DASHBOARDS */}
+        {/* Buscador Rápido Integrado en Sidebar */}
+        <div className="px-3 pt-3 pb-1">
+          <button 
+            onClick={() => setIsCommandPaletteOpen(true)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-[var(--card)] hover:bg-[var(--muted)] border border-[var(--border)] text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all cursor-pointer group shadow-2xs"
+            title="Abrir buscador global de módulos y comandos (⌘K)"
+          >
+            <div className="flex items-center gap-2 font-mono text-[11px]">
+              <MagnifyingGlassIcon className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[var(--primary)] transition-colors" />
+              <span>Buscar sección o comando...</span>
+            </div>
+            <kbd className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--muted)] border border-[var(--border)] text-zinc-400">⌘K</kbd>
+          </button>
+        </div>
+
+        <nav className="flex-1 p-3 space-y-5 overflow-y-auto">
+          {/* BLOQUE 1: CORE */}
           <div>
-            <p className="px-3 text-[10px] font-mono font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-1.5 flex items-center justify-between">
-              <span>01. Estudio &amp; Métricas</span>
-              <span className="text-[8px] font-mono px-1 py-0.2 rounded bg-zinc-800 text-zinc-400 font-bold">CORE</span>
-            </p>
+            <div className="px-2.5 flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">01. Estudio</span>
+              <span className="text-[8px] font-mono text-zinc-500">CORE</span>
+            </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('overview')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'overview' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'overview' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <ChartBarIcon className="w-4 h-4 mr-2.5 shrink-0" />
-                <span>Visión General &amp; ROI</span>
+                <div className="flex items-center">
+                  <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'overview' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Visión General &amp; ROI</span>
+                </div>
+                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'overview' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘1</kbd>
               </button>
             </div>
           </div>
 
-          {/* MODULO 2: MOTORES & EJECUCIÓN (THE LEGO PRINCIPLE) */}
+          {/* BLOQUE 2: MOTORES AUTÓNOMOS */}
           <div>
-            <div className="px-3 flex items-center justify-between mb-1.5">
-              <p className="text-[10px] font-mono font-bold text-[var(--muted-foreground)] uppercase tracking-wider">
-                02. Motores Autónomos
-              </p>
-              <span className="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                {activeEngines.filter(e => e.status === 'active').length} ACTIVOS
+            <div className="px-2.5 flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">02. Motores IA</span>
+              <span className="text-[8px] font-mono text-emerald-400">
+                {activeEngines.filter(e => e.status === 'active').length} ON
               </span>
             </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('engineBuilder')}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'engineBuilder' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'engineBuilder' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
                 <div className="flex items-center">
-                  <CpuChipIcon className="w-4 h-4 mr-2.5 text-amber-400 shrink-0" />
-                  <span>Constructor por Bloques</span>
+                  <CpuChipIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'engineBuilder' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Constructor Modular</span>
                 </div>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] animate-pulse" />
+                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'engineBuilder' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘2</kbd>
               </button>
 
               <button 
                 onClick={() => setActiveTab('engineLauncher')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'engineLauncher' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'engineLauncher' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <RocketLaunchIcon className="w-4 h-4 mr-2.5 text-amber-400 shrink-0" />
-                <span>Lanzador SEO / AEO</span>
+                <div className="flex items-center">
+                  <RocketLaunchIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'engineLauncher' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Lanzador SEO / AEO</span>
+                </div>
+                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'engineLauncher' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘3</kbd>
               </button>
 
               <button 
                 onClick={() => setActiveTab('revopsHubspot')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'revopsHubspot' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'revopsHubspot' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <ArrowPathRoundedSquareIcon className="w-4 h-4 mr-2.5 text-orange-400 shrink-0" />
+                <ArrowPathRoundedSquareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'revopsHubspot' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>Motor RevOps &amp; Deals</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('cmsConnectors')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'cmsConnectors' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'cmsConnectors' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <ServerStackIcon className="w-4 h-4 mr-2.5 text-cyan-400 shrink-0" />
-                <span>Conectores CMS (Payload/WP)</span>
+                <ServerStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'cmsConnectors' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                <span>Conectores CMS</span>
               </button>
             </div>
           </div>
 
-          {/* MODULO 3: INGENIERÍA SEMÁNTICA, SILOS & RADAR */}
+          {/* BLOQUE 3: INTELIGENCIA & SILOS */}
           <div>
-            <p className="px-3 text-[10px] font-mono font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-1.5 flex items-center justify-between">
-              <span>03. Búsqueda &amp; Silos</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            </p>
+            <div className="px-2.5 flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">03. Búsqueda &amp; Silos</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80" />
+            </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('aiShareOfVoice')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'aiShareOfVoice' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'aiShareOfVoice' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <SparklesIcon className="w-4 h-4 mr-2.5 text-purple-400 shrink-0" />
-                <span>Radar AEO (Perplexity/GPT)</span>
+                <SparklesIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'aiShareOfVoice' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                <span>Radar AEO &amp; Citabilidad</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('clusterMap')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'clusterMap' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'clusterMap' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <ShareIcon className="w-4 h-4 mr-2.5 text-indigo-400 shrink-0" />
+                <ShareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'clusterMap' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>Topic Clusters &amp; Silos</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('sitemapReconstructor')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'sitemapReconstructor' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'sitemapReconstructor' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <MapPinIcon className="w-4 h-4 mr-2.5 text-amber-400 shrink-0" />
+                <MapPinIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'sitemapReconstructor' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>Reconstructor de Sitemaps</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('serpxray')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'serpxray' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'serpxray' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <BoltIcon className="w-4 h-4 mr-2.5 text-amber-300 shrink-0" />
+                <BoltIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'serpxray' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>SERP &amp; AEO X-Ray</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('rag')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'rag' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'rag' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <DocumentTextIcon className="w-4 h-4 mr-2.5 text-teal-400 shrink-0" />
-                <span>Datasets RAG &amp; Embeddings</span>
+                <DocumentTextIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'rag' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                <span>Datasets RAG Vectorial</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('contentDecay')}
-                className={`w-full flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'contentDecay' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'contentDecay' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
-                <ChartBarIcon className="w-4 h-4 mr-2.5 text-rose-400 shrink-0" />
+                <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>Auditoría GSC (Decay)</span>
               </button>
             </div>
           </div>
 
-          {/* MODULO 4: GOBERNANZA, HOMOLOGACIÓN & ONBOARDING */}
+          {/* BLOQUE 4: BÓVEDA & DOCUMENTACIÓN */}
           <div>
-            <p className="px-3 text-[10px] font-mono font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-1.5 flex items-center justify-between">
-              <span>04. Recursos &amp; Ayuda</span>
-              <span className="text-[8px] font-mono px-1 py-0.2 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">V2.4</span>
-            </p>
+            <div className="px-2.5 flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">04. Bóveda &amp; Docs</span>
+              <span className="text-[8px] font-mono text-zinc-500">VAULT</span>
+            </div>
             <div className="space-y-0.5">
               <button 
-                onClick={() => setActiveTab('documentation')}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${activeTab === 'documentation' ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.35)]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+                onClick={() => setActiveTab('settings')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'settings' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
               >
                 <div className="flex items-center">
-                  <BookOpenIcon className="w-4 h-4 mr-2.5 text-cyan-400 shrink-0" />
-                  <span>Manual &amp; Homologación</span>
+                  <Cog6ToothIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'settings' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Configuración &amp; APIs</span>
                 </div>
-                <span className="text-[9px] font-mono text-zinc-500 font-bold">DOCS</span>
+                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'settings' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘0</kbd>
               </button>
 
+              <button 
+                onClick={() => setActiveTab('documentation')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'documentation' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
+              >
+                <div className="flex items-center">
+                  <BookOpenIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'documentation' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Manual &amp; Homologación</span>
+                </div>
+                <span className="text-[9px] font-mono text-zinc-500">DOCS</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Micro Telemetría de Kernel */}
+          <div className="mx-1 p-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[10px] space-y-1.5">
+            <div className="flex items-center justify-between text-zinc-400 font-mono">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                KERNEL OS
+              </span>
+              <span className="text-emerald-400 font-bold">99.98%</span>
+            </div>
+            <div className="w-full bg-[var(--muted)] h-1 rounded-full overflow-hidden">
+              <div className="bg-emerald-500 h-full w-[94%] rounded-full"></div>
+            </div>
+            <div className="pt-1 flex items-center justify-between text-[9px] text-zinc-500 font-mono">
               <button 
                 onClick={() => {
                   setOnboardingStep(1);
                   setIsOnboardingOpen(true);
                 }}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer text-amber-400 hover:text-white hover:bg-amber-500/20 bg-amber-500/5 border border-amber-500/20"
+                className="hover:text-[var(--primary)] transition-colors cursor-pointer flex items-center gap-1"
+                title="Abrir Asistente Guiado de Configuración Inicial"
               >
-                <div className="flex items-center">
-                  <SparklesIcon className="w-4 h-4 mr-2.5 text-amber-400 animate-pulse shrink-0" />
-                  <span>Tour Guiado Zero-to-One</span>
-                </div>
-                <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-200 font-bold">WIZARD</span>
+                <SparklesIcon className="w-2.5 h-2.5 text-amber-400" />
+                <span>Asistente Zero-to-One</span>
               </button>
-            </div>
-          </div>
-
-          {/* Industrial Status Widget */}
-          <div className="mx-2 p-3 rounded-xl bg-gradient-to-b from-[var(--card)] to-[var(--background)] border border-[var(--border)] relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--primary)]/5 rounded-full blur-xl pointer-events-none"></div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--muted-foreground)] flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                KERNEL ONLINE
-              </span>
-              <span className="text-[9px] font-mono text-[var(--primary)] font-bold">99.98%</span>
-            </div>
-            <div className="w-full bg-[var(--muted)] h-1.5 rounded-full overflow-hidden">
-              <div className="bg-gradient-to-r from-[var(--primary)] to-amber-400 h-full w-[94%] rounded-full animate-pulse"></div>
-            </div>
-            <div className="mt-2.5 pt-2 border-t border-[var(--border)] flex items-center justify-between text-[10px] text-[var(--muted-foreground)]">
-              <Link 
-                href="/login" 
-                className="text-[10px] font-mono text-zinc-400 hover:text-[var(--primary)] transition-colors flex items-center gap-1"
-                title="Ir al Portal de Acceso y Login con Canvas Generativo"
-              >
-                <span>Portal Login ↗</span>
+              <Link href="/login" className="hover:text-zinc-300 transition-colors">
+                Portal ↗
               </Link>
-              <a 
-                href="/ruta-no-existente-test-404" 
-                target="_blank" 
-                rel="noreferrer"
-                className="text-[10px] font-mono text-[var(--primary)] hover:underline flex items-center gap-0.5"
-                title="Probar pantalla 404 de diseño industrial"
-              >
-                Test 404 ↗
-              </a>
             </div>
           </div>
         </nav>
@@ -1300,9 +1387,24 @@ export default function DashboardMockup() {
           </div>
           
           <div className="flex items-center space-x-2.5">
+            {/* Buscador Global Protagonista (Command Center) */}
+            <button 
+              onClick={() => setIsCommandPaletteOpen(true)}
+              className="flex items-center justify-between bg-[var(--card)] hover:bg-[var(--muted)]/60 border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-xl pl-3.5 pr-2.5 py-1.5 text-xs transition-all w-52 sm:w-64 md:w-80 lg:w-96 cursor-pointer shadow-2xs group"
+              title="Buscar módulo, silo o ejecutar comando (Atajo: ⌘K)"
+            >
+              <div className="flex items-center gap-2.5 truncate">
+                <MagnifyingGlassIcon className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[var(--primary)] transition-colors shrink-0" />
+                <span className="truncate text-xs font-normal">Buscar módulo, motor o silo semántico...</span>
+              </div>
+              <div className="flex items-center gap-1 shrink-0 ml-2">
+                <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-zinc-400 group-hover:text-zinc-200">⌘K</kbd>
+              </div>
+            </button>
+
             {/* Semáforos Compactos de Alta Estética Estilo Lego // Micro-Status Pill */}
-            <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--card)]/90 backdrop-blur-md border border-[var(--border)] shadow-sm">
-              <span className="text-[9px] font-mono font-bold uppercase text-[var(--muted-foreground)] tracking-wider mr-1">
+            <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--card)]/90 backdrop-blur-md border border-[var(--border)] shadow-2xs">
+              <span className="text-[9px] font-mono font-bold uppercase text-zinc-500 tracking-wider mr-1">
                 STATUS:
               </span>
               
@@ -1346,67 +1448,37 @@ export default function DashboardMockup() {
               </button>
             </div>
 
-            {/* Onboarding Wizard Launcher Button */}
-            <button
-              onClick={() => {
-                setOnboardingStep(1);
-                setIsOnboardingOpen(true);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--primary)] bg-[var(--primary)]/10 hover:bg-[var(--primary)]/20 text-[var(--primary)] text-xs font-bold shadow-sm transition-all cursor-pointer animate-setup-beacon"
-              title="Iniciar Recorrido de Configuración Guiada Paso a Paso (Nuevo Usuario)"
-            >
-              <SparklesIcon className="w-3.5 h-3.5 text-[var(--primary)] animate-pulse" />
-              <span>Configuración Guiada (Zero-to-One)</span>
-            </button>
-
             {/* Executive vs Technical View Switch */}
             <button
               onClick={() => setIsExecutiveMode(!isExecutiveMode)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-sm transition-all cursor-pointer ${isExecutiveMode ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--primary)] font-bold' : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--foreground)] text-[var(--muted-foreground)]'}`}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-2xs transition-all cursor-pointer ${isExecutiveMode ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--primary)] font-bold' : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--foreground)] text-[var(--muted-foreground)]'}`}
               title="Cambiar entre Vista Técnica y Portal Ejecutivo para Clientes"
             >
               <PresentationChartLineIcon className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">{isExecutiveMode ? 'Vista Ejecutiva C-Level' : 'Vista Técnica'}</span>
-            </button>
-
-            <button 
-              onClick={() => setIsCommandPaletteOpen(true)}
-              className="hidden md:flex items-center justify-between bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-full pl-3 pr-2 py-1.5 text-xs transition-all w-48 sm:w-56 cursor-pointer shadow-sm group"
-            >
-              <div className="flex items-center gap-2">
-                <MagnifyingGlassIcon className="w-3.5 h-3.5 text-[var(--muted-foreground)] group-hover:text-[var(--primary)]" />
-                <span className="truncate">Buscar acción o silo...</span>
-              </div>
-              <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--muted-foreground)]">⌘K</kbd>
+              <span className="hidden lg:inline">{isExecutiveMode ? 'C-Level' : 'Técnica'}</span>
             </button>
 
             {/* Consola Kernel Monitor Button */}
             <button
               onClick={() => setIsTerminalOpen(!isTerminalOpen)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-sm cursor-pointer transition-all ${isTerminalOpen ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-[var(--border)] bg-[var(--card)] hover:border-emerald-500 text-[var(--foreground)]'}`}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-2xs cursor-pointer transition-all ${isTerminalOpen ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-[var(--border)] bg-[var(--card)] hover:border-emerald-500 text-[var(--foreground)]'}`}
               title="Abrir Consola Kernel de Procesos"
             >
-              <CommandLineIcon className="w-4 h-4 text-emerald-500" />
-              <span className="hidden lg:inline font-mono">Consola Kernel</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              <CommandLineIcon className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="hidden lg:inline font-mono text-[11px]">Kernel</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             </button>
 
             {/* Day / Night Theme Button */}
             <button
               onClick={toggleTheme}
-              className="flex items-center space-x-2 px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] transition-all text-xs font-semibold shadow-sm cursor-pointer"
+              className="p-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] transition-all text-xs font-semibold shadow-2xs cursor-pointer"
               title={theme === 'dark' ? 'Cambiar a Modo Día' : 'Cambiar a Modo Noche'}
             >
               {theme === 'dark' ? (
-                <>
-                  <SunIcon className="w-4 h-4 text-amber-400" />
-                  <span className="text-[var(--foreground)] hidden sm:inline">Día</span>
-                </>
+                <SunIcon className="w-4 h-4 text-amber-400" />
               ) : (
-                <>
-                  <MoonIcon className="w-4 h-4 text-indigo-500" />
-                  <span className="text-[var(--foreground)] hidden sm:inline">Noche</span>
-                </>
+                <MoonIcon className="w-4 h-4 text-indigo-400" />
               )}
             </button>
 
@@ -8138,93 +8210,308 @@ export default function DashboardMockup() {
         </div>
       )}
 
-      {/* MODAL 3: COMMAND PALETTE GLOBAL (CMD + K) */}
-      {isCommandPaletteOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/75 backdrop-blur-md animate-fade-in">
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden">
-            <div className="p-4 border-b border-[var(--border)] flex items-center gap-3 bg-[var(--background)]">
-              <MagnifyingGlassIcon className="w-5 h-5 text-[var(--primary)]" />
-              <input 
-                type="text" 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Escribe un comando o busca una herramienta (ej. 'lanzador', 'hubspot', 'palabras')..."
-                className="flex-1 bg-transparent text-sm text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none"
-                autoFocus
-              />
-              <kbd className="bg-[var(--muted)] text-[10px] font-mono px-2 py-1 rounded border border-[var(--border)] text-[var(--muted-foreground)]">ESC</kbd>
-            </div>
+      {/* MODAL 3: COMMAND PALETTE GLOBAL (CMD + K) - SOBRIO & SIN EMOJIS */}
+      {isCommandPaletteOpen && (() => {
+        const paletteItems: Array<{
+          id: string;
+          name: string;
+          desc: string;
+          category: '01. MÓDULOS DE OPERACIÓN' | '02. BÚSQUEDA & SILOS' | '03. HERRAMIENTAS & SISTEMA';
+          tab?: string;
+          action?: 'canvas' | 'terminal' | 'onboarding' | 'theme' | 'executive';
+          icon: React.ComponentType<{ className?: string }>;
+          shortcut?: string;
+        }> = [
+          { 
+            id: 'overview',
+            name: "Visión General & ROI Telemetría", 
+            desc: "Tablero central de rendimiento editorial, tráfico y valor generado", 
+            category: "01. MÓDULOS DE OPERACIÓN",
+            tab: "overview", 
+            icon: PresentationChartLineIcon,
+            shortcut: "⌘1"
+          },
+          { 
+            id: 'engineBuilder',
+            name: "Constructor Modular de Motores", 
+            desc: "Diseño por bloques de pipelines editoriales y topología de ejecución", 
+            category: "01. MÓDULOS DE OPERACIÓN",
+            tab: "engineBuilder", 
+            icon: CpuChipIcon,
+            shortcut: "⌘2"
+          },
+          { 
+            id: 'engineLauncher',
+            name: "Lanzador Autónomo SEO / AEO", 
+            desc: "Programación de agentes generativos y despacho programado a producción", 
+            category: "01. MÓDULOS DE OPERACIÓN",
+            tab: "engineLauncher", 
+            icon: RocketLaunchIcon,
+            shortcut: "⌘3"
+          },
+          { 
+            id: 'revopsHubspot',
+            name: "Motor RevOps & Conexión HubSpot", 
+            desc: "Atribución multitoque, sincronización de deals y métricas de pipeline comercial", 
+            category: "01. MÓDULOS DE OPERACIÓN",
+            tab: "revopsHubspot", 
+            icon: ArrowPathRoundedSquareIcon
+          },
+          { 
+            id: 'cmsConnectors',
+            name: "Conectores CMS (Payload, WordPress, Webflow)", 
+            desc: "Gestión de endpoints de despacho automático y plugins de publicación", 
+            category: "01. MÓDULOS DE OPERACIÓN",
+            tab: "cmsConnectors", 
+            icon: ServerStackIcon
+          },
+          { 
+            id: 'aiShareOfVoice',
+            name: "Radar AEO & Citabilidad (Perplexity / ChatGPT)", 
+            desc: "Monitoreo de citaciones en motores conversacionales y Share of Voice", 
+            category: "02. BÚSQUEDA & SILOS",
+            tab: "aiShareOfVoice", 
+            icon: SparklesIcon
+          },
+          { 
+            id: 'clusterMap',
+            name: "Topic Clusters & Silos Semánticos", 
+            desc: "Visualizador topológico de silos de contenido y enlaces internos", 
+            category: "02. BÚSQUEDA & SILOS",
+            tab: "clusterMap", 
+            icon: ShareIcon
+          },
+          { 
+            id: 'sitemapReconstructor',
+            name: "Reconstructor de Sitemaps & URLs", 
+            desc: "Auditoría de arquitectura de slugs, canibalizaciones y satélites", 
+            category: "02. BÚSQUEDA & SILOS",
+            tab: "sitemapReconstructor", 
+            icon: MapPinIcon
+          },
+          { 
+            id: 'serpxray',
+            name: "SERP & AEO X-Ray", 
+            desc: "Radiografía competitiva de SERPs e intenciones de búsqueda en Google", 
+            category: "02. BÚSQUEDA & SILOS",
+            tab: "serpxray", 
+            icon: BoltIcon
+          },
+          { 
+            id: 'rag',
+            name: "Datasets RAG & Embeddings Vectoriales", 
+            desc: "Ingesta de conocimiento de marca y vectores de 1,536 dimensiones", 
+            category: "02. BÚSQUEDA & SILOS",
+            tab: "rag", 
+            icon: DocumentTextIcon
+          },
+          { 
+            id: 'contentDecay',
+            name: "Auditoría GSC & Detección de Decay", 
+            desc: "Detección temprana de erosión de clics e impresiones orgánicas", 
+            category: "02. BÚSQUEDA & SILOS",
+            tab: "contentDecay", 
+            icon: ChartBarIcon
+          },
+          { 
+            id: 'settings',
+            name: "Bóveda Enterprise & Configuración de APIs", 
+            desc: "Gestión segura de credenciales, DNS, webhooks y llaves de proveedores", 
+            category: "03. HERRAMIENTAS & SISTEMA",
+            tab: "settings", 
+            icon: Cog6ToothIcon,
+            shortcut: "⌘0"
+          },
+          { 
+            id: 'documentation',
+            name: "Manual Técnico & Matriz de Homologación", 
+            desc: "Documentación oficial, diagramas de flujo y preguntas frecuentes", 
+            category: "03. HERRAMIENTAS & SISTEMA",
+            tab: "documentation", 
+            icon: BookOpenIcon
+          },
+          { 
+            id: 'terminal',
+            name: "Consola Kernel de Agentes (En Vivo)", 
+            desc: "Abrir terminal de telemetría y streams de ejecución de modelos", 
+            category: "03. HERRAMIENTAS & SISTEMA",
+            action: "terminal", 
+            icon: CommandLineIcon
+          },
+          { 
+            id: 'canvas',
+            name: "Editor Canvas Editorial (Borradores)", 
+            desc: "Lienzo de revisión y aprobación previa de publicaciones", 
+            category: "03. HERRAMIENTAS & SISTEMA",
+            action: "canvas", 
+            icon: PencilSquareIcon
+          },
+          { 
+            id: 'onboarding',
+            name: "Asistente Guiado de Configuración (Zero-to-One)", 
+            desc: "Iniciar tour paso a paso para configurar tu servicio de cero", 
+            category: "03. HERRAMIENTAS & SISTEMA",
+            action: "onboarding", 
+            icon: SparklesIcon
+          },
+          { 
+            id: 'theme',
+            name: "Alternar Tema Visual (Día / Noche)", 
+            desc: "Cambiar la paleta cromática entre modo industrial oscuro y claro", 
+            category: "03. HERRAMIENTAS & SISTEMA",
+            action: "theme", 
+            icon: SunIcon
+          }
+        ];
 
-            <div className="p-2 max-h-80 overflow-y-auto space-y-1 text-xs">
-              <p className="px-3 py-1.5 text-[10px] font-bold uppercase text-[var(--muted-foreground)] tracking-wider">Acciones Rápidas</p>
-              
-              {[
-                { name: "Constructor Gráfico de Motores", tab: "engineBuilder", icon: "⚙️", desc: "Formulario por pasos & arquitectura de operación topológica" },
-                { name: "Ir al Lanzador & Configurador SEO/AEO", tab: "engineLauncher", icon: "🚀", desc: "Configura el agente generativo para tu web" },
-                { name: "Reconstructor de Sitemaps (Silos)", tab: "sitemapReconstructor", icon: "🗺️", desc: "Edición de slugs, satélites y canibalizaciones" },
-                { name: "Datasets de Keywords & RAG Vectorial", tab: "rag", icon: "🧠", desc: "Listas temáticas de 1,536 dimensiones" },
-                { name: "Ver Motor RevOps & Conexión HubSpot", tab: "revopsHubspot", icon: "🔄", desc: "Atribución de ingresos y deals cerrados" },
-                { name: "Conectar CMS (Payload & WordPress)", tab: "cmsConnectors", icon: "🔌", desc: "Configura REST API o Plugin para despacho de artículos" },
-                { name: "Consultar AEO / GEO Share of Voice", tab: "aiShareOfVoice", icon: "✨", desc: "Monitorea citaciones en ChatGPT y Perplexity" },
-                { name: "Abrir Editor Canvas de Artículos", action: "canvas", icon: "📝", desc: "Previsualiza y aprueba borradores antes de publicar" },
-                { name: "Abrir Terminal de Agentes Autónomos", action: "terminal", icon: "💻", desc: "Logs en vivo del motor de IA en segundo plano" },
-                { name: "Explorar Topic Clusters & Silos", tab: "clusterMap", icon: "🕸️", desc: "Diseña la arquitectura semántica del sitio" },
-                { name: "Inspeccionar SERP & AEO X-Ray", tab: "serpxray", icon: "⚡", desc: "Analiza el Top 10 de Google con Llama 3.1" },
-                { name: "Manual de Uso, Homologación & FAQs", tab: "documentation", icon: "📖", desc: "Guía técnica oficial, matriz de arquitectura y resolución de dudas" },
-                { name: "Configuración de Cuenta & Enterprise Vault", tab: "settings", icon: "⚙️", desc: "Bóveda de API Keys, orquestación DNS, webhooks y credenciales" },
-                { name: "Tour de Onboarding Guiado (Zero-to-One)", action: "onboarding", icon: "✨", desc: "Asistente visual interactivo paso a paso para configurar tu servicio de cero" },
-                { name: "Alternar Modo Día / Modo Noche", action: "theme", icon: "🌓", desc: "Cambia el tema de color del estudio" },
-              ]
-                .filter(item => !searchQuery || item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase()))
-                .map((item, i) => (
-                  <button 
-                    key={i}
-                    onClick={() => {
-                      if (item.tab) {
-                        setActiveTab(item.tab);
-                        showToast(item.name, item.desc, 'info');
-                      }
-                      if (item.action === 'canvas') {
-                        setIsCanvasModalOpen(true);
-                        showToast('Editor Canvas', 'Abriendo lienzo editorial para previsualizar artículos', 'info');
-                      }
-                      if (item.action === 'terminal') {
-                        setIsTerminalOpen(true);
-                        showToast('Consola Kernel', 'Monitoreando telemetría de agentes autónomos', 'info');
-                      }
-                      if (item.action === 'onboarding') {
-                        setOnboardingStep(1);
-                        setIsOnboardingOpen(true);
-                        showToast('Tour de Onboarding', 'Iniciando asistente de configuración visual', 'info');
-                      }
-                      if (item.action === 'theme') {
-                        toggleTheme();
-                        showToast('Tema Actualizado', theme === 'dark' ? 'Modo Día Activado' : 'Modo Noche Activado', 'success');
-                      }
-                      setIsCommandPaletteOpen(false);
-                      setSearchQuery('');
-                    }}
-                    className="w-full p-2.5 rounded-xl hover:bg-[var(--muted)] flex items-center justify-between transition-colors text-left group cursor-pointer"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-base">{item.icon}</span>
-                      <div>
-                        <p className="font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">{item.name}</p>
-                        <p className="text-[11px] text-[var(--muted-foreground)]">{item.desc}</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Seleccionar ↵</span>
-                  </button>
-                ))}
-            </div>
+        const filteredItems = paletteItems.filter(item => 
+          !searchQuery || 
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.category.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
-            <div className="p-3 bg-[var(--background)] border-t border-[var(--border)] flex justify-between items-center text-[10px] text-[var(--muted-foreground)]">
-              <span>Usa <strong>↑ ↓</strong> para navegar y <strong>Enter</strong> para ejecutar</span>
-              <span>Buildations Studio OS</span>
+        const handleExecuteItem = (item: typeof paletteItems[0]) => {
+          if (item.tab) {
+            setActiveTab(item.tab);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast(item.name, item.desc, 'info');
+          }
+          if (item.action === 'canvas') {
+            setIsCanvasModalOpen(true);
+            showToast('Editor Canvas', 'Abriendo lienzo editorial para previsualizar artículos', 'info');
+          }
+          if (item.action === 'terminal') {
+            setIsTerminalOpen(true);
+            showToast('Consola Kernel', 'Monitoreando telemetría de agentes autónomos', 'info');
+          }
+          if (item.action === 'onboarding') {
+            setOnboardingStep(1);
+            setIsOnboardingOpen(true);
+            showToast('Asistente Guiado', 'Iniciando recorrido interactivo de configuración', 'info');
+          }
+          if (item.action === 'theme') {
+            toggleTheme();
+            showToast('Tema Actualizado', theme === 'dark' ? 'Modo Día Activado' : 'Modo Noche Activado', 'success');
+          }
+          setIsCommandPaletteOpen(false);
+          setSearchQuery('');
+          setSelectedPaletteIndex(0);
+        };
+
+        return (
+          <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/75 backdrop-blur-md animate-fade-in">
+            <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col">
+              {/* Header de Búsqueda */}
+              <div className="p-4 border-b border-[var(--border)] flex items-center gap-3 bg-[var(--background)]">
+                <MagnifyingGlassIcon className="w-5 h-5 text-zinc-400 shrink-0" />
+                <input 
+                  type="text" 
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setSelectedPaletteIndex(0);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      setSelectedPaletteIndex(prev => (prev + 1) % (filteredItems.length || 1));
+                    } else if (e.key === 'ArrowUp') {
+                      e.preventDefault();
+                      setSelectedPaletteIndex(prev => (prev - 1 + filteredItems.length) % (filteredItems.length || 1));
+                    } else if (e.key === 'Enter') {
+                      e.preventDefault();
+                      if (filteredItems[selectedPaletteIndex]) {
+                        handleExecuteItem(filteredItems[selectedPaletteIndex]);
+                      }
+                    }
+                  }}
+                  placeholder="Buscar módulo, motor, silo o acción rápida (ej: 'sitemaps', 'apis', 'deals')..."
+                  className="flex-1 bg-transparent text-sm text-[var(--foreground)] placeholder-zinc-500 focus:outline-none"
+                  autoFocus
+                />
+                <kbd className="bg-[var(--muted)] text-[10px] font-mono px-2 py-1 rounded border border-[var(--border)] text-zinc-400">ESC</kbd>
+              </div>
+
+              {/* Lista de Resultados con Iconos SVG Propios */}
+              <div className="p-2 max-h-96 overflow-y-auto space-y-1 text-xs">
+                {filteredItems.length === 0 ? (
+                  <div className="p-8 text-center text-zinc-500 font-mono text-xs">
+                    No se encontraron módulos ni acciones para &quot;{searchQuery}&quot;
+                  </div>
+                ) : (
+                  filteredItems.map((item, index) => {
+                    const IconComponent = item.icon;
+                    const isSelected = index === selectedPaletteIndex;
+                    return (
+                      <button 
+                        key={item.id}
+                        onClick={() => handleExecuteItem(item)}
+                        onMouseEnter={() => setSelectedPaletteIndex(index)}
+                        className={`w-full p-2.5 rounded-xl flex items-center justify-between transition-all text-left cursor-pointer group ${
+                          isSelected 
+                            ? 'bg-[var(--primary)] text-white shadow-xs' 
+                            : 'hover:bg-[var(--muted)] text-[var(--foreground)]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
+                            isSelected 
+                              ? 'bg-white/20 border-white/30 text-white' 
+                              : 'bg-[var(--muted)]/60 border-[var(--border)] text-zinc-400 group-hover:text-zinc-200'
+                          }`}>
+                            <IconComponent className="w-4 h-4" />
+                          </div>
+                          <div className="truncate">
+                            <div className="flex items-center gap-2">
+                              <p className={`font-semibold text-xs truncate ${isSelected ? 'text-white' : 'text-[var(--foreground)]'}`}>
+                                {item.name}
+                              </p>
+                              <span className={`text-[9px] font-mono uppercase px-1.5 py-0.2 rounded ${
+                                isSelected ? 'bg-white/20 text-white' : 'bg-zinc-800 text-zinc-400'
+                              }`}>
+                                {item.category.split('.')[1]?.trim() || 'ACCIÓN'}
+                              </span>
+                            </div>
+                            <p className={`text-[11px] truncate mt-0.5 ${isSelected ? 'text-white/80' : 'text-[var(--muted-foreground)]'}`}>
+                              {item.desc}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0 ml-3">
+                          {item.shortcut && (
+                            <kbd className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                              isSelected ? 'bg-white/20 border-white/30 text-white' : 'bg-[var(--muted)] border-[var(--border)] text-zinc-500'
+                            }`}>
+                              {item.shortcut}
+                            </kbd>
+                          )}
+                          <span className={`text-[10px] font-mono flex items-center gap-0.5 ${isSelected ? 'text-white font-bold' : 'text-zinc-500 opacity-0 group-hover:opacity-100'}`}>
+                            <span>Ir</span> ↵
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+
+              {/* Footer Sobrio */}
+              <div className="p-3 bg-[var(--background)] border-t border-[var(--border)] flex justify-between items-center text-[10px] text-zinc-500 font-mono">
+                <span className="flex items-center gap-2">
+                  <span>Navegar: <strong>↑ ↓</strong></span>
+                  <span>·</span>
+                  <span>Ejecutar: <strong>↵ Enter</strong></span>
+                  <span>·</span>
+                  <span>Cerrar: <strong>Esc</strong></span>
+                </span>
+                <span className="text-zinc-400">Buildations Command Center</span>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* MODAL 4: DRAWER DE SUBSISTEMAS Y SEMÁFOROS KERNEL */}
       {selectedAgent && (
