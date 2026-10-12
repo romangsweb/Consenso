@@ -34,7 +34,11 @@ import {
   CheckIcon,
   ShieldCheckIcon,
   PresentationChartLineIcon,
-  BriefcaseIcon
+  BriefcaseIcon,
+  ServerStackIcon,
+  ArrowDownTrayIcon,
+  LinkIcon,
+  KeyIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardMockup() {
@@ -61,6 +65,15 @@ export default function DashboardMockup() {
   const [quickScanInput, setQuickScanInput] = useState('');
   const [isScanningUrl, setIsScanningUrl] = useState(false);
   const [quickScanReport, setQuickScanReport] = useState<{ url: string; score: number; aeo: string; issues: string[] } | null>(null);
+
+  // Estados para Conectores CMS Oficiales (Payload & WordPress)
+  const [cmsTab, setCmsTab] = useState<'payload' | 'wordpress'>('payload');
+  const [payloadVersion, setPayloadVersion] = useState<'v3' | 'v2'>('v3');
+  const [wpMode, setWpMode] = useState<'plugin' | 'rest'>('plugin');
+  const [isTestingPayload, setIsTestingPayload] = useState(false);
+  const [payloadTestResult, setPayloadTestResult] = useState<{ status: string; latency: string; collections: string[]; message: string } | null>(null);
+  const [isTestingWp, setIsTestingWp] = useState(false);
+  const [wpTestResult, setWpTestResult] = useState<{ status: string; latency: string; user: string; seoPlugin: string; message: string } | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
@@ -104,6 +117,35 @@ export default function DashboardMockup() {
         ]
       });
     }, 1200);
+  };
+
+  const handleTestPayload = () => {
+    setIsTestingPayload(true);
+    setPayloadTestResult(null);
+    setTimeout(() => {
+      setIsTestingPayload(false);
+      setPayloadTestResult({
+        status: '200 OK - Conectado',
+        latency: '84ms',
+        collections: ['posts (Activo)', 'media', 'categories', 'users'],
+        message: 'Handshake exitoso. Payload CMS aceptará borradores generados por Agente Vera.'
+      });
+    }, 900);
+  };
+
+  const handleTestWp = () => {
+    setIsTestingWp(true);
+    setWpTestResult(null);
+    setTimeout(() => {
+      setIsTestingWp(false);
+      setWpTestResult({
+        status: '200 OK - Vinculado',
+        latency: '115ms',
+        user: 'Buildations Engine (Rol: Editor / Author)',
+        seoPlugin: 'Rank Math SEO detectado y mapeado',
+        message: 'Plugin oficial emparejado. Los artículos se publicarán automáticamente como borradores pendientes.'
+      });
+    }, 900);
   };
 
   const toggleTheme = () => {
@@ -153,6 +195,12 @@ export default function DashboardMockup() {
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'revopsHubspot' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
               >
                 <ArrowPathRoundedSquareIcon className="w-5 h-5 mr-3 text-orange-400" /> Motor RevOps & HubSpot
+              </button>
+              <button 
+                onClick={() => setActiveTab('cmsConnectors')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'cmsConnectors' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <ServerStackIcon className="w-5 h-5 mr-3 text-cyan-400" /> Conectores CMS (Payload/WP)
               </button>
             </div>
           </div>
@@ -301,6 +349,7 @@ export default function DashboardMockup() {
               {activeTab
                 .replace('engineLauncher', 'Lanzador y Configurador de Motor SEO/AEO')
                 .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
+                .replace('cmsConnectors', 'Conectores CMS Oficiales (Payload & WordPress)')
                 .replace('aiShareOfVoice', 'AEO / GEO Share of Voice')
                 .replace('clusterMap', 'Clusters & Silos de Contenido')
                 .replace('serpxray', 'SERP & AEO X-Ray')
@@ -1630,6 +1679,597 @@ export default function DashboardMockup() {
               </div>
             )}
 
+            {/* TAB: CONECTORES CMS OFICIALES (PAYLOAD CMS & WORDPRESS) */}
+            {activeTab === 'cmsConnectors' && (
+              <div className="space-y-8 animate-fade-in">
+                <div className="flex flex-wrap justify-between items-end gap-4">
+                  <div>
+                    <div className="flex items-center gap-3 mb-1">
+                      <h2 className="text-2xl font-bold flex items-center">
+                        <ServerStackIcon className="w-7 h-7 text-cyan-400 mr-2" />
+                        Conectores CMS Oficiales (Payload &amp; WordPress)
+                      </h2>
+                      <span className="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 rounded-full font-bold">
+                        Multi-CMS Hub
+                      </span>
+                    </div>
+                    <p className="text-[var(--muted-foreground)] text-sm">
+                      Vincula tu plataforma de gestión de contenido para que los agentes autónomos despachen borradores, sincronicen metadatos AEO y asignen autores virtuales.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-[var(--card)] p-1 rounded-xl border border-[var(--border)] shadow-sm">
+                    <button 
+                      onClick={() => setCmsTab('payload')}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${cmsTab === 'payload' ? 'bg-[var(--primary)] text-white shadow-md' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      <span className="font-mono text-sm">🖤</span> Payload CMS (Headless)
+                    </button>
+                    <button 
+                      onClick={() => setCmsTab('wordpress')}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${cmsTab === 'wordpress' ? 'bg-[var(--primary)] text-white shadow-md' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                    >
+                      <span className="font-mono text-sm">🌐</span> WordPress (Plugin &amp; REST)
+                    </button>
+                  </div>
+                </div>
+
+                {/* 1. SECCIÓN PAYLOAD CMS */}
+                {cmsTab === 'payload' && (
+                  <div className="space-y-6 animate-fade-in">
+                    
+                    {/* Status Card Payload */}
+                    <div className="glass-card p-6 border-l-4 border-l-cyan-500 flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-black text-xl text-white shadow-md">
+                          P
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-bold text-base text-[var(--foreground)]">Payload CMS Native REST Connector</h3>
+                            <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded font-mono font-bold">
+                              Compatible con Payload 2.x &amp; 3.x
+                            </span>
+                          </div>
+                          <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                            Conexión directa vía REST API sin necesidad de plugins externos. Soporta colecciones nativas y campos Lexical / Slate.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={handleTestPayload}
+                          disabled={isTestingPayload}
+                          className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        >
+                          <BoltIcon className="w-4 h-4" />
+                          {isTestingPayload ? 'Probando Handshake...' : 'Probar Conexión (Ping Test)'}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Handshake Result Box */}
+                    {payloadTestResult && (
+                      <div className="p-4 rounded-xl bg-slate-950 border border-cyan-500/40 space-y-2 text-xs animate-fade-in font-mono">
+                        <div className="flex justify-between items-center text-cyan-400 font-bold">
+                          <span>Handshake Status: {payloadTestResult.status}</span>
+                          <span className="text-emerald-400">Latencia: {payloadTestResult.latency}</span>
+                        </div>
+                        <p className="text-slate-300">{payloadTestResult.message}</p>
+                        <div className="flex items-center gap-2 text-[11px] text-slate-400 pt-1 border-t border-slate-800">
+                          <span>Colecciones detectadas:</span>
+                          {payloadTestResult.collections.map((col, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-700">{col}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Payload Settings Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      
+                      {/* Column 1 & 2: Connection Parameters */}
+                      <div className="lg:col-span-2 space-y-6">
+                        <div className="glass-card p-6 space-y-5">
+                          <h4 className="font-bold text-sm flex items-center gap-2">
+                            <KeyIcon className="w-4 h-4 text-cyan-400" />
+                            Parámetros del Endpoint de Payload
+                          </h4>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Versión de Payload CMS</label>
+                              <div className="flex gap-2">
+                                <button 
+                                  onClick={() => setPayloadVersion('v3')}
+                                  className={`flex-1 py-2 rounded-lg text-xs font-bold border cursor-pointer transition-all ${payloadVersion === 'v3' ? 'border-cyan-400 bg-cyan-500/10 text-cyan-400' : 'border-[var(--border)] text-[var(--muted-foreground)]'}`}
+                                >
+                                  Payload 3.x (App Router)
+                                </button>
+                                <button 
+                                  onClick={() => setPayloadVersion('v2')}
+                                  className={`flex-1 py-2 rounded-lg text-xs font-bold border cursor-pointer transition-all ${payloadVersion === 'v2' ? 'border-cyan-400 bg-cyan-500/10 text-cyan-400' : 'border-[var(--border)] text-[var(--muted-foreground)]'}`}
+                                >
+                                  Payload 2.x
+                                </button>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Colección Destino</label>
+                              <input 
+                                type="text" 
+                                defaultValue="posts" 
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                                placeholder="posts, articles, blog..."
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">URL Base del API de Payload</label>
+                            <div className="flex gap-2">
+                              <input 
+                                type="text" 
+                                defaultValue="https://soyroman.com/api" 
+                                className="flex-1 bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                              />
+                              <span className="flex items-center px-3 rounded-lg bg-[var(--muted)] text-[11px] font-mono text-[var(--muted-foreground)] border border-[var(--border)]">
+                                /api/posts
+                              </span>
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">API Key de Usuario / Service Token (useAPIKey)</label>
+                            <div className="flex gap-2">
+                              <input 
+                                type="password" 
+                                defaultValue="payload_live_sec_98a7sd8f97a8sd7f89asdf" 
+                                className="flex-1 bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                              />
+                              <button 
+                                onClick={() => alert('API Key copiada.')}
+                                className="bg-[var(--card)] border border-[var(--border)] px-3 py-2 rounded-lg text-xs hover:bg-[var(--muted)] transition-colors"
+                              >
+                                Copiar
+                              </button>
+                            </div>
+                            <span className="text-[10px] text-[var(--muted-foreground)] mt-1 block">
+                              En Payload, habilita <code>useAPIKey: true</code> en tu colección de usuarios o crea una cuenta técnica 'Buildations Agent'.
+                            </span>
+                          </div>
+
+                          <div className="pt-2 border-t border-[var(--border)]">
+                            <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Estado de Publicación al Despachar</label>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                              <label className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)] flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="payload_status" defaultChecked className="accent-[var(--primary)]" />
+                                <div>
+                                  <span className="font-bold block text-[var(--foreground)]">_status: 'draft' (Recomendado)</span>
+                                  <span className="text-[10px] text-[var(--muted-foreground)]">Permite que tu equipo editorial revise antes de publicar.</span>
+                                </div>
+                              </label>
+                              <label className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)] flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="payload_status" className="accent-[var(--primary)]" />
+                                <div>
+                                  <span className="font-bold block text-[var(--foreground)]">_status: 'published'</span>
+                                  <span className="text-[10px] text-[var(--muted-foreground)]">Publicación inmediata 100% autónoma.</span>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Mapeo de Campos de Colección */}
+                        <div className="glass-card p-6 space-y-4">
+                          <h4 className="font-bold text-sm flex items-center gap-2">
+                            <LinkIcon className="w-4 h-4 text-cyan-400" />
+                            Mapeo Inteligente de Campos (Schema Field Mapping)
+                          </h4>
+                          <p className="text-xs text-[var(--muted-foreground)]">
+                            Configura cómo Buildations inyecta cada propiedad en la colección de Payload:
+                          </p>
+
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left text-xs border border-[var(--border)] rounded-lg">
+                              <thead className="bg-[var(--muted)] text-[var(--muted-foreground)]">
+                                <tr>
+                                  <th className="p-2.5">Propiedad de Buildations</th>
+                                  <th className="p-2.5">Campo en tu Payload CMS</th>
+                                  <th className="p-2.5">Tipo de Dato</th>
+                                  <th className="p-2.5">Estado</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-[var(--border)] font-mono text-[11px]">
+                                <tr>
+                                  <td className="p-2.5 font-sans font-bold">Título de Artículo</td>
+                                  <td className="p-2.5 text-cyan-400">title</td>
+                                  <td className="p-2.5 text-[var(--muted-foreground)]">text</td>
+                                  <td className="p-2.5 text-emerald-500 font-bold">✓ Mapeado</td>
+                                </tr>
+                                <tr>
+                                  <td className="p-2.5 font-sans font-bold">Cuerpo Enriquecido</td>
+                                  <td className="p-2.5 text-cyan-400">content</td>
+                                  <td className="p-2.5 text-[var(--muted-foreground)]">richText / lexical</td>
+                                  <td className="p-2.5 text-emerald-500 font-bold">✓ Mapeado</td>
+                                </tr>
+                                <tr>
+                                  <td className="p-2.5 font-sans font-bold">Meta Title &amp; Description</td>
+                                  <td className="p-2.5 text-cyan-400">meta.title, meta.description</td>
+                                  <td className="p-2.5 text-[var(--muted-foreground)]">group (SEO)</td>
+                                  <td className="p-2.5 text-emerald-500 font-bold">✓ Mapeado</td>
+                                </tr>
+                                <tr>
+                                  <td className="p-2.5 font-sans font-bold">Schema JSON-LD</td>
+                                  <td className="p-2.5 text-cyan-400">schemaJsonLd</td>
+                                  <td className="p-2.5 text-[var(--muted-foreground)]">json / code</td>
+                                  <td className="p-2.5 text-emerald-500 font-bold">✓ Mapeado</td>
+                                </tr>
+                                <tr>
+                                  <td className="p-2.5 font-sans font-bold">Autor Virtual</td>
+                                  <td className="p-2.5 text-cyan-400">author</td>
+                                  <td className="p-2.5 text-[var(--muted-foreground)]">relationship (users)</td>
+                                  <td className="p-2.5 text-emerald-500 font-bold">✓ Agente Vera</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Column 3: Payload Quick Code Snippet & Info */}
+                      <div className="space-y-6">
+                        <div className="glass-card p-6 space-y-4">
+                          <h4 className="font-bold text-sm">Ejemplo de Payload Payload Config</h4>
+                          <p className="text-xs text-[var(--muted-foreground)]">
+                            Así de simple es tu colección en Payload CMS para recibir los artículos:
+                          </p>
+
+                          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-300 space-y-1 overflow-x-auto leading-relaxed">
+                            <p className="text-purple-400">// Posts.ts en Payload</p>
+                            <p><span className="text-cyan-400">export const</span> Posts: CollectionConfig = &#123;</p>
+                            <p className="pl-3">slug: <span className="text-emerald-400">'posts'</span>,</p>
+                            <p className="pl-3">admin: &#123; useAsTitle: <span className="text-emerald-400">'title'</span> &#125;,</p>
+                            <p className="pl-3">versions: &#123; drafts: <span className="text-amber-400">true</span> &#125;,</p>
+                            <p className="pl-3">fields: [</p>
+                            <p className="pl-6">&#123; name: <span className="text-emerald-400">'title'</span>, type: <span className="text-emerald-400">'text'</span> &#125;,</p>
+                            <p className="pl-6">&#123; name: <span className="text-emerald-400">'content'</span>, type: <span className="text-emerald-400">'richText'</span> &#125;,</p>
+                            <p className="pl-6">&#123; name: <span className="text-emerald-400">'schemaJsonLd'</span>, type: <span className="text-emerald-400">'json'</span> &#125;,</p>
+                            <p className="pl-3">],</p>
+                            <p>&#125;</p>
+                          </div>
+
+                          <div className="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1">
+                            <span className="font-bold text-emerald-500 block">✓ Cero dependencias adicionales</span>
+                            <p className="text-[var(--muted-foreground)]">Buildations se autentica con el endpoint REST nativo sin instalar librerías pesadas.</p>
+                          </div>
+                        </div>
+
+                        <div className="glass-card p-6 space-y-3">
+                          <h4 className="font-bold text-sm">Despacho Automático</h4>
+                          <p className="text-xs text-[var(--muted-foreground)]">
+                            Cada vez que el motor AEO apruebe un artículo o cumpla su ciclo semanal, se creará un nuevo borrador en Payload instantáneamente.
+                          </p>
+                          <button 
+                            onClick={() => alert('Simulando despacho de prueba a Payload CMS en /api/posts...')}
+                            className="w-full bg-[var(--primary)] text-white py-2 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm"
+                          >
+                            Disparar Artículo de Prueba a Payload
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. SECCIÓN WORDPRESS */}
+                {cmsTab === 'wordpress' && (
+                  <div className="space-y-6 animate-fade-in">
+                    
+                    {/* Status Card WordPress */}
+                    <div className="glass-card p-6 border-l-4 border-l-blue-500 flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xl text-white shadow-md">
+                          W
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-bold text-base text-[var(--foreground)]">Conector Oficial de WordPress</h3>
+                            <span className="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-mono font-bold">
+                              Plugin Oficial v1.2 &amp; REST API
+                            </span>
+                          </div>
+                          <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                            Conecta tu WordPress vía Plugin dedicado con emparejamiento por token, o usa la REST API nativa con Application Passwords.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={handleTestWp}
+                          disabled={isTestingWp}
+                          className="bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        >
+                          <BoltIcon className="w-4 h-4" />
+                          {isTestingWp ? 'Verificando WordPress...' : 'Probar Conexión con WordPress'}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* WordPress Test Result Box */}
+                    {wpTestResult && (
+                      <div className="p-4 rounded-xl bg-slate-950 border border-blue-500/40 space-y-2 text-xs animate-fade-in font-mono">
+                        <div className="flex justify-between items-center text-blue-400 font-bold">
+                          <span>Estado: {wpTestResult.status}</span>
+                          <span className="text-emerald-400">Latencia: {wpTestResult.latency}</span>
+                        </div>
+                        <p className="text-slate-300">{wpTestResult.message}</p>
+                        <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400 pt-1 border-t border-slate-800">
+                          <span>Usuario Vinculado: <strong className="text-white">{wpTestResult.user}</strong></span>
+                          <span>•</span>
+                          <span>Plugin SEO: <strong className="text-emerald-400">{wpTestResult.seoPlugin}</strong></span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* WordPress Mode Switcher */}
+                    <div className="flex items-center gap-2 bg-[var(--card)] p-1 rounded-xl border border-[var(--border)] max-w-md">
+                      <button 
+                        onClick={() => setWpMode('plugin')}
+                        className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${wpMode === 'plugin' ? 'bg-[var(--primary)] text-white shadow' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                      >
+                        <ArrowDownTrayIcon className="w-3.5 h-3.5" /> 1. Plugin Oficial Buildations (.zip)
+                      </button>
+                      <button 
+                        onClick={() => setWpMode('rest')}
+                        className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${wpMode === 'rest' ? 'bg-[var(--primary)] text-white shadow' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                      >
+                        <LinkIcon className="w-3.5 h-3.5" /> 2. REST API Nativa (Sin Plugin)
+                      </button>
+                    </div>
+
+                    {/* MODO A: PLUGIN OFICIAL DE WORDPRESS */}
+                    {wpMode === 'plugin' && (
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        <div className="lg:col-span-2 space-y-6">
+                          {/* Descarga del Plugin */}
+                          <div className="glass-card p-6 space-y-4 border-2 border-dashed border-[var(--primary)]/40 bg-[var(--primary)]/5">
+                            <div className="flex flex-wrap justify-between items-center gap-4">
+                              <div>
+                                <h4 className="font-bold text-base text-[var(--foreground)] flex items-center gap-2">
+                                  <ArrowDownTrayIcon className="w-5 h-5 text-[var(--primary)]" />
+                                  Paso 1: Descarga el Plugin Oficial para WordPress
+                                </h4>
+                                <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                                  Archivo liviano (38 KB). Compatible con WordPress 6.0+, multisitio, Yoast SEO y Rank Math.
+                                </p>
+                              </div>
+                              <button 
+                                onClick={() => alert('Descargando buildations-studio-connector-v1.2.zip...')}
+                                className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.4)] cursor-pointer flex items-center gap-2"
+                              >
+                                <ArrowDownTrayIcon className="w-4 h-4" /> Descargar buildations-connector.zip
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Token de Emparejamiento */}
+                          <div className="glass-card p-6 space-y-4">
+                            <h4 className="font-bold text-sm flex items-center gap-2">
+                              <KeyIcon className="w-4 h-4 text-blue-400" />
+                              Paso 2: Token Secreto de Emparejamiento (Pairing Key)
+                            </h4>
+                            <p className="text-xs text-[var(--muted-foreground)]">
+                              Una vez instalado el plugin en tu WordPress, ve a <strong>Ajustes &gt; Buildations Studio</strong> y pega esta clave de emparejamiento para enlazar la terminal de agentes:
+                            </p>
+
+                            <div className="p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between gap-3">
+                              <span className="font-mono text-xs text-[var(--foreground)] truncate">
+                                bld_wp_pair_8a9df7a6sd5f89as6df8_soyroman
+                              </span>
+                              <button 
+                                onClick={() => alert('Token copiado al portapapeles.')}
+                                className="bg-[var(--card)] border border-[var(--border)] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[var(--muted)] transition-colors cursor-pointer"
+                              >
+                                Copiar Clave
+                              </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                              <div>
+                                <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Asignar Autor Virtual en WordPress</label>
+                                <select className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)]">
+                                  <option>Agente Vera (Especialista AEO &amp; Contenido)</option>
+                                  <option>Agente Sophia (SERP Scout &amp; Datos)</option>
+                                  <option>Román García (Administrador / Autor Principal)</option>
+                                  <option>Crear usuario 'Buildations AI' automáticamente</option>
+                                </select>
+                              </div>
+
+                              <div>
+                                <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Mapeo de Categorías</label>
+                                <select className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)]">
+                                  <option>Detectar categoría por Silo temático</option>
+                                  <option>Categoría única: Blog General</option>
+                                  <option>Crear nueva categoría automáticamente</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="pt-2 border-t border-[var(--border)] space-y-2 text-xs">
+                              <label className="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                                <span>Inyectar Meta Tags directamente en <strong>Rank Math SEO</strong> o <strong>Yoast SEO</strong></span>
+                              </label>
+                              <label className="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
+                                <span>Sincronización Bidireccional: Avisar a Buildations cuando un editor humano publique el borrador</span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Columna Lateral Beneficios Plugin */}
+                        <div className="space-y-6">
+                          <div className="glass-card p-6 space-y-4 border-t-4 border-t-blue-500">
+                            <h4 className="font-bold text-sm">¿Por qué usar el Plugin Oficial?</h4>
+                            
+                            <div className="space-y-3 text-xs text-[var(--muted-foreground)]">
+                              <div className="flex items-start gap-2">
+                                <span className="text-emerald-500 font-bold">✓</span>
+                                <p><strong className="text-[var(--foreground)]">Cero configuración de contraseñas:</strong> Se empareja con un token seguro cifrado HMAC-SHA256.</p>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <span className="text-emerald-500 font-bold">✓</span>
+                                <p><strong className="text-[var(--foreground)]">SEO automático:</strong> Rellena el snippet de Google, canonicals y Schema FAQ sin tocar código PHP.</p>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <span className="text-emerald-500 font-bold">✓</span>
+                                <p><strong className="text-[var(--foreground)]">Telemetría en tiempo real:</strong> Buildations sabe en qué segundo se publicó el artículo en WordPress.</p>
+                              </div>
+                            </div>
+
+                            <button 
+                              onClick={() => alert('Simulando envío de borrador vía Plugin a WordPress...')}
+                              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-xs font-bold transition-all cursor-pointer shadow-sm"
+                            >
+                              Enviar Post de Prueba a WordPress
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+                    )}
+
+                    {/* MODO B: REST API NATIVA DE WORDPRESS */}
+                    {wpMode === 'rest' && (
+                      <div className="glass-card p-6 space-y-4 max-w-2xl">
+                        <h4 className="font-bold text-sm">Conexión vía WordPress REST API Nativa</h4>
+                        <p className="text-xs text-[var(--muted-foreground)]">
+                          Ideal si no puedes instalar plugins adicionales en el servidor. Utiliza las contraseñas de aplicación nativas de WordPress.
+                        </p>
+
+                        <div className="space-y-3">
+                          <div>
+                            <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Endpoint de Posts</label>
+                            <input 
+                              type="text" 
+                              defaultValue="https://soyroman.com/wp-json/wp/v2/posts" 
+                              className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Usuario de WordPress</label>
+                              <input 
+                                type="text" 
+                                defaultValue="roman.garcia" 
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)]"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold text-[var(--muted-foreground)] mb-1">Application Password (4x4 caracteres)</label>
+                              <input 
+                                type="password" 
+                                defaultValue="abcd 1234 efgh 5678" 
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs font-mono text-[var(--foreground)]"
+                              />
+                            </div>
+                          </div>
+
+                          <span className="text-[10px] text-[var(--muted-foreground)] block">
+                            Genera tu contraseña de aplicación en tu panel de WordPress: <strong>Usuarios &gt; Tu Perfil &gt; Contraseñas de aplicación</strong>.
+                          </span>
+
+                          <button 
+                            onClick={handleTestWp}
+                            className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[var(--muted)] transition-colors cursor-pointer"
+                          >
+                            Validar Credenciales REST
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                  </div>
+                )}
+
+                {/* HISTORIAL DE DESPACHOS Y SINCRONIZACIONES CMS */}
+                <div className="glass-card p-6 space-y-4">
+                  <div className="flex justify-between items-center border-b border-[var(--border)] pb-3">
+                    <h3 className="font-bold text-sm">Registro de Despachos &amp; Sincronizaciones Recientes</h3>
+                    <span className="text-xs text-[var(--muted-foreground)] font-mono">3 Artículos enviados</span>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs border border-[var(--border)] rounded-lg">
+                      <thead className="bg-[var(--muted)] text-[var(--muted-foreground)]">
+                        <tr>
+                          <th className="p-3">Destino CMS</th>
+                          <th className="p-3">Título del Artículo</th>
+                          <th className="p-3">Colección / Categoría</th>
+                          <th className="p-3">Estado</th>
+                          <th className="p-3">Agente Autor</th>
+                          <th className="p-3 text-right">Fecha</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[var(--border)]">
+                        <tr>
+                          <td className="p-3 font-bold flex items-center gap-1.5 text-cyan-400">
+                            <span>🖤</span> Payload CMS
+                          </td>
+                          <td className="p-3 font-semibold text-[var(--foreground)]">Cómo alinear Marketing y Ventas en HubSpot para reducir el ciclo de cierre</td>
+                          <td className="p-3 font-mono text-[var(--muted-foreground)]">posts (Colección)</td>
+                          <td className="p-3">
+                            <span className="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-bold">
+                              _status: 'draft'
+                            </span>
+                          </td>
+                          <td className="p-3 font-bold text-emerald-400">Agente Vera</td>
+                          <td className="p-3 text-right text-[var(--muted-foreground)]">Hace 2 horas</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-bold flex items-center gap-1.5 text-blue-400">
+                            <span>🌐</span> WordPress
+                          </td>
+                          <td className="p-3 font-semibold text-[var(--foreground)]">Estrategias de Optimización AEO para B2B en México</td>
+                          <td className="p-3 font-mono text-[var(--muted-foreground)]">Estrategia AEO</td>
+                          <td className="p-3">
+                            <span className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] font-bold">
+                              Publicado Live
+                            </span>
+                          </td>
+                          <td className="p-3 font-bold text-cyan-400">Agente Sophia</td>
+                          <td className="p-3 text-right text-[var(--muted-foreground)]">Ayer 18:30</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-bold flex items-center gap-1.5 text-cyan-400">
+                            <span>🖤</span> Payload CMS
+                          </td>
+                          <td className="p-3 font-semibold text-[var(--foreground)]">Automatización de SLAs Comerciales para Equipos de Ventas</td>
+                          <td className="p-3 font-mono text-[var(--muted-foreground)]">posts (Colección)</td>
+                          <td className="p-3">
+                            <span className="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-bold">
+                              _status: 'draft'
+                            </span>
+                          </td>
+                          <td className="p-3 font-bold text-orange-400">Agente Jax</td>
+                          <td className="p-3 text-right text-[var(--muted-foreground)]">Hace 3 días</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
             {/* TAB 1: AEO / GEO SHARE OF VOICE (MOTOR DE CITACIONES EN IAS) */}
             {activeTab === 'aiShareOfVoice' && (
               <div className="space-y-8 animate-fade-in">
@@ -2732,6 +3372,7 @@ export default function DashboardMockup() {
               {[
                 { name: "Ir al Lanzador & Configurador SEO/AEO", tab: "engineLauncher", icon: "🚀", desc: "Configura el agente generativo para tu web" },
                 { name: "Ver Motor RevOps & Conexión HubSpot", tab: "revopsHubspot", icon: "🔄", desc: "Atribución de ingresos y deals cerrados" },
+                { name: "Conectar CMS (Payload & WordPress)", tab: "cmsConnectors", icon: "🔌", desc: "Configura REST API o Plugin para despacho de artículos" },
                 { name: "Consultar AEO / GEO Share of Voice", tab: "aiShareOfVoice", icon: "✨", desc: "Monitorea citaciones en ChatGPT y Perplexity" },
                 { name: "Abrir Editor Canvas de Artículos", action: "canvas", icon: "📝", desc: "Previsualiza y aprueba borradores antes de publicar" },
                 { name: "Abrir Terminal de Agentes Autónomos", action: "terminal", icon: "💻", desc: "Logs en vivo del motor de IA en segundo plano" },
