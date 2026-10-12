@@ -502,35 +502,35 @@ export default function DashboardMockup() {
           </div>
           
           <div className="flex items-center space-x-2.5">
-            {/* Semáforos de Procesos Propios */}
-            <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-sm">
+            {/* Semáforos de Procesos Sinergizados con la Marca */}
+            <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--card)]/80 backdrop-blur-md border border-[var(--border)] shadow-sm">
               <span className="text-[10px] font-mono font-bold uppercase text-[var(--muted-foreground)] mr-0.5">Semáforo:</span>
               <button 
                 onClick={() => setSelectedAgent('sophia')}
-                className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'sophia' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
-                title="Rastreo SERP & GSC: Operativo"
+                className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'sophia' ? 'bg-[var(--primary)]/15 text-[var(--primary)] border border-[var(--primary)]/40 shadow-[0_0_10px_rgba(255,90,0,0.25)]' : 'hover:bg-[var(--muted)] text-[var(--foreground)] border border-transparent'}`}
+                title="Rastreo SERP: Calibrado y Operativo"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+                <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
                 <span>Crawler SERP</span>
-                <span className="text-[8px] px-1 rounded bg-emerald-500/20 text-emerald-300 font-bold">100%</span>
+                <span className="text-[8px] px-1 rounded bg-[var(--primary)]/20 text-[var(--primary)] font-bold">ACTIVO</span>
               </button>
               <button 
                 onClick={() => setSelectedAgent('jax')}
-                className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'jax' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'jax' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40 shadow-[0_0_10px_rgba(245,158,11,0.2)]' : 'hover:bg-[var(--muted)] text-[var(--foreground)] border border-transparent'}`}
                 title="Sync RevOps HubSpot: Sincronizado"
               >
-                <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
+                <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]"></span>
                 <span>Sync HubSpot</span>
-                <span className="text-[8px] px-1 rounded bg-cyan-500/20 text-cyan-300 font-bold">ACTIVO</span>
+                <span className="text-[8px] px-1 rounded bg-amber-500/20 text-amber-300 font-bold">VINCULADO</span>
               </button>
               <button 
                 onClick={() => setSelectedAgent('vera')}
-                className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'vera' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedAgent === 'vera' ? 'bg-orange-500/15 text-orange-400 border border-orange-500/40 shadow-[0_0_10px_rgba(251,146,60,0.2)]' : 'hover:bg-[var(--muted)] text-[var(--foreground)] border border-transparent'}`}
                 title="Motor Editorial AEO: En Proceso de Síntesis"
               >
-                <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b] animate-pulse"></span>
+                <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)] animate-pulse"></span>
                 <span>Motor AEO</span>
-                <span className="text-[8px] px-1 rounded bg-amber-500/20 text-amber-300 font-bold">EN COLA</span>
+                <span className="text-[8px] px-1 rounded bg-orange-500/20 text-orange-300 font-bold">COMPILANDO</span>
               </button>
             </div>
 
@@ -605,14 +605,14 @@ export default function DashboardMockup() {
                   </div>
 
                   <div className="space-y-2.5 max-h-72 overflow-y-auto">
-                    <div className="p-3 rounded-xl bg-[var(--background)] border border-emerald-500/30 space-y-1">
+                    <div className="p-3 rounded-xl bg-[var(--background)]/70 backdrop-blur-md border border-[var(--primary)]/30 space-y-1 hover:border-[var(--primary)]/50 transition-colors shadow-sm">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-emerald-500 text-[11px] flex items-center gap-1.5 font-mono">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Borrador Editorial Sintetizado
+                        <span className="font-bold text-[var(--primary)] text-[11px] flex items-center gap-1.5 font-mono">
+                          <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_6px_rgba(255,90,0,0.6)]"></span> Borrador Editorial Compilado
                         </span>
                         <span className="text-[10px] text-[var(--muted-foreground)]">Hace 12 min</span>
                       </div>
-                      <p className="text-[var(--foreground)]">El motor compiló el contenido: <strong>"Cómo alinear MQLs en HubSpot"</strong>.</p>
+                      <p className="text-[var(--foreground)]">El motor sintetizó el contenido: <strong>"Cómo alinear MQLs en HubSpot"</strong>.</p>
                       <button 
                         onClick={() => {
                           setIsNotificationsOpen(false);
@@ -624,20 +624,20 @@ export default function DashboardMockup() {
                       </button>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--background)] border border-amber-500/30 space-y-1">
+                    <div className="p-3 rounded-xl bg-[var(--background)]/70 backdrop-blur-md border border-amber-500/25 space-y-1 hover:border-amber-500/40 transition-colors shadow-sm">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-amber-500 text-[11px] flex items-center gap-1.5 font-mono">
-                          <span className="w-2 h-2 rounded-full bg-amber-400"></span> Disparador de Citación AEO
+                        <span className="font-bold text-amber-400 text-[11px] flex items-center gap-1.5 font-mono">
+                          <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.6)]"></span> Disparador de Citación AEO
                         </span>
                         <span className="text-[10px] text-[var(--muted-foreground)]">Hace 1 hora</span>
                       </div>
-                      <p className="text-[var(--foreground)]">Motores generativos están indexando consultas sobre <em>"auditoría revops cdmx"</em>. Te recomendamos publicar un satélite.</p>
+                      <p className="text-[var(--foreground)]">Consultas sobre <em>"auditoría revops cdmx"</em> detectadas en motores de respuesta. Te sugerimos publicar un satélite.</p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--background)] border border-blue-500/30 space-y-1">
+                    <div className="p-3 rounded-xl bg-[var(--background)]/70 backdrop-blur-md border border-[var(--border)] space-y-1 hover:border-zinc-700 transition-colors shadow-sm">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-cyan-400 text-[11px] flex items-center gap-1.5 font-mono">
-                          <span className="w-2 h-2 rounded-full bg-cyan-400"></span> Sincronización HubSpot OK
+                        <span className="font-bold text-zinc-300 text-[11px] flex items-center gap-1.5 font-mono">
+                          <span className="w-2 h-2 rounded-full bg-zinc-400 shadow-[0_0_6px_rgba(255,255,255,0.4)]"></span> Sincronización HubSpot OK
                         </span>
                         <span className="text-[10px] text-[var(--muted-foreground)]">Hace 3 horas</span>
                       </div>
@@ -839,17 +839,17 @@ export default function DashboardMockup() {
                     <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Visibilidad Global</p>
                     <div className="flex items-baseline justify-between">
                       <span className="text-3xl font-bold">84.2%</span>
-                      <span className="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded flex items-center">
+                      <span className="text-xs font-mono font-bold text-[var(--primary)] bg-[var(--primary)]/10 border border-[var(--primary)]/20 px-2 py-0.5 rounded flex items-center">
                         <ArrowTrendingUpIcon className="w-3 h-3 mr-1" /> +12.4%
                       </span>
                     </div>
                   </div>
 
-                  <div className="glass-card p-6 border-t-2 border-t-blue-500">
+                  <div className="glass-card p-6 border-t-2 border-t-amber-500/80">
                     <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Keywords en Top 3</p>
                     <div className="flex items-baseline justify-between">
                       <span className="text-3xl font-bold">342</span>
-                      <span className="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded flex items-center">
+                      <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded flex items-center">
                         <ArrowTrendingUpIcon className="w-3 h-3 mr-1" /> +8
                       </span>
                     </div>
@@ -858,8 +858,8 @@ export default function DashboardMockup() {
                   <div className="glass-card p-6 border-t-2 border-t-[var(--primary)]">
                     <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2 flex items-center justify-between">
                       <span>Semáforo de Citabilidad &amp; AEO</span>
-                      <span className="flex items-center gap-1 font-mono text-[10px] text-emerald-400">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span> Óptimo
+                      <span className="flex items-center gap-1 font-mono text-[10px] text-[var(--primary)]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shadow-[0_0_6px_rgba(255,90,0,0.8)]"></span> Calibrado
                       </span>
                     </p>
                     <div className="flex items-baseline justify-between">
@@ -2534,43 +2534,43 @@ export default function DashboardMockup() {
 
                 {/* Score & KPI Strip */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="glass-card p-5 border-l-4 border-l-emerald-500 space-y-1">
+                  <div className="glass-card p-5 border-l-4 border-l-[var(--primary)] space-y-1">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Score de Calidad de Base</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">+56% Mejora</span>
+                      <span className="text-xs font-mono font-bold text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-0.5 rounded border border-[var(--primary)]/20">+56% Mejora</span>
                     </div>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-emerald-400">97.4%</span>
-                      <span className="text-xs text-[var(--muted-foreground)]">Enterprise Clean</span>
+                      <span className="text-3xl font-black text-[var(--foreground)]">97.4%</span>
+                      <span className="text-xs font-mono text-[var(--primary)]">Enterprise Clean</span>
                     </div>
-                    <p className="text-[11px] text-[var(--muted-foreground)]">0 errores de mayúsculas o caracteres extraños</p>
+                    <p className="text-[11px] text-[var(--muted-foreground)]">0 inconsistencias de mayúsculas o caracteres</p>
                   </div>
 
-                  <div className="glass-card p-5 border-l-4 border-l-cyan-500 space-y-1">
+                  <div className="glass-card p-5 border-l-4 border-l-amber-500 space-y-1">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Campos Nutridos vía Web Scraping</span>
-                      <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">100% Cobertura</span>
+                      <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">100% Cobertura</span>
                     </div>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-cyan-400">20 / 20</span>
+                      <span className="text-3xl font-black text-[var(--foreground)]">20 / 20</span>
                       <span className="text-xs text-[var(--muted-foreground)]">Atributos</span>
                     </div>
                     <p className="text-[11px] text-[var(--muted-foreground)]">Industria, tamaño de equipo y tech stack agregados</p>
                   </div>
 
-                  <div className="glass-card p-5 border-l-4 border-l-amber-500 space-y-1">
+                  <div className="glass-card p-5 border-l-4 border-l-orange-400 space-y-1">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Duplicados Fusionados</span>
-                      <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">Deduplicado</span>
+                      <span className="text-xs font-mono font-bold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">Deduplicado</span>
                     </div>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-amber-400">1 Lead</span>
+                      <span className="text-3xl font-black text-[var(--foreground)]">1 Lead</span>
                       <span className="text-xs text-[var(--muted-foreground)]">Consolidado</span>
                     </div>
                     <p className="text-[11px] text-[var(--muted-foreground)]">Identificado por dominio web idéntico</p>
                   </div>
 
-                  <div className="glass-card p-5 border-l-4 border-l-purple-500 space-y-1">
+                  <div className="glass-card p-5 border-l-4 border-l-zinc-500 space-y-1">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Compatibilidad HubSpot CRM</span>
                       <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">Hub ID #982104</span>
@@ -2605,33 +2605,33 @@ export default function DashboardMockup() {
                   {/* Filter Status Badges */}
                   {enrichmentView === 'results' && (
                     <div className="flex items-center gap-1.5 text-xs">
-                      <span className="text-[10px] font-mono font-bold uppercase text-[var(--muted-foreground)] mr-1">Semáforo:</span>
+                      <span className="text-[10px] font-mono font-bold uppercase text-[var(--muted-foreground)] mr-1">Filtro:</span>
                       <button 
                         onClick={() => setFilterLeadStatus('all')}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'all' ? 'bg-[var(--primary)] text-white shadow-sm' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`px-3 py-1.5 rounded-xl text-[11px] font-mono font-semibold cursor-pointer transition-all ${filterLeadStatus === 'all' ? 'bg-[var(--primary)] text-white shadow-md' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
                       >
                         Total (5)
                       </button>
                       <button 
                         onClick={() => setFilterLeadStatus('clean')}
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'clean' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-mono font-semibold cursor-pointer transition-all ${filterLeadStatus === 'clean' ? 'bg-[var(--primary)]/15 text-[var(--primary)] border border-[var(--primary)]/40 shadow-sm' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
-                        Verde: Óptimos (3)
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shadow-[0_0_6px_rgba(255,90,0,0.8)]"></span>
+                        Óptimos (3)
                       </button>
                       <button 
                         onClick={() => setFilterLeadStatus('enriched')}
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'enriched' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-mono font-semibold cursor-pointer transition-all ${filterLeadStatus === 'enriched' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40 shadow-sm' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
-                        Ámbar: Enriquecidos (1)
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]"></span>
+                        Enriquecidos (1)
                       </button>
                       <button 
                         onClick={() => setFilterLeadStatus('duplicate')}
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold cursor-pointer ${filterLeadStatus === 'duplicate' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/40' : 'bg-[var(--muted)] text-[var(--muted-foreground)]'}`}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-mono font-semibold cursor-pointer transition-all ${filterLeadStatus === 'duplicate' ? 'bg-zinc-500/20 text-zinc-300 border border-zinc-500/40 shadow-sm' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]"></span>
-                        Púrpura: Fusionados (1)
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
+                        Fusionados (1)
                       </button>
                     </div>
                   )}
@@ -2727,18 +2727,18 @@ export default function DashboardMockup() {
                                 <td className="p-3.5">
                                   <div className="flex items-center gap-2">
                                     {lead.qualityScore >= 95 ? (
-                                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-mono text-[11px] font-bold">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
+                                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-[var(--primary)] font-mono text-[11px] font-bold shadow-[0_0_12px_rgba(255,90,0,0.15)]">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shadow-[0_0_6px_rgba(255,90,0,0.8)]"></span>
                                         <span>ÓPTIMO ({lead.qualityScore}%)</span>
                                       </div>
                                     ) : lead.qualityScore >= 85 ? (
-                                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/25 text-amber-400 font-mono text-[11px] font-bold">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[11px] font-bold shadow-[0_0_12px_rgba(245,158,11,0.15)]">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]"></span>
                                         <span>ENRIQUECIDO ({lead.qualityScore}%)</span>
                                       </div>
                                     ) : (
-                                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/25 text-purple-400 font-mono text-[11px] font-bold">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]"></span>
+                                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-500/10 border border-zinc-500/30 text-zinc-300 font-mono text-[11px] font-bold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
                                         <span>FUSIONADO ({lead.qualityScore}%)</span>
                                       </div>
                                     )}
