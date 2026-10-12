@@ -142,6 +142,30 @@ function GoogleLogo({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+function VercelLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 1L24 22H0L12 1Z" />
+    </svg>
+  );
+}
+
+function NeonLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <path d="M4 19V5l7 7V5l7 7V5h2v14l-7-7v7l-7-7v7H4z" fill="#00E599" />
+    </svg>
+  );
+}
+
+function HetznerLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4 3h4.2v6.6h7.6V3H20v18h-4.2v-7.1H8.2V21H4V3z" fill="#D50C2D" />
+    </svg>
+  );
+}
+
 function TechBadge({ name }: { name: string }) {
   const lower = name.toLowerCase();
   let icon = null;
@@ -198,6 +222,107 @@ export default function DashboardMockup() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [currentWorkspace, setCurrentWorkspace] = useState('soyroman.com');
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
+  const [isInfrastructureModalOpen, setIsInfrastructureModalOpen] = useState(false);
+
+  // Proyectos Gestionados con Vercel API Integration
+  const [vercelProjects, setVercelProjects] = useState([
+    {
+      id: 'prj_soyroman_live',
+      name: 'soyroman.com',
+      domain: 'https://soyroman.com',
+      gitRepo: 'romangsweb/soyroman-web',
+      status: 'Ready',
+      branch: 'main',
+      framework: 'Next.js 15 (App Router)',
+      targetEngine: 'Motor Generador de Landing Pages & Silos',
+      lastDeploy: 'Hace 8 min',
+      databaseBinding: 'Neon PostgreSQL (Dedicated Serverless)',
+      environment: 'Production'
+    },
+    {
+      id: 'prj_buildations_studio',
+      name: 'buildations.studio',
+      domain: 'https://buildations.studio',
+      gitRepo: 'romangsweb/buildations-core',
+      status: 'Ready',
+      branch: 'main',
+      framework: 'Next.js 16 (Turbopack)',
+      targetEngine: 'Motor RevOps & AEO Latam (SaaS Principal)',
+      lastDeploy: 'Hace 2 min',
+      databaseBinding: 'Buildations Core DB (Hetzner Bare-Metal Cluster)',
+      environment: 'Production'
+    },
+    {
+      id: 'prj_consenso_io',
+      name: 'consenso.io',
+      domain: 'https://consenso.io',
+      gitRepo: 'romangsweb/Consenso',
+      status: 'Building',
+      branch: 'main',
+      framework: 'Next.js 16 (Turbopack)',
+      targetEngine: 'Motor Noticias & Decaimiento GSC (Breaking News)',
+      lastDeploy: 'En despliegue...',
+      databaseBinding: 'Neon PostgreSQL (Staging Pool)',
+      environment: 'Production'
+    },
+    {
+      id: 'prj_fintechmx_portal',
+      name: 'fintechmx.io',
+      domain: 'https://fintechmx.io',
+      gitRepo: 'romangsweb/fintechmx',
+      status: 'Ready',
+      branch: 'main',
+      framework: 'Next.js 15',
+      targetEngine: 'Motor Lead Gen B2B',
+      lastDeploy: 'Hace 3 horas',
+      databaseBinding: 'Neon PostgreSQL (Production Branch)',
+      environment: 'Production'
+    }
+  ]);
+
+  // Bases de Datos Cloud: Neon Serverless + Hetzner Dedicated Bare-Metal
+  const [cloudDatabases, setCloudDatabases] = useState([
+    {
+      id: 'db_buildations_hetzner',
+      name: 'Buildations Core PostgreSQL (Dedicated Hetzner)',
+      host: 'pg-dedicated-01.buildations.studio',
+      provider: 'Hetzner Dedicated NVMe',
+      region: 'Falkenstein (FSN1) / Ashburn Gateway',
+      version: 'PostgreSQL 16.2 + pgvector 0.7.0',
+      specs: '64GB RAM · 8 vCPU · 1TB NVMe RAID-1',
+      activeConnections: 42,
+      latency: '22ms',
+      status: 'Online',
+      type: 'Hetzner Dedicated'
+    },
+    {
+      id: 'db_neon_production',
+      name: 'Neon Serverless Main (soyroman.com & fintechmx)',
+      host: 'ep-cool-butterfly-7128.us-east-2.aws.neon.tech',
+      provider: 'Neon Cloud (Serverless Postgres)',
+      region: 'AWS us-east-2 (Ohio)',
+      version: 'PostgreSQL 16 + pgvector Serverless',
+      specs: 'Autoscaling (0.25 CU a 8 CU)',
+      activeConnections: 18,
+      latency: '34ms',
+      status: 'Online',
+      type: 'Neon Serverless'
+    },
+    {
+      id: 'db_neon_consenso',
+      name: 'Neon Staging Pool (consenso.io newsfeed)',
+      host: 'ep-winter-waterfall-9912.eu-central-1.neon.tech',
+      provider: 'Neon Cloud (Branching)',
+      region: 'AWS eu-central-1 (Frankfurt)',
+      version: 'PostgreSQL 16 + pgvector',
+      specs: 'Autoscaling (1 CU fijo)',
+      activeConnections: 7,
+      latency: '28ms',
+      status: 'Online',
+      type: 'Neon Serverless'
+    }
+  ]);
+
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isCanvasModalOpen, setIsCanvasModalOpen] = useState(false);
   const [selectedArticleTitle, setSelectedArticleTitle] = useState('Cómo alinear Marketing y Ventas en HubSpot para reducir el ciclo de cierre');
@@ -896,39 +1021,87 @@ export default function DashboardMockup() {
               </button>
 
               {isWorkspaceDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-56 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-2xl p-2 z-50 animate-fade-in">
-                  <p className="px-2 py-1 text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Tus Proyectos Activos</p>
-                  {['soyroman.com', 'fintechmx.io', 'agencia-growth.com'].map((ws) => (
+                <div className="absolute left-0 mt-2 w-72 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-2xl p-2 z-50 animate-fade-in space-y-1">
+                  <div className="px-2 py-1 flex items-center justify-between border-b border-[var(--border)]/60 pb-1.5 mb-1">
+                    <span className="text-[10px] font-bold uppercase text-[var(--muted-foreground)] flex items-center gap-1.5">
+                      <VercelLogo className="w-3 h-3 text-white" /> Proyectos Vercel ({vercelProjects.length})
+                    </span>
+                    <span className="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20">
+                      LIVE
+                    </span>
+                  </div>
+
+                  {vercelProjects.map((vp) => (
                     <button 
-                      key={ws}
+                      key={vp.id}
                       onClick={() => {
-                        setCurrentWorkspace(ws);
+                        setCurrentWorkspace(vp.name);
                         setIsWorkspaceDropdownOpen(false);
+                        showToast('Workspace Activo', `Conectado a ${vp.name} (Vercel + ${vp.databaseBinding.split(' ')[0]})`, 'info');
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-between transition-colors cursor-pointer ${currentWorkspace === ws ? 'bg-[var(--primary)]/10 text-[var(--primary)] font-bold' : 'hover:bg-[var(--muted)] text-[var(--foreground)]'}`}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer flex items-center justify-between group ${
+                        currentWorkspace === vp.name 
+                          ? 'bg-[var(--primary)]/10 text-[var(--primary)] font-bold border border-[var(--primary)]/30' 
+                          : 'hover:bg-[var(--muted)] text-[var(--foreground)]'
+                      }`}
                     >
-                      <span>{ws}</span>
-                      {currentWorkspace === ws && <span className="text-xs">✓</span>}
+                      <div className="flex items-center gap-2 truncate">
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${vp.status === 'Ready' ? 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]' : 'bg-amber-400 animate-ping'}`} />
+                        <div className="truncate">
+                          <span className="block truncate leading-tight">{vp.name}</span>
+                          <span className="text-[10px] text-[var(--muted-foreground)] font-mono block truncate">
+                            {vp.databaseBinding.includes('Neon') ? 'Neon Postgres' : 'Hetzner Cluster'}
+                          </span>
+                        </div>
+                      </div>
+                      {currentWorkspace === vp.name && <span className="text-xs font-bold shrink-0 ml-1">✓</span>}
                     </button>
                   ))}
-                  <div className="border-t border-[var(--border)] mt-1 pt-1">
+
+                  <div className="border-t border-[var(--border)] mt-1.5 pt-1.5 space-y-1">
+                    <button 
+                      onClick={() => {
+                        setIsWorkspaceDropdownOpen(false);
+                        setIsInfrastructureModalOpen(true);
+                      }}
+                      className="w-full text-left px-3 py-1.5 rounded-lg text-xs text-cyan-400 font-bold hover:bg-cyan-500/10 transition-colors flex items-center gap-2 cursor-pointer"
+                    >
+                      <ServerStackIcon className="w-3.5 h-3.5 shrink-0" />
+                      <span>Panel Infraestructura (Vercel · Neon · Hetzner) ↗</span>
+                    </button>
+
                     <button 
                       onClick={() => {
                         setIsWorkspaceDropdownOpen(false);
                         showPrompt(
-                          'Vincular Nuevo Sitio Web',
-                          'Introduce la URL raíz del nuevo proyecto o dominio (ej. https://empresa.com):',
+                          'Vincular Nuevo Proyecto Vercel / Dominio',
+                          'Introduce el dominio del proyecto hospedado en Vercel o tu repo Git:',
                           'https://',
-                          'https://tu-dominio.com',
+                          'https://mi-nuevo-sitio.com',
                           (newDomain) => {
-                            setCurrentWorkspace(newDomain.replace(/^https?:\/\//, ''));
-                            showToast('Sitio Vinculado', `Workspace actualizado a ${newDomain}`, 'success');
+                            const cleanName = newDomain.replace(/^https?:\/\//, '');
+                            const newPrj = {
+                              id: `prj_${Date.now()}`,
+                              name: cleanName,
+                              domain: newDomain,
+                              gitRepo: `romangsweb/${cleanName.split('.')[0]}`,
+                              status: 'Ready' as const,
+                              branch: 'main',
+                              framework: 'Next.js 15 (App Router)',
+                              targetEngine: 'Motor Autopiloto Personalizado',
+                              lastDeploy: 'Justo ahora',
+                              databaseBinding: 'Neon PostgreSQL (Dedicated Serverless)',
+                              environment: 'Production'
+                            };
+                            setVercelProjects(prev => [newPrj, ...prev]);
+                            setCurrentWorkspace(cleanName);
+                            showToast('Proyecto Vercel Vinculado', `${cleanName} ahora está disponible en el ecosistema.`, 'success');
                           }
                         );
                       }}
                       className="w-full text-left px-3 py-1.5 rounded-lg text-xs text-[var(--primary)] font-bold hover:bg-[var(--muted)] transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
-                      <PlusIcon className="w-3.5 h-3.5" /> + Vincular Nuevo Sitio
+                      <PlusIcon className="w-3.5 h-3.5" /> + Vincular Nuevo Dominio Vercel
                     </button>
                   </div>
                 </div>
@@ -7133,6 +7306,190 @@ export default function DashboardMockup() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 5: INFRASTRUCTURE & MULTI-CLOUD HUB (VERCEL · NEON · HETZNER) */}
+      {isInfrastructureModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="w-full max-w-4xl bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="flex flex-wrap items-center justify-between border-b border-[var(--border)] pb-4 gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                  <span className="text-[10px] font-mono tracking-wider uppercase text-cyan-400 font-bold">
+                    CLOUD INFRASTRUCTURE MATRIX // VERCEL API + NEON POSTGRES + HETZNER
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-[var(--foreground)]">
+                  Sitios Gestionados en Vercel &amp; Clústers de Bases de Datos
+                </h3>
+                <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                  Conexión directa con tus despliegues Edge en Vercel, instancias Serverless en Neon y el nodo principal de alto rendimiento hosteado en Hetzner.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => {
+                    showToast('Sincronizando con Vercel API...', 'Verificando estados de despliegue en Vercel y pools de Neon.', 'info');
+                    setTimeout(() => {
+                      showToast('Infraestructura Sincronizada', '4 sitios en Vercel listos y 3 clústers PostgreSQL activos.', 'success');
+                    }, 1000);
+                  }}
+                  className="bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] text-xs font-semibold px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <ArrowPathIcon className="w-3.5 h-3.5" /> Refrescar Estado
+                </button>
+                <button 
+                  onClick={() => setIsInfrastructureModalOpen(false)}
+                  className="text-zinc-400 hover:text-white text-base font-bold cursor-pointer p-1"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* SECCIÓN 1: PROYECTOS VERIFIED EN VERCEL */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-bold font-mono uppercase text-[var(--foreground)] flex items-center gap-2">
+                  <VercelLogo className="w-4 h-4 text-white" />
+                  Sitios Web en Vercel (Next.js Edge Runtime)
+                </h4>
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
+                  {vercelProjects.length} PROYECTOS ACTIVOS
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {vercelProjects.map((proj) => (
+                  <div 
+                    key={proj.id}
+                    className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] hover:border-[var(--primary)]/60 transition-all space-y-2 relative group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${proj.status === 'Ready' ? 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]' : 'bg-amber-400 animate-pulse'}`} />
+                        <h5 className="font-bold text-xs text-[var(--foreground)]">{proj.name}</h5>
+                      </div>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-white font-bold">
+                        {proj.framework}
+                      </span>
+                    </div>
+
+                    <div className="text-[11px] font-mono text-slate-400 space-y-0.5">
+                      <div className="flex justify-between">
+                        <span>Dominio:</span>
+                        <a href={proj.domain} target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline">
+                          {proj.domain} ↗
+                        </a>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Repositorio:</span>
+                        <span className="text-zinc-300">{proj.gitRepo} ({proj.branch})</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Motor Asignado:</span>
+                        <span className="text-[var(--primary)] font-bold truncate max-w-[190px]">{proj.targetEngine}</span>
+                      </div>
+                      <div className="flex justify-between pt-1 border-t border-[var(--border)]/60">
+                        <span>DB Vinculada:</span>
+                        <span className="text-emerald-400 font-bold">{proj.databaseBinding}</span>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 flex items-center justify-between text-[10px]">
+                      <span className="text-zinc-500 font-mono">Deploy: {proj.lastDeploy}</span>
+                      <button 
+                        onClick={() => {
+                          setCurrentWorkspace(proj.name);
+                          setIsInfrastructureModalOpen(false);
+                          showToast('Workspace Seleccionado', `Entorno cambiado a ${proj.name}.`, 'info');
+                        }}
+                        className="text-[var(--primary)] font-bold hover:underline cursor-pointer"
+                      >
+                        Gestionar con este Motor →
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SECCIÓN 2: BASES DE DATOS CLOUD (NEON & HETZNER DEDICATED) */}
+            <div className="space-y-3 pt-2 border-t border-[var(--border)]">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-bold font-mono uppercase text-[var(--foreground)] flex items-center gap-2">
+                  <PostgresLogo className="w-4 h-4 text-blue-400" />
+                  Clústers de Bases de Datos (Neon Serverless &amp; Hetzner Dedicated)
+                </h4>
+                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">
+                  POSTGRESQL + PGVECTOR
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                {cloudDatabases.map((db) => (
+                  <div 
+                    key={db.id}
+                    className="p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-4"
+                  >
+                    <div className="space-y-1 max-w-md">
+                      <div className="flex items-center gap-2">
+                        {db.type === 'Hetzner Dedicated' ? (
+                          <HetznerLogo className="w-4 h-4 shrink-0" />
+                        ) : (
+                          <NeonLogo className="w-4 h-4 shrink-0" />
+                        )}
+                        <h5 className="font-bold text-xs text-[var(--foreground)]">{db.name}</h5>
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+                          {db.status}
+                        </span>
+                      </div>
+                      <p className="text-[11px] font-mono text-[var(--muted-foreground)] truncate">
+                        Host: <span className="text-zinc-300">{db.host}</span>
+                      </p>
+                      <p className="text-[10px] text-zinc-500 font-mono">
+                        {db.region} · {db.specs}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-right font-mono text-xs">
+                      <div>
+                        <span className="text-[10px] text-[var(--muted-foreground)] block">Conexiones Pool</span>
+                        <span className="font-bold text-white">{db.activeConnections} activas</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-[var(--muted-foreground)] block">Ping Latency</span>
+                        <span className="font-bold text-emerald-400">{db.latency}</span>
+                      </div>
+                      <button 
+                        onClick={() => showToast('Test de Conexión Exitoso', `Ping a ${db.name}: ${db.latency} (200 OK)`, 'success')}
+                        className="bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] px-3 py-1.5 rounded-lg text-xs font-bold text-[var(--foreground)] cursor-pointer transition-colors"
+                      >
+                        Ping DB
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Footer Modal */}
+            <div className="flex flex-wrap items-center justify-between pt-4 border-t border-[var(--border)] text-xs text-[var(--muted-foreground)]">
+              <span className="font-mono text-[11px]">
+                BUILDATIONS CORE INFRASTRUCTURE // Latencia de Inferencia Cross-Region: &lt; 45ms
+              </span>
+              <button 
+                onClick={() => setIsInfrastructureModalOpen(false)}
+                className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm text-xs"
+              >
+                Cerrar Panel de Infraestructura
+              </button>
+            </div>
           </div>
         </div>
       )}
