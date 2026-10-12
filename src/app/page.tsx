@@ -979,33 +979,81 @@ export default function DashboardMockup() {
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent opacity-60"></div>
           
           <div className="flex items-center gap-3">
-            {/* Custom Industrial Geometric Monogram Logo */}
-            <div className="relative w-9 h-9 rounded-lg bg-[var(--card)] border border-[var(--border)] p-1.5 flex items-center justify-center shadow-[0_0_15px_rgba(255,90,0,0.25)] group hover:border-[var(--primary)] transition-all">
-              <svg viewBox="0 0 36 36" fill="none" className="w-6 h-6">
-                {/* Industrial Hex/Block Grid Nodes */}
-                <rect x="3" y="3" width="13" height="13" rx="2.5" fill="#ff5a00" className="transition-transform group-hover:scale-95 origin-top-left" />
-                <rect x="20" y="3" width="13" height="13" rx="2.5" fill="currentColor" fillOpacity="0.15" stroke="#ff5a00" strokeWidth="1.5" />
-                <rect x="3" y="20" width="13" height="13" rx="2.5" fill="currentColor" fillOpacity="0.08" stroke="#ff5a00" strokeWidth="1.5" strokeDasharray="2 2" />
-                <rect x="20" y="20" width="13" height="13" rx="2.5" fill="#ff5a00" className="transition-transform group-hover:scale-95 origin-bottom-right" />
-                <circle cx="9.5" cy="9.5" r="2" fill="#ffffff" />
-                <circle cx="26.5" cy="26.5" r="2" fill="#ffffff" />
-                {/* Connecting Micro-Traces */}
-                <path d="M16 9.5H20M9.5 16V20M26.5 16V20M16 26.5H20" stroke="#ff5a00" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Teenage Engineering OP-1 / SoyRomán Style Mechanical Monogram Logo */}
+            <div className="relative flex items-center h-9 w-[136px] px-2 bg-[#07090a] border-2 border-black rounded-md shadow-[inset_0_0_0_2px_#1b1e20] overflow-hidden group cursor-pointer" title="Buildations Engine Studio // 64-bit Core">
+              {/* Dot Matrix 64-bit Logo Array */}
+              <svg viewBox="0 0 160 28" className="h-4.5 w-auto">
+                {/* B */}
+                <circle cx="4" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="8" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="12" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="4" cy="9" r="1.6" fill="#e85a2a" />
+                <circle cx="12" cy="9" r="1.6" fill="#2a1a14" />
+                <circle cx="4" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="8" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="12" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="4" cy="19" r="1.6" fill="#e85a2a" />
+                <circle cx="12" cy="19" r="1.6" fill="#2a1a14" />
+                <circle cx="4" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="8" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="12" cy="24" r="1.6" fill="#e85a2a" />
+                
+                {/* U */}
+                <circle cx="20" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="28" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="20" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="28" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="20" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="24" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="28" cy="24" r="1.6" fill="#e85a2a" />
+
+                {/* I */}
+                <circle cx="36" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="36" cy="9" r="1.6" fill="#e85a2a" />
+                <circle cx="36" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="36" cy="19" r="1.6" fill="#e85a2a" />
+                <circle cx="36" cy="24" r="1.6" fill="#e85a2a" />
+
+                {/* L */}
+                <circle cx="44" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="44" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="44" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="48" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="52" cy="24" r="1.6" fill="#e85a2a" />
+
+                {/* D */}
+                <circle cx="60" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="64" cy="4" r="1.6" fill="#e85a2a" />
+                <circle cx="60" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="68" cy="14" r="1.6" fill="#e85a2a" />
+                <circle cx="60" cy="24" r="1.6" fill="#e85a2a" />
+                <circle cx="64" cy="24" r="1.6" fill="#e85a2a" />
+
+                {/* 64-BIT HUD GRID ACCENTS */}
+                <circle cx="82" cy="6" r="1.2" fill="#3ddc84" />
+                <circle cx="82" cy="14" r="1.2" fill="#3ddc84" />
+                <circle cx="82" cy="22" r="1.2" fill="#3ddc84" />
+                <circle cx="92" cy="6" r="1.2" fill="#38bdf8" />
+                <circle cx="92" cy="14" r="1.2" fill="#38bdf8" />
+                <circle cx="92" cy="22" r="1.2" fill="#38bdf8" />
               </svg>
-              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border border-[var(--card)] animate-pulse"></span>
+              {/* Teenage Engineering Status REC / LIVE LED */}
+              <i className="absolute top-1 right-1.5 w-[5px] h-[5px] rounded-full bg-[#e85a2a] te-led-active shadow-[0_0_6px_rgba(232,90,42,0.9)]"></i>
             </div>
 
             <div>
-              <h1 className="font-extrabold text-sm tracking-wider leading-none">
+              <h1 className="font-mono font-bold text-xs tracking-wider uppercase text-[var(--foreground)]">
                 BUILDATIONS
               </h1>
-              <span className="text-[10px] font-mono tracking-widest text-[var(--primary)] font-black uppercase flex items-center gap-1 mt-0.5">
-                STUDIO <span className="text-[8px] px-1 py-0.2 rounded bg-[var(--primary)]/15 border border-[var(--primary)]/30 font-bold">CORE</span>
+              <span className="text-[9px] font-mono tracking-widest text-[#e85a2a] font-bold uppercase flex items-center gap-1">
+                <span>OP-ENGINE</span>
+                <span className="text-[7px] px-1 py-0.2 rounded bg-black text-[#3ddc84] border border-[#3ddc84]/40 font-mono">64B</span>
               </span>
             </div>
           </div>
 
-          <div className="w-2 h-2 rounded-full bg-[var(--primary)]/30 animate-pulse-glow" title="Industrial Telemetry: Operational"></div>
+          {/* TE Tactile Knurled Status Dial */}
+          <div className="te-knob-indicator group cursor-pointer" title="Clock Sync: Master 120.0 BPM / 64-Bit Ingestion"></div>
         </div>
         
         {/* Buscador Rápido Integrado en Sidebar */}
@@ -1264,30 +1312,33 @@ export default function DashboardMockup() {
           </div>
         </nav>
         
-        <div className="p-4 border-t border-[var(--border)] flex items-center justify-between">
+        {/* Teenage Engineering User Profile & Rotary Power Footer */}
+        <div className="p-3 border-t border-[var(--border-te)] bg-[#0a0c0e] flex items-center justify-between">
           <div 
             onClick={() => setActiveTab('settings')}
-            className="flex items-center cursor-pointer group flex-1 mr-2 p-1 rounded-lg hover:bg-[var(--muted)]/50 transition-colors"
+            className="flex items-center cursor-pointer group flex-1 mr-2 p-1.5 rounded hover:bg-[#14161b] transition-colors border border-transparent hover:border-[var(--border-te)]"
             title="Ir a Configuración de Cuenta & Enterprise Vault"
           >
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[var(--primary)] to-amber-400 mr-3 shadow-sm flex items-center justify-center font-bold text-white text-xs shrink-0 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded bg-[#1c1e24] border border-[#e85a2a] mr-2.5 shadow-sm flex items-center justify-center font-mono font-bold text-[#e85a2a] text-xs shrink-0 group-hover:scale-105 transition-transform">
               RG
             </div>
             <div className="truncate">
-              <p className="text-sm font-semibold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors truncate">Román García</p>
-              <p className="text-xs text-[var(--muted-foreground)] flex items-center gap-1">
-                <span>Agencia Pro</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <p className="font-mono text-xs font-bold text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors truncate leading-tight">
+                Román García
+              </p>
+              <p className="font-mono text-[9px] text-[#8a8f9d] flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active"></span>
+                <span className="uppercase">SOYROMAN // ADMIN</span>
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
             <button 
               onClick={() => setActiveTab('settings')}
-              className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+              className={`p-1.5 rounded text-xs transition-colors cursor-pointer border ${
                 activeTab === 'settings' 
-                  ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm' 
-                  : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] text-[var(--foreground)]'
+                  ? 'bg-[#e85a2a] text-white border-[#e85a2a]' 
+                  : 'border-[var(--border-te)] bg-[#14161b] hover:border-[#e85a2a] text-zinc-300'
               }`}
               title="Configuración de Cuenta & Vault"
             >
@@ -1295,10 +1346,10 @@ export default function DashboardMockup() {
             </button>
             <button 
               onClick={toggleTheme}
-              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] text-[var(--foreground)] transition-colors cursor-pointer"
-              title={theme === 'dark' ? 'Modo Día' : 'Modo Noche'}
+              className="p-1.5 rounded border border-[var(--border-te)] bg-[#14161b] hover:border-[#e85a2a] text-zinc-300 transition-colors cursor-pointer"
+              title={theme === 'dark' ? 'Modo Tactile Day' : 'Modo Dark Synth'}
             >
-              {theme === 'dark' ? <SunIcon className="w-4 h-4 text-amber-400" /> : <MoonIcon className="w-4 h-4 text-indigo-500" />}
+              {theme === 'dark' ? <SunIcon className="w-4 h-4 text-[#f5a623]" /> : <MoonIcon className="w-4 h-4 text-[#38bdf8]" />}
             </button>
           </div>
         </div>
@@ -1450,71 +1501,71 @@ export default function DashboardMockup() {
               </div>
             </button>
 
-            {/* Semáforos Compactos de Alta Estética Estilo Lego // Micro-Status Pill */}
-            <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--card)]/90 backdrop-blur-md border border-[var(--border)] shadow-2xs">
-              <span className="text-[9px] font-mono font-bold uppercase text-zinc-500 tracking-wider mr-1">
-                STATUS:
+            {/* Teenage Engineering Mechanical Status Segment Indicator */}
+            <div className="hidden xl:flex items-center gap-1.5 p-1 rounded bg-[#0a0c0e] border border-black shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)]">
+              <span className="font-mono text-[9px] font-bold uppercase text-[#8a8f9d] px-1 tracking-wider">
+                LED:
               </span>
               
               <button 
                 onClick={() => setSelectedAgent('sophia')}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
                   selectedAgent === 'sophia' 
-                    ? 'bg-[var(--primary)]/15 text-[var(--primary)] border border-[var(--primary)]/40 shadow-[0_0_8px_rgba(255,90,0,0.3)]' 
-                    : 'text-zinc-400 hover:text-white hover:bg-[var(--muted)]'
+                    ? 'bg-[#152a1d] text-[#3ddc84] border border-[#3ddc84]/50' 
+                    : 'text-zinc-500 hover:text-zinc-300'
                 }`}
                 title="Crawler SERP: Calibrado y Operativo (99.8%)"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_5px_#3ddc84]" />
                 <span>SERP</span>
               </button>
 
               <button 
                 onClick={() => setSelectedAgent('jax')}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
                   selectedAgent === 'jax' 
-                    ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40 shadow-[0_0_8px_rgba(245,158,11,0.3)]' 
-                    : 'text-zinc-400 hover:text-white hover:bg-[var(--muted)]'
+                    ? 'bg-[#2a2212] text-[#f5a623] border border-[#f5a623]/50' 
+                    : 'text-zinc-500 hover:text-zinc-300'
                 }`}
                 title="Sync RevOps HubSpot: Vinculado y Activo"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]" />
-                <span>RevOps</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#f5a623] shadow-[0_0_5px_#f5a623]" />
+                <span>REVOPS</span>
               </button>
 
               <button 
                 onClick={() => setSelectedAgent('vera')}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
                   selectedAgent === 'vera' 
-                    ? 'bg-orange-500/15 text-orange-400 border border-orange-500/40 shadow-[0_0_8px_rgba(251,146,60,0.3)]' 
-                    : 'text-zinc-400 hover:text-white hover:bg-[var(--muted)]'
+                    ? 'bg-[#2d160f] text-[#e85a2a] border border-[#e85a2a]/50' 
+                    : 'text-zinc-500 hover:text-zinc-300'
                 }`}
                 title="Motor Editorial AEO: En Proceso de Síntesis"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse shadow-[0_0_6px_rgba(251,146,60,0.8)]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#e85a2a] te-led-fast shadow-[0_0_5px_#e85a2a]" />
                 <span>AEO</span>
               </button>
             </div>
 
-            {/* Executive vs Technical View Switch */}
+            {/* TE Tactile Mechanical Switches */}
             <button
               onClick={() => setIsExecutiveMode(!isExecutiveMode)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-2xs transition-all cursor-pointer ${isExecutiveMode ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--primary)] font-bold' : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--foreground)] text-[var(--muted-foreground)]'}`}
+              className={`te-button ${isExecutiveMode ? 'te-button-primary' : ''}`}
               title="Cambiar entre Vista Técnica y Portal Ejecutivo para Clientes"
             >
               <PresentationChartLineIcon className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">{isExecutiveMode ? 'C-Level' : 'Técnica'}</span>
+              <span className="hidden lg:inline">{isExecutiveMode ? 'C-LEVEL' : 'TÉCNICA'}</span>
             </button>
 
             {/* Consola Kernel Monitor Button */}
             <button
               onClick={() => setIsTerminalOpen(!isTerminalOpen)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold shadow-2xs cursor-pointer transition-all ${isTerminalOpen ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-[var(--border)] bg-[var(--card)] hover:border-emerald-500 text-[var(--foreground)]'}`}
+              className="te-button"
               title="Abrir Consola Kernel de Procesos"
             >
-              <CommandLineIcon className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="hidden lg:inline font-mono text-[11px]">Kernel</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <CommandLineIcon className="w-3.5 h-3.5 text-[#3ddc84]" />
+              <span className="hidden lg:inline font-mono">KERNEL</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active"></span>
             </button>
 
             {/* Day / Night Theme Button */}
@@ -1731,192 +1782,257 @@ export default function DashboardMockup() {
                   </div>
                 </div>
 
-                {/* BUILDATIONS // THE LEGO PRINCIPLE & 64-BIT SOVEREIGN ENGINES BANNER */}
-                <div className="lego-block p-6 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border-2 border-[var(--primary)]/40 relative overflow-hidden space-y-4">
-                  <div className="absolute top-0 right-0 w-80 h-full bg-[var(--primary)]/5 pointer-events-none blur-2xl" />
-                  <div className="lego-studs-top" />
-
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 relative z-10">
-                    <div className="space-y-1.5 max-w-2xl">
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[var(--primary)]/20 text-[var(--primary)] border border-[var(--primary)]/40 flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
-                          BUILDATIONS // THE LEGO PRINCIPLE
-                        </span>
-                        <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
-                          64-BIT MODULAR ARCHITECTURE
-                        </span>
-                        <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
-                          ZERO DATA RETENTION
-                        </span>
+                {/* TEENAGE ENGINEERING HARDWARE CONTROL UNIT // THE 64-BIT LEGO PRINCIPLE */}
+                <div className="te-frame p-6 bg-te-dots relative overflow-hidden space-y-6">
+                  {/* Subtle top steel bezel with mechanical screws */}
+                  <div className="flex items-center justify-between border-b border-[var(--border-te)] pb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#111317] border border-[var(--border-te)] flex items-center justify-center shadow-inner">
+                        <div className="w-1.5 h-0.5 bg-zinc-600 rotate-45"></div>
                       </div>
-                      <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
-                        Construcción Modular por Bloques Interconectados
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#e85a2a]">
+                        FIG.01 // SISTEMA DE DEMANDA B2B &amp; MOTOR AUTÓNOMO
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-[9px] uppercase px-2 py-0.5 bg-[#0a0c0e] text-[#3ddc84] border border-[#3ddc84]/30 rounded">
+                        64-BIT CORE: ACTIVE
+                      </span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#111317] border border-[var(--border-te)] flex items-center justify-center shadow-inner">
+                        <div className="w-1.5 h-0.5 bg-zinc-600 -rotate-45"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SoyRomán Style Animated Flow Schematic Diagram (SVG Signal Path) */}
+                  <div className="p-4 rounded bg-[#0a0c0e] border border-black shadow-[inset_0_2px_8px_rgba(0,0,0,0.9)] overflow-x-auto">
+                    <div className="min-w-[680px]">
+                      <svg viewBox="0 0 680 140" className="w-full h-auto">
+                        <defs>
+                          <pattern id="te-grid-dots" width="12" height="12" patternUnits="userSpaceOnUse">
+                            <circle cx="1" cy="1" r="1" fill="rgba(232,90,42,0.18)"></circle>
+                          </pattern>
+                        </defs>
+                        <rect width="680" height="140" fill="url(#te-grid-dots)"></rect>
+
+                        {/* Cables */}
+                        <g fill="none" stroke="#2a2e37" strokeWidth="1.5">
+                          <path id="te-c1" d="M110 50 H160 V70 H210" />
+                          <path id="te-c2" d="M110 90 H160 V70 H210" />
+                          <path id="te-c3" d="M310 70 H370" />
+                          <path id="te-c4" d="M470 70 H530" />
+                          <path id="te-c5" d="M590 95 V120 H260 V95" strokeDasharray="3 3" />
+                        </g>
+
+                        {/* Animated 64-bit Signal Pulses */}
+                        <g fill="#e85a2a">
+                          <circle r="3.5">
+                            <animateMotion dur="2.4s" begin="0s" repeatCount="indefinite">
+                              <mpath href="#te-c1" />
+                            </animateMotion>
+                          </circle>
+                          <circle r="3.5">
+                            <animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite">
+                              <mpath href="#te-c2" />
+                            </animateMotion>
+                          </circle>
+                          <circle r="3.5">
+                            <animateMotion dur="1.8s" begin="0s" repeatCount="indefinite">
+                              <mpath href="#te-c3" />
+                            </animateMotion>
+                          </circle>
+                          <circle r="3.5">
+                            <animateMotion dur="1.8s" begin="-0.9s" repeatCount="indefinite">
+                              <mpath href="#te-c4" />
+                            </animateMotion>
+                          </circle>
+                        </g>
+
+                        {/* Modular Blocks */}
+                        {/* 01 Ingesta */}
+                        <g transform="translate(10, 30)">
+                          <rect width="100" height="36" fill="#14161b" stroke="#2e323b" rx="2" />
+                          <text x="10" y="22" fill="#8a8f9d" fontFamily="ui-monospace, monospace" fontSize="9" fontWeight="bold">01. PAID &amp; GSC</text>
+                        </g>
+                        <g transform="translate(10, 74)">
+                          <rect width="100" height="36" fill="#14161b" stroke="#2e323b" rx="2" />
+                          <text x="10" y="22" fill="#8a8f9d" fontFamily="ui-monospace, monospace" fontSize="9" fontWeight="bold">02. SEO &amp; AEO</text>
+                        </g>
+
+                        {/* 02 Motor Autónomo */}
+                        <g transform="translate(210, 35)">
+                          <rect width="100" height="70" fill="#000000" stroke="#e85a2a" strokeWidth="1.5" rx="2" />
+                          <rect x="92" y="-1" width="7" height="7" fill="#e85a2a" />
+                          <text x="12" y="26" fill="#ffffff" fontFamily="ui-monospace, monospace" fontSize="11" fontWeight="bold">OP-ENGINE</text>
+                          <text x="12" y="44" fill="#e85a2a" fontFamily="ui-monospace, monospace" fontSize="8" fontWeight="bold">RAG + LLM 64B</text>
+                          <text x="12" y="58" fill="#3ddc84" fontFamily="ui-monospace, monospace" fontSize="8">● 98.4% ASERT</text>
+                        </g>
+
+                        {/* 03 CMS & Silos */}
+                        <g transform="translate(370, 35)">
+                          <rect width="100" height="70" fill="#14161b" stroke="#2e323b" rx="2" />
+                          <text x="12" y="26" fill="#ffffff" fontFamily="ui-monospace, monospace" fontSize="11" fontWeight="bold">CMS SILOS</text>
+                          <text x="12" y="44" fill="#8a8f9d" fontFamily="ui-monospace, monospace" fontSize="8">PAYLOAD / WP</text>
+                          <text x="12" y="58" fill="#38bdf8" fontFamily="ui-monospace, monospace" fontSize="8">SCHEMA JSON</text>
+                        </g>
+
+                        {/* 04 Pipeline RevOps */}
+                        <g transform="translate(530, 35)">
+                          <rect width="130" height="70" fill="#e85a2a" rx="2" />
+                          <text x="12" y="26" fill="#ffffff" fontFamily="ui-monospace, monospace" fontSize="11" fontWeight="bold">REVOPS CRM</text>
+                          <text x="12" y="44" fill="#ffffff" fontFamily="ui-monospace, monospace" fontSize="9" fontWeight="bold">MQL → DEALS</text>
+                          <text x="12" y="58" fill="#ffffff" opacity="0.8" fontFamily="ui-monospace, monospace" fontSize="8">HUBSPOT SYNC</text>
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div className="space-y-1">
+                      <h3 className="font-mono text-sm uppercase font-bold text-[var(--foreground)] tracking-wide">
+                        Línea de Producción Modular // Filosofía Teenage Engineering
                       </h3>
-                      <p className="text-xs text-zinc-400 leading-relaxed">
-                        Inspirado en la filosofía de <strong>buildations.com</strong>: Cada motor (Search &amp; Presence, Adaptive Security, Revenue Intelligence) opera como un bloque de Lego independiente, desacoplado y componible sobre infraestructura local y soberana (Ollama, Qdrant, n8n, Postgres).
+                      <p className="text-xs text-[var(--muted-foreground)] max-w-2xl font-mono">
+                        Hardware UI minimalista con micro-animaciones independientes. Cada etapa opera como un sintetizador autónomo de datos.
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => {
                           setActiveTab('engineBuilder');
-                          showToast('Constructor por Bloques', 'Abriendo el estudio de topología modular estilo Lego', 'info');
+                          showToast('Constructor TE', 'Abriendo el panel de modulación de arquitectura 64-bit', 'info');
                         }}
-                        className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] flex items-center gap-2 cursor-pointer"
+                        className="te-button te-button-primary"
                       >
-                        <CpuChipIcon className="w-4 h-4" />
-                        <span>Ensamblar Bloques Lego</span>
+                        <CpuChipIcon className="w-3.5 h-3.5" />
+                        <span>CONFIGURAR MÓDULOS</span>
                       </button>
                       <button
                         onClick={() => {
                           setOnboardingStep(1);
                           setIsOnboardingOpen(true);
                         }}
-                        className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-300 transition-colors flex items-center gap-2 cursor-pointer"
+                        className="te-button"
                       >
-                        <SparklesIcon className="w-4 h-4 text-amber-400" />
-                        <span>Tour Guiado Zero-to-One</span>
+                        <SparklesIcon className="w-3.5 h-3.5 text-[#f5a623]" />
+                        <span>CALIBRACIÓN ZERO-TO-ONE</span>
                       </button>
                     </div>
                   </div>
-
-                  {/* 3 Bloques Modulares Lego de Buildations */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 relative z-10">
-                    <div className="lego-block p-4 bg-zinc-900/90 border border-orange-500/30 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono uppercase text-orange-400 font-bold">BLOQUE 01</span>
-                        <span className="text-[9px] font-mono text-emerald-400 font-bold">ONLINE</span>
-                      </div>
-                      <h4 className="font-bold text-xs text-white">Search &amp; Presence (AEO-Native)</h4>
-                      <p className="text-[11px] text-zinc-400 leading-tight">
-                        Pipeline de alta velocidad orientado a capturar citaciones orgánicas en Answer Engines (ChatGPT, Perplexity).
-                      </p>
-                      <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
-                        <span>Stack: Qdrant + Claude</span>
-                        <span className="text-orange-400 font-bold">98% Citabilidad</span>
-                      </div>
-                    </div>
-
-                    <div className="lego-block p-4 bg-zinc-900/90 border border-cyan-500/30 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono uppercase text-cyan-400 font-bold">BLOQUE 02</span>
-                        <span className="text-[9px] font-mono text-emerald-400 font-bold">ONLINE</span>
-                      </div>
-                      <h4 className="font-bold text-xs text-white">Revenue Intelligence &amp; RevOps</h4>
-                      <p className="text-[11px] text-zinc-400 leading-tight">
-                        Señales de precios, atribución de demanda B2B y sincronización directa de Deals calificados en HubSpot CRM.
-                      </p>
-                      <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
-                        <span>Stack: Postgres + n8n</span>
-                        <span className="text-cyan-400 font-bold">12 Deals Cerrados</span>
-                      </div>
-                    </div>
-
-                    <div className="lego-block p-4 bg-zinc-900/90 border border-emerald-500/30 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold">BLOQUE 03</span>
-                        <span className="text-[9px] font-mono text-emerald-400 font-bold">ACTIVO</span>
-                      </div>
-                      <h4 className="font-bold text-xs text-white">Adaptive Security &amp; Local VPC</h4>
-                      <p className="text-[11px] text-zinc-400 leading-tight">
-                        Defensa autónoma zero-analyst, despliegue aislado sin retención de datos en clúster Hetzner NVMe y Vercel Edge.
-                      </p>
-                      <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
-                        <span>Stack: Bare-Metal NVMe</span>
-                        <span className="text-emerald-400 font-bold">SOC 2 / HIPAA Ready</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
-                {/* Grid de Métricas Minimalistas con Estilo Lego Modular */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="glass-card p-5 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
-                      <span className="font-medium">Tráfico Mensual</span>
-                      <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">+18.4%</span>
+                {/* Grid de 4 Indicadores Hardware TE (Estilo Pantalla Segmentada LCD de Bolsillo) */}
+                <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-[var(--border-te)] border border-[var(--border-te)] bg-[var(--card)] rounded">
+                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="te-label">M-01 // TRÁFICO</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active"></span>
                     </div>
-                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
-                      42,850
-                    </p>
-                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
-                      <span>Impresiones</span>
-                      <span className="font-mono text-[var(--foreground)]">384k</span>
-                    </div>
-                  </div>
-
-                  <div className="glass-card p-5 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
-                      <span className="font-medium">Keywords Top 3</span>
-                      <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">+14</span>
-                    </div>
-                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
-                      342
-                    </p>
-                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
-                      <span>Top 10 total</span>
-                      <span className="font-mono text-[var(--foreground)]">1,120</span>
-                    </div>
-                  </div>
-
-                  <div className="glass-card p-5 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
-                      <span className="font-medium">Citación Sintética (AEO)</span>
-                      <span className="font-mono text-[10px] text-[var(--primary)] bg-[var(--primary)]/10 px-1.5 py-0.5 rounded font-bold">Líder</span>
-                    </div>
-                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
-                      64.2%
-                    </p>
-                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
-                      <span>Perplexity &amp; SearchGPT</span>
-                      <span className="font-mono text-[var(--foreground)]">Top 1</span>
-                    </div>
-                  </div>
-
-                  <div className="glass-card p-5 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
-                      <span className="font-medium">Pipeline HubSpot</span>
-                      <span className="font-mono text-[10px] text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded font-bold">Atribuido</span>
-                    </div>
-                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
-                      $148.2k
-                    </p>
-                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
-                      <span>Deals de Orgánico</span>
-                      <span className="font-mono text-[var(--foreground)]">12 cerrados</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Main Activity Chart - Minimalist & Sleek */}
-                <div className="glass-card p-6 space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <h3 className="font-medium text-base text-[var(--foreground)]">Evolución de Tráfico Orgánico vs Competencia</h3>
-                      <p className="text-xs text-[var(--muted-foreground)]">Crecimiento constante tras indexación de los clusters semánticos.</p>
-                    </div>
-                    <div className="flex items-center gap-1 bg-[var(--background)]/80 p-1 rounded-lg border border-[var(--border)] text-xs font-mono">
-                      <button className="px-2.5 py-1 rounded bg-[var(--card)] text-[var(--foreground)] font-bold shadow-sm">30D</button>
-                      <button className="px-2.5 py-1 rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)]">90D</button>
-                      <button className="px-2.5 py-1 rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)]">1Y</button>
+                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
+                        42.8k
+                      </p>
+                      <p className="te-label mt-2 text-[#3ddc84]">
+                        ↑ +18.4% / MES ORGÁNICO
+                      </p>
                     </div>
                   </div>
 
-                  <div className="h-60 flex items-end space-x-3 pt-6 px-2">
+                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="te-label">M-02 // KEYWORDS TOP 3</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]"></span>
+                    </div>
+                    <div>
+                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
+                        342
+                      </p>
+                      <p className="te-label mt-2 opacity-70">
+                        1,120 EN TOP 10 TOTAL
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="te-label">M-03 // CITACIÓN AEO</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#e85a2a] te-led-fast"></span>
+                    </div>
+                    <div>
+                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
+                        64.2%
+                      </p>
+                      <p className="te-label mt-2 text-[#e85a2a]">
+                        TOP 1 CHATGPT &amp; PERPLEXITY
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-6 md:p-8 flex flex-col justify-between group hover:bg-[var(--muted)]/50 transition-colors relative aspect-auto sm:aspect-square">
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="te-label">M-04 // PIPELINE DEALS</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#f5a623]"></span>
+                    </div>
+                    <div>
+                      <p className="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors">
+                        $148k
+                      </p>
+                      <p className="te-label mt-2 opacity-70">
+                        12 DEALS HUBSPOT CERRADOS
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tablero de Actividad Hardware con Analizador de Frecuencia 64-Bit */}
+                <div className="te-frame p-6 space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-te)] pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-[#e85a2a]"></div>
+                      <div>
+                        <h3 className="font-mono text-sm uppercase font-bold text-[var(--foreground)]">
+                          SYS.02 // Espectro de Frecuencia &amp; Tráfico Orgánico
+                        </h3>
+                        <p className="font-mono text-[10px] text-[var(--muted-foreground)]">
+                          Osciloscopio de demanda con sincronización horaria de indexación.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 bg-[#0a0c0e] p-1 rounded border border-black text-xs font-mono">
+                      <button className="px-2.5 py-1 rounded bg-[#1c1e24] text-[#e85a2a] font-bold">30D</button>
+                      <button className="px-2.5 py-1 rounded text-zinc-400 hover:text-white">90D</button>
+                      <button className="px-2.5 py-1 rounded text-zinc-400 hover:text-white">1Y</button>
+                    </div>
+                  </div>
+
+                  {/* 64-Bit Teenage Engineering Frequency Equalizer Display */}
+                  <div className="h-64 flex items-end space-x-2 pt-6 px-2 bg-[#0a0c0e] rounded p-4 border border-black shadow-inner">
                     {[45, 52, 49, 60, 72, 68, 85, 94, 88, 102, 115, 128].map((h, i) => (
-                      <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer">
-                        <div 
-                          className="w-full bg-[var(--muted)]/60 group-hover:bg-gradient-to-t group-hover:from-[var(--primary)] group-hover:to-amber-400 rounded-md transition-all relative"
-                          style={{ height: `${h * 1.5}px` }}
-                        >
-                          <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] font-mono text-[10px] py-1 px-2 rounded-md shadow-xl whitespace-nowrap transition-opacity pointer-events-none">
-                            {h * 120} visitas
-                          </div>
+                      <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer h-full justify-end">
+                        <div className="w-full flex flex-col gap-1 items-center justify-end h-full">
+                          {/* Segmented LED matrix steps per bar */}
+                          {Array.from({ length: 12 }).map((_, stepIdx) => {
+                            const isLit = stepIdx <= Math.floor((h / 130) * 12);
+                            return (
+                              <div
+                                key={stepIdx}
+                                className={`w-full h-2 rounded-[1px] transition-all ${
+                                  isLit 
+                                    ? stepIdx > 9 
+                                      ? 'bg-[#e85a2a] shadow-[0_0_4px_#e85a2a]' 
+                                      : stepIdx > 6 
+                                      ? 'bg-[#f5a623]' 
+                                      : 'bg-[#3ddc84]' 
+                                    : 'bg-zinc-900/60'
+                                }`}
+                              />
+                            );
+                          })}
                         </div>
-                        <span className="text-[10px] font-mono text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">
-                          M{i+1}
+                        <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 group-hover:text-[#e85a2a]">
+                          P-0{i+1}
                         </span>
                       </div>
                     ))}
@@ -2176,81 +2292,79 @@ export default function DashboardMockup() {
                   </div>
 
                   {clusterViewMode === 'fleet' ? (
-                    /* Tarjetas de Motores Activos con Interacción Completa */
+                    /* Tarjetas de Motores Activos con Interacción Completa Estilo Teenage Engineering Hardware */
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 relative z-10">
                       {activeEngines.map((eng) => {
                         const isSelected = selectedEngineId === eng.id;
                         return (
                           <div 
                             key={eng.id}
-                            className={`p-4 rounded-xl border transition-all relative overflow-hidden flex flex-col justify-between group ${
+                            className={`te-frame p-4.5 transition-all relative overflow-hidden flex flex-col justify-between group ${
                               isSelected 
-                                ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.22)]' 
-                                : 'bg-black/30 border-[var(--border)] hover:border-zinc-700 hover:bg-[var(--card)]/50'
+                                ? 'border-[#e85a2a] shadow-[0_0_18px_rgba(232,90,42,0.3)] bg-[#121418]' 
+                                : 'bg-[#101216] hover:border-zinc-600'
                             }`}
                           >
-                            {/* Laser sweep on active */}
-                            {isSelected && (
-                              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent"></div>
-                            )}
+                            {/* TE Corner Mechanical Notch */}
+                            <div className="absolute top-0 right-0 w-3 h-3 bg-[#e85a2a]/20 border-b border-l border-[#e85a2a]/40"></div>
 
                             <div>
-                              <div className="flex items-start justify-between gap-2 mb-2">
+                              <div className="flex items-start justify-between gap-2 mb-2.5">
                                 <div className="flex items-center gap-2">
                                   <div className={`w-2 h-2 rounded-full ${
-                                    eng.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)] animate-pulse' : 'bg-amber-400'
+                                    eng.status === 'active' ? 'bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]' : 'bg-[#f5a623]'
                                   }`} />
-                                  <span className="text-[10px] font-mono uppercase font-bold text-[var(--muted-foreground)]">
+                                  <span className="te-label">
                                     {eng.id} // {eng.type}
                                   </span>
                                 </div>
-                                <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold ${
+                                <span className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded font-bold ${
                                   eng.status === 'active' 
-                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' 
-                                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                                    ? 'bg-[#3ddc84]/15 text-[#3ddc84] border border-[#3ddc84]/40' 
+                                    : 'bg-[#f5a623]/15 text-[#f5a623] border border-[#f5a623]/40'
                                 }`}>
-                                  {eng.status === 'active' ? 'EN LÍNEA' : 'PAUSADO'}
+                                  {eng.status === 'active' ? 'ACTIVE' : 'STANDBY'}
                                 </span>
                               </div>
 
-                              <h4 className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors leading-tight mb-1">
+                              <h4 className="font-mono font-bold text-xs text-[var(--foreground)] group-hover:text-[#e85a2a] transition-colors leading-tight mb-1">
                                 {eng.name}
                               </h4>
                               
-                              <p className="text-[10px] font-mono text-[var(--primary)] truncate mb-2">
+                              <p className="font-mono text-[10px] text-[#e85a2a] truncate mb-2">
                                 {eng.targetDomain}
                               </p>
                               
-                              <p className="text-[11px] text-[var(--muted-foreground)] line-clamp-2 leading-relaxed mb-3">
+                              <p className="font-mono text-[11px] text-[var(--muted-foreground)] line-clamp-2 leading-relaxed mb-3">
                                 {eng.purpose}
                               </p>
 
-                              {/* Medidores 64-bit y Rendimiento */}
-                              <div className="grid grid-cols-3 gap-2 pt-2.5 border-t border-[var(--border)]/60 text-center">
-                                <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
-                                  <span className="text-[9px] font-mono text-zinc-400 block">Salud Core</span>
-                                  <span className="text-xs font-mono font-bold text-emerald-400">{eng.health}%</span>
+                              {/* Medidores 64-bit y Rendimiento Hardware TE */}
+                              <div className="grid grid-cols-3 gap-1.5 p-2 bg-[#080a0c] border border-black rounded te-screen text-center">
+                                <div className="p-1">
+                                  <span className="te-label block text-[8px]">CORE</span>
+                                  <span className="text-xs font-mono font-bold text-[#3ddc84]">{eng.health}%</span>
                                 </div>
-                                <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
-                                  <span className="text-[9px] font-mono text-zinc-400 block">Posts / Sem</span>
+                                <div className="p-1 border-x border-zinc-800">
+                                  <span className="te-label block text-[8px]">POST/W</span>
                                   <span className="text-xs font-mono font-bold text-white">{eng.publishedWeekly}</span>
                                 </div>
-                                <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
-                                  <span className="text-[9px] font-mono text-zinc-400 block">Latencia</span>
-                                  <span className="text-xs font-mono font-bold text-cyan-400">{eng.latency}</span>
+                                <div className="p-1">
+                                  <span className="te-label block text-[8px]">LATENCY</span>
+                                  <span className="text-xs font-mono font-bold text-[#38bdf8]">{eng.latency}</span>
                                 </div>
                               </div>
 
-                              <div className="mt-2.5 flex items-center justify-between text-[10px] font-mono text-zinc-400 pb-3 border-b border-[var(--border)]/50">
+                              <div className="mt-2.5 flex items-center justify-between text-[9px] font-mono text-zinc-400 pb-2.5 border-b border-[var(--border-te)]">
                                 <span className="flex items-center gap-1">
-                                  Potencia: <strong className="text-amber-400">{eng.powerRate}%</strong>
+                                  POTENCIA: <strong className="text-[#f5a623]">{eng.powerRate}%</strong>
                                 </span>
-                                <span>LLM: {eng.llmCore.split(' ')[0]}</span>
+                                <span>CORE: {eng.llmCore.split(' ')[0]}</span>
                               </div>
                             </div>
 
                             {/* Barra de Acciones Directas del Motor */}
-                            <div className="mt-3 pt-1 flex items-center justify-between gap-1.5">
+                            <div className="mt-3 flex items-center justify-between gap-1.5">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -2277,11 +2391,11 @@ export default function DashboardMockup() {
                                   setEngineModalMode('edit');
                                   setIsEngineModalOpen(true);
                                 }}
-                                className="flex-1 py-1 px-2 rounded-lg bg-[var(--muted)] hover:bg-[var(--primary)] hover:text-white text-[10px] font-mono font-bold text-zinc-300 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                                className="flex-1 te-button py-1 px-2 text-[10px]"
                                 title="Calibrar y editar parámetros de este motor"
                               >
                                 <AdjustmentsHorizontalIcon className="w-3 h-3" />
-                                <span>Calibrar</span>
+                                <span>CALIBRAR</span>
                               </button>
 
                               <button
@@ -2300,22 +2414,22 @@ export default function DashboardMockup() {
                                     return item;
                                   }));
                                 }}
-                                className={`py-1 px-2.5 rounded-lg text-[10px] font-mono font-bold transition-colors flex items-center gap-1 cursor-pointer border ${
+                                className={`te-button py-1 px-2 text-[10px] ${
                                   eng.status === 'active' 
-                                    ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/30' 
-                                    : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                                    ? 'text-[#f5a623]' 
+                                    : 'text-[#3ddc84]'
                                 }`}
                                 title={eng.status === 'active' ? 'Pausar ejecución programada' : 'Reanudar ejecución'}
                               >
                                 {eng.status === 'active' ? (
                                   <>
-                                    <PauseIcon className="w-3 h-3" />
-                                    <span>Pausar</span>
+                                    <PauseIcon className="w-3 h-3 text-[#f5a623]" />
+                                    <span>PAUSA</span>
                                   </>
                                 ) : (
                                   <>
-                                    <PlayIcon className="w-3 h-3" />
-                                    <span>Reanudar</span>
+                                    <PlayIcon className="w-3 h-3 text-[#3ddc84]" />
+                                    <span>PLAY</span>
                                   </>
                                 )}
                               </button>
@@ -2324,15 +2438,15 @@ export default function DashboardMockup() {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   showToast(
-                                    'Benchmark de Inferencia Ejecutado',
-                                    `Motor: ${eng.name} | LLM: ${eng.llmCore} | 64.2 tok/s · 410ms · $0.021 USD · Asertividad 98.4%`,
+                                    'Benchmark Inferencia 64-Bit',
+                                    `Test ejecutado en "${eng.name}": Latencia ${eng.latency}, Throughput 58 tok/s, 0 alucinaciones fácticas.`,
                                     'success'
                                   );
                                 }}
-                                className="p-1 rounded-lg bg-[var(--muted)] hover:bg-cyan-500/20 hover:text-cyan-400 text-zinc-400 transition-colors cursor-pointer border border-[var(--border)]"
+                                className="te-button py-1 px-2 text-[10px] text-[#38bdf8]"
                                 title="Ejecutar prueba de inferencia en seco y medir telemetría"
                               >
-                                <BoltIcon className="w-3.5 h-3.5" />
+                                <BoltIcon className="w-3 h-3" />
                               </button>
 
                               {activeEngines.length > 1 && (
@@ -2344,10 +2458,10 @@ export default function DashboardMockup() {
                                       showToast('Motor Eliminado', `Se retiró "${eng.name}" del clúster.`, 'info');
                                     }
                                   }}
-                                  className="p-1 rounded-lg bg-[var(--muted)] hover:bg-rose-500/20 hover:text-rose-400 text-zinc-400 transition-colors cursor-pointer border border-[var(--border)]"
+                                  className="te-button py-1 px-2 text-[10px] hover:text-rose-400"
                                   title="Eliminar motor"
                                 >
-                                  <TrashIcon className="w-3.5 h-3.5" />
+                                  <TrashIcon className="w-3 h-3" />
                                 </button>
                               )}
                             </div>
