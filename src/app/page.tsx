@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { 
   ChartBarIcon, 
@@ -398,7 +399,13 @@ export default function DashboardMockup() {
               <div className="bg-gradient-to-r from-[var(--primary)] to-amber-400 h-full w-[94%] rounded-full animate-pulse"></div>
             </div>
             <div className="mt-2.5 pt-2 border-t border-[var(--border)] flex items-center justify-between text-[10px] text-[var(--muted-foreground)]">
-              <span>Cluster Mesh</span>
+              <Link 
+                href="/login" 
+                className="text-[10px] font-mono text-zinc-400 hover:text-[var(--primary)] transition-colors flex items-center gap-1"
+                title="Ir al Portal de Acceso y Login con Canvas Generativo"
+              >
+                <span>Portal Login ↗</span>
+              </Link>
               <a 
                 href="/ruta-no-existente-test-404" 
                 target="_blank" 
@@ -756,136 +763,123 @@ export default function DashboardMockup() {
               </div>
             )}
 
-            {/* OVERVIEW TAB */}
+            {/* OVERVIEW TAB - MINIMAL & CLEAN EDITORIAL AESTHETIC */}
             {activeTab === 'overview' && (
               <div className="space-y-8 animate-fade-in">
-                {/* Industrial Status Header & Engine Telemetry Banner */}
-                <div className="relative rounded-2xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] via-[var(--background)] to-[var(--card)] p-5 overflow-hidden shadow-xl">
-                  {/* Subtle Industrial Grid Pattern */}
-                  <div className="absolute inset-0 bg-industrial-grid pointer-events-none opacity-40"></div>
-                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent"></div>
-                  
-                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                    <div className="flex items-start gap-4">
-                      {/* Active Spinning Reactor / Core Graphic */}
-                      <div className="relative w-12 h-12 rounded-xl bg-black/40 border border-[var(--border)] flex items-center justify-center p-2.5 shadow-inner">
-                        <div className="absolute inset-0 rounded-xl border border-[var(--primary)]/30 animate-pulse"></div>
-                        <svg viewBox="0 0 24 24" fill="none" className="w-full h-full text-[var(--primary)]">
-                          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="animate-spin" style={{ animationDuration: '8s' }} />
-                          <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.5" />
-                          <path d="M12 3V6M12 18V21M3 12H6M18 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                        </svg>
-                      </div>
-
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-0.5 rounded border border-[var(--primary)]/20">
-                            BUILDATIONS ENGINE v2.4 // TELEMETRÍA INDUSTRIAL
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> ONLINE
-                          </span>
-                        </div>
-                        <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[var(--foreground)]">
-                          Centro de Comando de Posicionamiento &amp; RevOps
-                        </h2>
-                        <p className="text-[var(--muted-foreground)] text-xs sm:text-sm mt-0.5">
-                          Monitoreo de clusters semánticos, agentes sintéticos y atribución de deals en HubSpot.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2">
-                      <div className="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-[var(--background)]/80 border border-[var(--border)] text-xs font-mono">
-                        <div>
-                          <p className="text-[9px] uppercase tracking-wider text-[var(--muted-foreground)]">Latencia Mesh</p>
-                          <p className="font-bold text-emerald-400">18ms (OK)</p>
-                        </div>
-                        <div className="h-6 w-[1px] bg-[var(--border)]"></div>
-                        <div>
-                          <p className="text-[9px] uppercase tracking-wider text-[var(--muted-foreground)]">HubSpot Sync</p>
-                          <p className="font-bold text-zinc-300">Hub #982104</p>
-                        </div>
-                        <div className="h-6 w-[1px] bg-[var(--border)]"></div>
-                        <div>
-                          <p className="text-[9px] uppercase tracking-wider text-[var(--muted-foreground)]">Crawlers Activos</p>
-                          <p className="font-bold text-[var(--primary)]">3 Agentes</p>
-                        </div>
-                      </div>
-
-                      <button 
-                        onClick={() => setIsTerminalOpen(true)}
-                        className="px-3.5 py-2 rounded-xl bg-[var(--card)] hover:bg-[var(--muted)] border border-[var(--border)] text-xs font-semibold text-[var(--foreground)] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
-                      >
-                        <CommandLineIcon className="w-4 h-4 text-emerald-400" />
-                        <span>Ver Traza</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-end">
+                {/* Header Minimalista y Limpio */}
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[var(--border)]">
                   <div>
-                    <h3 className="text-lg font-bold">Métricas Clave de Rendimiento</h3>
-                    <p className="text-[var(--muted-foreground)] text-xs">Visibilidad orgánica, distribución en el Top 3 y tracción en motores generativos (AEO).</p>
-                  </div>
-                  <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
-                    Exportar Reporte
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="glass-card p-6 border-t-2 border-t-[var(--primary)]">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Visibilidad Global</p>
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-3xl font-bold">84.2%</span>
-                      <span className="text-xs font-mono font-bold text-[var(--primary)] bg-[var(--primary)]/10 border border-[var(--primary)]/20 px-2 py-0.5 rounded flex items-center">
-                        <ArrowTrendingUpIcon className="w-3 h-3 mr-1" /> +12.4%
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
+                      <span className="text-[11px] font-mono tracking-widest uppercase text-[var(--muted-foreground)] font-bold">
+                        Workspace // {currentWorkspace}
                       </span>
                     </div>
-                  </div>
-
-                  <div className="glass-card p-6 border-t-2 border-t-amber-500/80">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Keywords en Top 3</p>
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-3xl font-bold">342</span>
-                      <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded flex items-center">
-                        <ArrowTrendingUpIcon className="w-3 h-3 mr-1" /> +8
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="glass-card p-6 border-t-2 border-t-[var(--primary)]">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2 flex items-center justify-between">
-                      <span>Semáforo de Citabilidad &amp; AEO</span>
-                      <span className="flex items-center gap-1 font-mono text-[10px] text-[var(--primary)]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shadow-[0_0_6px_rgba(255,90,0,0.8)]"></span> Calibrado
-                      </span>
+                    <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[var(--foreground)]">
+                      Rendimiento &amp; <span className="font-semibold text-[var(--foreground)]">Posicionamiento</span>
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                      Métricas consolidadas de tracción orgánica, visibilidad en respuestas y atribución a Deals.
                     </p>
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-3xl font-bold">91/100</span>
-                      <span className="text-xs font-mono font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded">
-                        Grado A+ (Top 1)
-                      </span>
+                  </div>
+
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-[11px] font-mono text-[var(--muted-foreground)] px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)]/60">
+                      Sync: <strong className="text-[var(--foreground)]">Hace 4m</strong>
+                    </span>
+                    <button className="bg-[var(--foreground)] text-[var(--background)] px-4 py-1.5 rounded-lg text-xs font-semibold hover:opacity-90 transition-opacity cursor-pointer shadow-sm">
+                      Exportar
+                    </button>
+                  </div>
+                </div>
+
+                {/* Grid de Métricas Minimalistas con Glass Sutil */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="glass-card p-5 space-y-2">
+                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+                      <span className="font-medium">Tráfico Mensual</span>
+                      <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">+18.4%</span>
+                    </div>
+                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
+                      42,850
+                    </p>
+                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
+                      <span>Impresiones</span>
+                      <span className="font-mono text-[var(--foreground)]">384k</span>
+                    </div>
+                  </div>
+
+                  <div className="glass-card p-5 space-y-2">
+                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+                      <span className="font-medium">Keywords Top 3</span>
+                      <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">+14</span>
+                    </div>
+                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
+                      342
+                    </p>
+                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
+                      <span>Top 10 total</span>
+                      <span className="font-mono text-[var(--foreground)]">1,120</span>
+                    </div>
+                  </div>
+
+                  <div className="glass-card p-5 space-y-2">
+                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+                      <span className="font-medium">Citación Sintética (AEO)</span>
+                      <span className="font-mono text-[10px] text-[var(--primary)] bg-[var(--primary)]/10 px-1.5 py-0.5 rounded font-bold">Líder</span>
+                    </div>
+                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
+                      64.2%
+                    </p>
+                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
+                      <span>Perplexity &amp; SearchGPT</span>
+                      <span className="font-mono text-[var(--foreground)]">Top 1</span>
+                    </div>
+                  </div>
+
+                  <div className="glass-card p-5 space-y-2">
+                    <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+                      <span className="font-medium">Pipeline HubSpot</span>
+                      <span className="font-mono text-[10px] text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded font-bold">Atribuido</span>
+                    </div>
+                    <p className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] font-mono">
+                      $148.2k
+                    </p>
+                    <div className="pt-2 border-t border-[var(--border)] flex justify-between text-[11px] text-[var(--muted-foreground)]">
+                      <span>Deals de Orgánico</span>
+                      <span className="font-mono text-[var(--foreground)]">12 cerrados</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Main Activity Chart Mockup */}
-                <div className="glass-card p-6">
-                  <h3 className="font-semibold text-lg mb-4">Evolución de Tráfico Orgánico vs Competencia</h3>
-                  <div className="h-64 flex items-end space-x-2 pt-8">
+                {/* Main Activity Chart - Minimalist & Sleek */}
+                <div className="glass-card p-6 space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="font-medium text-base text-[var(--foreground)]">Evolución de Tráfico Orgánico vs Competencia</h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">Crecimiento constante tras indexación de los clusters semánticos.</p>
+                    </div>
+                    <div className="flex items-center gap-1 bg-[var(--background)]/80 p-1 rounded-lg border border-[var(--border)] text-xs font-mono">
+                      <button className="px-2.5 py-1 rounded bg-[var(--card)] text-[var(--foreground)] font-bold shadow-sm">30D</button>
+                      <button className="px-2.5 py-1 rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)]">90D</button>
+                      <button className="px-2.5 py-1 rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)]">1Y</button>
+                    </div>
+                  </div>
+
+                  <div className="h-60 flex items-end space-x-3 pt-6 px-2">
                     {[45, 52, 49, 60, 72, 68, 85, 94, 88, 102, 115, 128].map((h, i) => (
-                      <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
+                      <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer">
                         <div 
-                          className="w-full bg-[var(--muted)] group-hover:bg-[var(--primary)] rounded-t transition-all relative"
-                          style={{ height: `${h * 1.6}px` }}
+                          className="w-full bg-[var(--muted)]/60 group-hover:bg-gradient-to-t group-hover:from-[var(--primary)] group-hover:to-amber-400 rounded-md transition-all relative"
+                          style={{ height: `${h * 1.5}px` }}
                         >
-                          <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] text-[10px] py-1 px-1.5 rounded shadow whitespace-nowrap transition-opacity">
+                          <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] font-mono text-[10px] py-1 px-2 rounded-md shadow-xl whitespace-nowrap transition-opacity pointer-events-none">
                             {h * 120} visitas
                           </div>
                         </div>
-                        <span className="text-[10px] text-[var(--muted-foreground)]">M{i+1}</span>
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">
+                          M{i+1}
+                        </span>
                       </div>
                     ))}
                   </div>
