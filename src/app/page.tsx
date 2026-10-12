@@ -689,6 +689,54 @@ export default function DashboardMockup() {
   const [dryRunLogs, setDryRunLogs] = useState<string[]>([]);
   const [isDryRunModalOpen, setIsDryRunModalOpen] = useState(false);
 
+  // Estados para Edición Interactiva de Motores y Telemetría de Servidor Buildations
+  const [isEngineModalOpen, setIsEngineModalOpen] = useState(false);
+  const [engineModalMode, setEngineModalMode] = useState<'create' | 'edit'>('create');
+  const [editingEngineData, setEditingEngineData] = useState({
+    id: '',
+    name: '',
+    targetDomain: '',
+    purpose: '',
+    type: 'AEO / Citabilidad B2B',
+    llmCore: 'Claude 3.5 Sonnet' as 'Claude 3.5 Sonnet' | 'GPT-4o Enterprise' | 'DeepSeek-V3' | 'Llama 3.3 70B',
+    vectorStore: 'Supabase pgvector' as 'Pinecone Vector DB' | 'Qdrant Distributed' | 'Supabase pgvector',
+    status: 'active' as 'active' | 'paused' | 'standby',
+    health: 99.4,
+    publishedWeekly: 6,
+    tokensSpent: '142.8k',
+    latency: '1.42s',
+    powerRate: 98,
+    lastRun: 'Justo ahora',
+    frequency: '3_per_week' as 'daily' | '3_per_week' | 'weekly' | 'hourly_breaking',
+    cmsDestination: 'WordPress REST API',
+    assertivenessThreshold: 94,
+    monthlyBudgetUsd: 85
+  });
+
+  // Estado de vista en Constructor de Motores: 'fleet' (Flota de Motores) vs 'clientServerSetup' (Configurador Servidor Buildations)
+  const [clusterViewMode, setClusterViewMode] = useState<'fleet' | 'clientServerSetup'>('fleet');
+
+  // Estado de configuración de Servidor Buildations para clientes
+  const [clientServerConfig, setClientServerConfig] = useState({
+    clientName: 'Acme SaaS Latam',
+    canonicalDomain: 'https://acme-latam.com',
+    sitemapUrl: 'https://acme-latam.com/sitemap.xml',
+    primaryLanguage: 'es-MX (Español Neutro)',
+    targetNiche: 'B2B Software & FinOps',
+    cmsType: 'WordPress' as 'WordPress' | 'Payload CMS' | 'Webflow' | 'Ghost' | 'Shopify',
+    cmsWebhookUrl: 'https://acme-latam.com/wp-json/buildations/v1/ingest',
+    cmsApiKey: 'app_pwd_98fa7sdf87a6sd98f7',
+    hubspotPortalId: '849201',
+    hubspotToken: 'pat-na1-987asdf897asdf',
+    dealsPipelineId: 'pipeline_enterprise_sales',
+    minQualityScore: 92,
+    minAssertivenessScore: 95,
+    monthlyTokenQuota: 2500000,
+    serverSyncStatus: 'synced' as 'synced' | 'syncing' | 'pending' | 'error',
+    lastSyncedAt: 'Hoy, 13:42'
+  });
+  const [isSyncingServer, setIsSyncingServer] = useState(false);
+
   // Estados para Documentación, Manual de Uso y Homologación
   const [docCategory, setDocCategory] = useState<'quickstart' | 'architecture' | 'engines' | 'connectors' | 'faqs' | 'troubleshooting'>('quickstart');
   const [docSearchQuery, setDocSearchQuery] = useState('');
@@ -2065,129 +2113,493 @@ export default function DashboardMockup() {
                         </span>
                       </div>
                       <h3 className="text-base font-bold text-[var(--foreground)] mt-0.5">
-                        Flota de Motores Autónomos Multidominio & Rendimiento
+                        Flota de Motores Autónomos &amp; Telemetría Multidominio
                       </h3>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono text-[var(--muted-foreground)]">
-                        Modo Arquitectura: <strong className="text-[var(--foreground)]">64-bit Vector Core</strong>
-                      </span>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      {/* Conmutador de Vista */}
+                      <div className="flex items-center bg-[var(--background)] p-1 rounded-xl border border-[var(--border)] text-xs">
+                        <button
+                          onClick={() => setClusterViewMode('fleet')}
+                          className={`px-3 py-1.5 rounded-lg font-mono text-[11px] font-bold transition-all cursor-pointer ${
+                            clusterViewMode === 'fleet' 
+                              ? 'bg-[var(--primary)] text-white shadow-xs' 
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          ⚡ Flota &amp; Telemetría
+                        </button>
+                        <button
+                          onClick={() => setClusterViewMode('clientServerSetup')}
+                          className={`px-3 py-1.5 rounded-lg font-mono text-[11px] font-bold transition-all cursor-pointer ${
+                            clusterViewMode === 'clientServerSetup' 
+                              ? 'bg-[var(--primary)] text-white shadow-xs' 
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          🏢 Servidor Buildations (Cliente Daemon)
+                        </button>
+                      </div>
+
                       <button 
                         onClick={() => {
-                          const newName = `Motor #${activeEngines.length + 1} - ${prompt('Nombre del nuevo motor:', 'Motor Landing Pages E-Commerce') || 'Motor Personalizado'}`;
-                          const newEngine = {
+                          setEditingEngineData({
                             id: `eng-0${activeEngines.length + 1}`,
-                            name: newName,
-                            targetDomain: 'https://nuevo-sitio.com',
-                            purpose: 'Generación y optimización de contenido autónomo',
-                            type: 'Personalizado',
-                            llmCore: 'Claude 3.5 Sonnet' as const,
-                            vectorStore: 'Supabase pgvector' as const,
-                            status: 'active' as const,
-                            health: 99.0,
+                            name: `Motor #${activeEngines.length + 1} - Nuevo Cliente`,
+                            targetDomain: 'https://nuevo-cliente.com',
+                            purpose: 'Posicionamiento y generación de demanda con IA soberana',
+                            type: 'AEO / Citabilidad B2B',
+                            llmCore: 'Claude 3.5 Sonnet',
+                            vectorStore: 'Supabase pgvector',
+                            status: 'active',
+                            health: 99.2,
                             publishedWeekly: 4,
                             tokensSpent: '0k',
-                            latency: '1.50s',
-                            powerRate: 95,
+                            latency: '1.35s',
+                            powerRate: 96,
                             lastRun: 'Nuevo',
-                            frequency: '3_per_week'
-                          };
-                          setActiveEngines(prev => [newEngine, ...prev]);
-                          setSelectedEngineId(newEngine.id);
-                          setEngineConfig(prev => ({ ...prev, name: newName, targetDomain: 'https://nuevo-sitio.com' }));
-                          showToast('Nuevo Motor Creado', `Se ha inicializado "${newName}" en el clúster.`, 'success');
+                            frequency: '3_per_week',
+                            cmsDestination: 'WordPress REST API',
+                            assertivenessThreshold: 94,
+                            monthlyBudgetUsd: 85
+                          });
+                          setEngineModalMode('create');
+                          setIsEngineModalOpen(true);
                         }}
-                        className="bg-[var(--primary)] text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+                        className="bg-[var(--primary)] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer flex items-center gap-1.5 shadow-xs"
                       >
-                        <span>+</span> Crear Otro Motor
+                        <PlusIcon className="w-3.5 h-3.5" />
+                        <span>Configurar Nuevo Motor</span>
                       </button>
                     </div>
                   </div>
 
-                  {/* Tarjetas de Motores Activos */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 relative z-10">
-                    {activeEngines.map((eng) => {
-                      const isSelected = selectedEngineId === eng.id;
-                      return (
-                        <div 
-                          key={eng.id}
-                          onClick={() => {
-                            setSelectedEngineId(eng.id);
-                            setEngineConfig(prev => ({
-                              ...prev,
-                              name: eng.name,
-                              targetDomain: eng.targetDomain,
-                              llmCore: eng.llmCore as any,
-                              vectorStore: eng.vectorStore as any,
-                              frequency: eng.frequency as any
-                            }));
-                            showToast('Motor Seleccionado', `Ahora calibrando "${eng.name}" (${eng.targetDomain}).`, 'info');
-                          }}
-                          className={`p-4 rounded-xl border transition-all cursor-pointer relative overflow-hidden group ${
-                            isSelected 
-                              ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.22)]' 
-                              : 'bg-black/30 border-[var(--border)] hover:border-[var(--border)]/90 hover:bg-[var(--card)]/50'
-                          }`}
-                        >
-                          {/* Laser sweep on active */}
-                          {isSelected && (
-                            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent"></div>
-                          )}
+                  {clusterViewMode === 'fleet' ? (
+                    /* Tarjetas de Motores Activos con Interacción Completa */
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 relative z-10">
+                      {activeEngines.map((eng) => {
+                        const isSelected = selectedEngineId === eng.id;
+                        return (
+                          <div 
+                            key={eng.id}
+                            className={`p-4 rounded-xl border transition-all relative overflow-hidden flex flex-col justify-between group ${
+                              isSelected 
+                                ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.22)]' 
+                                : 'bg-black/30 border-[var(--border)] hover:border-zinc-700 hover:bg-[var(--card)]/50'
+                            }`}
+                          >
+                            {/* Laser sweep on active */}
+                            {isSelected && (
+                              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent"></div>
+                            )}
 
-                          <div className="flex items-start justify-between gap-2 mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className={`w-2 h-2 rounded-full ${
-                                eng.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)] animate-pulse' : 'bg-amber-400'
-                              }`} />
-                              <span className="text-[10px] font-mono uppercase font-bold text-[var(--muted-foreground)]">
-                                {eng.id} // {eng.type}
-                              </span>
+                            <div>
+                              <div className="flex items-start justify-between gap-2 mb-2">
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-2 h-2 rounded-full ${
+                                    eng.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)] animate-pulse' : 'bg-amber-400'
+                                  }`} />
+                                  <span className="text-[10px] font-mono uppercase font-bold text-[var(--muted-foreground)]">
+                                    {eng.id} // {eng.type}
+                                  </span>
+                                </div>
+                                <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold ${
+                                  eng.status === 'active' 
+                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' 
+                                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                                }`}>
+                                  {eng.status === 'active' ? 'EN LÍNEA' : 'PAUSADO'}
+                                </span>
+                              </div>
+
+                              <h4 className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors leading-tight mb-1">
+                                {eng.name}
+                              </h4>
+                              
+                              <p className="text-[10px] font-mono text-[var(--primary)] truncate mb-2">
+                                {eng.targetDomain}
+                              </p>
+                              
+                              <p className="text-[11px] text-[var(--muted-foreground)] line-clamp-2 leading-relaxed mb-3">
+                                {eng.purpose}
+                              </p>
+
+                              {/* Medidores 64-bit y Rendimiento */}
+                              <div className="grid grid-cols-3 gap-2 pt-2.5 border-t border-[var(--border)]/60 text-center">
+                                <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
+                                  <span className="text-[9px] font-mono text-zinc-400 block">Salud Core</span>
+                                  <span className="text-xs font-mono font-bold text-emerald-400">{eng.health}%</span>
+                                </div>
+                                <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
+                                  <span className="text-[9px] font-mono text-zinc-400 block">Posts / Sem</span>
+                                  <span className="text-xs font-mono font-bold text-white">{eng.publishedWeekly}</span>
+                                </div>
+                                <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
+                                  <span className="text-[9px] font-mono text-zinc-400 block">Latencia</span>
+                                  <span className="text-xs font-mono font-bold text-cyan-400">{eng.latency}</span>
+                                </div>
+                              </div>
+
+                              <div className="mt-2.5 flex items-center justify-between text-[10px] font-mono text-zinc-400 pb-3 border-b border-[var(--border)]/50">
+                                <span className="flex items-center gap-1">
+                                  Potencia: <strong className="text-amber-400">{eng.powerRate}%</strong>
+                                </span>
+                                <span>LLM: {eng.llmCore.split(' ')[0]}</span>
+                              </div>
                             </div>
-                            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)] font-bold">
-                              {eng.status === 'active' ? 'EN LÍNEA' : 'STANDBY'}
-                            </span>
+
+                            {/* Barra de Acciones Directas del Motor */}
+                            <div className="mt-3 pt-1 flex items-center justify-between gap-1.5">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingEngineData({
+                                    id: eng.id,
+                                    name: eng.name,
+                                    targetDomain: eng.targetDomain,
+                                    purpose: eng.purpose,
+                                    type: eng.type,
+                                    llmCore: eng.llmCore as any,
+                                    vectorStore: eng.vectorStore as any,
+                                    status: eng.status,
+                                    health: eng.health,
+                                    publishedWeekly: eng.publishedWeekly,
+                                    tokensSpent: eng.tokensSpent,
+                                    latency: eng.latency,
+                                    powerRate: eng.powerRate,
+                                    lastRun: eng.lastRun,
+                                    frequency: eng.frequency as any,
+                                    cmsDestination: 'WordPress REST API',
+                                    assertivenessThreshold: 95,
+                                    monthlyBudgetUsd: 85
+                                  });
+                                  setEngineModalMode('edit');
+                                  setIsEngineModalOpen(true);
+                                }}
+                                className="flex-1 py-1 px-2 rounded-lg bg-[var(--muted)] hover:bg-[var(--primary)] hover:text-white text-[10px] font-mono font-bold text-zinc-300 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                                title="Calibrar y editar parámetros de este motor"
+                              >
+                                <AdjustmentsHorizontalIcon className="w-3 h-3" />
+                                <span>Calibrar</span>
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveEngines(prev => prev.map(item => {
+                                    if (item.id === eng.id) {
+                                      const nextStatus = item.status === 'active' ? 'paused' : 'active';
+                                      showToast(
+                                        nextStatus === 'active' ? 'Motor Reanudado' : 'Motor Pausado',
+                                        `El motor "${item.name}" ahora está en estado ${nextStatus.toUpperCase()}.`,
+                                        nextStatus === 'active' ? 'success' : 'warning'
+                                      );
+                                      return { ...item, status: nextStatus };
+                                    }
+                                    return item;
+                                  }));
+                                }}
+                                className={`py-1 px-2.5 rounded-lg text-[10px] font-mono font-bold transition-colors flex items-center gap-1 cursor-pointer border ${
+                                  eng.status === 'active' 
+                                    ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/30' 
+                                    : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                                }`}
+                                title={eng.status === 'active' ? 'Pausar ejecución programada' : 'Reanudar ejecución'}
+                              >
+                                {eng.status === 'active' ? (
+                                  <>
+                                    <PauseIcon className="w-3 h-3" />
+                                    <span>Pausar</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <PlayIcon className="w-3 h-3" />
+                                    <span>Reanudar</span>
+                                  </>
+                                )}
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  showToast(
+                                    'Benchmark de Inferencia Ejecutado',
+                                    `Motor: ${eng.name} | LLM: ${eng.llmCore} | 64.2 tok/s · 410ms · $0.021 USD · Asertividad 98.4%`,
+                                    'success'
+                                  );
+                                }}
+                                className="p-1 rounded-lg bg-[var(--muted)] hover:bg-cyan-500/20 hover:text-cyan-400 text-zinc-400 transition-colors cursor-pointer border border-[var(--border)]"
+                                title="Ejecutar prueba de inferencia en seco y medir telemetría"
+                              >
+                                <BoltIcon className="w-3.5 h-3.5" />
+                              </button>
+
+                              {activeEngines.length > 1 && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (confirm(`¿Eliminar el motor "${eng.name}" del clúster?`)) {
+                                      setActiveEngines(prev => prev.filter(item => item.id !== eng.id));
+                                      showToast('Motor Eliminado', `Se retiró "${eng.name}" del clúster.`, 'info');
+                                    }
+                                  }}
+                                  className="p-1 rounded-lg bg-[var(--muted)] hover:bg-rose-500/20 hover:text-rose-400 text-zinc-400 transition-colors cursor-pointer border border-[var(--border)]"
+                                  title="Eliminar motor"
+                                >
+                                  <TrashIcon className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                            </div>
                           </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    /* Configurador Integral de Servidor Buildations para Clientes */
+                    <div className="space-y-6 relative z-10 animate-fade-in">
+                      <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono text-[var(--primary)] uppercase font-bold tracking-wider">
+                            BUILDATIONS SERVER PROTOCOL // CLIENT DAEMON CONFIGURATION
+                          </span>
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                            ESTADO: {clientServerConfig.serverSyncStatus.toUpperCase()} ({clientServerConfig.lastSyncedAt})
+                          </span>
+                        </div>
+                        <p className="text-xs text-zinc-400 leading-relaxed">
+                          Todo lo que tu servidor de Buildations (Falkenstein / Hetzner Bare-Metal) necesita para aprovisionar un cliente desde cero: canibalizaciones, handshake de CMS, sincronización de pipelines RevOps y cuota de inferencia soberana.
+                        </p>
+                      </div>
 
-                          <h4 className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors leading-tight mb-1">
-                            {eng.name}
-                          </h4>
-                          
-                          <p className="text-[10px] font-mono text-[var(--primary)] truncate mb-2">
-                            {eng.targetDomain}
-                          </p>
-                          
-                          <p className="text-[11px] text-[var(--muted-foreground)] line-clamp-2 leading-relaxed mb-3">
-                            {eng.purpose}
-                          </p>
-
-                          {/* Medidores 64-bit y Rendimiento */}
-                          <div className="grid grid-cols-3 gap-2 pt-2.5 border-t border-[var(--border)]/60 text-center">
-                            <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
-                              <span className="text-[9px] font-mono text-slate-400 block">Salud Core</span>
-                              <span className="text-xs font-mono font-bold text-emerald-400">{eng.health}%</span>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Bloque 1: Identidad & Dominio */}
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3">
+                          <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider block">
+                            01. Identidad &amp; Dominio Canónico
+                          </span>
+                          <div className="space-y-2 text-xs">
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">Nombre Comercial del Cliente</label>
+                              <input 
+                                type="text"
+                                value={clientServerConfig.clientName}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, clientName: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)]"
+                              />
                             </div>
-                            <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
-                              <span className="text-[9px] font-mono text-slate-400 block">Posts / Sem</span>
-                              <span className="text-xs font-mono font-bold text-white">{eng.publishedWeekly}</span>
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">Dominio Canónico Principal</label>
+                              <input 
+                                type="text"
+                                value={clientServerConfig.canonicalDomain}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, canonicalDomain: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)] font-mono"
+                              />
                             </div>
-                            <div className="bg-black/40 p-1.5 rounded-lg border border-white/5">
-                              <span className="text-[9px] font-mono text-slate-400 block">Latencia</span>
-                              <span className="text-xs font-mono font-bold text-cyan-400">{eng.latency}</span>
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">URL Oficial de Sitemap XML</label>
+                              <input 
+                                type="text"
+                                value={clientServerConfig.sitemapUrl}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, sitemapUrl: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)] font-mono"
+                              />
                             </div>
-                          </div>
-
-                          <div className="mt-2.5 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                            <span className="flex items-center gap-1">
-                              Potencia: <strong className="text-amber-400">{eng.powerRate}%</strong>
-                            </span>
-                            <span>Último: {eng.lastRun}</span>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+
+                        {/* Bloque 2: Infraestructura CMS de Salida */}
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3">
+                          <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider block">
+                            02. Handshake CMS &amp; Webhook de Despacho
+                          </span>
+                          <div className="space-y-2 text-xs">
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">CMS Destino del Cliente</label>
+                              <select
+                                value={clientServerConfig.cmsType}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, cmsType: e.target.value as any })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)]"
+                              >
+                                <option value="WordPress">WordPress (REST API + Application Password)</option>
+                                <option value="Payload CMS">Payload CMS (REST Endpoints + Auth Token)</option>
+                                <option value="Webflow">Webflow (Collections V2 API)</option>
+                                <option value="Ghost">Ghost (Admin Content API)</option>
+                                <option value="Shopify">Shopify (Blog Articles API)</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">Endpoint de Ingesta / Webhook</label>
+                              <input 
+                                type="text"
+                                value={clientServerConfig.cmsWebhookUrl}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, cmsWebhookUrl: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)] font-mono"
+                              />
+                            </div>
+                            <div className="flex items-center justify-between pt-1">
+                              <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Handshake HTTP 200 OK
+                              </span>
+                              <button 
+                                onClick={() => showToast('Ping CMS Exitoso', 'El servidor respondió con código 200 en 38ms.', 'success')}
+                                className="text-[10px] font-mono px-2 py-1 rounded bg-[var(--muted)] hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer"
+                              >
+                                Test Conexión ↗
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Bloque 3: HubSpot RevOps & CRM */}
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3">
+                          <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider block">
+                            03. CRM RevOps &amp; Atribución de Deals
+                          </span>
+                          <div className="space-y-2 text-xs">
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">HubSpot Portal ID</label>
+                              <input 
+                                type="text"
+                                value={clientServerConfig.hubspotPortalId}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, hubspotPortalId: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)] font-mono"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">Private App Access Token (Bearer)</label>
+                              <input 
+                                type="password"
+                                value={clientServerConfig.hubspotToken}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, hubspotToken: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)] font-mono"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">Pipeline de Deals Asociado</label>
+                              <input 
+                                type="text"
+                                value={clientServerConfig.dealsPipelineId}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, dealsPipelineId: e.target.value })}
+                                className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg p-2 text-xs text-[var(--foreground)] font-mono"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Bloque 4: Políticas de Calidad & Asertividad */}
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3">
+                          <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider block">
+                            04. Políticas de Calidad &amp; Umbral de Asertividad
+                          </span>
+                          <div className="space-y-3 text-xs">
+                            <div>
+                              <div className="flex justify-between items-center mb-1">
+                                <label className="text-[11px] text-zinc-400">Umbral Mínimo de Asertividad Fáctica</label>
+                                <span className="font-mono text-emerald-400 font-bold">{clientServerConfig.minAssertivenessScore}%</span>
+                              </div>
+                              <input 
+                                type="range"
+                                min="85"
+                                max="99"
+                                value={clientServerConfig.minAssertivenessScore}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, minAssertivenessScore: parseInt(e.target.value) })}
+                                className="w-full accent-emerald-500 cursor-pointer"
+                              />
+                            </div>
+                            <div>
+                              <div className="flex justify-between items-center mb-1">
+                                <label className="text-[11px] text-zinc-400">Quality Score Mínimo para Despacho Directo</label>
+                                <span className="font-mono text-[var(--primary)] font-bold">{clientServerConfig.minQualityScore}/100</span>
+                              </div>
+                              <input 
+                                type="range"
+                                min="80"
+                                max="98"
+                                value={clientServerConfig.minQualityScore}
+                                onChange={(e) => setClientServerConfig({ ...clientServerConfig, minQualityScore: parseInt(e.target.value) })}
+                                className="w-full accent-[var(--primary)] cursor-pointer"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] text-zinc-400 block mb-1">Cuota Mensual de Tokens Asignada</label>
+                              <span className="text-xs font-mono font-bold text-white block">
+                                {(clientServerConfig.monthlyTokenQuota / 1000000).toFixed(1)}M Tokens (~50 Artículos AEO)
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Botón de Sincronización en Caliente con Servidor Buildations */}
+                      <div className="p-4 rounded-xl bg-gradient-to-r from-[var(--card)] to-zinc-900 border border-[var(--primary)]/40 flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                          <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Despliegue y Sincronización con Kernel Servidor Buildations
+                          </h4>
+                          <p className="text-xs text-zinc-400 mt-0.5">
+                            Genera el daemon del cliente y actualiza el orquestador cron en el servidor en tiempo real.
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              const spec = JSON.stringify(clientServerConfig, null, 2);
+                              const blob = new Blob([spec], { type: 'application/json' });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = `buildations-daemon-${clientServerConfig.clientName.toLowerCase().replace(/[^a-z0-9]/g, '-')}.json`;
+                              a.click();
+                              URL.revokeObjectURL(url);
+                              showToast('Configuración Exportada', 'Archivo JSON de daemon listo para importación en servidor.', 'info');
+                            }}
+                            className="px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] hover:bg-[var(--muted)] text-zinc-300 transition-colors cursor-pointer"
+                          >
+                            Descargar daemon.json
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setIsSyncingServer(true);
+                              setTimeout(() => {
+                                setIsSyncingServer(false);
+                                setClientServerConfig(prev => ({
+                                  ...prev,
+                                  serverSyncStatus: 'synced',
+                                  lastSyncedAt: 'Hace un instante'
+                                }));
+                                showToast(
+                                  'Servidor Sincronizado',
+                                  `Configuración de ${clientServerConfig.clientName} desplegada con éxito al Daemon de Buildations.`,
+                                  'success'
+                                );
+                              }, 1400);
+                            }}
+                            disabled={isSyncingServer}
+                            className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-md flex items-center gap-2"
+                          >
+                            {isSyncingServer ? (
+                              <>
+                                <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                                <span>Sincronizando con Servidor...</span>
+                              </>
+                            ) : (
+                              <>
+                                <CheckCircleIcon className="w-4 h-4" />
+                                <span>Desplegar a Servidor Buildations ✓</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
+
                 <div className="glass-card p-3 rounded-2xl border border-[var(--border)]">
                   <div className="grid grid-cols-5 gap-2">
                     {[
@@ -8155,36 +8567,120 @@ export default function DashboardMockup() {
                   </div>
                 </div>
 
-                {/* Scorecard */}
-                <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[var(--foreground)]">Probabilidad de Citación</span>
-                    <span className="text-2xl font-black text-emerald-500">96%</span>
+                {/* Scorecard de Calidad de Entregable & Telemetría Profunda */}
+                <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+                    <div>
+                      <span className="text-[10px] font-mono text-zinc-400 uppercase font-bold tracking-wider block">
+                        CALIFICACIÓN DE ENTREGABLE
+                      </span>
+                      <h5 className="text-sm font-bold text-white flex items-center gap-1.5 mt-0.5">
+                        <span>Quality Score AEO</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">A+ LISTO</span>
+                      </h5>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-2xl font-black text-emerald-400 font-mono">96.8</span>
+                      <span className="text-[10px] text-zinc-500 font-mono block">/ 100 pts</span>
+                    </div>
                   </div>
-                  
-                  <div className="space-y-2 text-xs">
+
+                  {/* Telemetría Clave: Asertividad & Cobertura de Palabras Clave */}
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1">
+                      <span className="text-[10px] font-mono text-zinc-400 block">Asertividad Fáctica</span>
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-sm font-mono font-bold text-emerald-400">98.4%</span>
+                        <span className="text-[9px] text-zinc-500 font-mono">4 fuentes</span>
+                      </div>
+                      <div className="w-full bg-zinc-800 h-1 rounded-full overflow-hidden">
+                        <div className="bg-emerald-400 h-full w-[98.4%]"></div>
+                      </div>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1">
+                      <span className="text-[10px] font-mono text-zinc-400 block">Volumen Keywords</span>
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-sm font-mono font-bold text-cyan-400">42.8k</span>
+                        <span className="text-[9px] text-zinc-500 font-mono">búsquedas/mes</span>
+                      </div>
+                      <div className="w-full bg-zinc-800 h-1 rounded-full overflow-hidden">
+                        <div className="bg-cyan-400 h-full w-[91%]"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Desglose de Keywords Cubiertas */}
+                  <div className="space-y-1.5 text-xs">
+                    <span className="text-[10px] font-mono text-zinc-400 uppercase font-bold tracking-wider block">
+                      Cluster de Keywords Inyectado (5 Términos)
+                    </span>
+                    <div className="space-y-1 text-[11px] font-mono">
+                      <div className="flex justify-between items-center px-2 py-1 rounded bg-[var(--background)] border border-[var(--border)]">
+                        <span className="text-zinc-300">revops hubspot</span>
+                        <span className="text-cyan-400 font-bold">18,200 vol/mo</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-1 rounded bg-[var(--background)] border border-[var(--border)]">
+                        <span className="text-zinc-300">alinear marketing y ventas</span>
+                        <span className="text-cyan-400 font-bold">12,400 vol/mo</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-1 rounded bg-[var(--background)] border border-[var(--border)]">
+                        <span className="text-zinc-300">sla lead scoring</span>
+                        <span className="text-cyan-400 font-bold">6,800 vol/mo</span>
+                      </div>
+                      <div className="flex justify-between items-center px-2 py-1 rounded bg-[var(--background)] border border-[var(--border)]">
+                        <span className="text-zinc-300">mql vs sql pipeline</span>
+                        <span className="text-cyan-400 font-bold">5,400 vol/mo</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Telemetría de Modelos e Inferencia */}
+                  <div className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 space-y-2 text-xs">
+                    <span className="text-[10px] font-mono text-[var(--primary)] uppercase font-bold tracking-wider flex items-center justify-between">
+                      <span>Rendimiento de Modelos LLM</span>
+                      <span className="text-emerald-400">● 0 Alucinaciones</span>
+                    </span>
+                    <div className="space-y-1.5 text-[11px] font-mono">
+                      <div className="flex justify-between items-center text-zinc-300">
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Claude 3.5 (Core)
+                        </span>
+                        <span className="text-zinc-400">64.2 tok/s · 1.4s · $0.038 USD</span>
+                      </div>
+                      <div className="flex justify-between items-center text-zinc-300">
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> GPT-4o (Fact-Check)
+                        </span>
+                        <span className="text-zinc-400">100% verificado · $0.012 USD</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Indicadores EEAT & Estructura */}
+                  <div className="space-y-1.5 text-xs">
                     <div className="flex justify-between items-center text-[11px]">
                       <span className="text-[var(--muted-foreground)]">Respuesta Directa Párrafo 1</span>
-                      <span className="text-emerald-500 font-bold">✓ Óptimo</span>
+                      <span className="text-emerald-500 font-bold">✓ Sintetizada</span>
                     </div>
                     <div className="flex justify-between items-center text-[11px]">
-                      <span className="text-[var(--muted-foreground)]">Densidad de Entidades</span>
-                      <span className="text-emerald-500 font-bold">✓ 94%</span>
+                      <span className="text-[var(--muted-foreground)]">Densidad de Entidades (Graph)</span>
+                      <span className="text-emerald-500 font-bold">✓ 14 Entidades</span>
                     </div>
                     <div className="flex justify-between items-center text-[11px]">
                       <span className="text-[var(--muted-foreground)]">Marcado Schema JSON-LD</span>
-                      <span className="text-emerald-500 font-bold">✓ Article + FAQ</span>
+                      <span className="text-emerald-500 font-bold">✓ Article + FAQ + Org</span>
                     </div>
                     <div className="flex justify-between items-center text-[11px]">
-                      <span className="text-[var(--muted-foreground)]">Enlace Interno a Pilar</span>
-                      <span className="text-emerald-500 font-bold">✓ 1 Enlace Activo</span>
+                      <span className="text-[var(--muted-foreground)]">Fluidez Flesch-Kincaid</span>
+                      <span className="text-emerald-500 font-bold">✓ 68 / 100 (Grado 8vo)</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Meta Fields */}
                 <div className="space-y-3 text-xs border-t border-[var(--border)] pt-4">
-                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Meta Etiquetas SEO</p>
+                  <p className="font-bold uppercase text-[10px] text-[var(--muted-foreground)] tracking-wider">Meta Etiquetas SEO Canónicas</p>
                   <div>
                     <label className="text-[10px] font-bold text-[var(--muted-foreground)] block mb-1">Meta Title</label>
                     <input 
@@ -8196,7 +8692,7 @@ export default function DashboardMockup() {
                   <div>
                     <label className="text-[10px] font-bold text-[var(--muted-foreground)] block mb-1">Meta Description</label>
                     <textarea 
-                      rows={2}
+                      rows={2} 
                       defaultValue="Aprende a integrar marketing y ventas en HubSpot CRM con workflows automatizados y SLAs para reducir el ciclo comercial hasta un 40%."
                       className="w-full bg-[var(--card)] border border-[var(--border)] rounded p-2 text-xs text-[var(--foreground)] leading-relaxed"
                     />
@@ -8512,6 +9008,175 @@ export default function DashboardMockup() {
           </div>
         );
       })()}
+
+      {/* MODAL: CREAR / CALIBRAR MOTOR AUTÓNOMO EN VIVO */}
+      {isEngineModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-4 border-b border-[var(--border)] flex items-center justify-between bg-[var(--background)]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/15 border border-[var(--primary)]/30 flex items-center justify-center text-[var(--primary)]">
+                  <CpuChipIcon className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-[var(--foreground)]">
+                    {engineModalMode === 'create' ? 'Configurar Nuevo Motor Autónomo' : `Calibrar Motor: ${editingEngineData.name}`}
+                  </h3>
+                  <p className="text-[11px] text-zinc-400">
+                    Ajusta la soberanía, pipeline de modelos LLM, base vectorial y destino CMS.
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsEngineModalOpen(false)}
+                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-[var(--muted)] cursor-pointer"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-5 overflow-y-auto space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Nombre del Motor</label>
+                  <input 
+                    type="text" 
+                    value={editingEngineData.name}
+                    onChange={(e) => setEditingEngineData({ ...editingEngineData, name: e.target.value })}
+                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)]"
+                    placeholder="Ej. Motor RevOps SaaS Latam"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Dominio del Cliente</label>
+                  <input 
+                    type="text" 
+                    value={editingEngineData.targetDomain}
+                    onChange={(e) => setEditingEngineData({ ...editingEngineData, targetDomain: e.target.value })}
+                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)] font-mono"
+                    placeholder="https://dominio-cliente.com"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Propósito &amp; Nicho Editorial</label>
+                <input 
+                  type="text" 
+                  value={editingEngineData.purpose}
+                  onChange={(e) => setEditingEngineData({ ...editingEngineData, purpose: e.target.value })}
+                  className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)]"
+                  placeholder="Ej. Generación de demanda B2B y citabilidad en Perplexity / ChatGPT"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Cerebro / Modelo Principal</label>
+                  <select 
+                    value={editingEngineData.llmCore}
+                    onChange={(e) => setEditingEngineData({ ...editingEngineData, llmCore: e.target.value as any })}
+                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)]"
+                  >
+                    <option value="Claude 3.5 Sonnet">Claude 3.5 Sonnet (Máxima Calidad Editorial)</option>
+                    <option value="GPT-4o Enterprise">GPT-4o Enterprise (Multimodal &amp; Auditor)</option>
+                    <option value="DeepSeek-V3">DeepSeek-V3 (Baja Latencia &amp; Costo Ultra-Eficiente)</option>
+                    <option value="Llama 3.3 70B">Llama 3.3 70B (Soberano en Hetzner / Ollama)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Memoria Vectorial RAG</label>
+                  <select 
+                    value={editingEngineData.vectorStore}
+                    onChange={(e) => setEditingEngineData({ ...editingEngineData, vectorStore: e.target.value as any })}
+                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)]"
+                  >
+                    <option value="Supabase pgvector">Supabase pgvector (PostgreSQL Híbrido)</option>
+                    <option value="Pinecone Vector DB">Pinecone Vector DB (Serverless)</option>
+                    <option value="Qdrant Distributed">Qdrant Distributed (HNSW Hardware-Accelerated)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Destino CMS de Despacho</label>
+                  <select 
+                    value={editingEngineData.cmsDestination}
+                    onChange={(e) => setEditingEngineData({ ...editingEngineData, cmsDestination: e.target.value })}
+                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)]"
+                  >
+                    <option value="WordPress REST API">WordPress REST API</option>
+                    <option value="Payload CMS">Payload CMS</option>
+                    <option value="Webflow Collections">Webflow Collections V2</option>
+                    <option value="Ghost">Ghost Admin API</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[11px] font-semibold text-zinc-300 block mb-1">Frecuencia de Publicación</label>
+                  <select 
+                    value={editingEngineData.frequency}
+                    onChange={(e) => setEditingEngineData({ ...editingEngineData, frequency: e.target.value as any })}
+                    className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl p-2.5 text-xs text-[var(--foreground)]"
+                  >
+                    <option value="3_per_week">3x por semana (L-M-V)</option>
+                    <option value="daily">Diario (7 posts / semana)</option>
+                    <option value="weekly">Semanal (1 post pilar profundo)</option>
+                    <option value="hourly_breaking">Horario (Newsjacking en caliente)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-[var(--border)] space-y-3">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-semibold text-zinc-300">Umbral Mínimo de Asertividad Fáctica</span>
+                  <span className="font-mono text-emerald-400 font-bold">{editingEngineData.assertivenessThreshold}%</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="85" 
+                  max="99" 
+                  value={editingEngineData.assertivenessThreshold} 
+                  onChange={(e) => setEditingEngineData({ ...editingEngineData, assertivenessThreshold: parseInt(e.target.value) })} 
+                  className="w-full accent-emerald-500 cursor-pointer"
+                />
+                <p className="text-[10px] text-zinc-400">
+                  Si un entregable no alcanza el {editingEngineData.assertivenessThreshold}% de asertividad verificada, el pipeline detiene el despacho y lo envía al Canvas para aprobación.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-[var(--background)] border-t border-[var(--border)] flex justify-between items-center">
+              <button 
+                onClick={() => setIsEngineModalOpen(false)}
+                className="px-4 py-2 rounded-xl text-xs text-zinc-400 hover:text-white cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={() => {
+                  if (engineModalMode === 'create') {
+                    const newEngine = {
+                      ...editingEngineData,
+                      id: editingEngineData.id || `eng-0${activeEngines.length + 1}`
+                    };
+                    setActiveEngines(prev => [newEngine, ...prev]);
+                    showToast('Motor Creado con Éxito', `"${newEngine.name}" configurado y añadido a la flota.`, 'success');
+                  } else {
+                    setActiveEngines(prev => prev.map(item => item.id === editingEngineData.id ? { ...item, ...editingEngineData } : item));
+                    showToast('Motor Actualizado', `Parámetros de "${editingEngineData.name}" sincronizados en caliente.`, 'success');
+                  }
+                  setIsEngineModalOpen(false);
+                }}
+                className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm flex items-center gap-1.5"
+              >
+                <CheckCircleIcon className="w-4 h-4" />
+                <span>{engineModalMode === 'create' ? 'Crear & Calibrar Motor ✓' : 'Guardar Cambios ✓'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* MODAL 4: DRAWER DE SUBSISTEMAS Y SEMÁFOROS KERNEL */}
       {selectedAgent && (
