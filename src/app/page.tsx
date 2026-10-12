@@ -46,7 +46,9 @@ import {
   ArrowPathIcon,
   TrashIcon,
   BookOpenIcon,
-  QuestionMarkCircleIcon
+  QuestionMarkCircleIcon,
+  CurrencyDollarIcon,
+  AdjustmentsVerticalIcon
 } from '@heroicons/react/24/outline';
 
 // LOGOS OFICIALES EN SVG DE ALTA FIDELIDAD
@@ -225,6 +227,42 @@ export default function DashboardMockup() {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const [isInfrastructureModalOpen, setIsInfrastructureModalOpen] = useState(false);
 
+  // SISTEMA DE PRESETS DE INDUSTRIA & PERSONALIZACIÓN MODULAR
+  const [activeIndustryPreset, setActiveIndustryPreset] = useState<'saas' | 'fintech' | 'ecommerce' | 'health'>('saas');
+  const [toolUniverseModes, setToolUniverseModes] = useState<Record<string, 'live' | 'config' | 'presets'>>({
+    revops: 'live',
+    cms: 'live',
+    aeo: 'live',
+    decay: 'live',
+    clusters: 'live',
+    finops: 'live'
+  });
+
+  // Parámetros Táctiles de Calibración RevOps
+  const [revopsAttributionWeight, setRevopsAttributionWeight] = useState(70); // % Primer toque vs Multi-touch
+  const [revopsMinLeadScore, setRevopsMinLeadScore] = useState(80); // Umbral de compra
+  const [revopsAutoDealThreshold, setRevopsAutoDealThreshold] = useState(4500); // USD
+  const [revopsActiveView, setRevopsActiveView] = useState<'telemetry' | 'calibration' | 'deals'>('telemetry');
+
+  // Parámetros Táctiles de Conectores CMS (Patch Bay)
+  const [cmsPatchConnected, setCmsPatchConnected] = useState(true);
+  const [cmsDispatchMode, setCmsDispatchMode] = useState<'draft-review' | 'canary-10' | 'instant-publish'>('draft-review');
+  const [cmsAutoInjectJsonLd, setCmsAutoInjectJsonLd] = useState(true);
+
+  // Parámetros Táctiles de Content Decay (GSC Radar)
+  const [decayRadarFilter, setDecayRadarFilter] = useState<'all' | 'critical' | 'quickwin'>('all');
+  const [decayRadarSensitivity, setDecayRadarSensitivity] = useState(25);
+  const [decaySelectedUrl, setDecaySelectedUrl] = useState<string | null>('/blog/que-es-el-marketing');
+
+  // Telemetría FinOps & Token Ingestion Meter
+  const [finopsTokenBudget, setFinopsTokenBudget] = useState(50000000); // 50M tokens
+  const [finopsTokensUsed, setFinopsTokensUsed] = useState(18420100);
+  const [finopsKillSwitchActive, setFinopsKillSwitchActive] = useState(false);
+  const [finopsCostAlertUsd, setFinopsCostAlertUsd] = useState(180);
+
+  // Auditoría Ejecutiva
+  const [isAuditExporting, setIsAuditExporting] = useState(false);
+
   // Proyectos Gestionados con Vercel API Integration
   const [vercelProjects, setVercelProjects] = useState([
     {
@@ -373,6 +411,13 @@ export default function DashboardMockup() {
 
   const removeToast = (id: string) => {
     setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  const toast = {
+    success: (msg: string, title: string = 'Operación Exitosa') => showToast(title, msg, 'success'),
+    error: (msg: string, title: string = 'Error del Sistema') => showToast(title, msg, 'error'),
+    info: (msg: string, title: string = 'Telemetría') => showToast(title, msg, 'info'),
+    warning: (msg: string, title: string = 'Advertencia') => showToast(title, msg, 'warning')
   };
 
   // Diálogo Modal Custom para Entrada de Usuario (sustituye prompt del navegador)
@@ -1179,7 +1224,7 @@ LIMIT 5;`);
         </div>
 
         <nav className="flex-1 p-3 space-y-5 overflow-y-auto">
-          {/* BLOQUE 1: CORE */}
+          {/* BLOQUE 1: CORE & AUDITORÍA */}
           <div>
             <div className="px-2.5 flex items-center justify-between mb-1.5">
               <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">01. Estudio</span>
@@ -1200,10 +1245,25 @@ LIMIT 5;`);
                 </div>
                 <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'overview' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘1</kbd>
               </button>
+
+              <button 
+                onClick={() => setActiveTab('executiveAudit')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'executiveAudit' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
+              >
+                <div className="flex items-center">
+                  <PresentationChartLineIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'executiveAudit' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Auditoría Ejecutiva AEO</span>
+                </div>
+                <span className="text-[7px] font-mono font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AUDIT</span>
+              </button>
             </div>
           </div>
 
-          {/* BLOQUE 2: MOTORES AUTÓNOMOS */}
+          {/* BLOQUE 2: MOTORES AUTÓNOMOS & DESPACHO */}
           <div>
             <div className="px-2.5 flex items-center justify-between mb-1.5">
               <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">02. Motores IA</span>
@@ -1244,26 +1304,32 @@ LIMIT 5;`);
 
               <button 
                 onClick={() => setActiveTab('revopsHubspot')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'revopsHubspot' 
                     ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
-                <ArrowPathRoundedSquareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'revopsHubspot' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Motor RevOps &amp; Deals</span>
+                <div className="flex items-center">
+                  <ArrowPathRoundedSquareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'revopsHubspot' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Motor RevOps &amp; Deals</span>
+                </div>
+                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">SLOT-04</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('cmsConnectors')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'cmsConnectors' 
                     ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
-                <ServerStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'cmsConnectors' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Conectores CMS</span>
+                <div className="flex items-center">
+                  <ServerStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'cmsConnectors' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Patch Bay CMS (WP/Payload)</span>
+                </div>
+                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">SLOT-05</span>
               </button>
             </div>
           </div>
@@ -1284,7 +1350,7 @@ LIMIT 5;`);
                 }`}
               >
                 <SparklesIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'aiShareOfVoice' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Radar AEO &amp; Citabilidad</span>
+                <span>Radar AEO &amp; Espectro 64B</span>
               </button>
 
               <button 
@@ -1312,6 +1378,21 @@ LIMIT 5;`);
               </button>
 
               <button 
+                onClick={() => setActiveTab('contentDecay')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'contentDecay' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
+              >
+                <div className="flex items-center">
+                  <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Radar GSC (Decay Sweep)</span>
+                </div>
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+              </button>
+
+              <button 
                 onClick={() => setActiveTab('serpxray')}
                 className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'serpxray' 
@@ -1334,19 +1415,16 @@ LIMIT 5;`);
                 <DocumentTextIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'rag' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>Datasets RAG Vectorial</span>
               </button>
+            </div>
+          </div>
 
-              <button 
-                onClick={() => setActiveTab('contentDecay')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'contentDecay' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Auditoría GSC (Decay)</span>
-              </button>
-
+          {/* BLOQUE 4: INFRAESTRUCTURA, BÓVEDA & FINOPS */}
+          <div>
+            <div className="px-2.5 flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">04. Infra &amp; Bóveda</span>
+              <span className="text-[8px] font-mono text-zinc-500">RIG</span>
+            </div>
+            <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('databaseStudio')}
                 className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
@@ -1356,18 +1434,39 @@ LIMIT 5;`);
                 }`}
               >
                 <CircleStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'databaseStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Editor Bases de Datos &amp; SQL</span>
+                <span>Editor BD &amp; SQL Studio</span>
               </button>
-            </div>
-          </div>
 
-          {/* BLOQUE 4: BÓVEDA & DOCUMENTACIÓN */}
-          <div>
-            <div className="px-2.5 flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">04. Bóveda &amp; Docs</span>
-              <span className="text-[8px] font-mono text-zinc-500">VAULT</span>
-            </div>
-            <div className="space-y-0.5">
+              <button 
+                onClick={() => setActiveTab('finopsStudio')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'finopsStudio' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
+              >
+                <div className="flex items-center">
+                  <CommandLineIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'finopsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>FinOps &amp; Monitor Tokens</span>
+                </div>
+                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">$USD</span>
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('presetsStudio')}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'presetsStudio' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
+              >
+                <div className="flex items-center">
+                  <AdjustmentsHorizontalIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'presetsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Presets &amp; Personalización</span>
+                </div>
+                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">RIG</span>
+              </button>
+
               <button 
                 onClick={() => setActiveTab('settings')}
                 className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
@@ -1584,23 +1683,26 @@ LIMIT 5;`);
             <span className="mx-2 hidden sm:inline">Sección:</span>
             <span className="text-[var(--foreground)] font-semibold capitalize hidden sm:inline">
               {activeTab
+                .replace('executiveAudit', 'Auditoría Ejecutiva & Scorecard AEO (C-Level Report)')
                 .replace('engineBuilder', 'Constructor Gráfico de Motores (Studio & Topology Architecture)')
                 .replace('engineLauncher', 'Lanzador y Configurador de Motor SEO/AEO')
-                .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
-                .replace('cmsConnectors', 'Conectores CMS Oficiales (Payload & WordPress)')
-                .replace('dataEnrichment', 'Enriquecedor de Datos & Limpieza B2B (HubSpot Best Practices)')
-                .replace('sitemapReconstructor', 'Reconstructor y Optimizador de Sitemaps (Arquitectura de Silos)')
-                .replace('aiShareOfVoice', 'Radar de Citabilidad & Búsqueda')
+                .replace('revopsHubspot', 'Motor RevOps & Atribución HubSpot (Slot 04)')
+                .replace('cmsConnectors', 'Patch Bay Conectores CMS (Payload & WordPress)')
+                .replace('dataEnrichment', 'Enriquecedor de Datos & Limpieza B2B')
+                .replace('sitemapReconstructor', 'Reconstructor y Optimizador de Sitemaps')
+                .replace('aiShareOfVoice', 'Radar de Citabilidad & Espectrograma 64B')
                 .replace('clusterMap', 'Clusters & Silos de Contenido')
                 .replace('serpxray', 'SERP & AEO X-Ray')
                 .replace('apihub', 'API Hub')
-                .replace('contentDecay', 'Auditoría GSC')
+                .replace('contentDecay', 'Radar GSC Content Decay Sweep')
                 .replace('rag', 'Datasets de Keywords & RAG Vectorial')
                 .replace('planner', 'Keyword Planner')
                 .replace('competitors', 'Radar Competencia')
-                .replace('documentation', 'Manual de Uso, Homologación de Módulos & FAQs Técnicos')
-                .replace('databaseStudio', 'Editor de Bases de Datos & Esquemas Vectoriales (pgvector / HNSW)')
-                .replace('settings', 'Configuración de Cuenta & Bóveda Enterprise (API Keys, DNS, Webhooks)')
+                .replace('databaseStudio', 'Editor de Bases de Datos & SQL Studio')
+                .replace('finopsStudio', 'FinOps & Ingestión de Tokens en Tiempo Real')
+                .replace('presetsStudio', 'Bóveda de Presets & Perfiles por Cliente')
+                .replace('documentation', 'Manual de Uso & Historieta de Homologación')
+                .replace('settings', 'Configuración de Cuenta & Bóveda Enterprise')
               }
             </span>
           </div>
@@ -1609,17 +1711,39 @@ LIMIT 5;`);
             {/* Buscador Global Protagonista (Command Center) */}
             <button 
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="flex items-center justify-between bg-[var(--card)] hover:bg-[var(--muted)]/60 border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-xl pl-3.5 pr-2.5 py-1.5 text-xs transition-all w-52 sm:w-64 md:w-80 lg:w-96 cursor-pointer shadow-2xs group"
+              className="flex items-center justify-between bg-[var(--card)] hover:bg-[var(--muted)]/60 border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-xl pl-3.5 pr-2.5 py-1.5 text-xs transition-all w-48 sm:w-56 md:w-64 lg:w-72 cursor-pointer shadow-2xs group"
               title="Buscar módulo, silo o ejecutar comando (Atajo: ⌘K)"
             >
               <div className="flex items-center gap-2.5 truncate">
                 <MagnifyingGlassIcon className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[var(--primary)] transition-colors shrink-0" />
-                <span className="truncate text-xs font-normal">Buscar módulo, motor o silo semántico...</span>
+                <span className="truncate text-xs font-normal">Buscar módulo o comando...</span>
               </div>
               <div className="flex items-center gap-1 shrink-0 ml-2">
                 <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-zinc-400 group-hover:text-zinc-200">⌘K</kbd>
               </div>
             </button>
+
+            {/* TE Tactile Industry Preset Selector */}
+            <div className="hidden lg:flex items-center gap-1 p-1 rounded bg-[#07090a] border border-[#2a2e38] shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)] font-mono text-[10px]">
+              <span className="text-[#8a8f9d] px-1 font-bold tracking-wider">PRESET:</span>
+              {(['saas', 'fintech', 'ecommerce', 'health'] as const).map((pst) => (
+                <button
+                  key={pst}
+                  onClick={() => {
+                    setActiveIndustryPreset(pst);
+                    showToast('Preset de Hardware Aplicado', `Calibrando umbrales y motores para: ${pst.toUpperCase()}`, 'success');
+                  }}
+                  className={`px-2 py-0.5 rounded uppercase font-bold transition-all cursor-pointer ${
+                    activeIndustryPreset === pst
+                      ? 'bg-[#e85a2a] text-white shadow-[0_0_8px_rgba(232,90,42,0.8)] te-button-primary'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                  }`}
+                  title={`Cargar calibración de pesos para industria: ${pst}`}
+                >
+                  {pst}
+                </button>
+              ))}
+            </div>
 
             {/* Teenage Engineering Mechanical Status Segment Indicator */}
             <div className="hidden xl:flex items-center gap-1.5 p-1 rounded bg-[#0a0c0e] border border-black shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)]">
@@ -1866,6 +1990,165 @@ LIMIT 5;`);
                         <p className="text-[11px] text-[var(--muted-foreground)]">Silo: Ventas &amp; Productividad • 2 deals originados</p>
                       </div>
                       <span className="font-bold text-emerald-500 font-mono">$32,000 USD Pipeline</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: AUDITORÍA EJECUTIVA & SCORECARD AEO (SLOT 01 // C-LEVEL HOMOLOGATION) */}
+            {activeTab === 'executiveAudit' && (
+              <div className="space-y-6 animate-fade-in">
+                <div className="te-rack-unit p-6">
+                  {/* Industrial Screws */}
+                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
+
+                  {/* Header de Hardware */}
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded bg-[#07090a] border border-[#e85a2a]/60 flex items-center justify-center text-[#e85a2a] shadow-[0_0_12px_rgba(232,90,42,0.25)]">
+                        <PresentationChartLineIcon className="w-5 h-5 text-[#e85a2a]" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[10px] font-bold text-[#e85a2a] tracking-widest uppercase">
+                            SLOT 01 // EXECUTIVE AEO AUDIT &amp; SCORECARD
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]" />
+                          <span className="font-mono text-[9px] text-[#3ddc84] font-bold">C-LEVEL READY</span>
+                        </div>
+                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
+                          AUDITORÍA EJECUTIVA DE HOMOLOGACIÓN AEO / SEO
+                        </h2>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => {
+                          setIsAuditExporting(true);
+                          const reportMd = `# AUDITORÍA EJECUTIVA DE HOMOLOGACIÓN AEO / SEO 2026\n\n` +
+                            `**Cliente / Workspace:** ${currentWorkspace}\n` +
+                            `**Fecha:** ${new Date().toLocaleDateString()}\n` +
+                            `**Scorecard Global:** 94 / 100 (Grado A+ Citabilidad Óptima)\n\n` +
+                            `## 1. Desglose de Factores Críticos\n` +
+                            `- Citabilidad en Buscadores de IA (ChatGPT, Perplexity, Claude, Gemini): 96%\n` +
+                            `- Arquitectura de Silos y Topic Clusters: 92%\n` +
+                            `- Atribución Financiera a HubSpot CRM: 90%\n` +
+                            `- Velocidad Core Web Vitals & Rendering: 98%\n\n` +
+                            `## 2. Recomendaciones de Ingeniería de Contenido\n` +
+                            `1. Refrescar 14 URLs en decaimiento detectadas por el radar GSC.\n` +
+                            `2. Activar inyección de Schema JSON-LD canónico en Payload 3.x.\n` +
+                            `3. Escalar embeddings pgvector a 1536 dimensiones con índice HNSW m=16.\n\n` +
+                            `Generado por Buildations Engine OP-Studio 64-bit.`;
+
+                          const blob = new Blob([reportMd], { type: 'text/markdown' });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `auditoria-aeo-${currentWorkspace}.md`;
+                          a.click();
+                          URL.revokeObjectURL(url);
+                          setTimeout(() => {
+                            setIsAuditExporting(false);
+                            showToast('Auditoría Ejecutiva Descargada', 'Informe de homologación exportado en Markdown estructurado.', 'success');
+                          }, 600);
+                        }}
+                        disabled={isAuditExporting}
+                        className="te-button px-4 py-2 text-xs font-mono font-bold flex items-center gap-2 cursor-pointer bg-[#e85a2a] text-white te-button-primary shadow-[0_0_15px_rgba(232,90,42,0.4)]"
+                      >
+                        <ArrowDownTrayIcon className="w-4 h-4" />
+                        <span>{isAuditExporting ? 'Compilando Informe...' : 'Exportar Informe C-Level (.md)'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Main Scorecard HUD */}
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 my-6 font-mono">
+                    {/* Big Gauge Box */}
+                    <div className="p-6 rounded bg-[#07090a] border border-[#2a2e38] flex flex-col items-center justify-center text-center space-y-3">
+                      <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                        SCORE GLOBAL DE HOMOLOGACIÓN
+                      </span>
+                      <div className="w-24 h-24 rounded-full border-4 border-[#e85a2a] flex items-center justify-center shadow-[0_0_20px_rgba(232,90,42,0.3)]">
+                        <span className="text-3xl font-black text-white">94</span>
+                      </div>
+                      <span className="text-[10px] text-[#3ddc84] font-bold bg-[#3ddc84]/10 px-2 py-0.5 rounded border border-[#3ddc84]/30">
+                        GRADO A+ (TOP 2% LATAM)
+                      </span>
+                    </div>
+
+                    {/* 3 Detail Factor Cards */}
+                    <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
+                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">
+                          Citabilidad AEO (IAs)
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-2xl font-black text-[#e85a2a]">96%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" />
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-zinc-500">Menciones en Perplexity, ChatGPT y Claude comprobadas</p>
+                      </div>
+
+                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
+                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">
+                          Topología de Silos
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-2xl font-black text-[#3ddc84]">92%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-zinc-500">Clusters temáticos estancos sin enlaces cruzados rotos</p>
+                      </div>
+
+                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
+                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block">
+                          Atribución a Negocios
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-2xl font-black text-cyan-400">90%</span>
+                          <div className="te-segment-meter">
+                            <span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-green" /><span className="te-segment-cell active-yellow" />
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-zinc-500">Mapeo de deals y prospectos a hs_analytics verificado</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Hoja de Ruta de Ingeniería de Contenido */}
+                  <div className="p-5 rounded bg-[#07090a] border border-[#2a2e38] space-y-4 font-mono text-xs">
+                    <span className="font-bold text-white uppercase tracking-wider block text-xs flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active" />
+                      Plan de Acción Inmediato (Roadmap de Homologación Trimestral)
+                    </span>
+
+                    <div className="space-y-2">
+                      {[
+                        { step: "01", task: "Refrescar 14 URLs en decaimiento con Agente Vera", impact: "+28% Tráfico Orgánico", status: "Listo para Disparo" },
+                        { step: "02", task: "Sincronizar Colecciones de Payload 3.x con Schema JSON-LD", impact: "+45% Citabilidad AEO", status: "Armado en Slot 05" },
+                        { step: "03", task: "Generar Silo de 'Comparativa Software B2B' con 6 satélites", impact: "18 Leads Estimados", status: "Planificado" },
+                        { step: "04", task: "Regenerar Vectores pgvector con HNSW a 1536 dimensiones", impact: "Latencia < 11.4ms", status: "Activo en DB Studio" }
+                      ].map((item, i) => (
+                        <div key={i} className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                          <div className="flex items-center gap-3">
+                            <span className="text-[#e85a2a] font-bold">{item.step}.</span>
+                            <span className="text-white font-medium">{item.task}</span>
+                          </div>
+                          <div className="flex items-center gap-4 text-[10px]">
+                            <span className="text-[#3ddc84] font-bold">{item.impact}</span>
+                            <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">{item.status}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -4739,219 +5022,536 @@ LIMIT 5;`);
               </div>
             )}
 
-            {/* TAB: MOTOR DE REVOPS & CONEXIÓN HUBSPOT */}
+            {/* TAB: MOTOR DE REVOPS & CONEXIÓN HUBSPOT (TE RACK UNIT 04) */}
             {activeTab === 'revopsHubspot' && (
-              <div className="space-y-8 animate-fade-in">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-1 flex items-center">
-                      <ArrowPathRoundedSquareIcon className="w-7 h-7 text-orange-500 mr-2" />
-                      Motor de RevOps & Atribución HubSpot
-                    </h2>
-                    <p className="text-[var(--muted-foreground)] text-sm">
-                      Conecta las visitas y contenidos generados por el motor SEO/AEO con leads, deals y ventas reales cerradas en HubSpot CRM.
-                    </p>
-                  </div>
-                  <div className="flex space-x-3">
-                    <button className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted)] transition-colors cursor-pointer shadow-sm">
-                      Sincronizar Propiedades
-                    </button>
-                    <button className="bg-[#ff7a59] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#e66a4b] transition-colors shadow-[0_0_15px_rgba(255,122,89,0.35)] cursor-pointer flex items-center">
-                      Re-conectar HubSpot OAuth
-                    </button>
-                  </div>
-                </div>
+              <div className="space-y-6 animate-fade-in">
+                {/* TE Hardware Unit Chasis */}
+                <div className="te-rack-unit p-6">
+                  {/* Industrial Screws in 4 Corners */}
+                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
 
-                {/* KPI Cards RevOps */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                  <div className="glass-card p-6 border-t-2 border-t-[#ff7a59]">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">MQLs Generados por Contenido</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">148</span>
-                      <span className="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded">
-                        +24% este mes
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Registrados directamente en HubSpot</p>
-                  </div>
-
-                  <div className="glass-card p-6 border-t-2 border-t-blue-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Pipeline Atribuido (Deals)</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">$42,500</span>
-                      <span className="text-xs font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">
-                        18 Oportunidades
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Origen: Artículos del Motor AEO</p>
-                  </div>
-
-                  <div className="glass-card p-6 border-t-2 border-t-emerald-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Ventas Cerradas Ganadas</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">$16,200</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
-                        ROAS: 8.4x
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Negocios ganados en HubSpot</p>
-                  </div>
-
-                  <div className="glass-card p-6 border-t-2 border-t-purple-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Tasa Lead-to-SQL</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">22.4%</span>
-                      <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">
-                        Alta Calidad
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Filtrados con formulario inteligente</p>
-                  </div>
-                </div>
-
-                {/* Sección 2: Configuración del Pipeline de RevOps con HubSpot */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  
-                  {/* Reglas de Atribución */}
-                  <div className="lg:col-span-2 glass-card p-6 space-y-4">
-                    <h3 className="font-bold text-base flex items-center">
-                      <span className="w-2 h-5 bg-[#ff7a59] rounded mr-2"></span>
-                      Mapeo de Atribución y Propiedades de Contacto
-                    </h3>
-                    <p className="text-xs text-[var(--muted-foreground)]">
-                      Cuando un usuario lee un artículo del motor y llena un formulario, el motor inyecta automáticamente estos campos en la ficha del contacto de HubSpot.
-                    </p>
-
-                    <div className="space-y-3 pt-2">
-                      <div className="flex justify-between items-center p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs">
-                        <div>
-                          <p className="font-bold">Original Search Term (AEO/SEO)</p>
-                          <p className="text-[var(--muted-foreground)]">Término exacto con el que llegó el prospecto</p>
-                        </div>
-                        <span className="font-mono text-[#ff7a59] font-bold">→ hs_analytics_first_touch_converting_campaign</span>
+                  {/* Unit Hardware Header Bar */}
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded bg-[#07090a] border border-[#ff7a59]/60 flex items-center justify-center text-[#ff7a59] shadow-[0_0_12px_rgba(255,122,89,0.25)]">
+                        <ArrowPathRoundedSquareIcon className="w-5 h-5 text-[#ff7a59]" />
                       </div>
-
-                      <div className="flex justify-between items-center p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs">
-                        <div>
-                          <p className="font-bold">Topic Cluster Influencer</p>
-                          <p className="text-[var(--muted-foreground)]">Silo de contenido que educó al lead</p>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[10px] font-bold text-[#ff7a59] tracking-widest uppercase">
+                            SLOT 04 // REVOPS PIPELINE SYNTHESIZER
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 te-led-active shadow-[0_0_6px_#3ddc84]" />
+                          <span className="font-mono text-[9px] text-emerald-400 font-bold">SYNC 240BPM</span>
                         </div>
-                        <span className="font-mono text-[#ff7a59] font-bold">→ custom_topic_cluster_tag</span>
-                      </div>
-
-                      <div className="flex justify-between items-center p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs">
-                        <div>
-                          <p className="font-bold">Lead Scoring IA</p>
-                          <p className="text-[var(--muted-foreground)]">Puntuación estimada de compra calculada por IA</p>
-                        </div>
-                        <span className="font-mono text-[#ff7a59] font-bold">→ hubspot_score (+15 pts)</span>
+                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
+                          HUBSPOT DEALS &amp; ATTRIBUTION RIG
+                        </h2>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Estado de la Integración HubSpot */}
-                  <div className="glass-card p-6 space-y-4 border-t-4 border-t-[#ff7a59]">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-base">Estado de Cuenta HubSpot</h3>
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    </div>
-                    <div className="space-y-2 text-xs">
-                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Portal ID:</span> <span className="font-mono font-bold">24981290</span></p>
-                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Plan:</span> <span className="font-bold">Marketing & Sales Hub Pro</span></p>
-                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Último Sync:</span> <span>Hace 6 minutos</span></p>
-                      <p className="flex justify-between"><span className="text-[var(--muted-foreground)]">Workflows Vinculados:</span> <span className="text-emerald-500 font-bold">4 Activos</span></p>
-                    </div>
+                    {/* Tool Universe Sub-View Switcher & Actions */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex p-0.5 rounded bg-[#07090a] border border-[#2a2e38] font-mono text-[10px]">
+                        <button
+                          onClick={() => setRevopsActiveView('telemetry')}
+                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                            revopsActiveView === 'telemetry'
+                              ? 'bg-[#e85a2a] text-white shadow-sm'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          Telemetría
+                        </button>
+                        <button
+                          onClick={() => setRevopsActiveView('calibration')}
+                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                            revopsActiveView === 'calibration'
+                              ? 'bg-[#e85a2a] text-white shadow-sm'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          Calibrador de Knobs
+                        </button>
+                        <button
+                          onClick={() => setRevopsActiveView('deals')}
+                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                            revopsActiveView === 'deals'
+                              ? 'bg-[#e85a2a] text-white shadow-sm'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          Ledger Deals (64B)
+                        </button>
+                      </div>
 
-                    <div className="pt-2 border-t border-[var(--border)]">
-                      <p className="text-[11px] text-[var(--muted-foreground)] mb-3">
-                        Disparador activo: Si un lead lee 2+ artículos del cluster RevOps, crear Deal automático en etapa <em>"Diagnóstico Solicitado"</em>.
-                      </p>
-                      <button className="w-full bg-[var(--card)] border border-[var(--border)] py-2 rounded text-xs font-bold hover:bg-[var(--muted)] transition-colors cursor-pointer">
-                        Ver Workflows en HubSpot ↗
+                      <button 
+                        onClick={() => {
+                          showToast('Sincronización HubSpot Forzada', 'Propiedades de contacto y pipeline de deals recalculados en 8.4ms.', 'success');
+                        }}
+                        className="te-button px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <ArrowPathIcon className="w-3.5 h-3.5 text-[#ff7a59]" />
+                        <span>Sync Propiedades</span>
                       </button>
                     </div>
                   </div>
 
-                </div>
+                  {/* SUB-VISTA 1: TELEMETRÍA Y PRESIÓN DE PIPELINE */}
+                  {revopsActiveView === 'telemetry' && (
+                    <div className="pt-6 space-y-6 animate-fade-in">
+                      {/* Pipeline Pressure Chamber HUD */}
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {/* Meter 1: MQLs */}
+                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
+                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                            <span className="uppercase tracking-wider">MQLS POR CONTENIDO</span>
+                            <span className="text-[#3ddc84] font-bold">+24% MES</span>
+                          </div>
+                          <div className="flex items-baseline justify-between">
+                            <span className="font-mono text-3xl font-black text-white">148</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-yellow" />
+                              <span className="te-segment-cell active-yellow" />
+                              <span className="te-segment-cell" />
+                            </div>
+                          </div>
+                          <p className="font-mono text-[9px] text-zinc-500">Mapeados a hs_analytics_first_touch</p>
+                        </div>
 
-                {/* Tabla de Deals Cerrados por Contenido Generativo */}
-                <div className="glass-card overflow-hidden">
-                  <div className="px-6 py-4 border-b border-[var(--border)] flex justify-between items-center">
-                    <h3 className="font-semibold text-sm">Últimos Deals de HubSpot Atribuidos al Motor de Contenido</h3>
-                    <span className="text-xs text-[var(--muted-foreground)]">Atribución de Primer Toque y Multi-Touch</span>
-                  </div>
-                  <table className="w-full text-left text-sm">
-                    <thead className="bg-[var(--card)] text-[var(--muted-foreground)]">
-                      <tr>
-                        <th className="px-6 py-3 font-medium">Deal en HubSpot</th>
-                        <th className="px-6 py-3 font-medium">Empresa</th>
-                        <th className="px-6 py-3 font-medium">Artículo Convertidor</th>
-                        <th className="px-6 py-3 font-medium">Monto</th>
-                        <th className="px-6 py-3 font-medium text-right">Etapa Actual</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[var(--border)]">
-                      {[
-                        { deal: "Implementación CRM Enterprise", company: "FinTech MX", article: "/blog/kpis-content-marketing", amount: "$8,500 USD", stage: "Closed Won" },
-                        { deal: "Auditoría RevOps Trimestral", company: "Logística Global", article: "/guia-marketing-contenidos-b2b", amount: "$3,200 USD", stage: "Closed Won" },
-                        { deal: "Suscripción Agencia Pro", company: "SaaS Analytics", article: "/blog/calendario-editorial-b2b", amount: "$4,500 USD", stage: "Closed Won" },
-                        { deal: "Consultoría de AEO para ChatGPT", company: "Tech Retail", article: "/blog/herramientas-ia-redaccion-b2b", amount: "$6,000 USD", stage: "En Negociación" },
-                      ].map((row, i) => (
-                        <tr key={i} className="hover:bg-[var(--muted)]/50 transition-colors">
-                          <td className="px-6 py-4 font-semibold text-[var(--foreground)]">{row.deal}</td>
-                          <td className="px-6 py-4 text-xs font-mono">{row.company}</td>
-                          <td className="px-6 py-4 text-xs font-mono text-[var(--primary)]">{row.article}</td>
-                          <td className="px-6 py-4 font-bold text-emerald-500">{row.amount}</td>
-                          <td className="px-6 py-4 text-right">
-                            <span className={`text-xs font-bold px-2 py-0.5 rounded ${row.stage.includes('Won') ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'}`}>
-                              {row.stage}
+                        {/* Meter 2: Pipeline Atribuido */}
+                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
+                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                            <span className="uppercase tracking-wider">PIPELINE ACTIVO</span>
+                            <span className="text-[#38bdf8] font-bold">18 DEALS</span>
+                          </div>
+                          <div className="flex items-baseline justify-between">
+                            <span className="font-mono text-3xl font-black text-[#38bdf8]">$42,500</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-yellow" />
+                              <span className="te-segment-cell active-orange" />
+                              <span className="te-segment-cell active-orange" />
+                              <span className="te-segment-cell" />
+                            </div>
+                          </div>
+                          <p className="font-mono text-[9px] text-zinc-500">Influenciado por Silos de Contenido AEO</p>
+                        </div>
+
+                        {/* Meter 3: Ventas Cerradas Ganadas */}
+                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
+                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                            <span className="uppercase tracking-wider">CLOSED WON REVENUE</span>
+                            <span className="text-[#3ddc84] font-bold">ROAS 8.4X</span>
+                          </div>
+                          <div className="flex items-baseline justify-between">
+                            <span className="font-mono text-3xl font-black text-[#3ddc84]">$16,200</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-yellow" />
+                            </div>
+                          </div>
+                          <p className="font-mono text-[9px] text-zinc-500">Facturación real verificada en HubSpot</p>
+                        </div>
+
+                        {/* Meter 4: Tasa Lead-to-SQL */}
+                        <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-3 relative overflow-hidden">
+                          <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                            <span className="uppercase tracking-wider">TASA LEAD-TO-SQL</span>
+                            <span className="text-[#f5a623] font-bold">TOP TIER</span>
+                          </div>
+                          <div className="flex items-baseline justify-between">
+                            <span className="font-mono text-3xl font-black text-[#f5a623]">22.4%</span>
+                            <div className="te-segment-meter">
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-green" />
+                              <span className="te-segment-cell active-yellow" />
+                              <span className="te-segment-cell active-yellow" />
+                              <span className="te-segment-cell" />
+                              <span className="te-segment-cell" />
+                            </div>
+                          </div>
+                          <p className="font-mono text-[9px] text-zinc-500">Filtrado con Lead Scoring de IA (+15 pts)</p>
+                        </div>
+                      </div>
+
+                      {/* Hardware Integration Status Display */}
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Columna 1 & 2: Terminal de Mapeo de Atribución */}
+                        <div className="lg:col-span-2 p-5 rounded bg-[#07090a] border border-[#2a2e38] space-y-4">
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-[#ff7a59] te-led-active shadow-[0_0_6px_#ff7a59]" />
+                              <h3 className="font-mono text-xs font-bold uppercase text-white tracking-wider">
+                                Contact Property Ingestion Pipeline
+                              </h3>
+                            </div>
+                            <span className="font-mono text-[9px] text-zinc-400">HS OAUTH 2.0 // TLS 1.3</span>
+                          </div>
+
+                          <div className="space-y-2 font-mono text-xs">
+                            <div className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                              <div>
+                                <span className="font-bold text-white block">Término de Entrada AEO/SEO</span>
+                                <span className="text-[10px] text-zinc-400">Palabra clave detectada por crawler</span>
+                              </div>
+                              <span className="text-[11px] text-[#ff7a59] bg-[#ff7a59]/10 px-2 py-0.5 rounded border border-[#ff7a59]/30">
+                                → hs_analytics_first_touch_converting_campaign
+                              </span>
+                            </div>
+
+                            <div className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                              <div>
+                                <span className="font-bold text-white block">Silo Semántico de Conversión</span>
+                                <span className="text-[10px] text-zinc-400">Topic cluster que cerró al prospecto</span>
+                              </div>
+                              <span className="text-[11px] text-[#ff7a59] bg-[#ff7a59]/10 px-2 py-0.5 rounded border border-[#ff7a59]/30">
+                                → custom_topic_cluster_tag
+                              </span>
+                            </div>
+
+                            <div className="p-3 rounded bg-[#101216] border border-[#222630] flex flex-wrap justify-between items-center gap-2">
+                              <div>
+                                <span className="font-bold text-white block">Lead Scoring Predictivo</span>
+                                <span className="text-[10px] text-zinc-400">Calificación de intención de compra calculada</span>
+                              </div>
+                              <span className="text-[11px] text-[#3ddc84] bg-[#3ddc84]/10 px-2 py-0.5 rounded border border-[#3ddc84]/30">
+                                → hubspot_score (+{Math.round(revopsMinLeadScore / 5)} pts)
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Columna 3: Hardware LCD Display de Cuenta */}
+                        <div className="te-screen p-5 space-y-4">
+                          <div className="flex justify-between items-center border-b border-[#2a2e38] pb-2">
+                            <span className="text-[10px] font-mono text-[#e85a2a] uppercase font-bold tracking-wider">
+                              [PORTAL ID: 24981290]
                             </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                            <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]" />
+                          </div>
 
+                          <div className="space-y-2 text-xs font-mono">
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Tier:</span>
+                              <span className="text-white font-bold">Marketing &amp; Sales Hub Pro</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Sincronización:</span>
+                              <span className="text-[#3ddc84]">Tiempo real (0ms lag)</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Workflows Activos:</span>
+                              <span className="text-[#f5a623] font-bold">4 Secuencias Automáticas</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-zinc-500">Ponderación:</span>
+                              <span className="text-white font-bold">{revopsAttributionWeight}% Primer Toque</span>
+                            </div>
+                          </div>
+
+                          <div className="pt-2 border-t border-[#2a2e38]">
+                            <p className="text-[10px] font-mono text-zinc-400 mb-3">
+                              Trigger: Si un lead lee 2+ artículos del cluster RevOps, dispara Deal en etapa <em>"Diagnóstico Solicitado"</em>.
+                            </p>
+                            <button 
+                              onClick={() => showToast('HubSpot CRM Apertura', 'Abriendo vista de workflows vinculados en HubSpot.', 'info')}
+                              className="te-button w-full py-1.5 text-xs font-mono font-bold cursor-pointer"
+                            >
+                              Abrir HubSpot Portal ↗
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUB-VISTA 2: CALIBRADOR TÁCTIL DE PARÁMETROS (KNOBS DE HARDWARE) */}
+                  {revopsActiveView === 'calibration' && (
+                    <div className="pt-6 space-y-6 animate-fade-in">
+                      <div className="p-4 rounded bg-[#0a0c0e] border border-[#2a2e38]">
+                        <h3 className="font-mono text-xs font-bold text-white uppercase tracking-wider mb-1">
+                          Consola de Calibración de Parámetros de Atribución RevOps
+                        </h3>
+                        <p className="text-xs text-zinc-400">
+                          Gira las perillas táctiles para afinar la sensibilidad del algoritmo de atribución y el umbral de disparo de Deals en el CRM.
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {/* Knob 1: Attribution Weighting */}
+                        <div className="p-5 rounded bg-[#101216] border border-[#222630] flex flex-col items-center text-center space-y-3">
+                          <span className="font-mono text-[10px] text-zinc-400 uppercase font-bold tracking-wider">
+                            Ponderación de Atribución
+                          </span>
+                          <div 
+                            className="te-knob-dial flex items-center justify-center cursor-pointer"
+                            style={{ transform: `rotate(${(revopsAttributionWeight - 50) * 2.8}deg)` }}
+                            onClick={() => {
+                              const next = revopsAttributionWeight >= 90 ? 40 : revopsAttributionWeight + 15;
+                              setRevopsAttributionWeight(next);
+                            }}
+                            title="Haz clic para rotar perilla de ponderación"
+                          >
+                            <div className="te-knob-notch" />
+                          </div>
+                          <div className="font-mono text-lg font-black text-[#e85a2a]">
+                            {revopsAttributionWeight}% / {100 - revopsAttributionWeight}%
+                          </div>
+                          <p className="text-[10px] font-mono text-zinc-500">
+                            Primer Toque vs Multi-Touch
+                          </p>
+                        </div>
+
+                        {/* Knob 2: Lead Scoring Trigger */}
+                        <div className="p-5 rounded bg-[#101216] border border-[#222630] flex flex-col items-center text-center space-y-3">
+                          <span className="font-mono text-[10px] text-zinc-400 uppercase font-bold tracking-wider">
+                            Umbral Lead Scoring (MQL)
+                          </span>
+                          <div 
+                            className="te-knob-dial flex items-center justify-center cursor-pointer"
+                            style={{ transform: `rotate(${(revopsMinLeadScore - 60) * 3.5}deg)` }}
+                            onClick={() => {
+                              const next = revopsMinLeadScore >= 95 ? 65 : revopsMinLeadScore + 10;
+                              setRevopsMinLeadScore(next);
+                            }}
+                            title="Haz clic para rotar perilla de puntuación mínima"
+                          >
+                            <div className="te-knob-notch" />
+                          </div>
+                          <div className="font-mono text-lg font-black text-[#3ddc84]">
+                            {revopsMinLeadScore} Pts
+                          </div>
+                          <p className="text-[10px] font-mono text-zinc-500">
+                            Puntuación mínima para alertar a SDRs
+                          </p>
+                        </div>
+
+                        {/* Knob 3: Deal Threshold */}
+                        <div className="p-5 rounded bg-[#101216] border border-[#222630] flex flex-col items-center text-center space-y-3">
+                          <span className="font-mono text-[10px] text-zinc-400 uppercase font-bold tracking-wider">
+                            Disparo Automático de Deal
+                          </span>
+                          <div 
+                            className="te-knob-dial flex items-center justify-center cursor-pointer"
+                            style={{ transform: `rotate(${(revopsAutoDealThreshold / 1000) * 20}deg)` }}
+                            onClick={() => {
+                              const next = revopsAutoDealThreshold >= 8000 ? 2500 : revopsAutoDealThreshold + 1500;
+                              setRevopsAutoDealThreshold(next);
+                            }}
+                            title="Haz clic para rotar perilla de monto mínimo"
+                          >
+                            <div className="te-knob-notch" />
+                          </div>
+                          <div className="font-mono text-lg font-black text-[#f5a623]">
+                            ${revopsAutoDealThreshold.toLocaleString()} USD
+                          </div>
+                          <p className="text-[10px] font-mono text-zinc-500">
+                            Monto estimado para crear negocio directo
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUB-VISTA 3: FINANCIAL DEALS LEDGER (STREAM DE 64-BIT) */}
+                  {revopsActiveView === 'deals' && (
+                    <div className="pt-6 space-y-4 animate-fade-in">
+                      <div className="flex justify-between items-center px-1 font-mono text-xs">
+                        <span className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active" />
+                          Deals Ledger Transaccional (HubSpot Multi-Touch Attribution)
+                        </span>
+                        <span className="text-zinc-500 text-[10px]">TOTAL CERRADO: $35,200 USD</span>
+                      </div>
+
+                      <div className="overflow-x-auto rounded bg-[#07090a] border border-[#2a2e38]">
+                        <table className="w-full text-left font-mono text-xs">
+                          <thead className="bg-[#101216] text-zinc-400 border-b border-[#2a2e38]">
+                            <tr>
+                              <th className="px-4 py-3 font-bold uppercase text-[10px]">ID Deal HubSpot</th>
+                              <th className="px-4 py-3 font-bold uppercase text-[10px]">Empresa</th>
+                              <th className="px-4 py-3 font-bold uppercase text-[10px]">Artículo Convertidor</th>
+                              <th className="px-4 py-3 font-bold uppercase text-[10px]">Monto</th>
+                              <th className="px-4 py-3 font-bold uppercase text-[10px] text-right">Etapa Actual</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#1e222a]">
+                            {[
+                              { id: "DEAL-8491", deal: "Implementación CRM Enterprise", company: "FinTech MX", article: "/blog/kpis-content-marketing", amount: "$8,500 USD", stage: "Closed Won" },
+                              { id: "DEAL-8492", deal: "Auditoría RevOps Trimestral", company: "Logística Global", article: "/guia-marketing-contenidos-b2b", amount: "$3,200 USD", stage: "Closed Won" },
+                              { id: "DEAL-8493", deal: "Suscripción Agencia Pro", company: "SaaS Analytics", article: "/blog/calendario-editorial-b2b", amount: "$4,500 USD", stage: "Closed Won" },
+                              { id: "DEAL-8494", deal: "Consultoría de AEO para ChatGPT", company: "Tech Retail", article: "/blog/herramientas-ia-redaccion-b2b", amount: "$6,000 USD", stage: "En Negociación" },
+                              { id: "DEAL-8495", deal: "Contrato Anual RAG & Embeddings", company: "BioMed Latam", article: "/blog/arquitectura-aeo-2026", amount: "$12,000 USD", stage: "Propuesta Enviada" }
+                            ].map((row, i) => (
+                              <tr key={i} className="hover:bg-[#151820] transition-colors">
+                                <td className="px-4 py-3 font-bold text-white">
+                                  <span className="text-[10px] text-[#ff7a59] font-mono mr-2">{row.id}</span>
+                                  {row.deal}
+                                </td>
+                                <td className="px-4 py-3 text-zinc-300">{row.company}</td>
+                                <td className="px-4 py-3 text-[#e85a2a]">{row.article}</td>
+                                <td className="px-4 py-3 font-bold text-[#3ddc84]">{row.amount}</td>
+                                <td className="px-4 py-3 text-right">
+                                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                                    row.stage.includes('Won') 
+                                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+                                      : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                                  }`}>
+                                    {row.stage}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
               </div>
             )}
 
-            {/* TAB: CONECTORES CMS OFICIALES (PAYLOAD CMS & WORDPRESS) */}
+            {/* TAB: CONECTORES CMS OFICIALES (TE PATCH BAY UNIT 05) */}
             {activeTab === 'cmsConnectors' && (
-              <div className="space-y-8 animate-fade-in">
-                <div className="flex flex-wrap justify-between items-end gap-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-1">
-                      <h2 className="text-2xl font-bold flex items-center">
-                        <ServerStackIcon className="w-7 h-7 text-cyan-400 mr-2" />
-                        Conectores CMS Oficiales (Payload &amp; WordPress)
-                      </h2>
-                      <span className="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 rounded-full font-bold">
-                        Multi-CMS Hub
-                      </span>
+              <div className="space-y-6 animate-fade-in">
+                {/* TE Hardware Unit Chasis */}
+                <div className="te-rack-unit p-6">
+                  {/* Industrial Screws */}
+                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
+
+                  {/* Header de Hardware */}
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded bg-[#07090a] border border-cyan-500/60 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.25)]">
+                        <ServerStackIcon className="w-5 h-5 text-cyan-400" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[10px] font-bold text-cyan-400 tracking-widest uppercase">
+                            SLOT 05 // MULTI-CMS AUDIO-PATCH DISPATCH RIG
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 te-led-active shadow-[0_0_6px_#38bdf8]" />
+                          <span className="font-mono text-[9px] text-cyan-400 font-bold">REST &amp; GRAPHQL</span>
+                        </div>
+                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
+                          CMS CONNECTOR &amp; DISPATCH BAY
+                        </h2>
+                      </div>
                     </div>
-                    <p className="text-[var(--muted-foreground)] text-sm">
-                      Vincula tu plataforma de gestión de contenido para que los agentes autónomos despachen borradores, sincronicen metadatos AEO y asignen autores virtuales.
-                    </p>
+
+                    {/* Selector de CMS (Payload vs WordPress) en estilo Hardware */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex p-0.5 rounded bg-[#07090a] border border-[#2a2e38] font-mono text-[10px]">
+                        <button 
+                          onClick={() => setCmsTab('payload')}
+                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all flex items-center gap-2 cursor-pointer ${
+                            cmsTab === 'payload'
+                              ? 'bg-cyan-500 text-black font-black shadow-sm' 
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          <PayloadLogo className="w-3.5 h-3.5 shrink-0" />
+                          <span>Payload 3.x Headless</span>
+                        </button>
+                        <button 
+                          onClick={() => setCmsTab('wordpress')}
+                          className={`px-3 py-1.5 rounded font-bold uppercase transition-all flex items-center gap-2 cursor-pointer ${
+                            cmsTab === 'wordpress'
+                              ? 'bg-blue-500 text-white font-black shadow-sm' 
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          <WordPressLogo className="w-3.5 h-3.5 shrink-0" />
+                          <span>WordPress REST Hub</span>
+                        </button>
+                      </div>
+
+                      <button 
+                        onClick={() => {
+                          setCmsPatchConnected(!cmsPatchConnected);
+                          showToast(
+                            cmsPatchConnected ? 'Jack Desconectado' : 'Jack Conectado (Patch Bay)',
+                            cmsPatchConnected ? 'El motor no despachará borradores automáticos.' : 'Cables de parcheo virtuales vinculados al API.',
+                            cmsPatchConnected ? 'info' : 'success'
+                          );
+                        }}
+                        className={`te-button px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer ${
+                          cmsPatchConnected ? 'text-[#3ddc84]' : 'text-zinc-500'
+                        }`}
+                      >
+                        <div className={`te-jack-socket ${cmsPatchConnected ? 'connected' : ''}`}>
+                          <div className="te-jack-hole" />
+                        </div>
+                        <span>{cmsPatchConnected ? 'PATCH: ARMED' : 'PATCH: MUTED'}</span>
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2 bg-[var(--card)] p-1 rounded-xl border border-[var(--border)] shadow-sm">
-                    <button 
-                      onClick={() => setCmsTab('payload')}
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${cmsTab === 'payload' ? 'bg-[var(--primary)] text-white shadow-md' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
-                    >
-                      <PayloadLogo className="w-4 h-4 text-white shrink-0" />
-                      Payload CMS (Headless)
-                    </button>
-                    <button 
-                      onClick={() => setCmsTab('wordpress')}
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${cmsTab === 'wordpress' ? 'bg-[var(--primary)] text-white shadow-md' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
-                    >
-                      <WordPressLogo className="w-4 h-4 shrink-0" />
-                      WordPress (Plugin &amp; REST)
-                    </button>
+                  {/* VIRTUAL PATCH BAY GRAPHIC (CONEXIÓN FÍSICA SIMULADA) */}
+                  <div className="p-4 my-6 rounded bg-[#07090a] border border-[#2a2e38] flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <div className="te-jack-socket connected"><div className="te-jack-hole" /></div>
+                        <span className="text-zinc-400 text-[10px]">AEO ENGINE OUT</span>
+                      </div>
+                      <span className="text-[#e85a2a] font-bold">═══════════════►</span>
+                      <div className="flex items-center gap-2">
+                        <div className={`te-jack-socket ${cmsPatchConnected ? 'connected' : ''}`}><div className="te-jack-hole" /></div>
+                        <span className="text-cyan-400 font-bold text-[10px]">
+                          {cmsTab === 'payload' ? 'PAYLOAD REST /posts' : 'WP REST /wp-json'}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-[10px]">
+                      <div className="flex items-center gap-2">
+                        <span className="text-zinc-400">DESPACHO:</span>
+                        <div className="flex bg-[#14161b] rounded border border-[#2a2e38] p-0.5">
+                          {(['draft-review', 'canary-10', 'instant-publish'] as const).map((m) => (
+                            <button
+                              key={m}
+                              onClick={() => setCmsDispatchMode(m)}
+                              className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase transition-all cursor-pointer ${
+                                cmsDispatchMode === m ? 'bg-[#e85a2a] text-white' : 'text-zinc-400 hover:text-white'
+                              }`}
+                            >
+                              {m === 'draft-review' ? 'Draft' : m === 'canary-10' ? 'Canary 10%' : 'Instant'}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="checkbox"
+                          id="autoSchema"
+                          checked={cmsAutoInjectJsonLd}
+                          onChange={(e) => setCmsAutoInjectJsonLd(e.target.checked)}
+                          className="rounded border-[#2a2e38] text-[#e85a2a] cursor-pointer"
+                        />
+                        <label htmlFor="autoSchema" className="text-zinc-300 text-[10px] cursor-pointer">
+                          Schema JSON-LD Auto
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
                 {/* 1. SECCIÓN PAYLOAD CMS */}
                 {cmsTab === 'payload' && (
@@ -5506,6 +6106,7 @@ LIMIT 5;`);
                   </div>
                 </div>
 
+                </div>
               </div>
             )}
 
@@ -5938,82 +6539,146 @@ LIMIT 5;`);
                   </div>
                 </div>
 
-                {/* KPI Cards AI Engine */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                  <div className="glass-card p-6 border-t-2 border-t-[var(--primary)]">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">AI Share of Voice Total</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">42.8%</span>
-                      <span className="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded">
-                        #1 en el nicho
+                {/* TE 64-BIT FREQUENCY SPECTROGRAM & CITATION OSCILLOSCOPE */}
+                <div className="te-rack-unit p-6">
+                  {/* Industrial Screws */}
+                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
+
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-4 border-b border-[#2a2e38]">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-[10px] font-bold text-[#e85a2a] uppercase tracking-widest">
+                        AEO FREQUENCY ANALYZER // 64-BIT OSCILLOSCOPE
                       </span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active shadow-[0_0_6px_#3ddc84]" />
+                      <span className="font-mono text-[9px] text-[#3ddc84] font-bold">SPECTRUM LIVE</span>
                     </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Superando a AcmeCorp (28.4%)</p>
+
+                    {/* Mini Spectrum Audio Bar Array */}
+                    <div className="flex items-end gap-1.5 h-6 px-3 py-1 rounded bg-[#07090a] border border-[#2a2e38]">
+                      {[40, 75, 55, 90, 65, 80, 45, 95, 70, 85, 60, 50].map((h, i) => (
+                        <span 
+                          key={i} 
+                          className="te-spectrum-bar" 
+                          style={{ 
+                            height: `${h}%`,
+                            animationDelay: `${i * 0.1}s`,
+                            backgroundColor: i % 3 === 0 ? '#e85a2a' : i % 3 === 1 ? '#3ddc84' : '#38bdf8'
+                          }} 
+                        />
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="glass-card p-6 border-t-2 border-t-cyan-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Perplexity Pro</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">68%</span>
-                      <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">
-                        17 de 25
-                      </span>
+                  {/* 4 Motor Synthesizer Blocks */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                    {/* Block 1 */}
+                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
+                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                        <span className="uppercase tracking-wider">AEO SHARE OF VOICE</span>
+                        <span className="text-[#3ddc84] font-bold">#1 LÍDER</span>
+                      </div>
+                      <div className="flex items-baseline justify-between">
+                        <span className="font-mono text-3xl font-black text-[#e85a2a]">42.8%</span>
+                        <div className="te-segment-meter">
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-yellow" />
+                          <span className="te-segment-cell active-orange" />
+                        </div>
+                      </div>
+                      <p className="font-mono text-[9px] text-zinc-500">Superando a AcmeCorp (28.4%)</p>
                     </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Citado como fuente recomendada</p>
+
+                    {/* Block 2 */}
+                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
+                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                        <span className="uppercase tracking-wider">PERPLEXITY PRO</span>
+                        <span className="text-cyan-400 font-bold">17/25 CITAS</span>
+                      </div>
+                      <div className="flex items-baseline justify-between">
+                        <span className="font-mono text-3xl font-black text-cyan-400">68%</span>
+                        <div className="te-segment-meter">
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-green" />
+                        </div>
+                      </div>
+                      <p className="font-mono text-[9px] text-zinc-500">Citado como fuente principal</p>
+                    </div>
+
+                    {/* Block 3 */}
+                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
+                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                        <span className="uppercase tracking-wider">CHATGPT (SEARCH)</span>
+                        <span className="text-[#3ddc84] font-bold">9/25 CITAS</span>
+                      </div>
+                      <div className="flex items-baseline justify-between">
+                        <span className="font-mono text-3xl font-black text-[#3ddc84]">36%</span>
+                        <div className="te-segment-meter">
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-yellow" />
+                          <span className="te-segment-cell" />
+                        </div>
+                      </div>
+                      <p className="font-mono text-[9px] text-zinc-500">Menciones en comparativas B2B</p>
+                    </div>
+
+                    {/* Block 4 */}
+                    <div className="p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-2">
+                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                        <span className="uppercase tracking-wider">CLAUDE 3.5 SONNET</span>
+                        <span className="text-[#f5a623] font-bold">6/25 CITAS</span>
+                      </div>
+                      <div className="flex items-baseline justify-between">
+                        <span className="font-mono text-3xl font-black text-[#f5a623]">24%</span>
+                        <div className="te-segment-meter">
+                          <span className="te-segment-cell active-green" />
+                          <span className="te-segment-cell active-yellow" />
+                          <span className="te-segment-cell" />
+                          <span className="te-segment-cell" />
+                        </div>
+                      </div>
+                      <p className="font-mono text-[9px] text-zinc-500">Oportunidad de optimización</p>
+                    </div>
                   </div>
 
-                  <div className="glass-card p-6 border-t-2 border-t-emerald-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">ChatGPT Plus (Search)</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">36%</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
-                        9 de 25
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Citado en respuestas de comparativas</p>
-                  </div>
-
-                  <div className="glass-card p-6 border-t-2 border-t-amber-500">
-                    <p className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-1">Claude 3.5 Sonnet</p>
-                    <div className="flex items-baseline justify-between mt-2">
-                      <span className="text-3xl font-bold">24%</span>
-                      <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">
-                        6 de 25
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-3">Oportunidad de optimización en guías</p>
-                  </div>
-                </div>
-
-                {/* Comparativa Tú vs Competencia en IAs */}
-                <div className="glass-card p-6">
-                  <h3 className="font-semibold text-lg mb-4">Presencia de Marca en Motores LLM (Tú vs Rivales)</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="font-semibold text-[var(--primary)]">Tu Marca (Agencia Román)</span>
-                        <span className="font-bold">42.8%</span>
+                  {/* Comparativa Sintética Tú vs Competidores */}
+                  <div className="mt-6 p-4 rounded bg-[#07090a] border border-[#2a2e38] space-y-3 font-mono text-xs">
+                    <span className="font-bold text-white uppercase tracking-wider block text-[10px]">
+                      Presencia Espectral de Marca en LLMs (Tú vs Rivales)
+                    </span>
+                    <div className="space-y-2.5">
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="font-bold text-[#e85a2a]">Tu Marca (soyroman.com / Buildations)</span>
+                          <span className="font-bold text-white">42.8%</span>
+                        </div>
+                        <div className="w-full bg-[#14161b] rounded h-2 overflow-hidden border border-[#2a2e38]">
+                          <div className="bg-[#e85a2a] h-2 rounded shadow-[0_0_8px_#e85a2a]" style={{ width: '42.8%' }} />
+                        </div>
                       </div>
-                      <div className="w-full bg-[var(--muted)] rounded-full h-3">
-                        <div className="bg-[var(--primary)] h-3 rounded-full" style={{ width: '42.8%' }}></div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-zinc-400">AcmeCorp</span>
+                          <span className="text-zinc-500">28.4%</span>
+                        </div>
+                        <div className="w-full bg-[#14161b] rounded h-2 overflow-hidden border border-[#2a2e38]">
+                          <div className="bg-zinc-600 h-2 rounded" style={{ width: '28.4%' }} />
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="font-semibold">AcmeCorp</span>
-                        <span className="font-bold text-[var(--muted-foreground)]">28.4%</span>
-                      </div>
-                      <div className="w-full bg-[var(--muted)] rounded-full h-3">
-                        <div className="bg-slate-500 h-3 rounded-full" style={{ width: '28.4%' }}></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="font-semibold">GlobalTech</span>
-                        <span className="font-bold text-[var(--muted-foreground)]">16.1%</span>
-                      </div>
-                      <div className="w-full bg-[var(--muted)] rounded-full h-3">
-                        <div className="bg-slate-500 h-3 rounded-full" style={{ width: '16.1%' }}></div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-zinc-400">GlobalTech Latam</span>
+                          <span className="text-zinc-500">16.1%</span>
+                        </div>
+                        <div className="w-full bg-[#14161b] rounded h-2 overflow-hidden border border-[#2a2e38]">
+                          <div className="bg-zinc-600 h-2 rounded" style={{ width: '16.1%' }} />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -7267,65 +7932,195 @@ LIMIT 5;`);
               </div>
             )}
 
-            {/* CONTENT DECAY (GSC) TAB */}
+            {/* CONTENT DECAY (GSC) TAB - TE RADAR SCOPE RIG (SLOT 08) */}
             {activeTab === 'contentDecay' && (
-              <div className="space-y-8 animate-fade-in">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-1">Auditoría GSC (Content Decay)</h2>
-                    <p className="text-[var(--muted-foreground)] text-sm">Detecta contenido que está perdiendo tráfico de forma pasiva en Google.</p>
-                  </div>
-                  <button className="bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm hover:bg-[var(--primary-hover)] transition-colors shadow-[0_0_15px_rgba(255,90,0,0.3)] cursor-pointer">
-                    Generar Reporte de Actualización
-                  </button>
-                </div>
+              <div className="space-y-6 animate-fade-in">
+                {/* TE Hardware Unit Chasis */}
+                <div className="te-rack-unit p-6">
+                  {/* Industrial Screws */}
+                  <div className="absolute top-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute top-2.5 right-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 left-2.5 te-rack-screw" />
+                  <div className="absolute bottom-2.5 right-2.5 te-rack-screw" />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                  <div className="glass-card p-6 border-t-4 border-t-red-500">
-                    <h3 className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Páginas Muriendo</h3>
-                    <p className="text-4xl font-bold">14 <span className="text-xs text-red-500 font-semibold bg-red-500/10 px-2 py-0.5 rounded">-20% Tráfico</span></p>
-                  </div>
-                  <div className="glass-card p-6 border-t-4 border-t-amber-500">
-                    <h3 className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Canibalización Detectada</h3>
-                    <p className="text-4xl font-bold">3 <span className="text-xs text-amber-500 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">Clusters</span></p>
-                  </div>
-                  <div className="glass-card p-6 border-t-4 border-t-emerald-500">
-                    <h3 className="text-[var(--muted-foreground)] text-xs uppercase tracking-wider font-semibold mb-2">Oportunidades Quick Win</h3>
-                    <p className="text-4xl font-bold">28 <span className="text-xs text-emerald-500 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded">Posiciones 11-20</span></p>
-                  </div>
-                </div>
+                  {/* Header de Hardware */}
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-5 border-b border-[#2a2e38]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded bg-[#07090a] border border-red-500/60 flex items-center justify-center text-red-500 shadow-[0_0_12px_rgba(239,68,68,0.25)]">
+                        <ChartBarIcon className="w-5 h-5 text-red-500" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[10px] font-bold text-red-400 tracking-widest uppercase">
+                            SLOT 08 // GSC CONTENT DECAY RADAR SCOPE
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping shadow-[0_0_6px_#ef4444]" />
+                          <span className="font-mono text-[9px] text-red-400 font-bold">RADAR SWEEP ACTIVE</span>
+                        </div>
+                        <h2 className="text-xl font-black text-[var(--foreground)] tracking-tight font-mono">
+                          SEARCH CONSOLE DECAY &amp; CANNIBALIZATION SWEEP
+                        </h2>
+                      </div>
+                    </div>
 
-                <div className="glass-card overflow-hidden">
-                  <table className="w-full text-left text-sm">
-                    <thead className="bg-[var(--card)] text-[var(--muted-foreground)]">
-                      <tr>
-                        <th className="px-6 py-3 font-medium">URL Afectada</th>
-                        <th className="px-6 py-3 font-medium">Tráfico (Mes Anterior)</th>
-                        <th className="px-6 py-3 font-medium">Tráfico (Actual)</th>
-                        <th className="px-6 py-3 font-medium">Pérdida</th>
-                        <th className="px-6 py-3 font-medium text-right">Acción IA</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[var(--border)]">
-                      {[
-                        { url: "/blog/que-es-el-marketing", old: "14,500", new: "9,200", loss: "-36%" },
-                        { url: "/servicios/seo-local", old: "8,100", new: "6,500", loss: "-19%" },
-                        { url: "/blog/tendencias-2023", old: "5,200", new: "1,100", loss: "-78%" },
-                      ].map((row, i) => (
-                        <tr key={i} className="hover:bg-[var(--muted)]/50 transition-colors group">
-                          <td className="px-6 py-4 text-[var(--foreground)] text-xs truncate max-w-[200px] font-medium">{row.url}</td>
-                          <td className="px-6 py-4 font-mono">{row.old}</td>
-                          <td className="px-6 py-4 font-mono text-red-500 font-semibold">{row.new}</td>
-                          <td className="px-6 py-4 font-bold text-red-500">{row.loss}</td>
-                          <td className="px-6 py-4 text-right">
-                            <button className="text-xs bg-[var(--muted)] border border-[var(--border)] px-3 py-1 rounded hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer">
-                              Reescribir con IA
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                    {/* Filtros de Radar y Acciones */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex p-0.5 rounded bg-[#07090a] border border-[#2a2e38] font-mono text-[10px]">
+                        {(['all', 'critical', 'quickwin'] as const).map((flt) => (
+                          <button
+                            key={flt}
+                            onClick={() => setDecayRadarFilter(flt)}
+                            className={`px-3 py-1.5 rounded font-bold uppercase transition-all cursor-pointer ${
+                              decayRadarFilter === flt
+                                ? 'bg-[#e85a2a] text-white shadow-sm'
+                                : 'text-zinc-400 hover:text-white'
+                            }`}
+                          >
+                            {flt === 'all' ? 'Todas' : flt === 'critical' ? 'Críticas (-20%+)' : 'Quick Wins (11-20)'}
+                          </button>
+                        ))}
+                      </div>
+
+                      <button 
+                        onClick={() => {
+                          showToast('Escaneo GSC Completado', 'Auditoría de decaimiento actualizada: 14 URLs requieren refresco de contenido.', 'info');
+                        }}
+                        className="te-button px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <ArrowPathIcon className="w-3.5 h-3.5 text-red-400" />
+                        <span>Sondeo GSC en Vivo</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* RADAR SWEEP INTERACTIVE CONSOLE */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-6">
+                    {/* Visualizador de Radar Militar / Sweep 360° */}
+                    <div className="p-5 rounded bg-[#07090a] border border-[#2a2e38] flex flex-col items-center justify-center space-y-4 relative overflow-hidden">
+                      <div className="flex justify-between w-full items-center text-[10px] font-mono text-zinc-400 border-b border-[#1e222a] pb-2">
+                        <span className="text-red-400 font-bold uppercase tracking-wider">RADAR 360° SWEEP</span>
+                        <span>FREQ: 14.8 KHZ</span>
+                      </div>
+
+                      {/* Radar Scope */}
+                      <div className="te-radar-scope flex items-center justify-center relative my-2">
+                        <div className="te-radar-sweep-line" />
+                        {/* Radar Target Blips */}
+                        <div className="absolute top-[28%] left-[32%] w-2.5 h-2.5 rounded-full bg-red-500 animate-ping shadow-[0_0_8px_#ef4444]" title="/blog/que-es-el-marketing (-36%)" />
+                        <div className="absolute top-[60%] left-[70%] w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f5a623]" title="/servicios/seo-local (-19%)" />
+                        <div className="absolute bottom-[25%] left-[25%] w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]" title="/blog/tendencias-2023 (-78%)" />
+                        <div className="absolute top-[35%] right-[20%] w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#3ddc84]" title="Quick win #14" />
+                        <div className="w-2 h-2 rounded-full bg-white z-10" />
+                      </div>
+
+                      <div className="flex justify-between w-full text-[9px] font-mono text-zinc-500 pt-2 border-t border-[#1e222a]">
+                        <span className="text-red-400 font-bold">🔴 14 Muriendo</span>
+                        <span className="text-amber-400 font-bold">🟡 3 Canibalizadas</span>
+                        <span className="text-[#3ddc84] font-bold">🟢 28 Quick Wins</span>
+                      </div>
+                    </div>
+
+                    {/* Resumen de Presión de Tráfico Perdido */}
+                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
+                        <span className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider block">
+                          Páginas Muriendo
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className="font-mono text-3xl font-black text-white">14</span>
+                          <span className="text-[10px] font-mono font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/30">
+                            -20% Tráfico
+                          </span>
+                        </div>
+                        <p className="text-[10px] font-mono text-zinc-500">Pérdida pasiva continua detectada en los últimos 90 días</p>
+                      </div>
+
+                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
+                        <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider block">
+                          Canibalización
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className="font-mono text-3xl font-black text-[#f5a623]">3</span>
+                          <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+                            Clusters
+                          </span>
+                        </div>
+                        <p className="text-[10px] font-mono text-zinc-500">URLs compitiendo entre sí por la misma intención de búsqueda</p>
+                      </div>
+
+                      <div className="p-4 rounded bg-[#0c0e12] border border-[#2a2e38] space-y-2">
+                        <span className="text-[10px] font-mono font-bold text-[#3ddc84] uppercase tracking-wider block">
+                          Oportunidades Quick Win
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className="font-mono text-3xl font-black text-[#3ddc84]">28</span>
+                          <span className="text-[10px] font-mono font-bold text-[#3ddc84] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                            Pos. 11-20
+                          </span>
+                        </div>
+                        <p className="text-[10px] font-mono text-zinc-500">Contenido a punto de entrar a primera página con leve refresco</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* TABLA DE AUDITORÍA DE DECAIMIENTO ESTILO TERMINAL 64-BIT */}
+                  <div className="space-y-3 font-mono text-xs">
+                    <div className="flex justify-between items-center px-1">
+                      <span className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-red-400 te-led-active" />
+                        URLs con Alerta de Pérdida de Tráfico Orgánico
+                      </span>
+                      <span className="text-zinc-500 text-[10px]">COMPARATIVA: ÚLTIMOS 90 DÍAS VS PREVIO</span>
+                    </div>
+
+                    <div className="overflow-x-auto rounded bg-[#07090a] border border-[#2a2e38]">
+                      <table className="w-full text-left font-mono text-xs">
+                        <thead className="bg-[#101216] text-zinc-400 border-b border-[#2a2e38]">
+                          <tr>
+                            <th className="px-4 py-3 font-bold uppercase text-[10px]">URL Afectada</th>
+                            <th className="px-4 py-3 font-bold uppercase text-[10px]">Tráfico Mes Anterior</th>
+                            <th className="px-4 py-3 font-bold uppercase text-[10px]">Tráfico Actual</th>
+                            <th className="px-4 py-3 font-bold uppercase text-[10px]">Pérdida</th>
+                            <th className="px-4 py-3 font-bold uppercase text-[10px] text-right">Acción de Refresco IA</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#1e222a]">
+                          {[
+                            { url: "/blog/que-es-el-marketing", old: "14,500", new: "9,200", loss: "-36%", status: "Crítica" },
+                            { url: "/servicios/seo-local", old: "8,100", new: "6,500", loss: "-19%", status: "Alerta" },
+                            { url: "/blog/tendencias-2023", old: "5,200", new: "1,100", loss: "-78%", status: "Obsoleta" },
+                            { url: "/guias/herramientas-copywriting", old: "9,800", new: "7,300", loss: "-25%", status: "Crítica" }
+                          ].map((row, i) => (
+                            <tr 
+                              key={i} 
+                              className={`hover:bg-[#151820] transition-colors cursor-pointer ${decaySelectedUrl === row.url ? 'bg-[#181b24]' : ''}`}
+                              onClick={() => setDecaySelectedUrl(row.url)}
+                            >
+                              <td className="px-4 py-3 font-bold text-white flex items-center gap-2">
+                                <span className="text-[10px] text-red-400">●</span>
+                                <span>{row.url}</span>
+                              </td>
+                              <td className="px-4 py-3 text-zinc-400">{row.old}</td>
+                              <td className="px-4 py-3 text-white font-bold">{row.new}</td>
+                              <td className="px-4 py-3 font-bold text-red-500">{row.loss}</td>
+                              <td className="px-4 py-3 text-right">
+                                <button 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    showToast('Regeneración Asistida Disparada', `Agente Vera reescribirá y actualizará ${row.url} en Payload/WP.`, 'success');
+                                  }}
+                                  className="te-button px-3 py-1 text-[11px] font-bold text-[#e85a2a] hover:bg-[#e85a2a] hover:text-white transition-all cursor-pointer"
+                                >
+                                  Reescribir con IA ⚡
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
@@ -9154,6 +9949,495 @@ WITH (m = 16, ef_construction = 64);`}</code>
                   </div>
                 )}
 
+              </div>
+            )}
+
+            {/* VISTA 17: FINOPS & TOKEN TELEMETRY ENGINE */}
+            {activeTab === 'finopsStudio' && (
+              <div className="te-rack-unit relative space-y-6 animate-fade-in">
+                <span className="te-rack-screw top-2.5 left-2.5" />
+                <span className="te-rack-screw top-2.5 right-2.5" />
+                <span className="te-rack-screw bottom-2.5 left-2.5" />
+                <span className="te-rack-screw bottom-2.5 right-2.5" />
+
+                {/* Top Module Header */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-[var(--border-te)]">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="te-badge te-badge-orange font-mono text-[9px]">SLOT-09 // FINOPS ENGINE</span>
+                      <span className="te-badge font-mono text-[9px] bg-zinc-800 text-zinc-300">REAL-TIME TOKENOMICS</span>
+                      {finopsKillSwitchActive ? (
+                        <span className="te-badge font-mono text-[9px] bg-red-950 text-red-400 border-red-800 animate-pulse">KILL-SWITCH ENGAGED</span>
+                      ) : (
+                        <span className="te-badge te-badge-green font-mono text-[9px]">TELEMETRY LIVE</span>
+                      )}
+                    </div>
+                    <h2 className="text-xl font-mono font-bold tracking-tight text-white flex items-center gap-2">
+                      <CurrencyDollarIcon className="w-5 h-5 text-[var(--accent-te)]" />
+                      Token Telemetry &amp; FinOps Studio
+                    </h2>
+                    <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                      Monitoreo de cuota, consumo de contexto LLM multi-modelo y costo por artículo en USD con corte de emergencia.
+                    </p>
+                  </div>
+
+                  {/* Hardware Kill-Switch & Action Controls */}
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                      onClick={() => {
+                        const next = !finopsKillSwitchActive;
+                        setFinopsKillSwitchActive(next);
+                        toast.success(
+                          next 
+                            ? 'EMERGENCY KILL-SWITCH ENGAGED: Ingestion LLM suspendida inmediatamente.' 
+                            : 'KILL-SWITCH RELEASED: Telemetría y llamadas de API restauradas.'
+                        );
+                      }}
+                      className={`px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 border ${
+                        finopsKillSwitchActive
+                          ? 'bg-red-900/60 border-red-500 text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.4)]'
+                          : 'bg-[#181b20] border-zinc-700 hover:border-red-500/60 text-zinc-300 hover:text-red-400'
+                      }`}
+                    >
+                      <span className={`w-2 h-2 rounded-full ${finopsKillSwitchActive ? 'bg-red-400 animate-ping' : 'bg-zinc-600'}`} />
+                      {finopsKillSwitchActive ? 'KILL SWITCH [ACTIVO]' : 'ENGAGE KILL SWITCH'}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        const csvContent = "data:text/csv;charset=utf-8," + 
+                          "Timestamp,Model,Tokens,EstimatedCostUSD,LatencyMs,Engine\n" +
+                          "2026-10-12T14:30:00Z,gpt-4o,7200000,72.00,420,AEO Synthesizer\n" +
+                          "2026-10-12T14:31:00Z,claude-3-5-sonnet,6100000,61.00,680,Deep Article Drafter\n" +
+                          "2026-10-12T14:32:00Z,gemini-1-5-pro,3800000,38.00,310,GSC Corpus Analyzer\n" +
+                          "2026-10-12T14:33:00Z,deepseek-v3,1320100,13.20,510,Citation Reasoning";
+                        const encodedUri = encodeURI(csvContent);
+                        const link = document.createElement("a");
+                        link.setAttribute("href", encodedUri);
+                        link.setAttribute("download", "finops_token_ledger.csv");
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        toast.success('Ledger FinOps exportado a CSV.');
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-300 font-mono text-xs flex items-center gap-1.5 transition-all"
+                    >
+                      <ArrowDownTrayIcon className="w-3.5 h-3.5" />
+                      Export CSV
+                    </button>
+                  </div>
+                </div>
+
+                {/* Main 64-bit Hardware Token Meter */}
+                <div className="p-5 rounded-xl bg-black border border-[var(--border-te)] space-y-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div>
+                      <span className="te-label text-zinc-400">TOTAL MONTHLY INGESTION METRICS</span>
+                      <div className="flex items-baseline gap-3 mt-1">
+                        <span className="text-3xl font-mono font-bold tracking-tight text-[#3ddc84]">
+                          {finopsTokensUsed.toLocaleString()}
+                        </span>
+                        <span className="text-xs font-mono text-zinc-500">
+                          / {finopsTokenBudget.toLocaleString()} TOKENS ({( (finopsTokensUsed / finopsTokenBudget) * 100 ).toFixed(1)}%)
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-right">
+                      <div>
+                        <span className="te-label text-zinc-400">EST. MONTHLY COST</span>
+                        <div className="text-xl font-mono font-bold text-white">$184.20 USD</div>
+                      </div>
+                      <div className="h-8 w-[1px] bg-zinc-800" />
+                      <div>
+                        <span className="te-label text-zinc-400">AVG / ARTICLE</span>
+                        <div className="text-xl font-mono font-bold text-[var(--accent-te)]">$0.084 USD</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 20-Segment Hardware LED Meter */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400">
+                      <span>0M TOKENS</span>
+                      <span className="text-[var(--accent-te)]">ALERT THRESHOLD (80%: 40M)</span>
+                      <span>50M MAX CAP</span>
+                    </div>
+                    <div className="grid grid-cols-20 gap-1 p-1 bg-[#121418] rounded-md border border-zinc-800">
+                      {Array.from({ length: 20 }).map((_, i) => {
+                        const cellPercent = (i + 1) * 5;
+                        const currentPercent = (finopsTokensUsed / finopsTokenBudget) * 100;
+                        const isFilled = cellPercent <= currentPercent;
+                        const isWarning = cellPercent > 70 && cellPercent <= 85;
+                        const isDanger = cellPercent > 85;
+                        
+                        let cellClass = "bg-zinc-900 border border-zinc-800/80";
+                        if (isFilled) {
+                          if (isDanger) cellClass = "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.7)]";
+                          else if (isWarning) cellClass = "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]";
+                          else cellClass = "bg-[#3ddc84] shadow-[0_0_8px_rgba(61,220,132,0.6)]";
+                        }
+                        
+                        return <div key={i} className={`h-4 rounded-sm transition-all duration-300 ${cellClass}`} />;
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Model Breakdown Hardware Chassis Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    {
+                      name: 'OpenAI GPT-4o',
+                      role: 'AEO Synthesizer & Fact-Check',
+                      tokens: '7.2M tokens',
+                      cost: '$72.00',
+                      latency: '420ms',
+                      cacheHit: '92.4%',
+                      color: '#10a37f',
+                      barWidth: '72%'
+                    },
+                    {
+                      name: 'Claude 3.5 Sonnet',
+                      role: 'Deep Article Drafting (200k ctx)',
+                      tokens: '6.1M tokens',
+                      cost: '$61.00',
+                      latency: '680ms',
+                      cacheHit: '88.1%',
+                      color: '#d97706',
+                      barWidth: '61%'
+                    },
+                    {
+                      name: 'Gemini 1.5 Pro',
+                      role: 'GSC 1M Token Context Analyzer',
+                      tokens: '3.8M tokens',
+                      cost: '$38.00',
+                      latency: '310ms',
+                      cacheHit: '95.8%',
+                      color: '#38bdf8',
+                      barWidth: '38%'
+                    },
+                    {
+                      name: 'DeepSeek V3',
+                      role: 'Citation Reasoning & Schema',
+                      tokens: '1.32M tokens',
+                      cost: '$13.20',
+                      latency: '510ms',
+                      cacheHit: '84.0%',
+                      color: '#a855f7',
+                      barWidth: '13%'
+                    }
+                  ].map((model, idx) => (
+                    <div key={idx} className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-mono font-bold text-white">{model.name}</span>
+                        <span className="text-[10px] font-mono font-bold text-zinc-300">{model.cost}</span>
+                      </div>
+                      <p className="text-[10px] font-mono text-zinc-400 line-clamp-1">{model.role}</p>
+
+                      <div className="space-y-1">
+                        <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full rounded-full" 
+                            style={{ width: model.barWidth, backgroundColor: model.color }} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between text-[9px] font-mono text-zinc-500">
+                          <span>{model.tokens}</span>
+                          <span>LAT: {model.latency}</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[10px] font-mono">
+                        <span className="text-zinc-400">Prompt Cache Hit:</span>
+                        <span className="text-[#3ddc84] font-bold">{model.cacheHit}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Parametric Hardware Calibration Bar */}
+                <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3">
+                      <div className="te-knob-dial">
+                        <div className="te-knob-notch" style={{ transform: 'rotate(45deg)' }} />
+                      </div>
+                      <div>
+                        <span className="te-label text-zinc-400">BUDGET ALERT</span>
+                        <div className="text-xs font-mono font-bold text-white">$180.00 USD</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="te-knob-dial">
+                        <div className="te-knob-notch" style={{ transform: 'rotate(-25deg)' }} />
+                      </div>
+                      <div>
+                        <span className="te-label text-zinc-400">MAX ARTICLE CAP</span>
+                        <div className="text-xs font-mono font-bold text-[#3ddc84]">$0.12 / art</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => {
+                        setFinopsTokensUsed(prev => prev + 250000);
+                        toast.success('+250,000 tokens inyectados en la telemetría para prueba de estrés.');
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-mono text-xs hover:text-white transition-all"
+                    >
+                      + Simular Carga (+250k tok)
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFinopsTokensUsed(18420100);
+                        toast.success('Contador de telemetría restaurado a baseline.');
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-zinc-400 font-mono text-xs hover:text-white transition-all"
+                    >
+                      Reset Telemetría
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* VISTA 18: UNIVERSE & INDUSTRY PRESETS VAULT */}
+            {activeTab === 'presetsStudio' && (
+              <div className="te-rack-unit relative space-y-6 animate-fade-in">
+                <span className="te-rack-screw top-2.5 left-2.5" />
+                <span className="te-rack-screw top-2.5 right-2.5" />
+                <span className="te-rack-screw bottom-2.5 left-2.5" />
+                <span className="te-rack-screw bottom-2.5 right-2.5" />
+
+                {/* Top Module Header */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-[var(--border-te)]">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="te-badge te-badge-orange font-mono text-[9px]">SLOT-10 // PRESETS VAULT</span>
+                      <span className="te-badge font-mono text-[9px] bg-zinc-800 text-zinc-300">PARAMETRIC PROFILES</span>
+                      <span className="te-badge te-badge-green font-mono text-[9px]">ACTIVE: {activeIndustryPreset.toUpperCase()}</span>
+                    </div>
+                    <h2 className="text-xl font-mono font-bold tracking-tight text-white flex items-center gap-2">
+                      <AdjustmentsVerticalIcon className="w-5 h-5 text-[var(--accent-te)]" />
+                      Universe &amp; Industry Presets Vault
+                    </h2>
+                    <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                      Configurador multi-nicho: calibra los motores de redacción, similitud vectorial y scoring con un toque táctil.
+                    </p>
+                  </div>
+
+                  {/* Export / Import Hardware Rig */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        const rigData = {
+                          version: "2.0-TE-SPEC",
+                          preset: activeIndustryPreset,
+                          revops: {
+                            attributionWeight: revopsAttributionWeight,
+                            minLeadScore: revopsMinLeadScore,
+                            autoDealThreshold: revopsAutoDealThreshold
+                          },
+                          cms: {
+                            patchConnected: cmsPatchConnected,
+                            dispatchMode: cmsDispatchMode,
+                            autoInjectJsonLd: cmsAutoInjectJsonLd
+                          },
+                          gscDecay: {
+                            sensitivity: decayRadarSensitivity,
+                            filter: decayRadarFilter
+                          },
+                          finops: {
+                            tokenBudget: finopsTokenBudget,
+                            tokensUsed: finopsTokensUsed,
+                            killSwitch: finopsKillSwitchActive
+                          },
+                          exportedAt: new Date().toISOString()
+                        };
+                        const blob = new Blob([JSON.stringify(rigData, null, 2)], { type: "application/json" });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `consenso-${activeIndustryPreset}.rig.json`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        toast.success(`Perfil [${activeIndustryPreset.toUpperCase()}] exportado como .rig.json`);
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-[#181b20] border border-[var(--border-te)] hover:border-zinc-500 text-zinc-200 font-mono text-xs flex items-center gap-1.5 transition-all"
+                    >
+                      <ArrowDownTrayIcon className="w-3.5 h-3.5" />
+                      Export Rig Profile
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveIndustryPreset('saas');
+                        setRevopsAttributionWeight(70);
+                        setRevopsMinLeadScore(80);
+                        setRevopsAutoDealThreshold(4500);
+                        setDecayRadarSensitivity(25);
+                        setCmsDispatchMode('draft-review');
+                        toast.success('Valores de fábrica Teenage Engineering restaurados.');
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-400 font-mono text-xs transition-all"
+                    >
+                      Reset Factory Specs
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4-Bank Tactile Preset Selector */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    {
+                      id: 'saas',
+                      title: 'B2B SaaS Enterprise',
+                      badge: 'REVOPS ATTR',
+                      desc: 'Optimizado para pipelines comerciales, atribución directa a HubSpot y comparativas de software frente a incumbentes.',
+                      features: ['Scoring MQL agresivo', 'Tablas comparativas vs competidores', 'Énfasis en citaciones Perplexity'],
+                      color: '#e85a2a'
+                    },
+                    {
+                      id: 'fintech',
+                      title: 'FinTech & Compliance',
+                      badge: 'ZERO HALLUCINATION',
+                      desc: 'Tolerancia cero a inventos. Verificación contra fuentes oficiales (SEC, Banco Central) y citabilidad de regulaciones.',
+                      features: ['Validación estricta de claims', 'Citación con código de ley', 'Temperatura LLM en 0.1'],
+                      color: '#38bdf8'
+                    },
+                    {
+                      id: 'ecommerce',
+                      title: 'E-Commerce High Velocity',
+                      badge: 'SCHEMA HEAVY',
+                      desc: 'Despliegues masivos a Shopify / WooCommerce con inyección automática de Offer, AggregateRating e intenciones de compra.',
+                      features: ['Dispatches en lotes de 50', 'Schema Product + FAQ', 'Velocidad de indexación 3x'],
+                      color: '#f5a623'
+                    },
+                    {
+                      id: 'health',
+                      title: 'Health & Medical E-E-A-T',
+                      badge: 'YMYL SURGICAL',
+                      desc: 'Cumplimiento exhaustivo con guías médicas. Cruce automático contra PubMed, enlaces DOI y descargos de responsabilidad.',
+                      features: ['Verificación DOI PubMed', 'Disclaimer médico obligatorio', 'Revisión por pares simulada'],
+                      color: '#3ddc84'
+                    }
+                  ].map((preset) => {
+                    const isSelected = activeIndustryPreset === preset.id;
+                    return (
+                      <div
+                        key={preset.id}
+                        onClick={() => {
+                          setActiveIndustryPreset(preset.id as any);
+                          toast.success(`Preset [${preset.title}] cargado en todo el laboratorio.`);
+                        }}
+                        className={`p-5 rounded-xl border transition-all cursor-pointer relative ${
+                          isSelected
+                            ? 'bg-[#15181e] border-[var(--accent-te)] shadow-[0_0_20px_rgba(232,90,42,0.2)]'
+                            : 'bg-[#121418] border-[var(--border-te)] hover:border-zinc-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <span 
+                            className="text-[9px] font-mono px-2 py-0.5 rounded-md font-bold"
+                            style={{ 
+                              backgroundColor: isSelected ? `${preset.color}20` : '#1c1f26',
+                              color: isSelected ? preset.color : '#888'
+                            }}
+                          >
+                            {preset.badge}
+                          </span>
+                          <span className={`w-3 h-3 rounded-full border flex items-center justify-center ${
+                            isSelected ? 'border-[var(--accent-te)] bg-[var(--accent-te)]' : 'border-zinc-700'
+                          }`}>
+                            {isSelected && <span className="w-1.5 h-1.5 bg-black rounded-full" />}
+                          </span>
+                        </div>
+
+                        <h3 className="text-sm font-mono font-bold text-white mb-1.5">{preset.title}</h3>
+                        <p className="text-xs text-zinc-400 font-mono mb-4 leading-relaxed">{preset.desc}</p>
+
+                        <div className="space-y-1.5 pt-3 border-t border-zinc-800/80">
+                          {preset.features.map((feat, fIdx) => (
+                            <div key={fIdx} className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-300">
+                              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+                              <span>{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Parametric Hardware Fine-Tuner Rack */}
+                <div className="p-5 rounded-xl bg-black border border-[var(--border-te)] space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="te-label text-zinc-400">FINE-TUNING HARDWARE DECK</span>
+                      <h4 className="text-sm font-mono font-bold text-white mt-0.5">Afinación Paramétrica del Motor Activo</h4>
+                    </div>
+                    <span className="text-[11px] font-mono text-[var(--accent-te)]">64-BIT PRECISION</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    {/* Knobs & Controls */}
+                    <div className="p-4 rounded-lg bg-[#121418] border border-zinc-800 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="te-label text-zinc-400">AGRESIVIDAD DE CITACIÓN</span>
+                        <span className="text-xs font-mono font-bold text-[#3ddc84]">{revopsAttributionWeight}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="20"
+                        max="100"
+                        value={revopsAttributionWeight}
+                        onChange={(e) => setRevopsAttributionWeight(Number(e.target.value))}
+                        className="w-full accent-[var(--accent-te)] bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
+                      />
+                      <p className="text-[10px] font-mono text-zinc-500">
+                        Ajusta la densidad de fragmentos directos formateados para Perplexity y SearchGPT.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-lg bg-[#121418] border border-zinc-800 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="te-label text-zinc-400">SENSIBILIDAD RADAR GSC</span>
+                        <span className="text-xs font-mono font-bold text-[var(--accent-te)]">-{decayRadarSensitivity}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="10"
+                        max="60"
+                        value={decayRadarSensitivity}
+                        onChange={(e) => setDecayRadarSensitivity(Number(e.target.value))}
+                        className="w-full accent-[var(--accent-te)] bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
+                      />
+                      <p className="text-[10px] font-mono text-zinc-500">
+                        Umbral de caída de clics para catalogar un post como contenido en decaimiento crítico.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-lg bg-[#121418] border border-zinc-800 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="te-label text-zinc-400">UMBRAL COSENO PGVECTOR</span>
+                        <span className="text-xs font-mono font-bold text-[#38bdf8]">0.82 cos(θ)</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="70"
+                        max="95"
+                        defaultValue="82"
+                        className="w-full accent-[#38bdf8] bg-zinc-800 cursor-pointer h-1.5 rounded-lg"
+                      />
+                      <p className="text-[10px] font-mono text-zinc-500">
+                        Filtro de similitud vectorial para deduplicar tópicos antes de iniciar redacción.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 

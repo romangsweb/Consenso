@@ -113,31 +113,29 @@ body {
 }
 
 .glass-card {
-  background: rgba(20, 20, 23, 0.65);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #111317;
+  border: 1px solid var(--border-te);
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  position: relative;
+  transition: all 0.18s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 90, 0, 0.25);
-  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45);
+  border-color: rgba(232, 90, 42, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(232, 90, 42, 0.1);
 }
 
 [data-theme="light"] .glass-card {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 0 #000000;
 }
 
 [data-theme="light"] .glass-card:hover {
-  border-color: rgba(255, 90, 0, 0.4);
-  box-shadow: 0 14px 34px -4px rgba(255, 90, 0, 0.08);
+  border-color: #000000;
+  box-shadow: 4px 4px 0 0 #e85a2a;
 }
 
 /* Ultra-Modern Glass Pill & Banner Styles */
@@ -737,7 +735,7 @@ body {
   box-shadow: 3px 3px 0px rgba(232, 90, 42, 0.4);
 }
 
-/* Cuadro de Narrador ("MIENTRAS TANTO EN EL CUARTEL DE DESARROLLO...") */
+/* Cuadro de Narrador */
 .comic-caption-box {
   background: #000000;
   color: #ffffff;
@@ -757,7 +755,7 @@ body {
   border: 2px solid #ffffff;
 }
 
-/* Onomatopeya / Efecto de Sonido estilo Cómic (*¡CLICK!*, *¡ZAP!*, *¡PING!*) */
+/* Onomatopeya / Efecto de Sonido estilo Cómic */
 .comic-onomatopoeia {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 900;
@@ -772,6 +770,206 @@ body {
 [data-theme="dark"] .comic-onomatopoeia {
   text-shadow: 2px 2px 0px #e85a2a;
 }
+
+/* ==========================================================================
+   TEENAGE ENGINEERING HARDWARE RACK & VISUALIZATION INNOVATIONS
+   ========================================================================== */
+
+/* Hardware Rack Unit Chasis */
+.te-rack-unit {
+  background: #121418;
+  border: 1px solid #2a2e38;
+  border-radius: 6px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+[data-theme="light"] .te-rack-unit {
+  background: #fbfbf9;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0px #000000;
+}
+
+/* Tornillos de montaje industrial en 4 esquinas */
+.te-rack-screw {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3d4352 30%, #1a1c22 80%);
+  border: 1px solid #525a6c;
+  position: relative;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.te-rack-screw::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 1.5px;
+  background: #101216;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+[data-theme="light"] .te-rack-screw {
+  background: radial-gradient(circle, #d0d0c8 30%, #888880 80%);
+  border: 1px solid #000000;
+}
+
+[data-theme="light"] .te-rack-screw::after {
+  background: #000000;
+}
+
+/* Oscilloscope & Frequency Spectrum Visualizer */
+@keyframes spectrumBounce {
+  0%, 100% { height: 18%; }
+  25% { height: 85%; }
+  50% { height: 42%; }
+  75% { height: 98%; }
+}
+
+.te-spectrum-bar {
+  width: 4px;
+  border-radius: 1px;
+  background: #e85a2a;
+  box-shadow: 0 0 6px rgba(232, 90, 42, 0.6);
+  animation: spectrumBounce 1.2s ease-in-out infinite alternate;
+}
+
+/* Radar Sweep Scope */
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.te-radar-scope {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,90,42,0.06) 0%, rgba(10,12,14,0.95) 75%);
+  border: 1.5px solid rgba(232, 90, 42, 0.4);
+  overflow: hidden;
+  box-shadow: inset 0 0 15px rgba(232, 90, 42, 0.2);
+}
+
+.te-radar-scope::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(232, 90, 42, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 90, 42, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.te-radar-sweep-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  background: linear-gradient(135deg, rgba(232, 90, 42, 0.6) 0%, rgba(232, 90, 42, 0) 65%);
+  transform-origin: 0% 100%;
+  animation: radarSweep 3.5s linear infinite;
+  pointer-events: none;
+}
+
+/* Rotary Knobs con muesca táctil */
+.te-knob-dial {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2a2e37 0%, #15181e 85%);
+  border: 2px solid #3c4250;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.15);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s ease;
+}
+
+.te-knob-dial:hover {
+  border-color: #e85a2a;
+}
+
+.te-knob-notch {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 3px;
+  height: 9px;
+  background: #e85a2a;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 5px rgba(232,90,42,0.8);
+}
+
+[data-theme="light"] .te-knob-dial {
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e0e0dc 85%);
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+}
+
+/* Jack Socket para Patch Bay */
+.te-jack-socket {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0d0f12;
+  border: 2px solid #4a5264;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.te-jack-hole {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #000000;
+  border: 1px solid #1a1e26;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.9);
+}
+
+.te-jack-socket.connected .te-jack-hole {
+  background: #e85a2a;
+  box-shadow: 0 0 8px #e85a2a;
+}
+
+/* 10-Segment LED Meter */
+.te-segment-meter {
+  display: flex;
+  gap: 2.5px;
+}
+
+.te-segment-cell {
+  width: 6px;
+  height: 12px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.15s ease;
+}
+
+.te-segment-cell.active-green {
+  background: #3ddc84;
+  box-shadow: 0 0 6px rgba(61, 220, 132, 0.8);
+}
+
+.te-segment-cell.active-yellow {
+  background: #f5a623;
+  box-shadow: 0 0 6px rgba(245, 166, 35, 0.8);
+}
+
+.te-segment-cell.active-orange {
+  background: #e85a2a;
+  box-shadow: 0 0 6px rgba(232, 90, 42, 0.8);
+}
+
 
 
 
