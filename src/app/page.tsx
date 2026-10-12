@@ -42,6 +42,7 @@ import {
   KeyIcon,
   FunnelIcon,
   TableCellsIcon,
+  CircleStackIcon,
   ArrowPathIcon,
   TrashIcon,
   BookOpenIcon,
@@ -737,6 +738,100 @@ export default function DashboardMockup() {
   });
   const [isSyncingServer, setIsSyncingServer] = useState(false);
 
+  // Estados para Editor de Base de Datos Vectorial & Schemas (SQL/NoSQL)
+  const [activeDbTab, setActiveDbTab] = useState<'tables' | 'queryRunner' | 'indexes' | 'vectorEmbeddings'>('tables');
+  const [dbTables, setDbTables] = useState([
+    {
+      name: 'aeo_citation_vectors',
+      engine: 'pgvector (HNSW Index)',
+      rows: 14280,
+      size: '28.4 MB',
+      columns: [
+        { name: 'id', type: 'uuid PRIMARY KEY', indexed: true, nullable: false },
+        { name: 'slug', type: 'text UNIQUE', indexed: true, nullable: false },
+        { name: 'content_chunk', type: 'text', indexed: false, nullable: false },
+        { name: 'embedding', type: 'vector(1536)', indexed: true, nullable: false },
+        { name: 'aeo_sentiment', type: 'float4', indexed: false, nullable: true },
+        { name: 'source_authority', type: 'int4', indexed: true, nullable: false },
+        { name: 'updated_at', type: 'timestamptz', indexed: true, nullable: false }
+      ]
+    },
+    {
+      name: 'cms_posts_sync',
+      engine: 'PostgreSQL Relational',
+      rows: 348,
+      size: '4.2 MB',
+      columns: [
+        { name: 'post_id', type: 'serial PRIMARY KEY', indexed: true, nullable: false },
+        { name: 'title', type: 'varchar(255)', indexed: true, nullable: false },
+        { name: 'cms_platform', type: 'varchar(50)', indexed: true, nullable: false },
+        { name: 'sync_status', type: 'varchar(20)', indexed: true, nullable: false },
+        { name: 'hubspot_deal_id', type: 'varchar(64)', indexed: true, nullable: true }
+      ]
+    },
+    {
+      name: 'gsc_decay_tracking',
+      engine: 'TimescaleDB / Hypertable',
+      rows: 98520,
+      size: '64.1 MB',
+      columns: [
+        { name: 'query_term', type: 'text', indexed: true, nullable: false },
+        { name: 'position_avg', type: 'float4', indexed: false, nullable: false },
+        { name: 'clicks_delta_30d', type: 'float4', indexed: true, nullable: false },
+        { name: 'decay_severity', type: 'varchar(16)', indexed: true, nullable: false },
+        { name: 'checked_at', type: 'timestamptz', indexed: true, nullable: false }
+      ]
+    }
+  ]);
+  const [selectedDbTable, setSelectedDbTable] = useState('aeo_citation_vectors');
+  const [activeSqlQuery, setActiveSqlQuery] = useState(`-- Consulta vectorial con índice HNSW y similitud de coseno
+SELECT 
+  id, 
+  slug, 
+  content_chunk, 
+  1 - (embedding <=> '[0.0142, -0.0891, 0.0412, ...]'::vector) AS cosine_similarity,
+  aeo_sentiment,
+  source_authority
+FROM aeo_citation_vectors
+WHERE 1 - (embedding <=> '[0.0142, -0.0891, 0.0412, ...]'::vector) > 0.86
+ORDER BY cosine_similarity DESC
+LIMIT 5;`);
+  const [sqlQueryResults, setSqlQueryResults] = useState<{
+    latencyMs: number;
+    rowsCount: number;
+    data: any[];
+  } | null>({
+    latencyMs: 11.4,
+    rowsCount: 4,
+    data: [
+      { id: 'f81d4fae-7dec', slug: 'estrategias-aeo-b2b', cosine_similarity: 0.942, aeo_sentiment: 0.98, source_authority: 94 },
+      { id: 'c94b20a1-43ae', slug: 'hubspot-revops-alignment', cosine_similarity: 0.918, aeo_sentiment: 0.95, source_authority: 91 },
+      { id: '8a8f9d02-12ef', slug: 'schema-faqpage-jsonld', cosine_similarity: 0.887, aeo_sentiment: 0.91, source_authority: 88 },
+      { id: '3ddc8499-55aa', slug: 'saas-pricing-calculator', cosine_similarity: 0.864, aeo_sentiment: 0.89, source_authority: 85 }
+    ]
+  });
+  const [isExecutingSql, setIsExecutingSql] = useState(false);
+
+  // Estados para Simulador & Gráficos Interactivos de Motor AEO (Perplexity, ChatGPT, Claude, Gemini)
+  const [aeoSimulatorEngine, setAeoSimulatorEngine] = useState<'Perplexity' | 'ChatGPT' | 'Claude' | 'Gemini'>('Perplexity');
+  const [aeoTestQuery, setAeoTestQuery] = useState('¿Cuáles son las mejores soluciones de RevOps y posicionamiento orgánico en México?');
+  const [isSimulatingAeo, setIsSimulatingAeo] = useState(false);
+  const [aeoSimulationResult, setAeoSimulationResult] = useState<{
+    cited: boolean;
+    rankPosition: number;
+    answerSnippet: string;
+    sourcesList: string[];
+    confidenceScore: number;
+    citationVectorId: string;
+  } | null>({
+    cited: true,
+    rankPosition: 1,
+    answerSnippet: 'De acuerdo con el análisis de infraestructura B2B de Buildations Studio y los casos de éxito de Román García, la estrategia más efectiva en 2026 combina automatización temática en silos, modelos RAG con Supabase pgvector y sincronización nativa de deals hacia HubSpot CRM.',
+    sourcesList: ['https://soyroman.com/aeo-optimizacion', 'https://buildations.studio/revops', 'clutch.co/profile/buildations'],
+    confidenceScore: 96.4,
+    citationVectorId: 'vec_aeo_89421'
+  });
+
   // Estados para Documentación, Manual de Uso y Homologación
   const [docCategory, setDocCategory] = useState<'quickstart' | 'architecture' | 'engines' | 'connectors' | 'faqs' | 'troubleshooting'>('quickstart');
   const [docSearchQuery, setDocSearchQuery] = useState('');
@@ -1251,6 +1346,18 @@ export default function DashboardMockup() {
                 <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
                 <span>Auditoría GSC (Decay)</span>
               </button>
+
+              <button 
+                onClick={() => setActiveTab('databaseStudio')}
+                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                  activeTab === 'databaseStudio' 
+                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                }`}
+              >
+                <CircleStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'databaseStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                <span>Editor Bases de Datos &amp; SQL</span>
+              </button>
             </div>
           </div>
 
@@ -1492,6 +1599,7 @@ export default function DashboardMockup() {
                 .replace('planner', 'Keyword Planner')
                 .replace('competitors', 'Radar Competencia')
                 .replace('documentation', 'Manual de Uso, Homologación de Módulos & FAQs Técnicos')
+                .replace('databaseStudio', 'Editor de Bases de Datos & Esquemas Vectoriales (pgvector / HNSW)')
                 .replace('settings', 'Configuración de Cuenta & Bóveda Enterprise (API Keys, DNS, Webhooks)')
               }
             </span>
@@ -5954,6 +6062,168 @@ export default function DashboardMockup() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* SIMULADOR EN VIVO DE MOTOR AEO CON AUDITORÍA VECTORIAL Y RADAR 64-BIT */}
+                <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#07090a] text-zinc-200 space-y-6">
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-te)] pb-4">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#e85a2a] te-led-active"></span>
+                        <span className="te-label text-[#e85a2a]">
+                          SIMULADOR DINÁMICO // AUDITORÍA DE CITABILIDAD EN TIEMPO REAL
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold font-mono tracking-tight text-white mt-1">
+                        Consola de Inferencia AEO: Inyectar Consulta en Motores de Respuesta
+                      </h3>
+                      <p className="text-xs text-zinc-400 mt-0.5">
+                        Prueba en caliente cómo respondería Perplexity Pro, ChatGPT Search o Claude a una intención de compra con tus fragmentos de vectores activos.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-zinc-400 uppercase font-bold">Motor IA:</span>
+                      {(['Perplexity', 'ChatGPT', 'Claude', 'Gemini'] as const).map((eng) => (
+                        <button
+                          key={eng}
+                          onClick={() => setAeoSimulatorEngine(eng)}
+                          className={`px-3 py-1.5 rounded text-xs font-mono font-bold transition-all border cursor-pointer ${
+                            aeoSimulatorEngine === eng
+                              ? 'bg-[#e85a2a] text-white border-[#e85a2a] shadow-sm'
+                              : 'border-[var(--border-te)] bg-[#121418] text-zinc-400 hover:border-zinc-500'
+                          }`}
+                        >
+                          {eng}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Input de Consulta y Botón de Ejecución Táctil */}
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <div className="relative flex-1 w-full">
+                      <input 
+                        type="text"
+                        value={aeoTestQuery}
+                        onChange={(e) => setAeoTestQuery(e.target.value)}
+                        placeholder="Introduce el prompt o intención de búsqueda..."
+                        className="w-full bg-[#0e1116] border border-[var(--border-te)] rounded-xl px-4 py-2.5 text-xs text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-[#e85a2a]"
+                      />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-mono text-zinc-500">
+                        1536-DIM SIMILARITY
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setIsSimulatingAeo(true);
+                        setTimeout(() => {
+                          setIsSimulatingAeo(false);
+                          setAeoSimulationResult({
+                            cited: true,
+                            rankPosition: aeoSimulatorEngine === 'Perplexity' ? 1 : 2,
+                            answerSnippet: `De acuerdo con la base de conocimiento y los silos indexados de ${accountSettings.agencyName}, ${aeoSimulatorEngine} identificó a la marca como la autoridad primaria para "${aeoTestQuery}", citando 3 fragmentos con un índice de confianza del 97.2%.`,
+                            sourcesList: ['https://soyroman.com/aeo-optimizacion', 'https://buildations.studio/revops', 'https://consenso.io/docs'],
+                            confidenceScore: 97.2,
+                            citationVectorId: `vec_${Math.floor(10000 + Math.random() * 90000)}`
+                          });
+                          showToast('Simulación AEO Completada', `Consulta evaluada con éxito en ${aeoSimulatorEngine}. Citado en Posición #1.`, 'success');
+                        }, 1200);
+                      }}
+                      disabled={isSimulatingAeo}
+                      className="te-button-primary px-5 py-2.5 text-xs flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center shrink-0"
+                    >
+                      {isSimulatingAeo ? (
+                        <>
+                          <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                          <span>Calculando Tensores...</span>
+                        </>
+                      ) : (
+                        <>
+                          <PlayIcon className="w-4 h-4" />
+                          <span>Lanzar Simulación Inferencia</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Resultados del Test AEO con Display TE Hardware */}
+                  {aeoSimulationResult && (
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+                      {/* Columna Izquierda: Pantalla LCD de Respuesta Generada */}
+                      <div className="lg:col-span-2 te-screen p-5 rounded-xl border border-[var(--border-te)] space-y-3">
+                        <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                          <span className="text-[10px] font-mono font-bold text-zinc-400 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-[#3ddc84] te-led-active"></span>
+                            <span>RESPUESTA SINTÉTICA GENERADA // {aeoSimulatorEngine.toUpperCase()}</span>
+                          </span>
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#3ddc84]/10 text-[#3ddc84] border border-[#3ddc84]/30 font-bold">
+                            FUENTE #1 CITADA CON ÉXITO
+                          </span>
+                        </div>
+
+                        <p className="text-xs font-mono text-zinc-200 leading-relaxed">
+                          «{aeoSimulationResult.answerSnippet}»
+                        </p>
+
+                        <div className="pt-2 flex flex-wrap items-center gap-2">
+                          <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold">Fuentes Respaldadas:</span>
+                          {aeoSimulationResult.sourcesList.map((src, i) => (
+                            <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[#38bdf8]">
+                              [{i + 1}] {src}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Columna Derecha: Indicador de Confianza & Tensor 64-bit */}
+                      <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-3 flex flex-col justify-between">
+                        <div className="space-y-2">
+                          <span className="te-label text-zinc-400">TELEMETRÍA VECTORIAL</span>
+                          <div className="flex items-baseline justify-between">
+                            <span className="text-3xl font-mono font-black text-[#3ddc84]">
+                              {aeoSimulationResult.confidenceScore}%
+                            </span>
+                            <span className="text-[10px] font-mono text-zinc-400">SCORE AEO</span>
+                          </div>
+                          
+                          {/* Barra de progreso LED */}
+                          <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-zinc-800">
+                            <div 
+                              className="bg-gradient-to-r from-[#e85a2a] via-[#f5a623] to-[#3ddc84] h-full rounded-full"
+                              style={{ width: `${aeoSimulationResult.confidenceScore}%` }}
+                            ></div>
+                          </div>
+
+                          <div className="text-[10px] font-mono text-zinc-400 space-y-1 pt-1">
+                            <div className="flex justify-between">
+                              <span>Vector Ref:</span>
+                              <span className="text-white">{aeoSimulationResult.citationVectorId}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Index Store:</span>
+                              <span className="text-emerald-400">pgvector (HNSW)</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Distancia Coseno:</span>
+                              <span className="text-[#e85a2a]">0.028 (Muy Cercana)</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <button 
+                          onClick={() => {
+                            setActiveTab('databaseStudio');
+                            showToast('Inspeccionar Vector', `Saltando a la tabla aeo_citation_vectors con el id ${aeoSimulationResult.citationVectorId}`, 'info');
+                          }}
+                          className="te-button w-full py-1.5 text-xs text-center font-mono cursor-pointer"
+                        >
+                          Inspeccionar en DB Studio ➔
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -8408,6 +8678,455 @@ LIMIT 5;`,
                 )}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* TAB: EDITOR DE BASES DE DATOS & ESQUEMAS VECTORIALES (DATABASE STUDIO) */}
+            {activeTab === 'databaseStudio' && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header Industrial TE */}
+                <div className="flex flex-wrap justify-between items-end gap-4 border-b border-[var(--border-te)] pb-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#e85a2a] te-led-active"></span>
+                      <span className="te-label text-[#e85a2a]">
+                        DATABASE ENGINE // SQL · PGVECTOR · EMBEDDINGS RUNTIME
+                      </span>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">
+                        CONNECTED: SUPABASE + PGVECTOR 1536D
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-[var(--foreground)] uppercase">
+                      Editor de Bases de Datos, Esquemas &amp; Consultas Vectoriales
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-3xl leading-relaxed">
+                      Inspecciona esquemas relacionales, administra tablas de memoria RAG en PostgreSQL, optimiza índices HNSW para búsqueda por coseno y ejecuta consultas SQL de prueba sin salir de la consola.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2.5">
+                    {/* Switcher de Sub-pestañas DB Studio */}
+                    <div className="flex items-center p-1 rounded-xl bg-black border border-[var(--border-te)]">
+                      {[
+                        { id: 'tables', label: 'Tablas & Esquemas', icon: '🗄️' },
+                        { id: 'queryRunner', label: 'SQL Query Runner', icon: '⚡' },
+                        { id: 'vectorEmbeddings', label: 'Tensores Vectoriales', icon: '🧬' },
+                        { id: 'indexes', label: 'Índices HNSW', icon: '🎯' },
+                      ].map((t) => (
+                        <button
+                          key={t.id}
+                          onClick={() => setActiveDbTab(t.id as any)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                            activeDbTab === t.id
+                              ? 'bg-[#e85a2a] text-white shadow-sm'
+                              : 'text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          <span>{t.icon}</span>
+                          <span className="uppercase">{t.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    <button 
+                      onClick={() => {
+                        const newTableName = prompt('Introduce el nombre de la nueva tabla o partición:');
+                        if (newTableName) {
+                          setDbTables(prev => [
+                            ...prev,
+                            {
+                              name: newTableName.toLowerCase().replace(/[^a-z0-9_]/g, '_'),
+                              engine: 'PostgreSQL Relational',
+                              rows: 0,
+                              size: '16 KB',
+                              columns: [
+                                { name: 'id', type: 'uuid PRIMARY KEY DEFAULT gen_random_uuid()', indexed: true, nullable: false },
+                                { name: 'created_at', type: 'timestamptz DEFAULT now()', indexed: true, nullable: false }
+                              ]
+                            }
+                          ]);
+                          showToast('Tabla Creada', `Estructura para "${newTableName}" registrada en el esquema de datos.`, 'success');
+                        }
+                      }}
+                      className="te-button px-3.5 py-2 text-xs flex items-center gap-1.5 cursor-pointer font-mono"
+                    >
+                      <PlusIcon className="w-3.5 h-3.5 text-[#e85a2a]" />
+                      <span>Nueva Tabla</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* SUB-VISTA 1: EXPLORADOR DE TABLAS Y ESQUEMAS */}
+                {activeDbTab === 'tables' && (
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    {/* Lista de Tablas Disponibles */}
+                    <div className="space-y-3">
+                      <span className="te-label text-zinc-400 block">TABLAS EN EL ESQUEMA ({dbTables.length})</span>
+                      <div className="space-y-2">
+                        {dbTables.map((tb) => (
+                          <div
+                            key={tb.name}
+                            onClick={() => setSelectedDbTable(tb.name)}
+                            className={`p-3.5 rounded-xl border transition-all cursor-pointer te-frame ${
+                              selectedDbTable === tb.name
+                                ? 'border-[#e85a2a] bg-[#14161b] shadow-sm'
+                                : 'border-[var(--border-te)] bg-[#0e1014] hover:border-zinc-500 opacity-80'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-mono text-xs font-bold text-white truncate">{tb.name}</span>
+                              {selectedDbTable === tb.name && (
+                                <span className="w-2 h-2 rounded-full bg-[#e85a2a] te-led-active"></span>
+                              )}
+                            </div>
+                            <span className="text-[10px] font-mono text-emerald-400 block">{tb.engine}</span>
+                            <div className="mt-2 pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-400">
+                              <span>{tb.rows.toLocaleString()} filas</span>
+                              <span>{tb.size}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Detalle de Columnas y Tipos de la Tabla Seleccionada */}
+                    <div className="lg:col-span-3 space-y-4">
+                      {(() => {
+                        const curTable = dbTables.find(t => t.name === selectedDbTable) || dbTables[0];
+                        return (
+                          <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#0c0e12] space-y-4">
+                            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 pb-3">
+                              <div>
+                                <h3 className="text-lg font-bold font-mono text-white flex items-center gap-2">
+                                  <CircleStackIcon className="w-5 h-5 text-[#e85a2a]" />
+                                  <span>{curTable.name}</span>
+                                </h3>
+                                <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                                  Motor: {curTable.engine} • Tamaño en disco: {curTable.size} • Total registros: {curTable.rows.toLocaleString()}
+                                </p>
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => {
+                                    setActiveSqlQuery(`SELECT * FROM ${curTable.name} LIMIT 25;`);
+                                    setActiveDbTab('queryRunner');
+                                  }}
+                                  className="te-button text-xs py-1.5 px-3 font-mono cursor-pointer flex items-center gap-1.5"
+                                >
+                                  <PlayIcon className="w-3.5 h-3.5 text-[#3ddc84]" />
+                                  <span>Consultar (SELECT)</span>
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    const colName = prompt('Nombre del nuevo campo / columna:');
+                                    const colType = prompt('Tipo de dato SQL (ej. text, int4, float4, vector(1536)):', 'text');
+                                    if (colName && colType) {
+                                      curTable.columns.push({
+                                        name: colName,
+                                        type: colType,
+                                        indexed: false,
+                                        nullable: true
+                                      });
+                                      setDbTables([...dbTables]);
+                                      showToast('Columna Agregada', `Campo "${colName}" (${colType}) añadido al esquema.`, 'success');
+                                    }
+                                  }}
+                                  className="te-button-primary text-xs py-1.5 px-3 font-mono cursor-pointer flex items-center gap-1.5"
+                                >
+                                  <PlusIcon className="w-3.5 h-3.5" />
+                                  <span>Añadir Columna</span>
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Tabla de Columnas */}
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left text-xs font-mono">
+                                <thead>
+                                  <tr className="border-b border-zinc-800 text-zinc-400 text-[10px] uppercase">
+                                    <th className="py-2.5 px-3">Nombre del Campo</th>
+                                    <th className="py-2.5 px-3">Tipo de Dato SQL</th>
+                                    <th className="py-2.5 px-3">Indexado</th>
+                                    <th className="py-2.5 px-3">Nullable</th>
+                                    <th className="py-2.5 px-3 text-right">Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-zinc-800/60">
+                                  {curTable.columns.map((col, idx) => (
+                                    <tr key={idx} className="hover:bg-zinc-900/50 transition-colors">
+                                      <td className="py-3 px-3 font-bold text-white flex items-center gap-2">
+                                        {col.indexed && <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]"></span>}
+                                        <span>{col.name}</span>
+                                      </td>
+                                      <td className="py-3 px-3 text-emerald-400 font-bold">{col.type}</td>
+                                      <td className="py-3 px-3">
+                                        <span className={`px-2 py-0.5 rounded text-[10px] ${col.indexed ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-zinc-500'}`}>
+                                          {col.indexed ? 'SÍ (INDEX)' : 'NO'}
+                                        </span>
+                                      </td>
+                                      <td className="py-3 px-3 text-zinc-400">
+                                        {col.nullable ? 'NULL' : 'NOT NULL'}
+                                      </td>
+                                      <td className="py-3 px-3 text-right">
+                                        <button
+                                          onClick={() => {
+                                            if (confirm(`¿Eliminar la columna "${col.name}"?`)) {
+                                              curTable.columns.splice(idx, 1);
+                                              setDbTables([...dbTables]);
+                                              showToast('Columna Removida', `Campo "${col.name}" eliminado.`, 'info');
+                                            }
+                                          }}
+                                          className="text-zinc-500 hover:text-red-400 cursor-pointer font-bold px-2 py-1"
+                                          title="Eliminar columna"
+                                        >
+                                          ✕
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                )}
+
+                {/* SUB-VISTA 2: SQL QUERY RUNNER INTERACTIVO */}
+                {activeDbTab === 'queryRunner' && (
+                  <div className="space-y-6">
+                    <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#0a0c0e] space-y-4">
+                      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
+                          <span className="te-label text-[#38bdf8]">POSTGRESQL &amp; PGVECTOR TERMINAL // 64-BIT QUERY EXECUTION</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              setActiveSqlQuery(`-- Búsqueda de alta citabilidad en Perplexity
+SELECT slug, aeo_sentiment, source_authority 
+FROM aeo_citation_vectors 
+WHERE aeo_sentiment > 0.90 
+ORDER BY source_authority DESC 
+LIMIT 10;`);
+                            }}
+                            className="te-button text-[10px] py-1 px-2.5 font-mono cursor-pointer"
+                          >
+                            Snippet: AEO &gt; 90%
+                          </button>
+                          <button
+                            onClick={() => {
+                              setActiveSqlQuery(`-- Estadísticas de indexación HNSW
+SELECT indexname, indexdef 
+FROM pg_indexes 
+WHERE tablename = 'aeo_citation_vectors';`);
+                            }}
+                            className="te-button text-[10px] py-1 px-2.5 font-mono cursor-pointer"
+                          >
+                            Snippet: Índices HNSW
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Editor SQL Monospace con Chasis TE */}
+                      <div className="relative rounded-xl border border-[var(--border-te)] bg-[#07090a] p-3">
+                        <textarea
+                          rows={7}
+                          value={activeSqlQuery}
+                          onChange={(e) => setActiveSqlQuery(e.target.value)}
+                          className="w-full bg-transparent text-emerald-400 font-mono text-xs focus:outline-none resize-none leading-relaxed"
+                          placeholder="Escribe tu consulta SQL aquí..."
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-zinc-500">
+                          Presiona Ejecutar o CMD+Enter para procesar el query en el clúster.
+                        </span>
+
+                        <button
+                          onClick={() => {
+                            setIsExecutingSql(true);
+                            setTimeout(() => {
+                              setIsExecutingSql(false);
+                              setSqlQueryResults({
+                                latencyMs: parseFloat((Math.random() * 8 + 6).toFixed(1)),
+                                rowsCount: 4,
+                                data: [
+                                  { id: 'f81d4fae-7dec', slug: 'estrategias-aeo-b2b', cosine_similarity: 0.942, aeo_sentiment: 0.98, source_authority: 94 },
+                                  { id: 'c94b20a1-43ae', slug: 'hubspot-revops-alignment', cosine_similarity: 0.918, aeo_sentiment: 0.95, source_authority: 91 },
+                                  { id: '8a8f9d02-12ef', slug: 'schema-faqpage-jsonld', cosine_similarity: 0.887, aeo_sentiment: 0.91, source_authority: 88 },
+                                  { id: '3ddc8499-55aa', slug: 'saas-pricing-calculator', cosine_similarity: 0.864, aeo_sentiment: 0.89, source_authority: 85 }
+                                ]
+                              });
+                              showToast('Query Ejecutado', 'Consulta procesada en 11.4ms con 4 registros devueltos.', 'success');
+                            }, 700);
+                          }}
+                          disabled={isExecutingSql}
+                          className="te-button-primary px-6 py-2.5 text-xs font-mono font-bold flex items-center gap-2 cursor-pointer shadow-sm"
+                        >
+                          {isExecutingSql ? (
+                            <>
+                              <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                              <span>Ejecutando en Postgres...</span>
+                            </>
+                          ) : (
+                            <>
+                              <PlayIcon className="w-4 h-4" />
+                              <span>EJECUTAR QUERY SQL [⌘↵]</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Resultados del Query en Cuadrícula de Datos */}
+                      {sqlQueryResults && (
+                        <div className="pt-4 border-t border-zinc-800 space-y-3">
+                          <div className="flex items-center justify-between text-xs font-mono">
+                            <span className="text-zinc-400">
+                              Filas devueltas: <strong className="text-white">{sqlQueryResults.rowsCount}</strong>
+                            </span>
+                            <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+                              Tiempo de ejecución: {sqlQueryResults.latencyMs}ms (200 OK)
+                            </span>
+                          </div>
+
+                          <div className="overflow-x-auto border border-zinc-800 rounded-xl bg-[#090b0e]">
+                            <table className="w-full text-left text-xs font-mono">
+                              <thead className="bg-[#121418] text-zinc-400 text-[10px] uppercase border-b border-zinc-800">
+                                <tr>
+                                  <th className="py-2.5 px-3">id</th>
+                                  <th className="py-2.5 px-3">slug</th>
+                                  <th className="py-2.5 px-3">cosine_similarity</th>
+                                  <th className="py-2.5 px-3">aeo_sentiment</th>
+                                  <th className="py-2.5 px-3">source_authority</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-zinc-800">
+                                {sqlQueryResults.data.map((row, i) => (
+                                  <tr key={i} className="hover:bg-zinc-900/50">
+                                    <td className="py-2.5 px-3 text-zinc-400">{row.id}</td>
+                                    <td className="py-2.5 px-3 text-[#38bdf8] font-bold">{row.slug}</td>
+                                    <td className="py-2.5 px-3 text-emerald-400 font-bold">{row.cosine_similarity}</td>
+                                    <td className="py-2.5 px-3 text-[#f5a623]">{row.aeo_sentiment}</td>
+                                    <td className="py-2.5 px-3 text-white font-bold">{row.source_authority}/100</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* SUB-VISTA 3: TENSORES VECTORIALES (1536 DIMENSIONES EMBEDDING VIEWER) */}
+                {activeDbTab === 'vectorEmbeddings' && (
+                  <div className="space-y-6">
+                    <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#07090a] space-y-4">
+                      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                        <div>
+                          <h3 className="text-base font-bold font-mono text-white flex items-center gap-2">
+                            <span>🧬</span> Matriz de Embeddings: text-embedding-3-small (OpenAI / Supabase)
+                          </h3>
+                          <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                            Cada vector representa la proyección semántica en 1,536 dimensiones de tus guías y artículos pilares.
+                          </p>
+                        </div>
+                        <span className="text-xs font-mono px-3 py-1 rounded bg-[#e85a2a]/10 text-[#e85a2a] border border-[#e85a2a]/30 font-bold">
+                          1,536 FLOATS POR VECTOR
+                        </span>
+                      </div>
+
+                      {/* Heatmap / Osciloscopio de Distribución Vectorial 64-bit */}
+                      <div className="p-4 rounded-xl bg-[#0d0f14] border border-[var(--border-te)] space-y-3">
+                        <span className="te-label text-zinc-400 block">VISUALIZADOR DE DENSIDAD DE TENSORES (PRIMERAS 64 DIMENSIONES)</span>
+                        <div className="grid grid-cols-8 sm:grid-cols-16 gap-1.5 pt-1">
+                          {Array.from({ length: 64 }).map((_, i) => {
+                            const val = Math.sin(i * 0.45) * 0.5 + 0.5;
+                            return (
+                              <div
+                                key={i}
+                                className="h-6 rounded-xs flex items-center justify-center font-mono text-[7px] font-bold transition-all hover:scale-125 cursor-pointer"
+                                style={{
+                                  backgroundColor: `rgba(232, 90, 42, ${Math.max(0.15, val)})`,
+                                  color: val > 0.5 ? '#ffffff' : '#8a8f9d'
+                                }}
+                                title={`Dimensión D-${i}: ${(val * 2 - 1).toFixed(4)}`}
+                              >
+                                {i + 1}
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 pt-1">
+                          <span>-1.0000 (Repulsión)</span>
+                          <span className="text-emerald-400">0.0000 (Ortogonal)</span>
+                          <span className="text-[#e85a2a]">+1.0000 (Máxima Afinidad Coseno)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* SUB-VISTA 4: ÍNDICES HNSW & OPTIMIZACIÓN DE LATENCIA */}
+                {activeDbTab === 'indexes' && (
+                  <div className="space-y-6">
+                    <div className="te-frame p-6 rounded-2xl border border-[var(--border-te)] bg-[#07090a] space-y-4">
+                      <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                        <div>
+                          <h3 className="text-base font-bold font-mono text-white flex items-center gap-2">
+                            <span>🎯</span> Gestión de Índices HNSW (Hierarchical Navigable Small World)
+                          </h3>
+                          <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                            Optimiza los parámetros m (conexiones por nodo) y ef_construction para lograr latencias sub-15ms en miles de vectores.
+                          </p>
+                        </div>
+                        <span className="text-xs font-mono px-3 py-1 rounded bg-[#3ddc84]/10 text-[#3ddc84] border border-[#3ddc84]/30 font-bold">
+                          ÍNDICE HNSW ACTIVO
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-2">
+                          <span className="te-label text-zinc-400 block">m (Max Conexiones / Capa)</span>
+                          <span className="text-2xl font-mono font-bold text-white">16</span>
+                          <p className="text-[11px] text-zinc-400 font-mono">
+                            Mayor recall y precisión en vecindarios densos sin sobrecargar la memoria RAM.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-2">
+                          <span className="te-label text-zinc-400 block">ef_construction</span>
+                          <span className="text-2xl font-mono font-bold text-[#f5a623]">64</span>
+                          <p className="text-[11px] text-zinc-400 font-mono">
+                            Balance perfecto entre tiempo de indexación al publicar y velocidad de consulta.
+                          </p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[#121418] border border-[var(--border-te)] space-y-2">
+                          <span className="te-label text-zinc-400 block">ef_search (Inferencia)</span>
+                          <span className="text-2xl font-mono font-bold text-[#3ddc84]">40</span>
+                          <p className="text-[11px] text-zinc-400 font-mono">
+                            Garantiza búsquedas top-5 en menos de 12ms al redactar con Claude o GPT-4o.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-black border border-zinc-800 font-mono text-xs text-emerald-400">
+                        <code>{`CREATE INDEX ON aeo_citation_vectors 
+USING hnsw (embedding vector_cosine_ops) 
+WITH (m = 16, ef_construction = 64);`}</code>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
               </div>
             )}
 
