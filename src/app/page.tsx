@@ -245,6 +245,43 @@ export default function DashboardMockup() {
   ]);
   const [sitemapFilter, setSitemapFilter] = useState<'all' | 'issues' | 'opportunities'>('all');
 
+  // Estados para Constructor Gráfico de Motores (Engine Studio Wizard & Topology Architecture)
+  const [engineWizardStep, setEngineWizardStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [engineConfig, setEngineConfig] = useState({
+    name: 'Motor Autónomo RevOps & AEO Latam',
+    targetDomain: 'https://buildations.studio',
+    industry: 'B2B SaaS & Tech Consulting',
+    brandArchetype: 'Experto Analítico y Autoritario',
+    targetLanguage: 'es-MX (Español Latinoamericano Neutro)',
+    // Ingesta
+    connectors: {
+      payloadCms: true,
+      wordpress: false,
+      gsc: true,
+      competitorRss: true,
+      keywordDatasets: ['ds-revops', 'ds-aeo']
+    },
+    // Modelo IA
+    llmCore: 'Claude 3.5 Sonnet' as 'Claude 3.5 Sonnet' | 'GPT-4o Enterprise' | 'DeepSeek-V3' | 'Llama 3.3 70B',
+    temperature: 0.35,
+    factCheckingStrictness: 90, // %
+    aeoDensityScore: 85, // %
+    // Vector Store & RAG
+    vectorStore: 'Pinecone Vector DB' as 'Pinecone Vector DB' | 'Qdrant Distributed' | 'Supabase pgvector',
+    cosineThreshold: 0.88,
+    chunkSizeTokens: 512,
+    // RevOps & Despliegue
+    hubspotIntegration: true,
+    hubspotPortalId: '982104',
+    publishMode: 'draft' as 'draft' | 'autonomous',
+    frequency: '3_per_week' as 'daily' | '3_per_week' | 'weekly' | 'hourly_breaking',
+    status: 'configured'
+  });
+  const [isCompilingEngine, setIsCompilingEngine] = useState(false);
+  const [engineCompileSuccess, setEngineCompileSuccess] = useState(false);
+  const [dryRunLogs, setDryRunLogs] = useState<string[]>([]);
+  const [isDryRunModalOpen, setIsDryRunModalOpen] = useState(false);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
     if (savedTheme) {
@@ -382,6 +419,12 @@ export default function DashboardMockup() {
           <div>
             <p className="px-4 text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Motores & Lanzadores</p>
             <div className="space-y-1">
+              <button 
+                onClick={() => setActiveTab('engineBuilder')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'engineBuilder' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
+              >
+                <CpuChipIcon className="w-5 h-5 mr-3 text-amber-400" /> Constructor Gráfico de Motores
+              </button>
               <button 
                 onClick={() => setActiveTab('engineLauncher')}
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${activeTab === 'engineLauncher' ? 'bg-[var(--primary)] text-white shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'}`}
@@ -574,6 +617,7 @@ export default function DashboardMockup() {
             <span className="mx-2 hidden sm:inline">Sección:</span>
             <span className="text-[var(--foreground)] font-semibold capitalize hidden sm:inline">
               {activeTab
+                .replace('engineBuilder', 'Constructor Gráfico de Motores (Studio & Topology Architecture)')
                 .replace('engineLauncher', 'Lanzador y Configurador de Motor SEO/AEO')
                 .replace('revopsHubspot', 'Motor RevOps & Conexión HubSpot')
                 .replace('cmsConnectors', 'Conectores CMS Oficiales (Payload & WordPress)')
@@ -967,6 +1011,1023 @@ export default function DashboardMockup() {
                     ))}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* TAB: CONSTRUCTOR GRÁFICO DE MOTORES & ARQUITECTURA OPERATIVA */}
+            {activeTab === 'engineBuilder' && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header & Acciones Principales */}
+                <div className="flex flex-wrap justify-between items-end gap-4 border-b border-[var(--border)] pb-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_8px_rgba(255,90,0,0.8)]"></span>
+                      <span className="text-[11px] font-mono tracking-widest uppercase text-[var(--muted-foreground)] font-bold">
+                        ENGINE STUDIO // VISUAL BUILDER &amp; LIVE OPERATING TOPOLOGY
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
+                      Constructor Gráfico de Motores Autónomos
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
+                      Diseña y calibra la arquitectura completa de tus agentes de contenido. Conecta fuentes de datos, define el núcleo de modelos de IA, configura memoria vectorial RAG y previsualiza la topología de operación en tiempo real.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button 
+                      onClick={() => {
+                        setEngineConfig({
+                          name: 'Motor Enterprise RevOps & SaaS Latam',
+                          targetDomain: 'https://buildations.studio',
+                          industry: 'B2B SaaS & Tech Consulting',
+                          brandArchetype: 'Experto Analítico y Autoritario',
+                          targetLanguage: 'es-MX (Español Latinoamericano Neutro)',
+                          connectors: {
+                            payloadCms: true,
+                            wordpress: true,
+                            gsc: true,
+                            competitorRss: true,
+                            keywordDatasets: ['ds-revops', 'ds-aeo', 'ds-saas']
+                          },
+                          llmCore: 'Claude 3.5 Sonnet',
+                          temperature: 0.35,
+                          factCheckingStrictness: 95,
+                          aeoDensityScore: 90,
+                          vectorStore: 'Pinecone Vector DB',
+                          cosineThreshold: 0.90,
+                          chunkSizeTokens: 512,
+                          hubspotIntegration: true,
+                          hubspotPortalId: '982104',
+                          publishMode: 'draft',
+                          frequency: '3_per_week',
+                          status: 'configured'
+                        });
+                        alert('Plantilla SaaS Enterprise precargada con los parámetros óptimos de RevOps y AEO.');
+                      }}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      <SparklesIcon className="w-4 h-4 text-amber-400" />
+                      Cargar Plantilla B2B
+                    </button>
+                    
+                    <button 
+                      onClick={() => {
+                        setIsDryRunModalOpen(true);
+                        setDryRunLogs([
+                          'Iniciando simulación de ciclo autónomo...',
+                          `[00:01] Conectando a fuentes: ${Object.entries(engineConfig.connectors).filter(([, v]) => v).map(([k]) => k).join(', ')}`,
+                          `[00:02] Cargando RAG desde ${engineConfig.vectorStore} (Threshold: ${engineConfig.cosineThreshold} cosine)`,
+                          `[00:03] Agente Cognitivo instanciado con ${engineConfig.llmCore} (Temperatura: ${engineConfig.temperature})`,
+                          `[00:04] Verificando Hechos (Filtro Anti-Alucinación: ${engineConfig.factCheckingStrictness}%) -> APROBADO`,
+                          `[00:05] Generando Schema JSON-LD (FAQPage + BreadcrumbList) para AEO`,
+                          `[00:06] Despachando a CMS (${engineConfig.publishMode.toUpperCase()}) y vinculando Deal en HubSpot #${engineConfig.hubspotPortalId}`,
+                          '-> SIMULACIÓN COMPLETADA SIN ERRORES (200 OK) - Latencia total: 1.84s'
+                        ]);
+                      }}
+                      className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] transition-colors cursor-pointer flex items-center gap-2 shadow-sm"
+                    >
+                      <PlayIcon className="w-4 h-4 text-emerald-400" />
+                      Simular Ciclo (Dry-Run)
+                    </button>
+
+                    <button 
+                      onClick={() => {
+                        setIsCompilingEngine(true);
+                        setTimeout(() => {
+                          setIsCompilingEngine(false);
+                          setEngineCompileSuccess(true);
+                          setTimeout(() => setEngineCompileSuccess(false), 4000);
+                        }, 1200);
+                      }}
+                      disabled={isCompilingEngine}
+                      className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all shadow-[0_0_15px_rgba(255,90,0,0.35)] cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                    >
+                      <RocketLaunchIcon className="w-4 h-4" />
+                      {isCompilingEngine ? 'Compilando Arquitectura...' : 'Compilar y Activar Motor'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Banner de Éxito al Compilar */}
+                {engineCompileSuccess && (
+                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-between animate-fade-in">
+                    <div className="flex items-center gap-2.5">
+                      <CheckCircleIcon className="w-5 h-5 text-emerald-400 shrink-0" />
+                      <span>¡Arquitectura de Motor compilada y registrada en el clúster de workers! La topología gráfica inferior está sincronizada y lista para ejecución.</span>
+                    </div>
+                    <span className="font-mono text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded">WORKER-ID: ENG-9921</span>
+                  </div>
+                )}
+
+                {/* Stepper de Navegación del Formulario */}
+                <div className="glass-card p-3 rounded-2xl border border-[var(--border)]">
+                  <div className="grid grid-cols-5 gap-2">
+                    {[
+                      { step: 1, label: '01. Identidad & Dominio', desc: 'Arquetipo y Nicho' },
+                      { step: 2, label: '02. Ingesta & Datos', desc: 'CMS, GSC & Datasets' },
+                      { step: 3, label: '03. Cerebro IA (LLMs)', desc: 'Claude, GPT-4o, Temp' },
+                      { step: 4, label: '04. Memoria RAG', desc: 'Pinecone, Vectores' },
+                      { step: 5, label: '05. RevOps & Salida', desc: 'HubSpot, Cron, Live' },
+                    ].map((item) => (
+                      <button
+                        key={item.step}
+                        onClick={() => setEngineWizardStep(item.step as 1 | 2 | 3 | 4 | 5)}
+                        className={`p-3 rounded-xl text-left transition-all cursor-pointer border ${
+                          engineWizardStep === item.step
+                            ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.2)]'
+                            : engineWizardStep > item.step
+                            ? 'bg-[var(--card)]/60 border-emerald-500/30 opacity-90'
+                            : 'bg-transparent border-transparent opacity-60 hover:opacity-100 hover:bg-[var(--muted)]/40'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className={`text-[10px] font-mono font-bold uppercase ${engineWizardStep === item.step ? 'text-[var(--primary)]' : engineWizardStep > item.step ? 'text-emerald-400' : 'text-[var(--muted-foreground)]'}`}>
+                            {item.label}
+                          </span>
+                          {engineWizardStep > item.step && (
+                            <CheckIcon className="w-3.5 h-3.5 text-emerald-400" />
+                          )}
+                        </div>
+                        <p className="text-xs font-bold text-[var(--foreground)] truncate">{item.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* FORMULARIO GRÁFICO DINÁMICO (PASO A PASO) */}
+                <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-6">
+                  
+                  {/* PASO 1: Identidad y Dominio */}
+                  {engineWizardStep === 1 && (
+                    <div className="space-y-6 animate-fade-in">
+                      <div>
+                        <span className="text-[10px] font-mono uppercase text-[var(--primary)] font-bold">Paso 01 de 05 // Definición Estratégica</span>
+                        <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">Identidad del Motor y Dominio Objetivo</h3>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                          Personaliza la voz de marca, el arquetipo de redacción y el dominio principal donde se publicarán los clústers.
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-[var(--foreground)] block">Nombre del Motor</label>
+                          <input 
+                            type="text" 
+                            value={engineConfig.name}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, name: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono focus:outline-none focus:border-[var(--primary)]"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-[var(--foreground)] block">Dominio Objetivo (URL Canónica)</label>
+                          <input 
+                            type="text" 
+                            value={engineConfig.targetDomain}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, targetDomain: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono focus:outline-none focus:border-[var(--primary)]"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Arquetipo de Redacción (Cards Seleccionables) */}
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold text-[var(--foreground)] block">Arquetipo de Voz de Marca &amp; Tono Editorial</label>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          {[
+                            { name: 'Experto Analítico y Autoritario', desc: 'Datos duros, citas de informes de industria, vocabulario técnico B2B de alto calibre.' },
+                            { name: 'Consultor Práctico & Táctico', desc: 'Guías paso a paso, plantillas descargables, enfoque orientado a implementación rápida.' },
+                            { name: 'Periodismo de Negocios & AEO', desc: 'Formato directo estilo Axios/WSJ, resúmenes ejecutivos, tablas y respuestas sin rodeos.' }
+                          ].map((arch) => (
+                            <div 
+                              key={arch.name}
+                              onClick={() => setEngineConfig({ ...engineConfig, brandArchetype: arch.name })}
+                              className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                                engineConfig.brandArchetype === arch.name
+                                  ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.15)]'
+                                  : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--border)]/80 opacity-75'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between mb-1.5">
+                                <span className="font-bold text-xs text-[var(--foreground)]">{arch.name}</span>
+                                {engineConfig.brandArchetype === arch.name && (
+                                  <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">{arch.desc}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Idioma & Localización */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-[var(--foreground)] block">Industria / Nicho de Negocio</label>
+                          <input 
+                            type="text" 
+                            value={engineConfig.industry}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, industry: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono focus:outline-none focus:border-[var(--primary)]"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-[var(--foreground)] block">Dialecto e Idioma de Publicación</label>
+                          <select 
+                            value={engineConfig.targetLanguage}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, targetLanguage: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--foreground)] font-mono cursor-pointer focus:outline-none focus:border-[var(--primary)]"
+                          >
+                            <option value="es-MX (Español Latinoamericano Neutro)">es-MX (Español Latinoamericano Neutro)</option>
+                            <option value="es-ES (Español Castellano Peninsular)">es-ES (Español Castellano Peninsular)</option>
+                            <option value="en-US (Inglés Estados Unidos / Global B2B)">en-US (Inglés Estados Unidos / Global B2B)</option>
+                            <option value="pt-BR (Portugués de Brasil)">pt-BR (Portugués de Brasil)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end pt-4 border-t border-[var(--border)]">
+                        <button 
+                          onClick={() => setEngineWizardStep(2)}
+                          className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer"
+                        >
+                          Siguiente: Ingesta &amp; Datos →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PASO 2: Ingesta & Datos */}
+                  {engineWizardStep === 2 && (
+                    <div className="space-y-6 animate-fade-in">
+                      <div>
+                        <span className="text-[10px] font-mono uppercase text-[var(--primary)] font-bold">Paso 02 de 05 // Conectividad de Datos</span>
+                        <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">Fuentes de Ingesta, CMS y Datasets de Keywords</h3>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                          Selecciona de dónde extraerá el motor el inventario de URLs actuales y qué listas de palabras clave alimentarán el entrenamiento.
+                        </p>
+                      </div>
+
+                      {/* Conectores Toggles */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[
+                          { key: 'payloadCms', title: 'Payload CMS 3.x', desc: 'API REST nativa para App Router y Next.js.', tag: 'Recomendado' },
+                          { key: 'wordpress', title: 'WordPress REST API', desc: 'Conexión vía Application Passwords oficial.', tag: 'CMS Clásico' },
+                          { key: 'gsc', title: 'Google Search Console', desc: 'Detección de clics perdidos y content decay.', tag: 'Métricas' },
+                          { key: 'competitorRss', title: 'Radar Competidores', desc: 'Extracción de topics en tiempo real de 14 blogs.', tag: 'Espionaje' }
+                        ].map((conn) => {
+                          const isActive = engineConfig.connectors[conn.key as keyof typeof engineConfig.connectors] as boolean;
+                          return (
+                            <div 
+                              key={conn.key}
+                              onClick={() => {
+                                setEngineConfig({
+                                  ...engineConfig,
+                                  connectors: {
+                                    ...engineConfig.connectors,
+                                    [conn.key]: !isActive
+                                  }
+                                });
+                              }}
+                              className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                                isActive
+                                  ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.15)]'
+                                  : 'bg-[var(--card)]/40 border-[var(--border)] opacity-60 hover:opacity-80'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] font-bold">
+                                  {conn.tag}
+                                </span>
+                                <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[9px] font-bold ${isActive ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'border-zinc-600'}`}>
+                                  {isActive ? '✓' : ''}
+                                </span>
+                              </div>
+                              <h4 className="font-bold text-xs text-[var(--foreground)]">{conn.title}</h4>
+                              <p className="text-[11px] text-[var(--muted-foreground)] mt-1">{conn.desc}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Datasets RAG vinculados */}
+                      <div className="space-y-3 pt-2">
+                        <div className="flex items-center justify-between">
+                          <label className="text-xs font-semibold text-[var(--foreground)] block">
+                            Datasets de Keywords Vinculados para Entrenamiento RAG
+                          </label>
+                          <span className="text-[11px] font-mono text-[var(--primary)]">
+                            {engineConfig.connectors.keywordDatasets.length} Clústers activos
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          {keywordDatasets.map((ds) => {
+                            const isLinked = engineConfig.connectors.keywordDatasets.includes(ds.id);
+                            return (
+                              <div 
+                                key={ds.id}
+                                onClick={() => {
+                                  const currentList = [...engineConfig.connectors.keywordDatasets];
+                                  const updated = isLinked
+                                    ? currentList.filter(id => id !== ds.id)
+                                    : [...currentList, ds.id];
+                                  setEngineConfig({
+                                    ...engineConfig,
+                                    connectors: {
+                                      ...engineConfig.connectors,
+                                      keywordDatasets: updated
+                                    }
+                                  });
+                                }}
+                                className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                                  isLinked 
+                                    ? 'bg-[var(--card)] border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                                    : 'bg-[var(--card)]/40 border-[var(--border)] opacity-60 hover:opacity-80'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="text-[10px] font-mono text-emerald-400 font-bold">{ds.category}</span>
+                                  <span className="text-[10px] font-mono text-[var(--muted-foreground)]">{ds.count} KWs</span>
+                                </div>
+                                <h5 className="font-bold text-xs text-[var(--foreground)]">{ds.name}</h5>
+                                <span className="text-[10px] text-zinc-400 font-mono mt-1 block">{ds.similarityScore}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4 border-t border-[var(--border)]">
+                        <button 
+                          onClick={() => setEngineWizardStep(1)}
+                          className="px-4 py-2 rounded-xl text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer"
+                        >
+                          ← Volver
+                        </button>
+                        <button 
+                          onClick={() => setEngineWizardStep(3)}
+                          className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer"
+                        >
+                          Siguiente: Motor Cognitivo (LLMs) →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PASO 3: Motor Cognitivo & Calibración de LLMs */}
+                  {engineWizardStep === 3 && (
+                    <div className="space-y-6 animate-fade-in">
+                      <div>
+                        <span className="text-[10px] font-mono uppercase text-[var(--primary)] font-bold">Paso 03 de 05 // Núcleo de Modelos de Lenguaje</span>
+                        <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">Calibración del Motor Cognitivo &amp; Fact-Checking</h3>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                          Selecciona el modelo de inteligencia artificial principal y calibra la temperatura y filtros de verificación de fuentes.
+                        </p>
+                      </div>
+
+                      {/* Tarjetas de Selección de LLM */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[
+                          { id: 'Claude 3.5 Sonnet', title: 'Claude 3.5 Sonnet', provider: 'Anthropic', desc: 'Superior en AEO, razonamiento estructural y citabilidad.', badge: 'Recomendado AEO' },
+                          { id: 'GPT-4o Enterprise', title: 'GPT-4o Enterprise', provider: 'OpenAI', desc: 'Máxima velocidad de inferencia y esquemas JSON estrictos.', badge: 'Velocidad' },
+                          { id: 'DeepSeek-V3', title: 'DeepSeek-V3', provider: 'DeepSeek AI', desc: 'Costo ultra bajo y gran capacidad de síntesis técnica.', badge: 'Económico' },
+                          { id: 'Llama 3.3 70B', title: 'Llama 3.3 70B', provider: 'Meta / Groq', desc: 'Pesos abiertos, cero retención de datos y privacidad total.', badge: 'Open Weights' }
+                        ].map((m) => (
+                          <div 
+                            key={m.id}
+                            onClick={() => setEngineConfig({ ...engineConfig, llmCore: m.id as any })}
+                            className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                              engineConfig.llmCore === m.id
+                                ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.2)]'
+                                : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--border)]/80 opacity-75'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--muted)] text-[var(--primary)] font-bold">
+                                {m.badge}
+                              </span>
+                              {engineConfig.llmCore === m.id && (
+                                <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
+                              )}
+                            </div>
+                            <h4 className="font-bold text-xs text-[var(--foreground)]">{m.title}</h4>
+                            <span className="text-[10px] font-mono text-[var(--muted-foreground)] block mb-1">{m.provider}</span>
+                            <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">{m.desc}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Sliders de Calibración */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-3">
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="font-semibold text-[var(--foreground)]">Temperatura de Creatividad</span>
+                            <span className="font-mono font-bold text-[var(--primary)]">{engineConfig.temperature}</span>
+                          </div>
+                          <input 
+                            type="range" 
+                            min="0.1" 
+                            max="0.9" 
+                            step="0.05"
+                            value={engineConfig.temperature}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, temperature: parseFloat(e.target.value) })}
+                            className="w-full accent-[var(--primary)] cursor-pointer"
+                          />
+                          <p className="text-[10px] text-[var(--muted-foreground)]">Valores bajos (0.2-0.4) garantizan fidelidad a los hechos y reducen alucinaciones.</p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="font-semibold text-[var(--foreground)]">Filtro Fact-Checking Anti-Alucinación</span>
+                            <span className="font-mono font-bold text-emerald-400">{engineConfig.factCheckingStrictness}%</span>
+                          </div>
+                          <input 
+                            type="range" 
+                            min="70" 
+                            max="100" 
+                            step="5"
+                            value={engineConfig.factCheckingStrictness}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, factCheckingStrictness: parseInt(e.target.value) })}
+                            className="w-full accent-emerald-500 cursor-pointer"
+                          />
+                          <p className="text-[10px] text-[var(--muted-foreground)]">Verificación cruzada de afirmaciones numéricas contra la base RAG.</p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="font-semibold text-[var(--foreground)]">Densidad Semántica AEO</span>
+                            <span className="font-mono font-bold text-[var(--status-ready)]">{engineConfig.aeoDensityScore}%</span>
+                          </div>
+                          <input 
+                            type="range" 
+                            min="60" 
+                            max="100" 
+                            step="5"
+                            value={engineConfig.aeoDensityScore}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, aeoDensityScore: parseInt(e.target.value) })}
+                            className="w-full accent-amber-500 cursor-pointer"
+                          />
+                          <p className="text-[10px] text-[var(--muted-foreground)]">Fuerza respuestas directas en el primer párrafo y tablas comparativas.</p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4 border-t border-[var(--border)]">
+                        <button 
+                          onClick={() => setEngineWizardStep(2)}
+                          className="px-4 py-2 rounded-xl text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer"
+                        >
+                          ← Volver
+                        </button>
+                        <button 
+                          onClick={() => setEngineWizardStep(4)}
+                          className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer"
+                        >
+                          Siguiente: Memoria RAG &amp; Vector Store →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PASO 4: Memoria Vectorial & RAG */}
+                  {engineWizardStep === 4 && (
+                    <div className="space-y-6 animate-fade-in">
+                      <div>
+                        <span className="text-[10px] font-mono uppercase text-[var(--primary)] font-bold">Paso 04 de 05 // Base de Conocimiento Vectorial</span>
+                        <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">Memoria Vectorial RAG &amp; Umbral de Similitud Coseno</h3>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                          Configura la base de datos de vectores donde se almacenarán las 1,536 dimensiones de cada contenido y término clave.
+                        </p>
+                      </div>
+
+                      {/* Tarjetas Vector Store */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {[
+                          { id: 'Pinecone Vector DB', title: 'Pinecone Vector DB', desc: 'Índice serverless de baja latencia con namespaces dinámicos por cliente.', dims: '1,536 dims' },
+                          { id: 'Qdrant Distributed', title: 'Qdrant Distributed', desc: 'Cluster HNSW en memoria con filtrado por metadatos a velocidad de hardware.', dims: '1,536 dims' },
+                          { id: 'Supabase pgvector', title: 'Supabase pgvector', desc: 'Híbrido relacional SQL + extensiones vectoriales en PostgreSQL.', dims: '1,536 dims' }
+                        ].map((vs) => (
+                          <div 
+                            key={vs.id}
+                            onClick={() => setEngineConfig({ ...engineConfig, vectorStore: vs.id as any })}
+                            className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                              engineConfig.vectorStore === vs.id
+                                ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.15)]'
+                                : 'bg-[var(--card)]/50 border-[var(--border)] hover:border-[var(--border)]/80 opacity-75'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-mono text-emerald-400 font-bold">{vs.dims}</span>
+                              {engineConfig.vectorStore === vs.id && (
+                                <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
+                              )}
+                            </div>
+                            <h4 className="font-bold text-xs text-[var(--foreground)]">{vs.title}</h4>
+                            <p className="text-[11px] text-[var(--muted-foreground)] mt-1 leading-relaxed">{vs.desc}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Parámetros de Similitud Coseno y Chunking */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="font-semibold text-[var(--foreground)]">Umbral de Similitud Coseno (Cosine Threshold)</span>
+                            <span className="font-mono font-bold text-emerald-400">{engineConfig.cosineThreshold} cosine</span>
+                          </div>
+                          <input 
+                            type="range" 
+                            min="0.75" 
+                            max="0.95" 
+                            step="0.01"
+                            value={engineConfig.cosineThreshold}
+                            onChange={(e) => setEngineConfig({ ...engineConfig, cosineThreshold: parseFloat(e.target.value) })}
+                            className="w-full accent-emerald-500 cursor-pointer"
+                          />
+                          <p className="text-[10px] text-[var(--muted-foreground)]">Sólo fragmentos con similitud superior a {engineConfig.cosineThreshold} serán inyectados al prompt del agente.</p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-2">
+                          <label className="text-xs font-semibold text-[var(--foreground)] block">Tamaño de Fragmento (Chunk Size)</label>
+                          <div className="grid grid-cols-3 gap-2 pt-1">
+                            {[256, 512, 1024].map((sz) => (
+                              <button
+                                key={sz}
+                                onClick={() => setEngineConfig({ ...engineConfig, chunkSizeTokens: sz })}
+                                className={`py-2 rounded-lg text-xs font-mono font-bold border transition-colors cursor-pointer ${
+                                  engineConfig.chunkSizeTokens === sz
+                                    ? 'bg-[var(--primary)] text-white border-[var(--primary)]'
+                                    : 'bg-[var(--background)] text-[var(--muted-foreground)] border-[var(--border)] hover:text-[var(--foreground)]'
+                                }`}
+                              >
+                                {sz} tokens
+                              </button>
+                            ))}
+                          </div>
+                          <p className="text-[10px] text-[var(--muted-foreground)]">512 tokens ofrece el balance perfecto entre contexto temático y precisión semántica.</p>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4 border-t border-[var(--border)]">
+                        <button 
+                          onClick={() => setEngineWizardStep(3)}
+                          className="px-4 py-2 rounded-xl text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer"
+                        >
+                          ← Volver
+                        </button>
+                        <button 
+                          onClick={() => setEngineWizardStep(5)}
+                          className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer"
+                        >
+                          Siguiente: RevOps &amp; Despliegue →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PASO 5: Gobernanza, RevOps & Despliegue */}
+                  {engineWizardStep === 5 && (
+                    <div className="space-y-6 animate-fade-in">
+                      <div>
+                        <span className="text-[10px] font-mono uppercase text-[var(--primary)] font-bold">Paso 05 de 05 // Gobernanza y Sincronización</span>
+                        <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">Integración RevOps HubSpot, Frecuencia y Modo de Publicación</h3>
+                        <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                          Define el grado de autonomía de publicación y la atribución con tus pipelines comerciales en HubSpot.
+                        </p>
+                      </div>
+
+                      {/* Modo de Publicación */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div 
+                          onClick={() => setEngineConfig({ ...engineConfig, publishMode: 'draft' })}
+                          className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                            engineConfig.publishMode === 'draft'
+                              ? 'bg-[var(--card)] border-[var(--primary)] shadow-[0_0_15px_rgba(255,90,0,0.15)]'
+                              : 'bg-[var(--card)]/50 border-[var(--border)] opacity-70'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className="font-bold text-xs text-[var(--foreground)]">Modo Borrador (Revisión Asistida)</span>
+                            {engineConfig.publishMode === 'draft' && <span className="w-2 h-2 rounded-full bg-[var(--primary)]"></span>}
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">
+                            El motor genera el post con Schema JSON-LD y lo sube como borrador al CMS. Requiere 1 click humano para publicarlo.
+                          </p>
+                        </div>
+
+                        <div 
+                          onClick={() => setEngineConfig({ ...engineConfig, publishMode: 'autonomous' })}
+                          className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                            engineConfig.publishMode === 'autonomous'
+                              ? 'bg-[var(--card)] border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+                              : 'bg-[var(--card)]/50 border-[var(--border)] opacity-70'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className="font-bold text-xs text-[var(--foreground)]">Autopiloto 100% Autónomo</span>
+                            {engineConfig.publishMode === 'autonomous' && <span className="w-2 h-2 rounded-full bg-emerald-400"></span>}
+                          </div>
+                          <p className="text-[11px] text-[var(--muted-foreground)]">
+                            Publicación directa a producción según el cron programado, regeneración de sitemap.xml y ping a Google Search Console.
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Frecuencia Cron */}
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold text-[var(--foreground)] block">Frecuencia de Ejecución Autónoma</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                          {[
+                            { id: 'daily', label: 'Diario (7/sem)', desc: 'Indexación intensiva' },
+                            { id: '3_per_week', label: '3x Semana (L-M-V)', desc: 'Ritmo recomendado' },
+                            { id: 'weekly', label: 'Semanal (1 Pilar)', desc: 'Contenido largo formato' },
+                            { id: 'hourly_breaking', label: 'Newsjacking Horario', desc: 'Tendencias en caliente' },
+                          ].map((f) => (
+                            <button
+                              key={f.id}
+                              onClick={() => setEngineConfig({ ...engineConfig, frequency: f.id as any })}
+                              className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                                engineConfig.frequency === f.id
+                                  ? 'bg-[var(--card)] border-[var(--primary)] text-[var(--foreground)] font-bold'
+                                  : 'bg-[var(--card)]/40 border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                              }`}
+                            >
+                              <span className="text-xs block">{f.label}</span>
+                              <span className="text-[10px] text-zinc-400 font-normal">{f.desc}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Integración HubSpot RevOps */}
+                      <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <span className="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center font-bold text-xs border border-orange-500/20">
+                            HS
+                          </span>
+                          <div>
+                            <span className="text-xs font-bold text-[var(--foreground)] block">HubSpot Growth Suite CRM</span>
+                            <span className="text-[11px] text-[var(--muted-foreground)]">Portal conectado: #{engineConfig.hubspotPortalId} // Inyección de UTMs y Deals</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="px-2.5 py-1 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            Conectado
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between pt-4 border-t border-[var(--border)]">
+                        <button 
+                          onClick={() => setEngineWizardStep(4)}
+                          className="px-4 py-2 rounded-xl text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer"
+                        >
+                          ← Volver
+                        </button>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => {
+                              const jsonExport = JSON.stringify(engineConfig, null, 2);
+                              const blob = new Blob([jsonExport], { type: 'application/json' });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = `engine-${engineConfig.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.json`;
+                              a.click();
+                              URL.revokeObjectURL(url);
+                            }}
+                            className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--muted)] cursor-pointer"
+                          >
+                            Descargar spec.json
+                          </button>
+                          <button 
+                            onClick={() => {
+                              setIsCompilingEngine(true);
+                              setTimeout(() => {
+                                setIsCompilingEngine(false);
+                                setEngineCompileSuccess(true);
+                                setTimeout(() => setEngineCompileSuccess(false), 4000);
+                              }, 1200);
+                            }}
+                            className="bg-[var(--primary)] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[var(--primary-hover)] transition-all cursor-pointer shadow-sm"
+                          >
+                            Compilar y Activar Motor ✓
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* ARQUITECTURA GRÁFICA DE OPERACIÓN EN VIVO (LIVE TOPOLOGY BLUEPRINT) */}
+                <div className="glass-card p-6 rounded-2xl border border-[var(--border)] space-y-6">
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                        <span className="text-[10px] font-mono tracking-wider uppercase text-[var(--muted-foreground)] font-bold">
+                          ARQUITECTURA DE SISTEMAS // DIAGRAMA DE FLUJO EN TIEMPO REAL
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-bold text-[var(--foreground)]">
+                        Arquitectura Gráfica de Operación del Motor: {engineConfig.name}
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                        Esta topología representa visualmente cómo fluirán los datos desde tus fuentes hasta la publicación y atribución final.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono px-3 py-1 rounded-lg bg-[var(--muted)] text-[var(--muted-foreground)] border border-[var(--border)]">
+                        Latencia Estimada: ~1.8s
+                      </span>
+                      <span className="text-xs font-mono px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                        94% Autónomo
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* LIENZO DE TOPOLOGÍA INDUSTRIAL CON FLUJOS ANIMADOS SVG */}
+                  <div className="relative rounded-2xl p-6 bg-black/80 border border-white/10 overflow-x-auto min-h-[440px]">
+                    {/* Rejilla de Fondo */}
+                    <div className="absolute inset-0 bg-[radial-gradient(#ff5a00_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
+
+                    {/* SVG Connector Cables */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ minWidth: '1050px' }}>
+                      {/* Línea Capa 1 -> Capa 2 */}
+                      <path 
+                        d="M 210 200 C 240 200, 250 200, 280 200" 
+                        stroke="#ff5a00" 
+                        strokeWidth="2" 
+                        fill="none" 
+                        strokeDasharray="6,4"
+                        className="animate-flow-cable"
+                      />
+                      {/* Línea Capa 2 -> Capa 3 */}
+                      <path 
+                        d="M 480 200 C 510 200, 520 200, 550 200" 
+                        stroke="#f59e0b" 
+                        strokeWidth="2" 
+                        fill="none" 
+                        strokeDasharray="6,4"
+                        className="animate-flow-cable"
+                      />
+                      {/* Línea Capa 3 -> Capa 4 */}
+                      <path 
+                        d="M 750 200 C 780 200, 790 200, 820 200" 
+                        stroke="#10b981" 
+                        strokeWidth="2" 
+                        fill="none" 
+                        strokeDasharray="6,4"
+                        className="animate-flow-cable"
+                      />
+                      {/* Línea Capa 4 -> Capa 5 */}
+                      <path 
+                        d="M 1020 200 C 1050 200, 1060 200, 1090 200" 
+                        stroke="#38bdf8" 
+                        strokeWidth="2" 
+                        fill="none" 
+                        strokeDasharray="6,4"
+                        className="animate-flow-cable"
+                      />
+                    </svg>
+
+                    {/* 5 Columnas de Nodos de la Arquitectura */}
+                    <div className="relative z-10 flex items-stretch justify-between gap-6 min-w-[1100px] py-4">
+                      
+                      {/* COLUMNA 1: INGESTA MULTICANAL */}
+                      <div className="w-52 flex flex-col justify-between p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+                        <div>
+                          <span className="text-[9px] font-mono uppercase text-[var(--primary)] font-bold block mb-1">
+                            01. Ingestion Layer
+                          </span>
+                          <h4 className="text-xs font-bold text-white">Fuentes de Datos</h4>
+                        </div>
+
+                        <div className="space-y-1.5 flex-1">
+                          {engineConfig.connectors.payloadCms && (
+                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-cyan-400 flex items-center justify-between">
+                              <span>Payload CMS 3.x</span>
+                              <span className="text-emerald-400">ON</span>
+                            </div>
+                          )}
+                          {engineConfig.connectors.wordpress && (
+                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-blue-400 flex items-center justify-between">
+                              <span>WordPress REST</span>
+                              <span className="text-emerald-400">ON</span>
+                            </div>
+                          )}
+                          {engineConfig.connectors.gsc && (
+                            <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-amber-400 flex items-center justify-between">
+                              <span>GSC Decay Feed</span>
+                              <span className="text-emerald-400">ON</span>
+                            </div>
+                          )}
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-zinc-300">
+                            <span>{engineConfig.connectors.keywordDatasets.length} Datasets RAG</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800 text-[9px] text-slate-500 font-mono">
+                          Sync: Event-Driven Hook
+                        </div>
+                      </div>
+
+                      {/* COLUMNA 2: MEMORIA VECTORIAL & RAG */}
+                      <div className="w-52 flex flex-col justify-between p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 space-y-3">
+                        <div>
+                          <span className="text-[9px] font-mono uppercase text-amber-400 font-bold block mb-1">
+                            02. Vector &amp; RAG Core
+                          </span>
+                          <h4 className="text-xs font-bold text-white">{engineConfig.vectorStore}</h4>
+                        </div>
+
+                        <div className="space-y-2 flex-1">
+                          <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1">
+                            <span className="text-slate-400 block font-mono">Modelo de Embeddings:</span>
+                            <span className="text-amber-300 font-mono font-bold block">text-embedding-3-small</span>
+                            <span className="text-[9px] text-zinc-500 font-mono">1,536 dimensiones</span>
+                          </div>
+
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono flex justify-between">
+                            <span className="text-slate-400">Threshold:</span>
+                            <span className="text-emerald-400 font-bold">{engineConfig.cosineThreshold} cosine</span>
+                          </div>
+
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono flex justify-between">
+                            <span className="text-slate-400">Chunks:</span>
+                            <span className="text-zinc-200">{engineConfig.chunkSizeTokens} tok</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800 text-[9px] text-slate-500 font-mono">
+                          Index: serverless-v3
+                        </div>
+                      </div>
+
+                      {/* COLUMNA 3: ENJAMBRE DE AGENTES COGNITIVOS */}
+                      <div className="w-52 flex flex-col justify-between p-4 rounded-xl bg-slate-900/90 border border-[var(--primary)] shadow-[0_0_20px_rgba(255,90,0,0.15)] space-y-3">
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[9px] font-mono uppercase text-[var(--primary)] font-bold">
+                              03. Cognitive LLM Core
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse"></span>
+                          </div>
+                          <h4 className="text-xs font-bold text-white">{engineConfig.llmCore}</h4>
+                        </div>
+
+                        <div className="space-y-1.5 flex-1">
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] text-zinc-300">
+                            <span className="text-[var(--primary)] font-bold">Agente 1:</span> Scout SERP
+                          </div>
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] text-zinc-300">
+                            <span className="text-[var(--primary)] font-bold">Agente 2:</span> Redactor AEO
+                          </div>
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] text-zinc-300">
+                            <span className="text-[var(--primary)] font-bold">Agente 3:</span> Silo Linker
+                          </div>
+                          <div className="p-1.5 text-center text-[10px] font-mono text-zinc-400">
+                            Temp: <strong className="text-white">{engineConfig.temperature}</strong>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800 text-[9px] text-[var(--primary)] font-mono font-bold">
+                          AEO Score: {engineConfig.aeoDensityScore}%
+                        </div>
+                      </div>
+
+                      {/* COLUMNA 4: GUARDARRAÍLES & VALIDACIÓN */}
+                      <div className="w-52 flex flex-col justify-between p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 space-y-3">
+                        <div>
+                          <span className="text-[9px] font-mono uppercase text-emerald-400 font-bold block mb-1">
+                            04. Quality Guardrails
+                          </span>
+                          <h4 className="text-xs font-bold text-white">Filtro de Hechos</h4>
+                        </div>
+
+                        <div className="space-y-2 flex-1">
+                          <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-[10px] space-y-1">
+                            <span className="text-slate-400 block font-mono">Anti-Alucinación:</span>
+                            <div className="w-full bg-slate-800 rounded-full h-1.5">
+                              <div className="bg-emerald-400 h-1.5 rounded-full" style={{ width: `${engineConfig.factCheckingStrictness}%` }}></div>
+                            </div>
+                            <span className="text-[10px] text-emerald-400 font-mono font-bold">{engineConfig.factCheckingStrictness}% Estricto</span>
+                          </div>
+
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] text-zinc-300">
+                            <span>Schema JSON-LD:</span>
+                            <span className="text-emerald-400 block font-mono font-bold">FAQPage + Article</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800 text-[9px] text-slate-500 font-mono">
+                          Zero Canibalization Lock
+                        </div>
+                      </div>
+
+                      {/* COLUMNA 5: ENTREGA, CMS & REVOPS */}
+                      <div className="w-52 flex flex-col justify-between p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-3">
+                        <div>
+                          <span className="text-[9px] font-mono uppercase text-cyan-400 font-bold block mb-1">
+                            05. Output &amp; RevOps
+                          </span>
+                          <h4 className="text-xs font-bold text-white">Despliegue Final</h4>
+                        </div>
+
+                        <div className="space-y-2 flex-1">
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono">
+                            <span className="text-slate-400 block">Modo CMS:</span>
+                            <span className="text-cyan-300 font-bold uppercase">{engineConfig.publishMode}</span>
+                          </div>
+
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono">
+                            <span className="text-slate-400 block">HubSpot Deals:</span>
+                            <span className="text-orange-400 font-bold">Hub #{engineConfig.hubspotPortalId}</span>
+                          </div>
+
+                          <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono">
+                            <span className="text-slate-400 block">Frecuencia:</span>
+                            <span className="text-white">{engineConfig.frequency}</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800 text-[9px] text-cyan-400 font-mono font-bold">
+                          Webhook: 200 OK
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Telemetría Arquitectónica Resumen */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+                    <div className="p-3.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Costo en Tokens Estimado</span>
+                      <span className="text-base font-bold font-mono text-[var(--foreground)] mt-0.5 block">$0.034 / artículo</span>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Frecuencia de Publicación</span>
+                      <span className="text-base font-bold font-mono text-[var(--primary)] mt-0.5 block">
+                        {engineConfig.frequency === '3_per_week' ? '3 posts/semana' : engineConfig.frequency === 'daily' ? 'Diario (7/sem)' : 'Semanal'}
+                      </span>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Grado de Autonomía</span>
+                      <span className="text-base font-bold font-mono text-emerald-400 mt-0.5 block">
+                        {engineConfig.publishMode === 'autonomous' ? '100% Autopiloto' : '92% (Revisión CMS)'}
+                      </span>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] block">Nivel de Respaldo</span>
+                      <span className="text-base font-bold font-mono text-cyan-400 mt-0.5 block">Versionado Git + DB</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* MODAL DE DRY-RUN SIMULATOR */}
+                {isDryRunModalOpen && (
+                  <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
+                    <div className="w-full max-w-2xl bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+                      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                          <h4 className="font-mono text-sm font-bold text-white">DRY-RUN SIMULATOR // {engineConfig.name}</h4>
+                        </div>
+                        <button 
+                          onClick={() => setIsDryRunModalOpen(false)}
+                          className="text-slate-400 hover:text-white font-bold cursor-pointer"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <div className="bg-black/90 p-4 rounded-xl border border-white/5 font-mono text-xs text-emerald-400 space-y-2 max-h-72 overflow-y-auto">
+                        {dryRunLogs.map((log, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <span className="text-slate-600 select-none">&gt;</span>
+                            <span className={log.includes('SIMULACIÓN COMPLETADA') ? 'text-amber-400 font-bold' : log.includes('APROBADO') ? 'text-emerald-300' : 'text-slate-300'}>
+                              {log}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center justify-between pt-2">
+                        <span className="text-[11px] font-mono text-slate-400">
+                          Motor verificado con los parámetros activos.
+                        </span>
+                        <button 
+                          onClick={() => setIsDryRunModalOpen(false)}
+                          className="bg-emerald-500 text-slate-950 px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-400 transition-colors cursor-pointer"
+                        >
+                          Cerrar Simulador
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
