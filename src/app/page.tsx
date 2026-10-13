@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { BootScreen, ScreenTicker, ChannelHeader } from './components/ScreenUI';
 import { useState, useEffect } from 'react';
 import { 
   ChartBarIcon, 
@@ -223,8 +222,7 @@ function TechBadge({ name }: { name: string }) {
 
 export default function DashboardMockup() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [showBootScreen, setShowBootScreen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const [currentWorkspace, setCurrentWorkspace] = useState('soyroman.com');
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const [isInfrastructureModalOpen, setIsInfrastructureModalOpen] = useState(false);
@@ -1034,15 +1032,7 @@ LIMIT 5;`);
     const savedTheme = localStorage.getItem('mkt_theme') as 'dark' | 'light' | null;
     if (savedTheme) {
       setTheme(savedTheme);
-    } else {
-      setTheme('dark');
     }
-
-    try {
-      if (!sessionStorage.getItem('controller_booted')) {
-        setShowBootScreen(true);
-      }
-    } catch {}
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -1140,7 +1130,7 @@ LIMIT 5;`);
   };
 
   return (
-    <div data-theme={theme} className="min-h-screen flex bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200 controller-screen-overlay">
+    <div data-theme={theme} className="min-h-screen flex bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200">
       
       {/* Sidebar */}
       <aside className="w-64 border-r border-[var(--border)] bg-[var(--background)] flex flex-col hidden md:flex transition-colors duration-200">
@@ -1598,10 +1588,8 @@ LIMIT 5;`);
         </div>
       </aside>
 
-      {/* Main Content (Pantalla del Controlador) */}
+      {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* Franja Ticker LCD en Vivo estilo pantalla de controlador */}
-        <ScreenTicker tab={activeTab} />
         
         {/* Top Header */}
         <header className="h-16 border-b border-[var(--border)] flex items-center justify-between px-8 bg-[var(--background)]/80 backdrop-blur-md z-20 transition-colors duration-200">
@@ -1927,10 +1915,8 @@ LIMIT 5;`);
         </header>
 
         {/* Scrollable Area */}
-        <div className="flex-1 overflow-auto p-6 sm:p-8">
-          <div className="max-w-6xl mx-auto space-y-6">
-            {/* Cabecera Viva de Canal del Controlador con Split-Word y Partículas de Señal SVG */}
-            <ChannelHeader key={activeTab} tab={activeTab} />
+        <div className="flex-1 overflow-auto p-8">
+          <div className="max-w-6xl mx-auto animate-fade-in space-y-6">
             
             {/* MODO EJECUTIVO CLIENT PORTAL (WHITE-LABEL C-LEVEL) */}
             {isExecutiveMode && (
@@ -13303,17 +13289,6 @@ WITH (m = 16, ef_construction = 64);`}</code>
         </div>
       )}
 
-      {/* Pantalla de Encendido / Boot del Controlador (Sensación Física Retro-Industrial) */}
-      {showBootScreen && (
-        <BootScreen
-          onDone={() => {
-            setShowBootScreen(false);
-            try {
-              sessionStorage.setItem('controller_booted', 'true');
-            } catch {}
-          }}
-        />
-      )}
     </div>
   );
 }
