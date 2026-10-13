@@ -1134,87 +1134,21 @@ LIMIT 5;`);
       
       {/* Sidebar */}
       <aside className="w-64 border-r border-[var(--border)] bg-[var(--background)] flex flex-col hidden md:flex transition-colors duration-200">
-        {/* Brand Header with Industrial Logo */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-[var(--border)] relative overflow-hidden bg-gradient-to-r from-transparent via-[var(--primary)]/5 to-transparent">
-          {/* Subtle industrial laser sweep line */}
-          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent opacity-60"></div>
-          
-          <div className="flex items-center gap-3">
-            {/* Teenage Engineering OP-1 / SoyRomán Style Mechanical Monogram Logo */}
-            <div className="relative flex items-center h-9 w-[136px] px-2 bg-[var(--card)] border border-[var(--border)] rounded-lg shadow-xs overflow-hidden group cursor-pointer" title="Buildations Engine Studio // 64-bit Core">
-              {/* Dot Matrix 64-bit Logo Array */}
-              <svg viewBox="0 0 160 28" className="h-4.5 w-auto">
-                {/* B */}
-                <circle cx="4" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="8" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="12" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="4" cy="9" r="1.6" fill="#e85a2a" />
-                <circle cx="12" cy="9" r="1.6" fill="#2a1a14" />
-                <circle cx="4" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="8" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="12" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="4" cy="19" r="1.6" fill="#e85a2a" />
-                <circle cx="12" cy="19" r="1.6" fill="#2a1a14" />
-                <circle cx="4" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="8" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="12" cy="24" r="1.6" fill="#e85a2a" />
-                
-                {/* U */}
-                <circle cx="20" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="28" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="20" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="28" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="20" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="24" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="28" cy="24" r="1.6" fill="#e85a2a" />
-
-                {/* I */}
-                <circle cx="36" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="36" cy="9" r="1.6" fill="#e85a2a" />
-                <circle cx="36" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="36" cy="19" r="1.6" fill="#e85a2a" />
-                <circle cx="36" cy="24" r="1.6" fill="#e85a2a" />
-
-                {/* L */}
-                <circle cx="44" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="44" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="44" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="48" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="52" cy="24" r="1.6" fill="#e85a2a" />
-
-                {/* D */}
-                <circle cx="60" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="64" cy="4" r="1.6" fill="#e85a2a" />
-                <circle cx="60" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="68" cy="14" r="1.6" fill="#e85a2a" />
-                <circle cx="60" cy="24" r="1.6" fill="#e85a2a" />
-                <circle cx="64" cy="24" r="1.6" fill="#e85a2a" />
-
-                {/* 64-BIT HUD GRID ACCENTS */}
-                <circle cx="82" cy="6" r="1.2" fill="#3ddc84" />
-                <circle cx="82" cy="14" r="1.2" fill="#3ddc84" />
-                <circle cx="82" cy="22" r="1.2" fill="#3ddc84" />
-                <circle cx="92" cy="6" r="1.2" fill="#38bdf8" />
-                <circle cx="92" cy="14" r="1.2" fill="#38bdf8" />
-                <circle cx="92" cy="22" r="1.2" fill="#38bdf8" />
-              </svg>
-              {/* Teenage Engineering Status REC / LIVE LED */}
-              <i className="absolute top-1 right-1.5 w-[5px] h-[5px] rounded-full bg-[#e85a2a] te-led-active shadow-[0_0_6px_rgba(232,90,42,0.9)]"></i>
+        {/* Brand Header */}
+        <div className="h-16 flex items-center justify-between px-5 border-b border-[var(--border)]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center text-white shadow-xs">
+              <SparklesIcon className="w-4 h-4" />
             </div>
-
             <div>
-              <h1 className="font-mono font-bold text-xs tracking-wider uppercase text-[var(--foreground)]">
-                BUILDATIONS
+              <h1 className="font-semibold text-sm tracking-tight text-[var(--foreground)]">
+                Consenso
               </h1>
-              <span className="text-[9px] font-mono tracking-widest text-[#e85a2a] font-bold uppercase flex items-center gap-1">
-                <span>OP-ENGINE</span>
-                <span className="text-[7px] px-1 py-0.2 rounded bg-black text-[#3ddc84] border border-[#3ddc84]/40 font-mono">64B</span>
-              </span>
+              <p className="text-[11px] text-[var(--muted-foreground)]">
+                Buildations Studio
+              </p>
             </div>
           </div>
-
-          {/* TE Tactile Knurled Status Dial */}
-          <div className="te-knob-indicator group cursor-pointer" title="Clock Sync: Master 120.0 BPM / 64-Bit Ingestion"></div>
         </div>
         
         {/* Buscador Rápido Integrado en Sidebar */}
@@ -1224,27 +1158,26 @@ LIMIT 5;`);
             className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-[var(--card)] hover:bg-[var(--muted)] border border-[var(--border)] text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all cursor-pointer group shadow-2xs"
             title="Abrir buscador global de módulos y comandos (⌘K)"
           >
-            <div className="flex items-center gap-2 font-mono text-[11px]">
+            <div className="flex items-center gap-2 text-xs">
               <MagnifyingGlassIcon className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[var(--primary)] transition-colors" />
-              <span>Buscar sección o comando...</span>
+              <span>Buscar módulo...</span>
             </div>
             <kbd className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--muted)] border border-[var(--border)] text-zinc-400">⌘K</kbd>
           </button>
         </div>
 
-        <nav className="flex-1 p-3 space-y-5 overflow-y-auto">
+        <nav className="flex-1 p-3 space-y-4 overflow-y-auto">
           {/* UNIVERSO 1: INTELIGENCIA & AEO */}
           <div>
-            <div className="px-2.5 flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">01. Inteligencia &amp; AEO</span>
-              <span className="text-[8px] font-mono px-1 rounded bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 font-bold">RADAR</span>
+            <div className="px-2.5 mb-1.5">
+              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">01. Inteligencia &amp; AEO</span>
             </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('overview')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'overview' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
@@ -1257,24 +1190,23 @@ LIMIT 5;`);
 
               <button 
                 onClick={() => setActiveTab('aiShareOfVoice')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'aiShareOfVoice' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <SparklesIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'aiShareOfVoice' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Radar AEO &amp; Espectro 64B</span>
+                  <span>Radar AEO &amp; Citabilidad</span>
                 </div>
-                <span className="text-[7px] font-mono font-bold px-1 py-0.2 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30">AI-SOV</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('serpxray')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'serpxray' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
@@ -1284,32 +1216,30 @@ LIMIT 5;`);
 
               <button 
                 onClick={() => setActiveTab('contentDecay')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'contentDecay' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Radar GSC (Decay Sweep)</span>
+                  <span>Contenido en Declive</span>
                 </div>
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
               </button>
 
               <button 
                 onClick={() => setActiveTab('executiveAudit')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'executiveAudit' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <PresentationChartLineIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'executiveAudit' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Auditoría Ejecutiva AEO</span>
+                  <span>Auditoría Ejecutiva</span>
                 </div>
-                <span className="text-[7px] font-mono font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AUDIT</span>
               </button>
             </div>
           </div>
@@ -1317,17 +1247,17 @@ LIMIT 5;`);
           {/* UNIVERSO 2: MOTOR EDITORIAL & CMS */}
           <div>
             <div className="px-2.5 flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">02. Motor Editorial &amp; CMS</span>
-              <span className="text-[8px] font-mono text-emerald-400">
-                {activeEngines.filter(e => e.status === 'active').length} ON
+              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">02. Motor Editorial &amp; CMS</span>
+              <span className="text-[9px] text-emerald-400">
+                {activeEngines.filter(e => e.status === 'active').length} activos
               </span>
             </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('engineBuilder')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'engineBuilder' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
@@ -1340,138 +1270,132 @@ LIMIT 5;`);
 
               <button 
                 onClick={() => setActiveTab('engineLauncher')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'engineLauncher' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <RocketLaunchIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'engineLauncher' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Lanzador SEO / AEO</span>
+                  <span>Lanzador Editorial</span>
                 </div>
                 <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'engineLauncher' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘3</kbd>
               </button>
 
               <button 
                 onClick={() => setActiveTab('cmsConnectors')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'cmsConnectors' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <ServerStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'cmsConnectors' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Patch Bay CMS (WP/Payload)</span>
+                  <span>Conectores CMS (WP/Payload)</span>
                 </div>
-                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">CMS</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('revopsHubspot')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'revopsHubspot' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <ArrowPathRoundedSquareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'revopsHubspot' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Motor RevOps &amp; Deals</span>
+                  <span>RevOps &amp; Atribución</span>
                 </div>
-                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">HUBSPOT</span>
               </button>
             </div>
           </div>
 
           {/* UNIVERSO 3: TOPIC SILOS & DATOS */}
           <div>
-            <div className="px-2.5 flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">03. Topic Silos &amp; Datos</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80" />
+            <div className="px-2.5 mb-1.5">
+              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">03. Silos &amp; Datos</span>
             </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('clusterMap')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'clusterMap' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <ShareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'clusterMap' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Topic Clusters &amp; Silos</span>
+                <span>Clusters &amp; Silos</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('sitemapReconstructor')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'sitemapReconstructor' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <MapPinIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'sitemapReconstructor' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Reconstructor de Sitemaps</span>
+                <span>Sitemaps &amp; Rutas</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('rag')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'rag' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <DocumentTextIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'rag' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Datasets RAG Vectorial</span>
+                <span>Datasets Vectoriales (RAG)</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('databaseStudio')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'databaseStudio' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <CircleStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'databaseStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>PGVector &amp; Tensores 1536D</span>
+                  <span>Bases de Datos &amp; SQL</span>
                 </div>
-                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">VEC</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('finopsStudio')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'finopsStudio' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <CommandLineIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'finopsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>FinOps &amp; Monitor Tokens</span>
+                  <span>Costos &amp; FinOps</span>
                 </div>
-                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">$USD</span>
               </button>
             </div>
           </div>
 
           {/* UNIVERSO 4: SISTEMA & GOBERNANZA */}
           <div>
-            <div className="px-2.5 flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">04. Sistema &amp; Gobernanza</span>
-              <span className="text-[8px] font-mono text-zinc-500">ROOT</span>
+            <div className="px-2.5 mb-1.5">
+              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">04. Sistema &amp; Ajustes</span>
             </div>
             <div className="space-y-0.5">
               <button 
                 onClick={() => setActiveTab('settings')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'settings' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
@@ -1484,84 +1408,51 @@ LIMIT 5;`);
 
               <button 
                 onClick={() => setActiveTab('presetsStudio')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'presetsStudio' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <AdjustmentsHorizontalIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'presetsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Presets &amp; Personalización</span>
+                  <span>Presets de Industria</span>
                 </div>
-                <span className="text-[7px] font-mono px-1 py-0.2 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">RIG</span>
               </button>
 
               <button 
                 onClick={() => setActiveTab('documentation')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
                   activeTab === 'documentation' 
-                    ? 'bg-[var(--primary)] text-white shadow-[0_0_12px_rgba(255,90,0,0.3)] font-semibold' 
+                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
                 }`}
               >
                 <div className="flex items-center">
                   <BookOpenIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'documentation' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Manual &amp; Homologación</span>
+                  <span>Documentación &amp; Guías</span>
                 </div>
-                <span className="text-[9px] font-mono text-zinc-500">DOCS</span>
               </button>
-            </div>
-          </div>
-
-          {/* Micro Telemetría de Kernel */}
-          <div className="mx-1 p-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[10px] space-y-1.5">
-            <div className="flex items-center justify-between text-zinc-400 font-mono">
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                KERNEL OS
-              </span>
-              <span className="text-emerald-400 font-bold">99.98%</span>
-            </div>
-            <div className="w-full bg-[var(--muted)] h-1 rounded-full overflow-hidden">
-              <div className="bg-emerald-500 h-full w-[94%] rounded-full"></div>
-            </div>
-            <div className="pt-1 flex items-center justify-between text-[9px] text-zinc-500 font-mono">
-              <button 
-                onClick={() => {
-                  setOnboardingStep(1);
-                  setIsOnboardingOpen(true);
-                }}
-                className="hover:text-[var(--primary)] transition-colors cursor-pointer flex items-center gap-1"
-                title="Abrir Asistente Guiado de Configuración Inicial"
-              >
-                <SparklesIcon className="w-2.5 h-2.5 text-amber-400" />
-                <span>Asistente Zero-to-One</span>
-              </button>
-              <Link href="/login" className="hover:text-[var(--foreground)] transition-colors">
-                Portal ↗
-              </Link>
             </div>
           </div>
         </nav>
         
-        {/* User Profile & Quick Settings Footer */}
-        <div className="p-3 border-t border-[var(--border)] bg-[var(--card)] flex items-center justify-between">
+        {/* User Profile & Footer */}
+        <div className="p-3 border-t border-[var(--border)] bg-[var(--card)]/50 flex items-center justify-between">
           <div 
             onClick={() => setActiveTab('settings')}
-            className="flex items-center cursor-pointer group flex-1 mr-2 p-1.5 rounded-lg hover:bg-[var(--accent)] transition-colors border border-transparent hover:border-[var(--border)]"
-            title="Ir a Configuración de Cuenta & Enterprise Vault"
+            className="flex items-center cursor-pointer group flex-1 mr-2 p-1.5 rounded-lg hover:bg-[var(--accent)] transition-colors"
+            title="Configuración de Cuenta"
           >
-            <div className="w-8 h-8 rounded-lg bg-[var(--card-subtle)] border border-[var(--border)] mr-2.5 shadow-xs flex items-center justify-center font-mono font-bold text-[var(--primary)] text-xs shrink-0 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/20 mr-2.5 flex items-center justify-center font-bold text-xs shrink-0">
               RG
             </div>
             <div className="truncate">
-              <p className="font-mono text-xs font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors truncate leading-tight">
+              <p className="text-xs font-medium text-[var(--foreground)] truncate leading-tight">
                 Román García
               </p>
-              <p className="font-mono text-[9px] text-[var(--muted-foreground)] flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 te-led-active"></span>
-                <span className="uppercase">SOYROMAN // ADMIN</span>
+              <p className="text-[10px] text-[var(--muted-foreground)] truncate mt-0.5">
+                Administrador
               </p>
             </div>
           </div>
@@ -1573,16 +1464,16 @@ LIMIT 5;`);
                   ? 'bg-[var(--primary)] text-white border-[var(--primary)]' 
                   : 'border-[var(--border)] bg-[var(--background)] hover:border-[var(--primary)] text-[var(--foreground)]'
               }`}
-              title="Configuración de Cuenta & Vault"
+              title="Configuración"
             >
               <Cog6ToothIcon className="w-4 h-4" />
             </button>
             <button 
               onClick={toggleTheme}
               className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--background)] hover:border-[var(--primary)] text-[var(--foreground)] transition-colors cursor-pointer"
-              title={theme === 'dark' ? 'Modo Día (Cloudflare Clean)' : 'Modo Noche (Obsidian Synth)'}
+              title={theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
             >
-              {theme === 'dark' ? <SunIcon className="w-4 h-4 text-[#f5a623]" /> : <MoonIcon className="w-4 h-4 text-[#38bdf8]" />}
+              {theme === 'dark' ? <SunIcon className="w-4 h-4 text-amber-400" /> : <MoonIcon className="w-4 h-4 text-sky-400" />}
             </button>
           </div>
         </div>
@@ -1722,112 +1613,43 @@ LIMIT 5;`);
             </span>
           </div>
           
-          <div className="flex items-center space-x-2.5">
-            {/* Buscador Global Protagonista (Command Center) */}
+          <div className="flex items-center space-x-2">
+            {/* Buscador Global ⌘K */}
             <button 
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="flex items-center justify-between bg-[var(--card)] hover:bg-[var(--muted)]/60 border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-xl pl-3.5 pr-2.5 py-1.5 text-xs transition-all w-48 sm:w-56 md:w-64 lg:w-72 cursor-pointer shadow-2xs group"
-              title="Buscar módulo, silo o ejecutar comando (Atajo: ⌘K)"
+              className="flex items-center justify-between bg-[var(--card)] hover:bg-[var(--muted)] border border-[var(--border)] hover:border-[var(--primary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg pl-3 pr-2 py-1.5 text-xs transition-all w-48 sm:w-56 md:w-64 cursor-pointer shadow-xs group"
+              title="Buscar módulo o ejecutar comando (Atajo: ⌘K)"
             >
-              <div className="flex items-center gap-2.5 truncate">
+              <div className="flex items-center gap-2 truncate">
                 <MagnifyingGlassIcon className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[var(--primary)] transition-colors shrink-0" />
                 <span className="truncate text-xs font-normal">Buscar módulo o comando...</span>
               </div>
-              <div className="flex items-center gap-1 shrink-0 ml-2">
-                <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-zinc-400 group-hover:text-zinc-200">⌘K</kbd>
-              </div>
+              <kbd className="bg-[var(--muted)] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border)] text-zinc-400">⌘K</kbd>
             </button>
 
-            {/* TE Tactile Industry Preset Selector - Cloudflare/Vercel Styled */}
-            <div className="hidden lg:flex items-center gap-1 p-1 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xs font-mono text-[10px]">
-              <span className="text-[var(--muted-foreground)] px-1 font-bold tracking-wider">PRESET:</span>
-              {(['saas', 'fintech', 'ecommerce', 'health'] as const).map((pst) => (
-                <button
-                  key={pst}
-                  onClick={() => {
-                    setActiveIndustryPreset(pst);
-                    showToast('Preset de Hardware Aplicado', `Calibrando umbrales y motores para: ${pst.toUpperCase()}`, 'success');
-                  }}
-                  className={`px-2 py-0.5 rounded uppercase font-bold transition-all cursor-pointer ${
-                    activeIndustryPreset === pst
-                      ? 'bg-[var(--primary)] text-white shadow-xs'
-                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--accent)]'
-                  }`}
-                  title={`Cargar calibración de pesos para industria: ${pst}`}
-                >
-                  {pst}
-                </button>
-              ))}
-            </div>
-
-            {/* Teenage Engineering Mechanical Status Segment Indicator */}
-            <div className="hidden xl:flex items-center gap-1.5 p-1 rounded-lg bg-[var(--card)] border border-[var(--border)] shadow-xs">
-              <span className="font-mono text-[9px] font-bold uppercase text-[var(--muted-foreground)] px-1 tracking-wider">
-                LED:
-              </span>
-              
-              <button 
-                onClick={() => setSelectedAgent('sophia')}
-                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
-                  selectedAgent === 'sophia' 
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                }`}
-                title="Crawler SERP: Calibrado y Operativo (99.8%)"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 te-led-active shadow-[0_0_5px_#10b981]" />
-                <span>SERP</span>
-              </button>
-
-              <button 
-                onClick={() => setSelectedAgent('jax')}
-                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
-                  selectedAgent === 'jax' 
-                    ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                }`}
-                title="Sync RevOps HubSpot: Vinculado y Activo"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_5px_#f59e0b]" />
-                <span>REVOPS</span>
-              </button>
-
-              <button 
-                onClick={() => setSelectedAgent('vera')}
-                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
-                  selectedAgent === 'vera' 
-                    ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/30' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                }`}
-                title="Motor Editorial AEO: En Proceso de Síntesis"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 te-led-fast shadow-[0_0_5px_#ea580c]" />
-                <span>AEO</span>
-              </button>
-            </div>
-
-            {/* TE Tactile Mechanical Switches */}
+            {/* Selector de Modo Ejecutivo / Técnico */}
             <button
               onClick={() => setIsExecutiveMode(!isExecutiveMode)}
-              className={`te-button ${isExecutiveMode ? 'te-button-primary' : ''}`}
-              title="Cambiar entre Vista Técnica y Portal Ejecutivo para Clientes"
+              className={`px-3 py-1.5 rounded-lg border text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer ${
+                isExecutiveMode 
+                  ? 'bg-[var(--primary)] text-white border-[var(--primary)]' 
+                  : 'border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+              }`}
+              title="Cambiar entre Vista Técnica y Portal Ejecutivo"
             >
               <PresentationChartLineIcon className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">{isExecutiveMode ? 'C-LEVEL' : 'TÉCNICA'}</span>
+              <span className="hidden sm:inline">{isExecutiveMode ? 'Vista C-Level' : 'Vista Técnica'}</span>
             </button>
 
-            {/* Consola Kernel Monitor Button */}
+            {/* Consola Monitor Button */}
             <button
               onClick={() => setIsTerminalOpen(!isTerminalOpen)}
-              className="te-button"
-              title="Abrir Consola Kernel de Procesos"
+              className="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Abrir Consola de Procesos"
             >
-              <CommandLineIcon className="w-3.5 h-3.5 text-[#3ddc84]" />
-              <span className="hidden lg:inline font-mono">KERNEL</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] te-led-active"></span>
+              <CommandLineIcon className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Consola</span>
             </button>
-
-            {/* Day / Night Theme Button */}
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)] transition-all text-xs font-semibold shadow-2xs cursor-pointer"
