@@ -24,6 +24,7 @@ import {
   CommandLineIcon,
   EyeIcon,
   ChevronDownIcon,
+  ChevronRightIcon,
   XMarkIcon,
   PencilSquareIcon,
   PlusIcon,
@@ -226,6 +227,94 @@ export default function DashboardMockup() {
   const [currentWorkspace, setCurrentWorkspace] = useState('soyroman.com');
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const [isInfrastructureModalOpen, setIsInfrastructureModalOpen] = useState(false);
+
+  // ARQUITECTURA DEPADA: SECCIONES DESPLEGABLES & SUBMENÚS
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    strategy: true,
+    editorial: true,
+    settings: false,
+  });
+
+  const toggleSection = (sec: string) => {
+    setExpandedSections(prev => ({ ...prev, [sec]: !prev[sec] }));
+  };
+
+  // MODAL / DRAWER DE CONFIGURACIÓN POR SECCIÓN
+  const [sectionSettingsModal, setSectionSettingsModal] = useState<null | {
+    sectionId: 'strategy' | 'editorial' | 'settings';
+    title: string;
+  }>(null);
+
+  // Parámetros de Configuración de Estrategia
+  const [strategySettings, setStrategySettings] = useState({
+    competitorsToTrack: ['semrush.com', 'ahrefs.com', 'hubspot.com'],
+    newCompetitorInput: '',
+    decayThresholdPercent: 15,
+    modelsAudited: { chatgpt: true, perplexity: true, claude: true, gemini: true },
+    refreshFrequencyDays: 3
+  });
+
+  // Parámetros de Configuración del Motor Editorial
+  const [editorialSettings, setEditorialSettings] = useState({
+    defaultLlmModel: 'Claude 3.5 Sonnet',
+    strictAntiHallucination: true,
+    humanInTheLoopRequired: true,
+    autoSchemaJsonLd: true,
+    targetWordCount: 1800,
+    publishingMode: 'draft' as 'draft' | 'schedule' | 'publish',
+    selectedCmsPlatform: 'payload' as 'payload' | 'wordpress' | 'webflow'
+  });
+
+  // MENÚ CONTEXTUAL FLOTANTE (CLIC SECUNDARIO / CLIC DERECHO)
+  const [contextMenu, setContextMenu] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    targetSection?: 'strategy' | 'editorial' | 'settings' | 'general';
+    title?: string;
+  }>({
+    visible: false,
+    x: 0,
+    y: 0
+  });
+
+  const handleContextMenu = (
+    e: React.MouseEvent,
+    targetSection: 'strategy' | 'editorial' | 'settings' | 'general' = 'general',
+    title?: string
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const menuWidth = 240;
+    const menuHeight = 280;
+    const x = Math.min(e.clientX, window.innerWidth - menuWidth - 16);
+    const y = Math.min(e.clientY, window.innerHeight - menuHeight - 16);
+    setContextMenu({
+      visible: true,
+      x: Math.max(16, x),
+      y: Math.max(16, y),
+      targetSection,
+      title: title || (targetSection === 'strategy' ? 'Estrategia & Radar' : targetSection === 'editorial' ? 'Motor Editorial' : targetSection === 'settings' ? 'Ajustes' : 'Acciones Rápidas')
+    });
+  };
+
+  useEffect(() => {
+    const handleGlobalClick = () => {
+      setContextMenu(prev => prev.visible ? { ...prev, visible: false } : prev);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setContextMenu(prev => prev.visible ? { ...prev, visible: false } : prev);
+        setSectionSettingsModal(null);
+      }
+    };
+    window.addEventListener('click', handleGlobalClick);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('click', handleGlobalClick);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // SISTEMA DE PRESETS DE INDUSTRIA & PERSONALIZACIÓN MODULAR
   const [activeIndustryPreset, setActiveIndustryPreset] = useState<'saas' | 'fintech' | 'ecommerce' | 'health'>('saas');
@@ -1166,274 +1255,285 @@ LIMIT 5;`);
           </button>
         </div>
 
-        <nav className="flex-1 p-3 space-y-4 overflow-y-auto">
-          {/* UNIVERSO 1: INTELIGENCIA & AEO */}
-          <div>
-            <div className="px-2.5 mb-1.5">
-              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">01. Inteligencia &amp; AEO</span>
-            </div>
-            <div className="space-y-0.5">
+        <nav className="flex-1 p-3 space-y-3 overflow-y-auto">
+          {/* SECCIÓN 01: ESTRATEGIA & RADAR */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]/40 overflow-hidden">
+            <div 
+              onContextMenu={(e) => handleContextMenu(e, 'strategy', 'Estrategia & Radar AEO')}
+              className="flex items-center justify-between px-3 py-2 bg-[var(--card)] border-b border-[var(--border)]/60 cursor-pointer hover:bg-[var(--muted)]/50 transition-colors"
+            >
               <button 
-                onClick={() => setActiveTab('overview')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'overview' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
+                onClick={() => toggleSection('strategy')}
+                className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] flex-1 text-left cursor-pointer"
               >
-                <div className="flex items-center">
-                  <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'overview' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Visión General &amp; ROI</span>
-                </div>
-                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'overview' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘1</kbd>
+                <ChevronRightIcon className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${expandedSections.strategy ? 'rotate-90' : ''}`} />
+                <span>01. Estrategia &amp; Radar</span>
               </button>
-
-              <button 
-                onClick={() => setActiveTab('aiShareOfVoice')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'aiShareOfVoice' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSectionSettingsModal({ sectionId: 'strategy', title: 'Configuración: Estrategia & Radar AEO' });
+                }}
+                className="p-1 rounded-md text-zinc-400 hover:text-[var(--primary)] hover:bg-[var(--background)] transition-colors cursor-pointer"
+                title="Configuración de Estrategia (Clic derecho para opciones rápidas)"
               >
-                <div className="flex items-center">
-                  <SparklesIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'aiShareOfVoice' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Radar AEO &amp; Citabilidad</span>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('serpxray')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'serpxray' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <BoltIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'serpxray' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>SERP &amp; AEO X-Ray</span>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('contentDecay')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'contentDecay' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <ChartBarIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Contenido en Declive</span>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('executiveAudit')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'executiveAudit' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <PresentationChartLineIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'executiveAudit' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Auditoría Ejecutiva</span>
-                </div>
+                <Cog6ToothIcon className="w-3.5 h-3.5" />
               </button>
             </div>
+
+            {expandedSections.strategy && (
+              <div className="p-1.5 space-y-0.5">
+                <button 
+                  onClick={() => setActiveTab('overview')}
+                  onContextMenu={(e) => handleContextMenu(e, 'strategy', 'Visión General')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'overview' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <ChartBarIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'overview' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Visión General</span>
+                  </div>
+                  <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'overview' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘1</kbd>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('aiShareOfVoice')}
+                  onContextMenu={(e) => handleContextMenu(e, 'strategy', 'Radar AEO & Citabilidad')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'aiShareOfVoice' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <SparklesIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'aiShareOfVoice' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Radar Citabilidad en LLMs</span>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('clusterMap')}
+                  onContextMenu={(e) => handleContextMenu(e, 'strategy', 'Clusters & Silos')}
+                  className={`w-full flex items-center px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'clusterMap' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <ShareIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'clusterMap' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Topic Clusters &amp; Silos</span>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('contentDecay')}
+                  onContextMenu={(e) => handleContextMenu(e, 'strategy', 'Contenido en Declive')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'contentDecay' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <ChartBarIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'contentDecay' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Contenido en Declive GSC</span>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('serpxray')}
+                  onContextMenu={(e) => handleContextMenu(e, 'strategy', 'SERP X-Ray')}
+                  className={`w-full flex items-center px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'serpxray' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <BoltIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'serpxray' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>SERP &amp; AEO X-Ray</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* UNIVERSO 2: MOTOR EDITORIAL & CMS */}
-          <div>
-            <div className="px-2.5 flex items-center justify-between mb-1.5">
-              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">02. Motor Editorial &amp; CMS</span>
-              <span className="text-[9px] text-emerald-400">
-                {activeEngines.filter(e => e.status === 'active').length} activos
-              </span>
-            </div>
-            <div className="space-y-0.5">
+          {/* SECCIÓN 02: MOTOR EDITORIAL & CMS */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]/40 overflow-hidden">
+            <div 
+              onContextMenu={(e) => handleContextMenu(e, 'editorial', 'Motor Editorial & CMS')}
+              className="flex items-center justify-between px-3 py-2 bg-[var(--card)] border-b border-[var(--border)]/60 cursor-pointer hover:bg-[var(--muted)]/50 transition-colors"
+            >
               <button 
-                onClick={() => setActiveTab('engineBuilder')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'engineBuilder' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
+                onClick={() => toggleSection('editorial')}
+                className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] flex-1 text-left cursor-pointer"
               >
-                <div className="flex items-center">
-                  <CpuChipIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'engineBuilder' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Constructor Modular</span>
-                </div>
-                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'engineBuilder' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘2</kbd>
+                <ChevronRightIcon className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${expandedSections.editorial ? 'rotate-90' : ''}`} />
+                <span>02. Motor Editorial &amp; CMS</span>
               </button>
-
-              <button 
-                onClick={() => setActiveTab('engineLauncher')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'engineLauncher' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSectionSettingsModal({ sectionId: 'editorial', title: 'Configuración: Motor Editorial & CMS' });
+                }}
+                className="p-1 rounded-md text-zinc-400 hover:text-[var(--primary)] hover:bg-[var(--background)] transition-colors cursor-pointer"
+                title="Configuración de Pipeline Editorial (Clic derecho para opciones rápidas)"
               >
-                <div className="flex items-center">
-                  <RocketLaunchIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'engineLauncher' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Lanzador Editorial</span>
-                </div>
-                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'engineLauncher' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘3</kbd>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('cmsConnectors')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'cmsConnectors' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <ServerStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'cmsConnectors' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Conectores CMS (WP/Payload)</span>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('revopsHubspot')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'revopsHubspot' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <ArrowPathRoundedSquareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'revopsHubspot' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>RevOps &amp; Atribución</span>
-                </div>
+                <Cog6ToothIcon className="w-3.5 h-3.5" />
               </button>
             </div>
+
+            {expandedSections.editorial && (
+              <div className="p-1.5 space-y-0.5">
+                <button 
+                  onClick={() => setActiveTab('engineLauncher')}
+                  onContextMenu={(e) => handleContextMenu(e, 'editorial', 'Lanzador Editorial')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'engineLauncher' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <RocketLaunchIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'engineLauncher' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Lanzador de Contenido</span>
+                  </div>
+                  <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'engineLauncher' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘2</kbd>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('cmsConnectors')}
+                  onContextMenu={(e) => handleContextMenu(e, 'editorial', 'Conectores CMS')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'cmsConnectors' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <ServerStackIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'cmsConnectors' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Conectores CMS (WP/Payload)</span>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('rag')}
+                  onContextMenu={(e) => handleContextMenu(e, 'editorial', 'Datasets Vectoriales')}
+                  className={`w-full flex items-center px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'rag' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <DocumentTextIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'rag' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Datasets &amp; Memoria RAG</span>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('sitemapReconstructor')}
+                  onContextMenu={(e) => handleContextMenu(e, 'editorial', 'Sitemaps & Rutas')}
+                  className={`w-full flex items-center px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'sitemapReconstructor' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <MapPinIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'sitemapReconstructor' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                  <span>Sitemaps &amp; Arquitectura</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* UNIVERSO 3: TOPIC SILOS & DATOS */}
-          <div>
-            <div className="px-2.5 mb-1.5">
-              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">03. Silos &amp; Datos</span>
-            </div>
-            <div className="space-y-0.5">
+          {/* SECCIÓN 03: AJUSTES & BÓVEDA */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]/40 overflow-hidden">
+            <div 
+              onContextMenu={(e) => handleContextMenu(e, 'settings', 'Ajustes & Bóveda')}
+              className="flex items-center justify-between px-3 py-2 bg-[var(--card)] border-b border-[var(--border)]/60 cursor-pointer hover:bg-[var(--muted)]/50 transition-colors"
+            >
               <button 
-                onClick={() => setActiveTab('clusterMap')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'clusterMap' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
+                onClick={() => toggleSection('settings')}
+                className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] flex-1 text-left cursor-pointer"
               >
-                <ShareIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'clusterMap' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Clusters &amp; Silos</span>
+                <ChevronRightIcon className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${expandedSections.settings ? 'rotate-90' : ''}`} />
+                <span>03. Ajustes &amp; Bóveda</span>
               </button>
-
-              <button 
-                onClick={() => setActiveTab('sitemapReconstructor')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'sitemapReconstructor' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSectionSettingsModal({ sectionId: 'settings', title: 'Bóveda de Credenciales & Dominio' });
+                }}
+                className="p-1 rounded-md text-zinc-400 hover:text-[var(--primary)] hover:bg-[var(--background)] transition-colors cursor-pointer"
+                title="Configuración de Credenciales (Clic derecho para opciones rápidas)"
               >
-                <MapPinIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'sitemapReconstructor' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Sitemaps &amp; Rutas</span>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('rag')}
-                className={`w-full flex items-center px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'rag' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <DocumentTextIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'rag' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                <span>Datasets Vectoriales (RAG)</span>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('databaseStudio')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'databaseStudio' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <CircleStackIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'databaseStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Bases de Datos &amp; SQL</span>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('finopsStudio')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'finopsStudio' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <CommandLineIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'finopsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Costos &amp; FinOps</span>
-                </div>
+                <Cog6ToothIcon className="w-3.5 h-3.5" />
               </button>
             </div>
-          </div>
 
-          {/* UNIVERSO 4: SISTEMA & GOBERNANZA */}
-          <div>
-            <div className="px-2.5 mb-1.5">
-              <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">04. Sistema &amp; Ajustes</span>
-            </div>
-            <div className="space-y-0.5">
-              <button 
-                onClick={() => setActiveTab('settings')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'settings' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <Cog6ToothIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'settings' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Bóveda &amp; Configuración</span>
-                </div>
-                <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'settings' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘0</kbd>
-              </button>
+            {expandedSections.settings && (
+              <div className="p-1.5 space-y-0.5">
+                <button 
+                  onClick={() => setActiveTab('settings')}
+                  onContextMenu={(e) => handleContextMenu(e, 'settings', 'Bóveda de API Keys')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'settings' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <Cog6ToothIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'settings' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Bóveda &amp; API Keys</span>
+                  </div>
+                  <kbd className={`text-[8px] font-mono px-1 py-0.2 rounded ${activeTab === 'settings' ? 'bg-white/20 text-white' : 'text-zinc-500'}`}>⌘0</kbd>
+                </button>
 
-              <button 
-                onClick={() => setActiveTab('presetsStudio')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'presetsStudio' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <AdjustmentsHorizontalIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'presetsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Presets de Industria</span>
-                </div>
-              </button>
+                <button 
+                  onClick={() => setActiveTab('presetsStudio')}
+                  onContextMenu={(e) => handleContextMenu(e, 'settings', 'Presets de Marca')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'presetsStudio' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <AdjustmentsHorizontalIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'presetsStudio' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Presets &amp; Tono de Marca</span>
+                  </div>
+                </button>
 
-              <button 
-                onClick={() => setActiveTab('documentation')}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
-                  activeTab === 'documentation' 
-                    ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
-                }`}
-              >
-                <div className="flex items-center">
-                  <BookOpenIcon className={`w-4 h-4 mr-2.5 shrink-0 ${activeTab === 'documentation' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
-                  <span>Documentación &amp; Guías</span>
-                </div>
-              </button>
-            </div>
+                <button 
+                  onClick={() => setActiveTab('executiveAudit')}
+                  onContextMenu={(e) => handleContextMenu(e, 'settings', 'Auditoría Ejecutiva')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'executiveAudit' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <PresentationChartLineIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'executiveAudit' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Auditoría C-Level</span>
+                  </div>
+                </button>
+
+                <button 
+                  onClick={() => setActiveTab('documentation')}
+                  onContextMenu={(e) => handleContextMenu(e, 'settings', 'Documentación')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer group ${
+                    activeTab === 'documentation' 
+                      ? 'bg-[var(--primary)] text-white shadow-xs font-semibold' 
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <BookOpenIcon className={`w-3.5 h-3.5 mr-2 shrink-0 ${activeTab === 'documentation' ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`} />
+                    <span>Manual &amp; Guías</span>
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
         </nav>
         
@@ -2137,102 +2237,75 @@ LIMIT 5;`);
                     {[
                       {
                         id: 'aiShareOfVoice',
-                        slot: 'SLOT-01',
-                        title: 'Motor AEO & Citabilidad LLM',
+                        slot: 'MÓDULO 01',
+                        section: 'strategy' as const,
+                        title: 'Radar AEO & Citabilidad en LLMs',
                         metric: '64.2%',
-                        metricLabel: 'Citación en SearchGPT & Perplexity',
-                        desc: 'Osciloscopio espectral de 12 canales. Maximiza la probabilidad de ser la fuente citada por modelos de lenguaje.',
-                        badge: 'ONLINE',
-                        badgeColor: 'te-badge-green',
+                        metricLabel: 'Citación en Perplexity, ChatGPT & Gemini',
+                        desc: 'Monitoreo de menciones y recomendaciones de marca en motores de respuesta con IA frente a competidores.',
+                        badge: 'ACTIVO',
+                        badgeColor: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
                         icon: SparklesIcon
                       },
                       {
-                        id: 'engineBuilder',
-                        slot: 'SLOT-02',
-                        title: 'Constructor Visual de Agentes',
-                        metric: '4 Agentes',
-                        metricLabel: 'Topología Operativa en Vivo',
-                        desc: 'Diseñador paso a paso de motores autónomos. Conecta fuentes de datos, LLMs y memorias RAG en un canvas interactivo.',
-                        badge: 'BUILDER',
-                        badgeColor: 'te-badge-orange',
-                        icon: CpuChipIcon
+                        id: 'engineLauncher',
+                        slot: 'MÓDULO 02',
+                        section: 'editorial' as const,
+                        title: 'Lanzador Editorial Human-in-the-Loop',
+                        metric: '3 Borradores',
+                        metricLabel: 'Verificación Anti-Alucinación & Diff',
+                        desc: 'Generación controlada con revisión humana, verificación de citas y comparador de versiones antes de publicar.',
+                        badge: 'PIPELINE',
+                        badgeColor: 'bg-[var(--primary)]/10 text-[var(--primary)] border-[var(--primary)]/20',
+                        icon: RocketLaunchIcon
                       },
                       {
-                        id: 'revopsHubspot',
-                        slot: 'SLOT-04',
-                        title: 'Motor RevOps & Atribución HubSpot',
-                        metric: '$348,500',
-                        metricLabel: 'Pipeline Comercial Atribuido',
-                        desc: 'Atribución multi-toque de deals comerciales generados por contenido orgánico. Sincronización continua con HubSpot CRM.',
-                        badge: 'PIPELINE',
-                        badgeColor: 'te-badge-green',
-                        icon: BriefcaseIcon
+                        id: 'clusterMap',
+                        slot: 'MÓDULO 03',
+                        section: 'strategy' as const,
+                        title: 'Topic Clusters & Silos Temáticos',
+                        metric: '4 Silos',
+                        metricLabel: 'Arquitectura de Enlaces Internos',
+                        desc: 'Estructuración de páginas pilares y artículos satélite interconectados para construir autoridad de dominio real.',
+                        badge: 'ESTRATEGIA',
+                        badgeColor: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+                        icon: ShareIcon
                       },
                       {
                         id: 'cmsConnectors',
-                        slot: 'SLOT-05',
-                        title: 'Patch Bay de Conectores CMS',
+                        slot: 'MÓDULO 04',
+                        section: 'editorial' as const,
+                        title: 'Conectores CMS (WordPress / Payload)',
                         metric: '18 ms',
-                        metricLabel: 'Payload CMS & WordPress REST',
-                        desc: 'Matriz física de conectores con despacho canary en 10% y auto-inyección de datos estructurados JSON-LD Schema.',
-                        badge: 'PATCH BAY',
-                        badgeColor: 'te-badge-orange',
+                        metricLabel: 'REST API, Webhooks & JSON-LD',
+                        desc: 'Publicación directa a CMS con auto-inyección de datos estructurados Schema.org para indexación instantánea.',
+                        badge: 'CONEXIÓN',
+                        badgeColor: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
                         icon: ServerStackIcon
                       },
                       {
-                        id: 'pgvectorDatabase',
-                        slot: 'SLOT-06',
-                        title: 'Base Vectorial pgvector & HNSW',
-                        metric: '1536-dim',
-                        metricLabel: 'Índice de Similitud Coseno',
-                        desc: 'Almacenamiento vectorial en PostgreSQL. Deduplica ángulos temáticos y busca contexto relevante en menos de 12ms.',
-                        badge: 'HNSW RAG',
-                        badgeColor: 'te-badge-green',
-                        icon: CircleStackIcon
-                      },
-                      {
-                        id: 'executiveAudit',
-                        slot: 'SLOT-07',
-                        title: 'Auditoría Ejecutiva & Scorecard',
-                        metric: '94/100',
-                        metricLabel: 'Calificación C-Level Grado A+',
-                        desc: 'Scorecard ejecutivo de autoridad sintética, roadmap trimestral priorizado y exportador de informes en Markdown.',
-                        badge: 'C-LEVEL',
-                        badgeColor: 'te-badge-orange',
-                        icon: PresentationChartLineIcon
-                      },
-                      {
                         id: 'contentDecay',
-                        slot: 'SLOT-08',
-                        title: 'Radar GSC & Decaimiento',
+                        slot: 'MÓDULO 05',
+                        section: 'strategy' as const,
+                        title: 'Radar de Contenido en Declive GSC',
                         metric: '14 URLs',
                         metricLabel: 'En Alerta de Pérdida de Tráfico',
-                        desc: 'Barrido militar táctico 360° para detectar pérdida de posiciones orgánicas antes de que impacte los ingresos.',
-                        badge: 'RADAR 360°',
-                        badgeColor: 'te-badge-orange',
+                        desc: 'Detección temprana de páginas que pierden impresiones y clics en Search Console para actualización inmediata.',
+                        badge: 'GSC SYNC',
+                        badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
                         icon: ArrowTrendingUpIcon
                       },
                       {
-                        id: 'finopsStudio',
-                        slot: 'SLOT-09',
-                        title: 'Token Telemetry & FinOps Studio',
-                        metric: '18.4M / 50M',
-                        metricLabel: 'Tokens Consumidos ($184.20 USD)',
-                        desc: 'Medidor analógico de 20 segmentos de consumo mensual de tokens con interruptor de corte de emergencia físico.',
-                        badge: 'FINOPS',
-                        badgeColor: 'te-badge-green',
-                        icon: CurrencyDollarIcon
-                      },
-                      {
-                        id: 'presetsStudio',
-                        slot: 'SLOT-10',
-                        title: 'Bóveda de Presets Multi-Nicho',
-                        metric: '4 Nichos',
-                        metricLabel: 'SaaS, FinTech, E-Com, Salud',
-                        desc: 'Afinación paramétrica de todos los motores con 1 toque. Exporta y restaura configuraciones en formato .rig.json.',
-                        badge: 'RIG PROFILES',
-                        badgeColor: 'te-badge-orange',
-                        icon: AdjustmentsVerticalIcon
+                        id: 'settings',
+                        slot: 'MÓDULO 06',
+                        section: 'settings' as const,
+                        title: 'Bóveda de Credenciales & Modelos',
+                        metric: '4 LLMs',
+                        metricLabel: 'OpenAI, Anthropic, Gemini, Perplexity',
+                        desc: 'Gestión segura de API keys, dominios Vercel y calibración del tono de marca para todos los motores.',
+                        badge: 'BÓVEDA',
+                        badgeColor: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
+                        icon: Cog6ToothIcon
                       }
                     ].map((mod) => {
                       const IconComponent = mod.icon;
@@ -2241,7 +2314,8 @@ LIMIT 5;`);
                       return (
                         <div
                           key={mod.id}
-                          className={`relative p-5 rounded-2xl transition-all duration-200 flex flex-col justify-between group border ${
+                          onContextMenu={(e) => handleContextMenu(e, mod.section, mod.title)}
+                          className={`relative p-5 rounded-2xl transition-all duration-200 flex flex-col justify-between group border cursor-default ${
                             isInspected 
                               ? 'border-[var(--primary)] bg-[var(--card)] shadow-lg ring-1 ring-[var(--primary)]/30' 
                               : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/50 shadow-sm hover:shadow-md hover:-translate-y-0.5'
@@ -2254,7 +2328,7 @@ LIMIT 5;`);
                                 <span className="font-mono text-[10px] font-semibold text-[var(--muted-foreground)] bg-[var(--muted)] border border-[var(--border)] px-2 py-0.5 rounded-md">
                                   {mod.slot}
                                 </span>
-                                <span className={`te-badge ${mod.badgeColor} font-mono text-[9px]`}>
+                                <span className={`text-[9px] font-mono px-2 py-0.5 rounded border font-semibold ${mod.badgeColor}`}>
                                   {mod.badge}
                                 </span>
                               </div>
@@ -2301,6 +2375,17 @@ LIMIT 5;`);
                               >
                                 <span>Abrir Motor</span>
                                 <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSectionSettingsModal({ sectionId: mod.section, title: `Configuración: ${mod.title}` });
+                                }}
+                                className="py-2 px-2.5 rounded-xl bg-[var(--muted)] hover:bg-[var(--card-subtle)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--primary)] text-xs transition-all cursor-pointer"
+                                title="Configurar parámetros de este motor (o clic derecho)"
+                              >
+                                <Cog6ToothIcon className="w-3.5 h-3.5" />
                               </button>
 
                               <button
@@ -13107,6 +13192,363 @@ WITH (m = 16, ef_construction = 64);`}</code>
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* MENÚ CONTEXTUAL FLOTANTE (CLIC SECUNDARIO / CLIC DERECHO) */}
+      {contextMenu.visible && (
+        <div 
+          style={{ top: `${contextMenu.y}px`, left: `${contextMenu.x}px` }}
+          className="fixed z-50 w-64 bg-[var(--card)]/95 backdrop-blur-md border border-[var(--border)] rounded-xl shadow-2xl p-1.5 animate-fade-in text-xs space-y-1 select-none"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="px-2.5 py-1.5 border-b border-[var(--border)]/60 flex items-center justify-between">
+            <span className="font-semibold text-[11px] text-[var(--foreground)] truncate">
+              {contextMenu.title || 'Acciones Rápidas'}
+            </span>
+            <span className="text-[9px] font-mono px-1 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
+              CLIC DERECHO
+            </span>
+          </div>
+
+          <div className="space-y-0.5 pt-0.5">
+            <button
+              onClick={() => {
+                const sec = contextMenu.targetSection === 'editorial' ? 'editorial' : contextMenu.targetSection === 'settings' ? 'settings' : 'strategy';
+                setSectionSettingsModal({ sectionId: sec, title: `Configuración: ${contextMenu.title}` });
+                setContextMenu(prev => ({ ...prev, visible: false }));
+              }}
+              className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer group"
+            >
+              <Cog6ToothIcon className="w-3.5 h-3.5 group-hover:text-white text-zinc-400" />
+              <span className="flex-1 font-medium">Configurar parámetros...</span>
+              <kbd className="text-[9px] font-mono opacity-70">⚙️</kbd>
+            </button>
+
+            {contextMenu.targetSection === 'editorial' && (
+              <>
+                <button
+                  onClick={() => {
+                    setActiveTab('engineLauncher');
+                    setContextMenu(prev => ({ ...prev, visible: false }));
+                    showToast('Lanzador Editorial', 'Listo para redactar o generar nuevo artículo.', 'info');
+                  }}
+                  className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+                >
+                  <RocketLaunchIcon className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Nuevo Borrador Editorial</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('cmsConnectors');
+                    setContextMenu(prev => ({ ...prev, visible: false }));
+                  }}
+                  className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+                >
+                  <ServerStackIcon className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Probar Conexión CMS (WP/Payload)</span>
+                </button>
+              </>
+            )}
+
+            {contextMenu.targetSection === 'strategy' && (
+              <>
+                <button
+                  onClick={() => {
+                    setActiveTab('aiShareOfVoice');
+                    setContextMenu(prev => ({ ...prev, visible: false }));
+                  }}
+                  className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+                >
+                  <SparklesIcon className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Auditar Citabilidad en IA</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('clusterMap');
+                    setContextMenu(prev => ({ ...prev, visible: false }));
+                  }}
+                  className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+                >
+                  <ShareIcon className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Ver Clusters &amp; Silos</span>
+                </button>
+              </>
+            )}
+
+            {contextMenu.targetSection === 'settings' && (
+              <button
+                onClick={() => {
+                  setActiveTab('settings');
+                  setContextMenu(prev => ({ ...prev, visible: false }));
+                }}
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+              >
+                <KeyIcon className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Gestionar API Keys</span>
+              </button>
+            )}
+
+            <div className="border-t border-[var(--border)]/60 my-1"></div>
+
+            <button
+              onClick={() => {
+                setIsCommandPaletteOpen(true);
+                setContextMenu(prev => ({ ...prev, visible: false }));
+              }}
+              className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <MagnifyingGlassIcon className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Buscador y Comandos</span>
+              </div>
+              <kbd className="text-[9px] font-mono px-1 py-0.5 rounded bg-[var(--muted)] border border-[var(--border)] text-zinc-400">⌘K</kbd>
+            </button>
+
+            <button
+              onClick={() => {
+                toggleTheme();
+                setContextMenu(prev => ({ ...prev, visible: false }));
+              }}
+              className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer"
+            >
+              {theme === 'dark' ? <SunIcon className="w-3.5 h-3.5 text-amber-400" /> : <MoonIcon className="w-3.5 h-3.5 text-sky-400" />}
+              <span>{theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}</span>
+            </button>
+
+            <button
+              onClick={() => setContextMenu(prev => ({ ...prev, visible: false }))}
+              className="w-full flex items-center gap-2 px-2.5 py-1 rounded-lg text-left text-zinc-400 hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors cursor-pointer text-[11px]"
+            >
+              <XMarkIcon className="w-3 h-3" />
+              <span>Cerrar menú</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIGURACIÓN DE SECCIÓN (DESPLEGABLE POR BOTÓN O CLIC DERECHO) */}
+      {sectionSettingsModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+          <div className="w-full max-w-lg bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl p-6 space-y-5 animate-scale-in">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center">
+                  <Cog6ToothIcon className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[var(--foreground)]">
+                    {sectionSettingsModal.title}
+                  </h3>
+                  <p className="text-[11px] text-[var(--muted-foreground)]">
+                    Parámetros operativos y calibración de comportamiento
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSectionSettingsModal(null)}
+                className="p-1.5 rounded-lg hover:bg-[var(--muted)] text-zinc-400 hover:text-[var(--foreground)] transition-colors cursor-pointer"
+              >
+                <XMarkIcon className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* CONTENIDO CONDICIONAL SEGÚN LA SECCIÓN */}
+            {sectionSettingsModal.sectionId === 'strategy' && (
+              <div className="space-y-4 text-xs">
+                <div>
+                  <label className="block font-semibold text-[var(--foreground)] mb-1">
+                    Competidores a Monitorear en SERP y AEO:
+                  </label>
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    {strategySettings.competitorsToTrack.map((c, i) => (
+                      <span key={i} className="px-2 py-1 rounded-md bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)] flex items-center gap-1.5">
+                        <span>{c}</span>
+                        <button 
+                          onClick={() => setStrategySettings(prev => ({ ...prev, competitorsToTrack: prev.competitorsToTrack.filter((_, idx) => idx !== i) }))}
+                          className="hover:text-red-400 cursor-pointer"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <input 
+                      type="text"
+                      placeholder="nuevo-competidor.com"
+                      value={strategySettings.newCompetitorInput}
+                      onChange={(e) => setStrategySettings(prev => ({ ...prev, newCompetitorInput: e.target.value }))}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && strategySettings.newCompetitorInput.trim()) {
+                          setStrategySettings(prev => ({
+                            ...prev,
+                            competitorsToTrack: [...prev.competitorsToTrack, prev.newCompetitorInput.trim()],
+                            newCompetitorInput: ''
+                          }));
+                        }
+                      }}
+                      className="flex-1 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)]"
+                    />
+                    <button 
+                      onClick={() => {
+                        if (strategySettings.newCompetitorInput.trim()) {
+                          setStrategySettings(prev => ({
+                            ...prev,
+                            competitorsToTrack: [...prev.competitorsToTrack, prev.newCompetitorInput.trim()],
+                            newCompetitorInput: ''
+                          }));
+                        }
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-[var(--muted)] hover:bg-[var(--card-subtle)] border border-[var(--border)] text-xs font-semibold cursor-pointer"
+                    >
+                      + Añadir
+                    </button>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-[var(--border)]/60">
+                  <label className="block font-semibold text-[var(--foreground)] mb-1">
+                    Umbral de Alerta de Contenido en Declive (% de pérdida en GSC):
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <input 
+                      type="range" 
+                      min="5" 
+                      max="40" 
+                      value={strategySettings.decayThresholdPercent}
+                      onChange={(e) => setStrategySettings(prev => ({ ...prev, decayThresholdPercent: Number(e.target.value) }))}
+                      className="flex-1 accent-[var(--primary)] cursor-pointer"
+                    />
+                    <span className="font-mono font-bold text-xs px-2 py-1 rounded bg-[var(--muted)] border border-[var(--border)]">
+                      {strategySettings.decayThresholdPercent}%
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-[var(--muted-foreground)] mt-1">
+                    Las URLs con caídas superiores a este umbral en 28 días entran en cola de re-optimización.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {sectionSettingsModal.sectionId === 'editorial' && (
+              <div className="space-y-4 text-xs">
+                <div>
+                  <label className="block font-semibold text-[var(--foreground)] mb-1.5">
+                    Modelo de Lenguaje Predeterminado para Redacción:
+                  </label>
+                  <select 
+                    value={editorialSettings.defaultLlmModel}
+                    onChange={(e) => setEditorialSettings(prev => ({ ...prev, defaultLlmModel: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--primary)] cursor-pointer"
+                  >
+                    <option value="Claude 3.5 Sonnet">Claude 3.5 Sonnet (Recomendado · Mayor coherencia y citas)</option>
+                    <option value="GPT-4o">GPT-4o (OpenAI · Alta velocidad y formato estructurado)</option>
+                    <option value="Gemini 1.5 Pro">Gemini 1.5 Pro (Google · Ventana de contexto extendida 1M tokens)</option>
+                    <option value="Perplexity Sonar">Perplexity Sonar (Citas web en vivo)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2.5 pt-2 border-t border-[var(--border)]/60">
+                  <label className="flex items-center justify-between cursor-pointer">
+                    <div>
+                      <span className="font-semibold text-[var(--foreground)] block">Verificación Anti-Alucinación Estricta</span>
+                      <span className="text-[10px] text-[var(--muted-foreground)]">Valida cada dato, cita y enlace antes de permitir la publicación.</span>
+                    </div>
+                    <input 
+                      type="checkbox" 
+                      checked={editorialSettings.strictAntiHallucination}
+                      onChange={(e) => setEditorialSettings(prev => ({ ...prev, strictAntiHallucination: e.target.checked }))}
+                      className="w-4 h-4 accent-[var(--primary)] cursor-pointer"
+                    />
+                  </label>
+
+                  <label className="flex items-center justify-between cursor-pointer">
+                    <div>
+                      <span className="font-semibold text-[var(--foreground)] block">Inyección Automática de Schema JSON-LD</span>
+                      <span className="text-[10px] text-[var(--muted-foreground)]">Genera bloques FAQPage y Article para motores de respuesta.</span>
+                    </div>
+                    <input 
+                      type="checkbox" 
+                      checked={editorialSettings.autoSchemaJsonLd}
+                      onChange={(e) => setEditorialSettings(prev => ({ ...prev, autoSchemaJsonLd: e.target.checked }))}
+                      className="w-4 h-4 accent-[var(--primary)] cursor-pointer"
+                    />
+                  </label>
+                </div>
+
+                <div className="pt-2 border-t border-[var(--border)]/60">
+                  <label className="block font-semibold text-[var(--foreground)] mb-1">
+                    CMS de Destino Predeterminado:
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['payload', 'wordpress', 'webflow'] as const).map(cms => (
+                      <button
+                        key={cms}
+                        onClick={() => setEditorialSettings(prev => ({ ...prev, selectedCmsPlatform: cms }))}
+                        className={`py-2 px-3 rounded-lg border text-xs font-semibold capitalize transition-all cursor-pointer ${
+                          editorialSettings.selectedCmsPlatform === cms
+                            ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-xs'
+                            : 'border-[var(--border)] bg-[var(--background)] hover:bg-[var(--muted)] text-[var(--foreground)]'
+                        }`}
+                      >
+                        {cms}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {sectionSettingsModal.sectionId === 'settings' && (
+              <div className="space-y-4 text-xs">
+                <p className="text-[var(--muted-foreground)] leading-relaxed">
+                  Configura tus proveedores de IA y dominios para habilitar la generación de contenido en vivo:
+                </p>
+                <div className="space-y-2">
+                  <button 
+                    onClick={() => {
+                      setSectionSettingsModal(null);
+                      setActiveTab('settings');
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  >
+                    <KeyIcon className="w-4 h-4" />
+                    <span>Ir a la Bóveda de API Keys Completa</span>
+                  </button>
+
+                  <button 
+                    onClick={() => {
+                      setSectionSettingsModal(null);
+                      setActiveTab('presetsStudio');
+                    }}
+                    className="w-full py-2 px-4 rounded-xl bg-[var(--muted)] hover:bg-[var(--card-subtle)] border border-[var(--border)] font-semibold text-xs text-[var(--foreground)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <AdjustmentsHorizontalIcon className="w-4 h-4" />
+                    <span>Editar Presets &amp; Tono de Marca</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="pt-3 border-t border-[var(--border)] flex items-center justify-end gap-2">
+              <button 
+                onClick={() => setSectionSettingsModal(null)}
+                className="px-4 py-2 rounded-xl border border-[var(--border)] hover:bg-[var(--muted)] text-xs font-semibold text-[var(--foreground)] transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={() => {
+                  setSectionSettingsModal(null);
+                  showToast('Configuración Guardada', 'Los nuevos parámetros se aplicaron a los motores del workspace.', 'success');
+                }}
+                className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-colors cursor-pointer shadow-sm"
+              >
+                Guardar Cambios
+              </button>
+            </div>
           </div>
         </div>
       )}
