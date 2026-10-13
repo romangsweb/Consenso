@@ -2,18 +2,18 @@
 @import "tailwindcss";
 
 :root, [data-theme="dark"] {
-  --background: #090d16;
-  --foreground: #f8fafc;
-  --border: rgba(255, 255, 255, 0.08);
+  --background: #07090a; /* Pantalla del Controlador Negra Profunda */
+  --foreground: #f4f4f4;
+  --border: rgba(232, 90, 42, 0.22);
   --border-te: rgba(255, 255, 255, 0.12);
-  --primary: #f6821f; /* Cloudflare / SoyRomán Orange */
-  --primary-hover: #ea580c;
-  --primary-subtle: rgba(246, 130, 31, 0.12);
-  --primary-glow: rgba(246, 130, 31, 0.28);
-  --card: #111622;
-  --card-subtle: #171d2b;
-  --muted: #1e2536;
-  --muted-foreground: #94a3b8;
+  --primary: #e85a2a; /* Exact SoyRomán / Teenage Engineering Orange */
+  --primary-hover: #c94b20;
+  --primary-subtle: rgba(232, 90, 42, 0.14);
+  --primary-glow: rgba(232, 90, 42, 0.38);
+  --card: #0c0e12;
+  --card-subtle: #11141c;
+  --muted: #161b24;
+  --muted-foreground: #9ba3af;
   
   /* Telemetría y Acentos de Hardware */
   --te-chassis: #111622;
@@ -965,3 +965,356 @@ body {
 
 
 
+
+
+/* ==========================================================================
+   CONTROLLER SCREEN DESIGN SYSTEM & SOYROMAN.COM LIVE ANIMATIONS
+   ========================================================================== */
+
+/* LED REC Blink (como en el header y logo de soyroman.com) */
+@keyframes ledrec {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px #e85a2a);
+  }
+  50% {
+    opacity: 0.15;
+    filter: none;
+  }
+}
+
+.led-rec {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #e85a2a;
+  animation: ledrec 1.4s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .led-rec {
+    animation: none;
+  }
+}
+
+/* Split-word typography reveal */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.split-word > span {
+  display: inline-block;
+  animation: wordReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--base, 35ms) * var(--i, 0));
+}
+
+@keyframes wordReveal {
+  from {
+    transform: translateY(115%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+/* Fade up micro-animation */
+.fade-up {
+  animation: fadeUpAnim 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes fadeUpAnim {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Screen Controller CRT Scanlines Texture */
+.controller-screen-overlay {
+  position: relative;
+}
+
+.controller-screen-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.6;
+}
+
+/* Screen Ticker Bar */
+.screen-ticker {
+  display: flex;
+  align-items: stretch;
+  height: 32px;
+  background: #050608;
+  border-bottom: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--foreground);
+  overflow: hidden;
+  user-select: none;
+}
+
+.screen-ticker__cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.screen-ticker__cell--ch {
+  color: var(--primary);
+}
+
+.screen-ticker__cell--clock {
+  margin-left: auto;
+  border-right: none;
+  border-left: 1px solid var(--border);
+  color: #3ddc84;
+}
+
+.screen-ticker__marquee {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  white-space: nowrap;
+  animation: marqueeRoll 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--foreground);
+  opacity: 0.85;
+}
+
+.marquee-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+
+@keyframes marqueeRoll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Channel Header */
+.channel-header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  background: #090b0e;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .channel-header {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+.channel-header__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.channel-header__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.channel-header__square {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  box-shadow: 0 0 8px rgba(232, 90, 42, 0.8);
+}
+
+.channel-header__sep {
+  opacity: 0.4;
+  color: var(--foreground);
+}
+
+.channel-header__title {
+  font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.channel-header__fig {
+  width: 260px;
+  max-width: 100%;
+  background: #050608;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.channel-header__caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  text-align: right;
+}
+
+/* Boot Screen */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #040507;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.boot-screen--off {
+  opacity: 0;
+  transform: scale(1.02);
+  pointer-events: none;
+}
+
+.boot-screen__inner {
+  width: 100%;
+  max-width: 520px;
+  background: #080a0f;
+  border: 1.5px solid var(--primary);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: 0 0 60px rgba(232, 90, 42, 0.25), inset 0 0 30px rgba(0, 0, 0, 0.8);
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--foreground);
+  position: relative;
+}
+
+.boot-screen__logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: var(--primary);
+}
+
+.boot-screen__log {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 11px;
+}
+
+.boot-screen__log li {
+  color: var(--muted-foreground);
+}
+
+.boot-screen__log li.is-last {
+  color: #3ddc84;
+  font-weight: 800;
+}
+
+.boot-screen__meter {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 1rem;
+}
+
+.boot-screen__meter span {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  transition: background 0.15s ease;
+}
+
+.boot-screen__meter span.on {
+  background: var(--primary);
+  box-shadow: 0 0 6px var(--primary);
+}
+
+.boot-screen__hint {
+  font-size: 9px;
+  text-align: center;
+  letter-spacing: 0.15em;
+  color: var(--muted-foreground);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.font-dot {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+}
