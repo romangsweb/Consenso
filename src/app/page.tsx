@@ -162,6 +162,54 @@ function NeonLogo({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+
+function OriginalityLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#0D9488" fillOpacity="0.2" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 12l2 2 4-4" stroke="#14B8A6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ExaLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="9" stroke="#6366F1" strokeWidth="2" />
+      <path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13" stroke="#818CF8" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="3" fill="#6366F1" />
+    </svg>
+  );
+}
+
+function SerperLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="7" stroke="#3B82F6" strokeWidth="2" />
+      <path d="M21 21l-4.35-4.35" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M8 11h6M11 8v6" stroke="#60A5FA" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function FirecrawlLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <path d="M12 2c.5 3 2.5 4.5 4 6.5 1.5 2 2 4 1 6.5-1 2.5-3 4-5 4s-4-1.5-5-4c-1-2.5 0-4.5 1.5-6.5C10 6.5 11.5 5 12 2z" fill="#F97316" />
+      <path d="M12 11c.3 1.5 1.2 2.2 2 3.2.8 1 1 2 .5 3.2-.5 1.2-1.5 2-2.5 2s-2-.8-2.5-2c-.5-1.2 0-2.2.8-3.2.8-1 1.4-1.7 1.7-3.2z" fill="#FDE047" />
+    </svg>
+  );
+}
+
+function ApifyLogo({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="18" rx="5" fill="#00A699" fillOpacity="0.2" stroke="#00A699" strokeWidth="2" />
+      <path d="M7 15l5-8 5 8M9.5 12h5" stroke="#00A699" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function HetznerLogo({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -1011,7 +1059,13 @@ LIMIT 5;`);
       vercelApiToken: 'vercel_tok_89a7sdf897asdf897a',
       neonApiKey: 'neon_api_key_89a7sdf897asdf',
       supabaseServiceKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-      pineconeApiKey: 'pcsk_89a7sdf897asdf897a'
+      pineconeApiKey: 'pcsk_89a7sdf897asdf897a',
+      // 5 APIs Nucleares de Motores de Contenido & AEO
+      originalityApiKey: 'orig_live_98a7sdf897asdf87asdf',
+      exaApiKey: 'exa_live_89a7sdf987asdf87asdf',
+      serperApiKey: 'serper_live_89a7sdf987asdf',
+      firecrawlApiKey: 'fc-89a7sdf897asdf87asdf',
+      apifyApiKey: 'apify_api_89a7sdf987asdf'
     },
     // Enrutamiento DNS & Dominios Personalizados
     dnsRecords: [
@@ -5814,6 +5868,44 @@ LIMIT 5;`);
                     </div>
                   </div>
 
+                  {/* GATEWAY ORIGINALITY.AI (HELPFUL CONTENT GUARD PRE-DISPATCH) */}
+                  <div className="p-4 my-6 rounded-2xl bg-[var(--card)] border border-teal-500/30 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center p-2 shadow-inner shrink-0">
+                        <OriginalityLogo className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-bold text-xs sm:text-sm text-[var(--foreground)] flex items-center gap-2">
+                            Auditoría Pre-Vuelo con Originality.ai (Slot 05 Gate)
+                          </h4>
+                          <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20">
+                            Helpful Content Guard
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-[var(--muted-foreground)] mt-0.5">
+                          Calcula huella sintética y plagio antes de despachar borradores a Payload CMS o WordPress. Bloquea despachos con riesgo de penalización.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className="text-right">
+                        <span className="text-[9px] font-mono text-[var(--muted-foreground)] block">Último Escaneo de Lote</span>
+                        <span className="font-mono text-xs font-bold text-teal-600 dark:text-teal-400">97.4% Original • 0% Plagio</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          showToast('Originality.ai Auditada', 'Borrador analizado: 97.4% Probabilidad de Autor Humano. 0% Coincidencias de plagio. Aprobado para despacho.', 'success');
+                        }}
+                        className="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+                      >
+                        <OriginalityLogo className="w-3.5 h-3.5" />
+                        <span>Escanear Lote</span>
+                      </button>
+                    </div>
+                  </div>
+
                   {/* VIRTUAL PATCH BAY GRAPHIC (CONEXIÓN FÍSICA SIMULADA) */}
                   <div className="p-4 my-6 rounded-2xl bg-[var(--card-subtle)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-4 font-mono text-xs shadow-xs">
                     <div className="flex items-center gap-3">
@@ -7545,72 +7637,562 @@ LIMIT 5;`);
             {/* API HUB TAB */}
             {activeTab === 'apihub' && (
               <div className="space-y-8 animate-fade-in">
-                <div className="flex justify-between items-end">
+                {/* Header Superior con Métricas de Salud del Ecosistema */}
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[var(--border)]">
                   <div>
-                    <h2 className="text-2xl font-bold mb-1">API Hub & Integraciones</h2>
-                    <p className="text-[var(--muted-foreground)] text-sm">Gestiona tus cuotas, llaves y webhooks de marketing.</p>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+                      <span className="text-[11px] font-mono tracking-widest uppercase text-emerald-600 dark:text-emerald-400 font-bold">
+                        API HUB // TOPOLOGÍA DE APIS NUCLEARES DE CONTENIDO & AEO
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
+                      Centro de Integración de APIs Nucleares
+                    </h2>
+                    <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
+                      Ecosistema activo de APIs de alta precisión: auditoría anti-plagio, búsqueda neuronal, SERP en vivo, scraping UGC y extracción web limpia a Markdown para RAG.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                      onClick={() => {
+                        const pingKeys = ['originalityApiKey', 'exaApiKey', 'serperApiKey', 'firecrawlApiKey', 'apifyApiKey'];
+                        const newPings: Record<string, { latency: number; status: string }> = {};
+                        pingKeys.forEach(k => {
+                          newPings[k] = { latency: Math.floor(Math.random() * 25) + 18, status: '200 OK' };
+                        });
+                        setPingStatus(prev => ({ ...prev, ...newPings }));
+                        showToast('Ping Masivo Exitoso', '5/5 APIs nucleares verificadas con código HTTP 200 OK.', 'success');
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-[var(--card)] hover:bg-[var(--muted)] border border-[var(--border)] text-xs font-semibold text-[var(--foreground)] transition-all cursor-pointer flex items-center gap-2 shadow-xs"
+                    >
+                      <SparklesIcon className="w-4 h-4 text-emerald-400" />
+                      <span>Test Ping a Todas (5)</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveTab('settings');
+                        setSettingsTab('apiKeys');
+                      }}
+                      className="px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                    >
+                      <KeyIcon className="w-4 h-4" />
+                      <span>Abrir Bóveda de API Keys</span>
+                    </button>
                   </div>
                 </div>
 
+                {/* Métricas Resumen de las 5 APIs */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold block">APIs Nucleares</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-xl font-black text-[var(--foreground)] font-mono">5 / 5</span>
+                      <span className="text-[10px] font-bold text-emerald-500 font-mono">100% ONLINE</span>
+                    </div>
+                    <span className="text-[10px] text-[var(--muted-foreground)] mt-0.5 block">Slots 01 al 07 vinculados</span>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold block">Latencia Media</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-xl font-black text-emerald-500 font-mono">42ms</span>
+                      <span className="text-[10px] font-bold text-emerald-500 font-mono">Ultra-Rápido</span>
+                    </div>
+                    <span className="text-[10px] text-[var(--muted-foreground)] mt-0.5 block">Falkenstein & Edge Anycast</span>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold block">Helpful Content Guard</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-xl font-black text-cyan-500 font-mono">98.2%</span>
+                      <span className="text-[10px] font-bold text-cyan-500 font-mono">Puntaje Humano</span>
+                    </div>
+                    <span className="text-[10px] text-[var(--muted-foreground)] mt-0.5 block">Auditoría con Originality.ai</span>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-xs">
+                    <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold block">Búsqueda Neuronal</span>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-xl font-black text-indigo-500 font-mono">Exa.ai</span>
+                      <span className="text-[10px] font-bold text-indigo-500 font-mono">Semántica</span>
+                    </div>
+                    <span className="text-[10px] text-[var(--muted-foreground)] mt-0.5 block">URLs por contexto y embeddings</span>
+                  </div>
+                </div>
+
+                {/* Grid de las 5 APIs Nucleares */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* API Card 1 */}
-                  <div className="glass-card p-6 flex flex-col">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="w-12 h-12 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                        <span className="text-blue-600 font-black text-xl">G</span>
+                  
+                  {/* CARD 1: Originality.ai */}
+                  <div className="glass-card p-6 flex flex-col justify-between border-t-2 border-t-teal-500 space-y-4">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center p-2 shadow-xs">
+                            <OriginalityLogo className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-base text-[var(--foreground)]">Originality.ai</h3>
+                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-teal-500/10 text-teal-600 dark:text-teal-400 font-bold border border-teal-500/20">
+                                SLOT 05
+                              </span>
+                            </div>
+                            <span className="text-xs font-semibold text-teal-600 dark:text-teal-400">Auditoría de Contenido & Plagio</span>
+                          </div>
+                        </div>
+                        <span className="flex items-center text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span> ONLINE
+                        </span>
                       </div>
-                      <span className="flex items-center text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded">
-                        <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span> ONLINE
-                      </span>
+
+                      <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1 mb-4">
+                        <span className="font-bold text-[var(--foreground)] block text-[11px]">Objetivo Crítico:</span>
+                        <p className="text-[var(--muted-foreground)] text-[11px] leading-relaxed">
+                          Puntuación de detección de IA y plagio. Previene penalizaciones del Google Helpful Content System antes de despachar a Payload CMS o WordPress.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold flex justify-between">
+                          <span>Token de API</span>
+                          <span className="text-teal-600 dark:text-teal-400">Patch Bay CMS</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="password"
+                            value={accountSettings.apiKeys.originalityApiKey}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                apiKeys: { ...prev.apiKeys, originalityApiKey: val }
+                              }));
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono text-xs text-[var(--foreground)]"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold">Search Console API</h3>
-                    <p className="text-sm text-[var(--muted-foreground)] mb-4">Sincronización diaria de impresiones y posiciones.</p>
-                    <div className="mt-auto border-t border-[var(--border)] pt-4">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span>Cuota (Día)</span>
-                        <span className="font-mono font-semibold">1,240 / 2,000</span>
+
+                    <div className="border-t border-[var(--border)] pt-4 space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Cuota Mensual</span>
+                        <span className="font-mono font-semibold text-[var(--foreground)]">1,420 / 5,000 escaneos</span>
                       </div>
-                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{width: '62%'}}></div></div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5">
+                        <div className="bg-teal-500 h-1.5 rounded-full" style={{ width: '28%' }}></div>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                          Latencia: {pingStatus['originalityApiKey']?.latency || 38}ms
+                        </span>
+                        <button
+                          onClick={() => {
+                            const lat = Math.floor(Math.random() * 20) + 22;
+                            setPingStatus(prev => ({ ...prev, originalityApiKey: { latency: lat, status: '200 OK' } }));
+                            showToast('Originality.ai 200 OK', `Conexión verificada en ${lat}ms. Helpful Content Guard activo.`, 'success');
+                          }}
+                          className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                        >
+                          Test Ping
+                        </button>
+                      </div>
                     </div>
                   </div>
 
-                  {/* API Card 2 */}
-                  <div className="glass-card p-6 flex flex-col">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center shadow-sm">
-                        <span className="text-white font-bold text-xl">CF</span>
+                  {/* CARD 2: Exa.ai */}
+                  <div className="glass-card p-6 flex flex-col justify-between border-t-2 border-t-indigo-500 space-y-4">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center p-2 shadow-xs">
+                            <ExaLogo className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-base text-[var(--foreground)]">Exa.ai</h3>
+                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/20">
+                                SLOT 02
+                              </span>
+                            </div>
+                            <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Búsqueda Neuronal Semántica</span>
+                          </div>
+                        </div>
+                        <span className="flex items-center text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span> ONLINE
+                        </span>
                       </div>
-                      <span className="flex items-center text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded">
-                        <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span> ONLINE
-                      </span>
+
+                      <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1 mb-4">
+                        <span className="font-bold text-[var(--foreground)] block text-[11px]">Objetivo Crítico:</span>
+                        <p className="text-[var(--muted-foreground)] text-[11px] leading-relaxed">
+                          URLs basadas en contexto semántico para agentes. Entiende prompts y conceptos complejos, no solo palabras clave rígidas.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold flex justify-between">
+                          <span>Token de API</span>
+                          <span className="text-indigo-600 dark:text-indigo-400">Constructor de Agentes</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="password"
+                            value={accountSettings.apiKeys.exaApiKey}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                apiKeys: { ...prev.apiKeys, exaApiKey: val }
+                              }));
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono text-xs text-[var(--foreground)]"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold">Cloudflare Workers AI</h3>
-                    <p className="text-sm text-[var(--muted-foreground)] mb-4">Motor de Llama 3.1 para análisis de texto y AEO.</p>
-                    <div className="mt-auto border-t border-[var(--border)] pt-4">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span>Tokens (Mes)</span>
-                        <span className="font-mono font-semibold">840K / 1M</span>
+
+                    <div className="border-t border-[var(--border)] pt-4 space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Consultas Semánticas</span>
+                        <span className="font-mono font-semibold text-[var(--foreground)]">3,890 / 10,000 queries</span>
                       </div>
-                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5"><div className="bg-[var(--primary)] h-1.5 rounded-full" style={{width: '84%'}}></div></div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5">
+                        <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: '38%' }}></div>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                          Latencia: {pingStatus['exaApiKey']?.latency || 49}ms
+                        </span>
+                        <button
+                          onClick={() => {
+                            const lat = Math.floor(Math.random() * 25) + 30;
+                            setPingStatus(prev => ({ ...prev, exaApiKey: { latency: lat, status: '200 OK' } }));
+                            showToast('Exa.ai 200 OK', `Conexión neuronal verificada en ${lat}ms. Top-K RAG listo.`, 'success');
+                          }}
+                          className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                        >
+                          Test Ping
+                        </button>
+                      </div>
                     </div>
                   </div>
 
-                  {/* API Card 3 */}
-                  <div className="glass-card p-6 flex flex-col opacity-75">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
-                        <span className="text-white font-bold text-xl">M</span>
+                  {/* CARD 3: Serper.dev (Sustituto de Apollo) */}
+                  <div className="glass-card p-6 flex flex-col justify-between border-t-2 border-t-blue-500 space-y-4">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center p-2 shadow-xs">
+                            <SerperLogo className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-base text-[var(--foreground)]">Serper.dev API</h3>
+                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20">
+                                SLOT 04
+                              </span>
+                            </div>
+                            <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">Google SERP &amp; People Also Ask</span>
+                          </div>
+                        </div>
+                        <span className="flex items-center text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span> ONLINE
+                        </span>
                       </div>
-                      <span className="flex items-center text-xs font-bold text-gray-400 bg-gray-500/10 px-2 py-1 rounded">
-                        INACTIVO
-                      </span>
+
+                      <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1 mb-4">
+                        <span className="font-bold text-[var(--foreground)] block text-[11px]">Sustituto Viable de Apollo.io:</span>
+                        <p className="text-[var(--muted-foreground)] text-[11px] leading-relaxed">
+                          Inteligencia de demanda real: Google Search en vivo, cajas de preguntas frecuentes (PAA) y citas de AI Overviews para estructurar artículos de alta intención.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold flex justify-between">
+                          <span>Token de API</span>
+                          <span className="text-blue-600 dark:text-blue-400">Motor de Demanda</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="password"
+                            value={accountSettings.apiKeys.serperApiKey}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                apiKeys: { ...prev.apiKeys, serperApiKey: val }
+                              }));
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono text-xs text-[var(--foreground)]"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold">Meta Graph API</h3>
-                    <p className="text-sm text-[var(--muted-foreground)] mb-4">Importación de costos y ROAS de Facebook Ads.</p>
-                    <button className="mt-auto w-full border border-[var(--border)] bg-[var(--card)] rounded py-2 text-sm hover:bg-[var(--muted)] text-[var(--foreground)] transition-colors cursor-pointer">
-                      Conectar Cuenta
-                    </button>
+
+                    <div className="border-t border-[var(--border)] pt-4 space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Llamadas SERP / PAA</span>
+                        <span className="font-mono font-semibold text-[var(--foreground)]">12,400 / 50,000 pings</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5">
+                        <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '24%' }}></div>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                          Latencia: {pingStatus['serperApiKey']?.latency || 28}ms
+                        </span>
+                        <button
+                          onClick={() => {
+                            const lat = Math.floor(Math.random() * 15) + 18;
+                            setPingStatus(prev => ({ ...prev, serperApiKey: { latency: lat, status: '200 OK' } }));
+                            showToast('Serper API 200 OK', `Google SERP en tiempo real verificado en ${lat}ms. PAA sincronizado.`, 'success');
+                          }}
+                          className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                        >
+                          Test Ping
+                        </button>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* CARD 4: Firecrawl (Sustituto de BuiltWith) */}
+                  <div className="glass-card p-6 flex flex-col justify-between border-t-2 border-t-amber-500 space-y-4">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center p-2 shadow-xs">
+                            <FirecrawlLogo className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-base text-[var(--foreground)]">Firecrawl API</h3>
+                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20">
+                                SLOT 07
+                              </span>
+                            </div>
+                            <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">Web to Clean Markdown para RAG</span>
+                          </div>
+                        </div>
+                        <span className="flex items-center text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span> ONLINE
+                        </span>
+                      </div>
+
+                      <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1 mb-4">
+                        <span className="font-bold text-[var(--foreground)] block text-[11px]">Sustituto Viable de BuiltWith:</span>
+                        <p className="text-[var(--muted-foreground)] text-[11px] leading-relaxed">
+                          En lugar de solo auditar servidores, rastrea y convierte URLs de competidores a Markdown estructurado limpio sin JS, banners ni anuncios para inyectar en RAG.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold flex justify-between">
+                          <span>Token de API</span>
+                          <span className="text-amber-600 dark:text-amber-400">Inteligencia Competitiva</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="password"
+                            value={accountSettings.apiKeys.firecrawlApiKey}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                apiKeys: { ...prev.apiKeys, firecrawlApiKey: val }
+                              }));
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono text-xs text-[var(--foreground)]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-[var(--border)] pt-4 space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Páginas Crawleadas</span>
+                        <span className="font-mono font-semibold text-[var(--foreground)]">680 / 2,000 URLs</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5">
+                        <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: '34%' }}></div>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                          Latencia: {pingStatus['firecrawlApiKey']?.latency || 56}ms
+                        </span>
+                        <button
+                          onClick={() => {
+                            const lat = Math.floor(Math.random() * 20) + 40;
+                            setPingStatus(prev => ({ ...prev, firecrawlApiKey: { latency: lat, status: '200 OK' } }));
+                            showToast('Firecrawl 200 OK', `Pipeline Web-to-Markdown validado en ${lat}ms. RAG listo.`, 'success');
+                          }}
+                          className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                        >
+                          Test Ping
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CARD 5: Apify */}
+                  <div className="glass-card p-6 flex flex-col justify-between border-t-2 border-t-emerald-500 space-y-4">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center p-2 shadow-xs">
+                            <ApifyLogo className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-base text-[var(--foreground)]">Apify</h3>
+                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20">
+                                SLOT 01
+                              </span>
+                            </div>
+                            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Scraping Dinámico Headless (UGC)</span>
+                          </div>
+                        </div>
+                        <span className="flex items-center text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span> ONLINE
+                        </span>
+                      </div>
+
+                      <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1 mb-4">
+                        <span className="font-bold text-[var(--foreground)] block text-[11px]">Objetivo Crítico:</span>
+                        <p className="text-[var(--muted-foreground)] text-[11px] leading-relaxed">
+                          Captura de datos UGC en Reddit, LinkedIn, Quora y foros técnicos. Alimenta el motor AEO con objeciones y lenguaje real de compradores.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold flex justify-between">
+                          <span>Token de API</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">Motor AEO Social</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="password"
+                            value={accountSettings.apiKeys.apifyApiKey}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                apiKeys: { ...prev.apiKeys, apifyApiKey: val }
+                              }));
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono text-xs text-[var(--foreground)]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-[var(--border)] pt-4 space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Ejecuciones de Actores</span>
+                        <span className="font-mono font-semibold text-[var(--foreground)]">180 / 500 corridas</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5">
+                        <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '36%' }}></div>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                          Latencia: {pingStatus['apifyApiKey']?.latency || 62}ms
+                        </span>
+                        <button
+                          onClick={() => {
+                            const lat = Math.floor(Math.random() * 30) + 40;
+                            setPingStatus(prev => ({ ...prev, apifyApiKey: { latency: lat, status: '200 OK' } }));
+                            showToast('Apify 200 OK', `Actores headless verificados en ${lat}ms. UGC pipeline sincronizado.`, 'success');
+                          }}
+                          className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                        >
+                          Test Ping
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CARD 6: Google Search Console (Complementaria Nativa) */}
+                  <div className="glass-card p-6 flex flex-col justify-between border-t-2 border-t-red-500 space-y-4">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center p-2 shadow-xs">
+                            <GoogleLogo className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-bold text-base text-[var(--foreground)]">Search Console API</h3>
+                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400 font-bold border border-red-500/20">
+                                SLOT 08
+                              </span>
+                            </div>
+                            <span className="text-xs font-semibold text-red-600 dark:text-red-400">Clics Reales &amp; Decay Radar</span>
+                          </div>
+                        </div>
+                        <span className="flex items-center text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span> ONLINE
+                        </span>
+                      </div>
+
+                      <div className="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs space-y-1 mb-4">
+                        <span className="font-bold text-[var(--foreground)] block text-[11px]">Tráfico Real Orgánico:</span>
+                        <p className="text-[var(--muted-foreground)] text-[11px] leading-relaxed">
+                          Sincronización diaria directa con Google Search Console. Alimenta el radar de Content Decay y mide canibalización de palabras clave.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] font-semibold flex justify-between">
+                          <span>OAuth Refresh Token</span>
+                          <span className="text-red-600 dark:text-red-400">Google GSC</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="password"
+                            value={accountSettings.apiKeys.googleSearchConsoleToken}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setAccountSettings(prev => ({
+                                ...prev,
+                                apiKeys: { ...prev.apiKeys, googleSearchConsoleToken: val }
+                              }));
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono text-xs text-[var(--foreground)]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-[var(--border)] pt-4 space-y-3">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[var(--muted-foreground)]">Cuota Diaria GSC</span>
+                        <span className="font-mono font-semibold text-[var(--foreground)]">1,240 / 2,000 llamadas</span>
+                      </div>
+                      <div className="w-full bg-[var(--muted)] rounded-full h-1.5">
+                        <div className="bg-red-500 h-1.5 rounded-full" style={{ width: '62%' }}></div>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                          Latencia: {pingStatus['googleSearchConsoleToken']?.latency || 32}ms
+                        </span>
+                        <button
+                          onClick={() => {
+                            const lat = Math.floor(Math.random() * 15) + 20;
+                            setPingStatus(prev => ({ ...prev, googleSearchConsoleToken: { latency: lat, status: '200 OK' } }));
+                            showToast('GSC API 200 OK', `Google Search Console conectado con éxito (${lat}ms).`, 'success');
+                          }}
+                          className="px-2.5 py-1 rounded bg-[var(--background)] hover:bg-[var(--muted)] border border-[var(--border)] text-[10px] font-mono text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                        >
+                          Test Ping
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
@@ -10219,6 +10801,51 @@ WITH (m = 16, ef_construction = 64);`}</code>
                           value: accountSettings.apiKeys.pineconeApiKey,
                           badge: 'RAG Semántico',
                           badgeColor: 'border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-500/10'
+                        },
+                        {
+                          id: 'originalityApiKey',
+                          name: 'Originality.ai Content Audit',
+                          sub: 'Slot 05: Patch Bay CMS • Detección IA / Plagio',
+                          icon: OriginalityLogo,
+                          value: accountSettings.apiKeys.originalityApiKey,
+                          badge: 'Helpful Content Guard',
+                          badgeColor: 'border-teal-500/30 text-teal-600 dark:text-teal-400 bg-teal-500/10'
+                        },
+                        {
+                          id: 'exaApiKey',
+                          name: 'Exa.ai Neural Search',
+                          sub: 'Slot 02: Constructor de Agentes • Semántica LLM',
+                          icon: ExaLogo,
+                          value: accountSettings.apiKeys.exaApiKey,
+                          badge: 'Búsqueda Neuronal IA',
+                          badgeColor: 'border-indigo-500/30 text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
+                        },
+                        {
+                          id: 'serperApiKey',
+                          name: 'Serper.dev Live Google SERP',
+                          sub: 'Slot 04: Motor de Demanda • PAA & Overviews',
+                          icon: SerperLogo,
+                          value: accountSettings.apiKeys.serperApiKey,
+                          badge: 'Live SERP & PAA',
+                          badgeColor: 'border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/10'
+                        },
+                        {
+                          id: 'firecrawlApiKey',
+                          name: 'Firecrawl Web-to-Markdown',
+                          sub: 'Slot 07: Competidores • Limpieza para RAG',
+                          icon: FirecrawlLogo,
+                          value: accountSettings.apiKeys.firecrawlApiKey,
+                          badge: 'Extracción Markdown',
+                          badgeColor: 'border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/10'
+                        },
+                        {
+                          id: 'apifyApiKey',
+                          name: 'Apify Headless Scraping',
+                          sub: 'Slot 01: Motor AEO • UGC Reddit & Foros',
+                          icon: ApifyLogo,
+                          value: accountSettings.apiKeys.apifyApiKey,
+                          badge: 'UGC & Social Scraping',
+                          badgeColor: 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
                         },
                       ].map((card) => {
                         const Icon = card.icon;
